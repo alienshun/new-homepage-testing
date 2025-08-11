@@ -922,6 +922,16 @@ function renderUstcTimetable() {
           <div class="instructor">${course.instructor}</div>
           <div class="location">${course.location}</div>
         `;
+        
+        // Add click event for direct editing
+        courseDiv.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const cls = ustcClasses.find(c => c.id === course.id);
+          if (cls) {
+            openUstcClassModal(cls);
+          }
+        });
+        
         container.appendChild(courseDiv);
       });
           
@@ -935,6 +945,18 @@ function renderUstcTimetable() {
           nextCell.style.display = 'none';
         }
       }
+      
+      // Add click event to cell for adding new class
+      cell.addEventListener('click', (e) => {
+        // Only trigger if clicked directly on cell (not on a course)
+        if (e.target === cell || e.target === startInfo || e.target === endInfo) {
+          const period = parseInt(cell.dataset.period);
+          const day = parseInt(cell.dataset.day);
+          
+          // Pre-fill modal with cell's time slot
+          openUstcClassModal(null, period, period, day);
+        }
+      });
     }
   }
       
@@ -988,7 +1010,7 @@ function getDaysString(days) {
   return days.map(day => dayNames[day]).join(', ');
 }
     
-function openUstcClassModal(cls = null) {
+function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, day = null) {
   const modal = document.getElementById('event-modal');
   const deleteBtn = document.getElementById('event-delete-btn');
       
@@ -1039,8 +1061,11 @@ function openUstcClassModal(cls = null) {
     // Add mode
     document.getElementById('event-modal-title').textContent = 'Add New Class';
     document.getElementById('event-id').value = '';
-    document.getElementById('ustc-period-start').value = '1';
-    document.getElementById('ustc-period-end').value = '1';
+    
+    // Set periods if provided
+    document.getElementById('ustc-period-start').value = periodStart !== null ? periodStart : '1';
+    document.getElementById('ustc-period-end').value = periodEnd !== null ? periodEnd : '1';
+    
     document.getElementById('ustc-course-name').value = '';
     document.getElementById('ustc-instructor').value = '';
     document.getElementById('ustc-location').value = '';
@@ -1049,6 +1074,14 @@ function openUstcClassModal(cls = null) {
     document.querySelectorAll('input[name="ustc-day"]').forEach(checkbox => {
       checkbox.checked = false;
     });
+    
+    // Set specific day if provided
+    if (day !== null) {
+      const dayCheckbox = document.querySelector(`input[name="ustc-day"][value="${day}"]`);
+      if (dayCheckbox) {
+        dayCheckbox.checked = true;
+      }
+    }
         
     // Clear all week checkboxes
     document.querySelectorAll('input[name="ustc-week"]').forEach(checkbox => {
