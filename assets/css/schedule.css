@@ -466,6 +466,25 @@
   color: white;
 }
 
+/* My Classes Table (修改为与USTC一致) */
+.my-classes-container {
+  margin-top: 30px;
+}
+
+.my-classes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.my-classes-table th {
+  background-color: rgba(80, 160, 230, 0.95);
+  color: white;
+}
+
 .days-container {
   display: flex;
   flex-wrap: wrap;
@@ -930,6 +949,12 @@ body.dark-mode .ustc-event-overlay:hover {
 body.dark-mode .ustc-classes-table th {
   background-color: rgba(120, 70, 170, 0.95); /* Brighter crystal accent */
   border-color: rgba(90, 100, 120, 0.45); /* Unified border color */
+}
+
+/* My Classes Table in dark mode */
+body.dark-mode .my-classes-table th {
+  background-color: rgba(120, 70, 170, 0.95);
+  border-color: rgba(90, 100, 120, 0.45);
 }
 
 body.dark-mode .time-info {
