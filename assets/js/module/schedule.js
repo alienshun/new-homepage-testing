@@ -201,6 +201,7 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">4</td>
+                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
@@ -285,7 +286,7 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">8</td>
-                    <td class="has-class event-cell" rowspan="3">
+                    <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
@@ -355,6 +356,7 @@ document.write(`
                     <td class="period-number">10</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                   </tr>
                   
                   <!-- Evening Section -->
@@ -419,6 +421,7 @@ document.write(`
                     <th>Location</th>
                     <th>Weeks</th>
                     <th>Days</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -429,6 +432,7 @@ document.write(`
                     <td>2409</td>
                     <td>2-4, 6-18</td>
                     <td>Mon, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -437,6 +441,7 @@ document.write(`
                     <td>5202</td>
                     <td>2-4, 6-15, 17-18</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -445,6 +450,7 @@ document.write(`
                     <td>5202</td>
                     <td>2-4, 6-17</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -453,6 +459,7 @@ document.write(`
                     <td>2304</td>
                     <td>2-3, 6-18</td>
                     <td>Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -461,6 +468,7 @@ document.write(`
                     <td>5102</td>
                     <td>2-4, 6-18</td>
                     <td>Mon, Wed, Fri, Sat, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -469,6 +477,7 @@ document.write(`
                     <td>5202</td>
                     <td>2-4, 6-17</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -477,6 +486,7 @@ document.write(`
                     <td>5202</td>
                     <td>2-4, 6-17</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -485,6 +495,7 @@ document.write(`
                     <td>东区操场</td>
                     <td>2-4, 6-18</td>
                     <td>Mon, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -493,6 +504,7 @@ document.write(`
                     <td>1101</td>
                     <td>2-4, 6-16</td>
                     <td>Wed, Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -501,6 +513,7 @@ document.write(`
                     <td>5406</td>
                     <td>2-4, 6-18</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -509,6 +522,7 @@ document.write(`
                     <td>1302</td>
                     <td>2-4, 6-17</td>
                     <td>Mon, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -517,6 +531,7 @@ document.write(`
                     <td>5104</td>
                     <td>2-4, 6-18</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -525,6 +540,7 @@ document.write(`
                     <td>5201</td>
                     <td>3</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -533,6 +549,7 @@ document.write(`
                     <td>3C202</td>
                     <td>2-3, 6-15</td>
                     <td>Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>11-12</td>
@@ -541,6 +558,7 @@ document.write(`
                     <td>1101</td>
                     <td>2</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-13</td>
@@ -549,6 +567,7 @@ document.write(`
                     <td>西活二楼机房</td>
                     <td>6-16</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                 </tbody>
               </table>
@@ -991,6 +1010,7 @@ document.write(`
                     <th>Location</th>
                     <th>Weeks</th>
                     <th>Days</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1001,6 +1021,7 @@ document.write(`
                     <td>2404</td>
                     <td>1-15, 17-18</td>
                     <td>Mon</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1009,6 +1030,7 @@ document.write(`
                     <td>5402</td>
                     <td>1-18</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1017,6 +1039,7 @@ document.write(`
                     <td>3C102</td>
                     <td>1-9, 11-12</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1025,6 +1048,7 @@ document.write(`
                     <td>3C102</td>
                     <td>13-18</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1033,6 +1057,7 @@ document.write(`
                     <td>2303</td>
                     <td>1-5, 7-9, 11-18</td>
                     <td>Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -1041,6 +1066,7 @@ document.write(`
                     <td>5201</td>
                     <td>1-15, 17-18</td>
                     <td>Mon, Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -1049,6 +1075,7 @@ document.write(`
                     <td>5402</td>
                     <td>1-5, 7-9, 11-18</td>
                     <td>Thu, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>5</td>
@@ -1057,6 +1084,7 @@ document.write(`
                     <td>5402</td>
                     <td>1-5, 7-9, 11-18</td>
                     <td>Thu, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -1065,6 +1093,16 @@ document.write(`
                     <td>中区体育馆</td>
                     <td>1-5, 7-9, 11-18</td>
                     <td>Thu, Sat</td>
+                    <td>Unknown</td>
+                  </tr>
+                  <tr>
+                    <td>6-7</td>
+                    <td>计算机程序设计A</td>
+                    <td>司虎</td>
+                    <td>1101</td>
+                    <td>2-4, 6-16</td>
+                    <td>Wed, Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -1073,6 +1111,7 @@ document.write(`
                     <td>2204</td>
                     <td>1-8</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -1081,6 +1120,7 @@ document.write(`
                     <td>3C102</td>
                     <td>1-5, 7-9, 11-12</td>
                     <td>Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -1089,6 +1129,7 @@ document.write(`
                     <td>3C102</td>
                     <td>13-18</td>
                     <td>Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -1096,7 +1137,8 @@ document.write(`
                     <td>樊桂敏</td>
                     <td>1101</td>
                     <td>1-5, 7-9, 11-16</td>
-                    <td>Thu, Sat</td>
+                    <td>Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>10</td>
@@ -1105,6 +1147,7 @@ document.write(`
                     <td>3C102</td>
                     <td>13-18</td>
                     <td>Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>10</td>
@@ -1113,6 +1156,7 @@ document.write(`
                     <td>1101</td>
                     <td>10</td>
                     <td>Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>11-12</td>
@@ -1121,6 +1165,7 @@ document.write(`
                     <td>5201</td>
                     <td>2-9, 11, 13</td>
                     <td>Wed, Fri</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-13</td>
@@ -1129,6 +1174,7 @@ document.write(`
                     <td>一教</td>
                     <td>3-5, 7-9, 11-16</td>
                     <td>Thu, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-13</td>
@@ -1137,6 +1183,7 @@ document.write(`
                     <td>5307</td>
                     <td>2-4, 7-9, 11-18</td>
                     <td>Fri, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                 </tbody>
               </table>
@@ -1317,6 +1364,7 @@ document.write(`
                     <td class="period-number">6</td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
@@ -1486,6 +1534,7 @@ document.write(`
                     <th>Location</th>
                     <th>Weeks</th>
                     <th>Days</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1496,6 +1545,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-2, 4-5, 7-18</td>
                     <td>Mon, Fri</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1504,6 +1554,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-4, 6-18</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1512,6 +1563,7 @@ document.write(`
                     <td>5303</td>
                     <td>1-4, 6-18</td>
                     <td>Fri</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -1520,6 +1572,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-2, 4-5, 7-15, 17-18</td>
                     <td>Mon, Fri</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -1528,6 +1581,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-2, 4, 6, 7-18</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -1536,6 +1590,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-4, 6-17</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-5</td>
@@ -1544,6 +1599,7 @@ document.write(`
                     <td>5102</td>
                     <td>1-4, 6-18</td>
                     <td>Fri</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>5</td>
@@ -1552,6 +1608,7 @@ document.write(`
                     <td>5302</td>
                     <td>14</td>
                     <td>Mon</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -1560,6 +1617,7 @@ document.write(`
                     <td>5303</td>
                     <td>1-4, 6-17</td>
                     <td>Wed, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -1568,6 +1626,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-4, 6-8, 10-18</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -1576,6 +1635,7 @@ document.write(`
                     <td>中区游泳馆</td>
                     <td>1-2, 4-5, 7-18</td>
                     <td>Mon, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -1584,6 +1644,7 @@ document.write(`
                     <td>5102</td>
                     <td>1-2, 4, 6, 7-14</td>
                     <td>Tue, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-10</td>
@@ -1592,6 +1653,7 @@ document.write(`
                     <td>5302</td>
                     <td>1-4, 6-16</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-13</td>
@@ -1600,6 +1662,7 @@ document.write(`
                     <td>一教</td>
                     <td>4, 6, 7-18</td>
                     <td>Tue, Sun</td>
+                    <td>Unknown</td>
                   </tr>
                 </tbody>
               </table>
@@ -1947,6 +2010,7 @@ document.write(`
                     <th>Location</th>
                     <th>Weeks</th>
                     <th>Days</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1957,6 +2021,7 @@ document.write(`
                     <td>5401</td>
                     <td>1-15</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1965,6 +2030,7 @@ document.write(`
                     <td>5404</td>
                     <td>1-16</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1973,6 +2039,7 @@ document.write(`
                     <td>5306</td>
                     <td>1-8</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>1-2</td>
@@ -1981,6 +2048,7 @@ document.write(`
                     <td>5306</td>
                     <td>9, 11, 12-16</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-5</td>
@@ -1989,6 +2057,7 @@ document.write(`
                     <td>5404</td>
                     <td>1-10, 12-14, 16</td>
                     <td>Mon</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-5</td>
@@ -1997,6 +2066,7 @@ document.write(`
                     <td>5306</td>
                     <td>1-8</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-5</td>
@@ -2005,6 +2075,7 @@ document.write(`
                     <td>5306</td>
                     <td>9-16</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-5</td>
@@ -2013,6 +2084,7 @@ document.write(`
                     <td>5401</td>
                     <td>1-12</td>
                     <td>Wed</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>3-4</td>
@@ -2021,6 +2093,7 @@ document.write(`
                     <td>5401</td>
                     <td>1-9, 11-15</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -2029,6 +2102,7 @@ document.write(`
                     <td>3B101</td>
                     <td>1-9, 11-16</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>6-7</td>
@@ -2037,6 +2111,7 @@ document.write(`
                     <td>5401</td>
                     <td>1-5, 7-9, 11-12</td>
                     <td>Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2045,6 +2120,7 @@ document.write(`
                     <td>2121</td>
                     <td>1-10</td>
                     <td>Mon</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2053,6 +2129,7 @@ document.write(`
                     <td>2121</td>
                     <td>1-16</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2061,6 +2138,7 @@ document.write(`
                     <td>3B101</td>
                     <td>1-16</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2069,6 +2147,7 @@ document.write(`
                     <td>2306</td>
                     <td>1-9, 11-16</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2077,6 +2156,7 @@ document.write(`
                     <td>东区操场</td>
                     <td>1-5, 7-9, 11-16</td>
                     <td>Fri, Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>8-9</td>
@@ -2085,6 +2165,7 @@ document.write(`
                     <td>5401</td>
                     <td>1-6, 8-9, 12-14</td>
                     <td>Sat</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>10</td>
@@ -2093,6 +2174,7 @@ document.write(`
                     <td>2121</td>
                     <td>1-16</td>
                     <td>Tue</td>
+                    <td>Unknown</td>
                   </tr>
                   <tr>
                     <td>10</td>
@@ -2101,6 +2183,7 @@ document.write(`
                     <td>2306</td>
                     <td>1-15单</td>
                     <td>Thu</td>
+                    <td>Unknown</td>
                   </tr>
                 </tbody>
               </table>
@@ -3012,6 +3095,7 @@ document.write(`
                   <th>Location</th>
                   <th>Weeks</th>
                   <th>Days</th>
+                  <th>Credits</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -3134,6 +3218,12 @@ document.write(`
           <div class="event-form-group">
             <label for="ustc-location">Location</label>
             <input type="text" id="ustc-location" class="event-form-control" required>
+          </div>
+          
+          <!-- Added Credits field -->
+          <div class="event-form-group">
+            <label for="ustc-credits">Credits</label>
+            <input type="number" id="ustc-credits" class="event-form-control" required>
           </div>
           
           <div class="event-form-group">
