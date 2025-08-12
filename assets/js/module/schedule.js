@@ -201,7 +201,6 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">4</td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
@@ -243,7 +242,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
-                        <div class="course-name">数学强基讨论班</div>
+                        <div class="course-name">数学强基讨论班Ⅰ</div>
                         <div class="instructor">李沐西</div>
                         <div class="location">5406</div>
                         <div class="weeks">2-4, 6-18 week(s)</div>
@@ -286,7 +285,7 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">8</td>
-                    <td class="has-class event-cell" rowspan="2">
+                    <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
@@ -354,7 +353,6 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">10</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -508,7 +506,7 @@ document.write(`
                   </tr>
                   <tr>
                     <td>6-7</td>
-                    <td>数学强基讨论班</td>
+                    <td>数学强基讨论班Ⅰ</td>
                     <td>李沐西</td>
                     <td>5406</td>
                     <td>2-4, 6-18</td>
@@ -702,7 +700,7 @@ document.write(`
                         </div>
                       </div>
                     </td>
-                    <td class="has-class event-cell" rowspan="2">
+                    <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
@@ -757,7 +755,6 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td class="has-class event-cell">
@@ -944,7 +941,7 @@ document.write(`
                         <div class="weeks">3-5, 7-9, 11-16 week(s)</div>
                       </div>
                     </td>
-                    <td class="has-class event-cell" rowspan="3">
+                    <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
@@ -993,6 +990,16 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-name">数学强基讨论班Ⅱ</div>
+                        <div class="instructor">李沐西</div>
+                        <div class="location">5307</div>
+                        <div class="weeks">2, 14, 18 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                   </tr>
                 </tbody>
@@ -1387,7 +1394,6 @@ document.write(`
                         <div class="weeks">6 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">7</td>
@@ -1846,7 +1852,6 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">8</td>
@@ -1921,7 +1926,6 @@ document.write(`
                   </tr>
                   <tr>
                     <td class="period-number">9</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                   </tr>
