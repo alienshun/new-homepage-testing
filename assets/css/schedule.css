@@ -226,6 +226,13 @@
   position: relative;
 }
 
+#event-modal .event-modal-content {
+  width: 80%;
+  max-width: 400px;
+  transform: scale(0.8);
+  transform-origin: center;
+}
+
 .event-modal-close {
   position: absolute;
   top: 15px;
@@ -1031,6 +1038,12 @@ body.dark-mode .semester-title {
   .event-modal-content {
     width: 95%;
     padding: 20px;
+  }
+
+  #event-modal .event-modal-content {
+    width: 95%;
+    max-width: 95%;
+    transform: scale(1);
   }
   
   .my-classes-table th, .my-classes-table td {
