@@ -801,7 +801,7 @@ function formatWeeks(weeks) {
   }
   ranges.push(start === end ? start : `${start}-${end}`);
       
-  return ranges.join(', ');
+  return ranges.join(', ') + (ranges.length > 0 ? ' week(s)' : '');
 }
     
 // USTC Timetable functionality
@@ -922,6 +922,7 @@ function renderUstcTimetable() {
           <div class="course-name">${course.courseName}</div>
           <div class="instructor">${course.instructor}</div>
           <div class="location">${course.location}</div>
+          <div class="weeks">${formatWeeks(course.weeks)}</div>
         `;
         
         // Add click event for direct editing
