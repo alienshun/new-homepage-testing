@@ -843,7 +843,7 @@ function renderUstcTimetable() {
             courseName: cls.courseName,
             instructor: cls.instructor,
             location: cls.location,
-            credits: cls.credits, // Added credits
+            credits: cls.credits,
             weeks: cls.weeks,
             periodStart: cls.periodStart,
             periodEnd: cls.periodEnd
@@ -1025,7 +1025,7 @@ function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, da
     document.getElementById('ustc-course-name').value = cls.courseName;
     document.getElementById('ustc-instructor').value = cls.instructor;
     document.getElementById('ustc-location').value = cls.location;
-    document.getElementById('ustc-credits').value = cls.credits || ''; // Added credits
+    document.getElementById('ustc-credits').value = cls.credits || '';
         
     // Clear all day checkboxes
     document.querySelectorAll('input[name="ustc-day"]').forEach(checkbox => {
@@ -1098,6 +1098,12 @@ function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, da
     // Hide delete button
     deleteBtn.style.display = 'none';
   }
+
+  // Configure credits input for decimal values
+  const creditsInput = document.getElementById('ustc-credits');
+  creditsInput.type = 'number';
+  creditsInput.step = '0.5';
+  creditsInput.min = '0';
       
   modal.style.display = 'flex';
 }
