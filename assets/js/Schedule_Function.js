@@ -843,6 +843,7 @@ function renderUstcTimetable() {
             courseName: cls.courseName,
             instructor: cls.instructor,
             location: cls.location,
+            credits: cls.credits, // Added credits
             weeks: cls.weeks,
             periodStart: cls.periodStart,
             periodEnd: cls.periodEnd
@@ -977,6 +978,7 @@ function renderUstcClassesList() {
       <td>${cls.location}</td>
       <td>${formatWeeks(cls.weeks)}</td>
       <td>${getDaysString(cls.days)}</td>
+      <td>${cls.credits || 'Unknown'}</td>
       <td>
         <button class="edit-ustc-class" data-id="${cls.id}">Edit</button>
         <button class="delete-ustc-class" data-id="${cls.id}">Delete</button>
@@ -1023,6 +1025,7 @@ function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, da
     document.getElementById('ustc-course-name').value = cls.courseName;
     document.getElementById('ustc-instructor').value = cls.instructor;
     document.getElementById('ustc-location').value = cls.location;
+    document.getElementById('ustc-credits').value = cls.credits || ''; // Added credits
         
     // Clear all day checkboxes
     document.querySelectorAll('input[name="ustc-day"]').forEach(checkbox => {
@@ -1069,6 +1072,7 @@ function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, da
     document.getElementById('ustc-course-name').value = '';
     document.getElementById('ustc-instructor').value = '';
     document.getElementById('ustc-location').value = '';
+    document.getElementById('ustc-credits').value = ''; // Added credits
         
     // Clear all day checkboxes
     document.querySelectorAll('input[name="ustc-day"]').forEach(checkbox => {
@@ -1105,6 +1109,7 @@ function saveUstcClass() {
   const courseName = document.getElementById('ustc-course-name').value;
   const instructor = document.getElementById('ustc-instructor').value;
   const location = document.getElementById('ustc-location').value;
+  const credits = document.getElementById('ustc-credits').value; // Added credits
       
   // Get selected days
   const days = [];
@@ -1139,6 +1144,7 @@ function saveUstcClass() {
         courseName,
         instructor,
         location,
+        credits, // Added credits
         days,
         weeks
       };
@@ -1152,6 +1158,7 @@ function saveUstcClass() {
       courseName,
       instructor,
       location,
+      credits, // Added credits
       days,
       weeks
     };
