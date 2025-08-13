@@ -2092,7 +2092,7 @@ document.write(`
                   <tr>
                     <td rowspan="3" class="period-header">Evening</td>
                     <td class="period-number">11</td>
-                    <td class="has-class event-cell" rowspan="3">
+                    <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
