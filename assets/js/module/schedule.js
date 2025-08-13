@@ -1888,7 +1888,16 @@ document.write(`
                     <td class="period-number">1</td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">数学实验</div>
+                        <div class="instructor">王新茂</div>
+                        <div class="location">2210</div>
+                        <div class="weeks">1-10 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -1902,15 +1911,67 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">运筹学</div>
+                        <div class="instructor">陈士祥</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-18 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-name">多媒体技术基础</div>
+                          <div class="instructor">俞能海</div>
+                          <div class="location">GH-206</div>
+                          <div class="weeks">1-7 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-name">多媒体技术基础</div>
+                          <div class="instructor">陈晓辉</div>
+                          <div class="location">GH-206</div>
+                          <div class="weeks">8-14 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">运筹学</div>
+                        <div class="instructor">陈士祥</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-18 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">泛函分析</div>
+                        <div class="instructor">刘聪文</div>
+                        <div class="location">2121</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">算法基础</div>
+                        <div class="instructor">杨子江</div>
+                        <div class="location">GT-B212</div>
+                        <div class="weeks">1-18 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -1918,16 +1979,9 @@ document.write(`
                     <td class="period-number">4</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -1939,10 +1993,37 @@ document.write(`
                   <tr>
                     <td rowspan="5" class="period-header">Afternoon</td>
                     <td class="period-number">6</td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">数学实验</div>
+                        <div class="instructor">王新茂</div>
+                        <div class="location">2210</div>
+                        <div class="weeks">1-10 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">泛函分析</div>
+                        <div class="instructor">刘聪文</div>
+                        <div class="location">2121</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">数值代数</div>
+                        <div class="instructor">宋艳枝</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-16 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -1953,25 +2034,46 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">8</td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">数值代数</div>
+                        <div class="instructor">宋艳枝</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-16 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">社会心理学</div>
+                        <div class="instructor">杨映秋</div>
+                        <div class="location">3A318</div>
+                        <div class="weeks">1-13 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-name">科学之美</div>
+                        <div class="instructor">梁琰</div>
+                        <div class="location">5207</div>
+                        <div class="weeks">1-12 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">9</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -1984,18 +2086,56 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   
                   <!-- Evening Section -->
                   <tr>
                     <td rowspan="3" class="period-header">Evening</td>
                     <td class="period-number">11</td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-name">中国纸墨笔砚</div>
+                          <div class="instructor">汤书昆</div>
+                          <div class="location">2105</div>
+                          <div class="weeks">1-2, 15-17 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-name">中国纸墨笔砚</div>
+                          <div class="instructor">钱斌</div>
+                          <div class="location">2105</div>
+                          <div class="weeks">3-4 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-name">中国纸墨笔砚</div>
+                          <div class="instructor">陈彪</div>
+                          <div class="location">2105</div>
+                          <div class="weeks">10-11 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-name">机器学习A</div>
+                          <div class="instructor">李志慧</div>
+                          <div class="location">GT-B112</div>
+                          <div class="weeks">1-9 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-name">机器学习A</div>
+                          <div class="instructor">常晓军</div>
+                          <div class="location">GT-B112</div>
+                          <div class="weeks">10-18 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2007,12 +2147,9 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">13</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2037,7 +2174,72 @@ document.write(`
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- No classes in this semester -->
+                  <tr>
+                    <td>科学之美</td>
+                    <td>梁琰</td>
+                    <td>5(8-10), 1-12 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>中国纸墨笔砚</td>
+                    <td>汤书昆; 钱斌; 陈彪</td>
+                    <td>1(11-12), 1-4,10-11,15-17 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>多媒体技术基础</td>
+                    <td>俞能海; 陈晓辉</td>
+                    <td>2(3-5), 1-14</td>
+                    <td>2.5</td>
+                  </tr>
+                  <tr>
+                    <td>形势与政策</td>
+                    <td>Null</td>
+                    <td>Null</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>社会心理学</td>
+                    <td>杨映秋</td>
+                    <td>2(8-10), 1-13 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>算法基础</td>
+                    <td>杨子江</td>
+                    <td>5(3-5), 1-18 week(s)</td>
+                    <td>3.5</td>
+                  </tr>
+                  <tr>
+                    <td>运筹学</td>
+                    <td>陈士祥</td>
+                    <td>1(3,4), 1-18 week(s);<br> 3(3-4), 1-18 week(s)</td>
+                    <td>3.5</td>
+                  </tr>
+                  <tr>
+                    <td>数值代数</td>
+                    <td>宋艳枝</td>
+                    <td>1(8-9), 1-16 week(s);<br> 4(6-7), 1-16 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>泛函分析</td>
+                    <td>刘聪文</td>
+                    <td>2(6-7), 1-15 week(s);<br> 4(3-4), 1-15 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>数学实验</td>
+                    <td>王新茂</td>
+                    <td>1(6-7), 1-10 week(s);<br> 3(1-2), 1-10 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>机器学习A</td>
+                    <td>常晓军; 李志慧</td>
+                    <td>4(11-13), 1-18 week(s)</td>
+                    <td>4</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
