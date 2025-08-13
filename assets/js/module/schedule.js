@@ -407,165 +407,103 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Freshman First Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
                     <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1-2</td>
-                    <td>英语读写Ⅰ</td>
-                    <td>斯骏</td>
-                    <td>2409</td>
-                    <td>2-4, 6-18</td>
-                    <td>Mon, Sat</td>
+                    <td>大学生心理学</td>
+                    <td>张效初; 查汝晶</td>
+                    <td>5(8-10), 2-3,6-15 week(s);<br> 7(8-10), 6 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td>1-2</td>
                     <td>代数学基础</td>
                     <td>马立明</td>
-                    <td>5202</td>
-                    <td>2-4, 6-15, 17-18</td>
-                    <td>Tue</td>
+                    <td>2(1-2), 2-4,6-15,17-18 week(s);<br> 4(3-4), 2-4,6-17 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
-                    <td>1-2</td>
+                    <td>数学强基讨论班Ⅰ</td>
+                    <td>李沐西</td>
+                    <td>4(6-7), 2-4,6-18 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
                     <td>几何学基础</td>
                     <td>赵晨</td>
-                    <td>5202</td>
-                    <td>2-4, 6-17</td>
-                    <td>Thu</td>
+                    <td>4(1-2), 2-4,6-17 week(s);<br> 2(3-4), 2-4,6-17 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
-                    <td>1-2</td>
-                    <td>英语交流Ⅰ</td>
-                    <td>汪滔</td>
-                    <td>2304</td>
-                    <td>2-3, 6-18</td>
-                    <td>Fri, Sun</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
                     <td>数学分析(A1)</td>
                     <td>任广斌</td>
-                    <td>5102</td>
-                    <td>2-4, 6-18</td>
-                    <td>Mon, Wed, Fri, Sat, Sun</td>
+                    <td>1(3-4), 2-4,6-18 week(s);<br> 3(3-4), 2,4,6,7-18 week(s);<br> 5(3-4), 2-3,6-18 week(s);<br> 6(3-4), 5 week(s);<br> 7(3-4), 6 week(s);<br> 3(8-9), 3 week(s)</td>
                     <td>6</td>
                   </tr>
                   <tr>
-                    <td>3-4</td>
-                    <td>几何学基础</td>
-                    <td>赵晨</td>
-                    <td>5202</td>
-                    <td>2-4, 6-17</td>
-                    <td>Tue</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
-                    <td>代数学基础</td>
-                    <td>马立明</td>
-                    <td>5202</td>
-                    <td>2-4, 6-17</td>
-                    <td>Thu</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>基础体育</td>
-                    <td>唐莉</td>
-                    <td>东区操场</td>
-                    <td>2-4, 6-18</td>
-                    <td>Mon, Sat</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>计算机程序设计A</td>
-                    <td>司虎</td>
-                    <td>1101</td>
-                    <td>2-4, 6-16</td>
-                    <td>Wed, Fri, Sun</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>数学强基讨论班Ⅰ</td>
-                    <td>李沐西</td>
-                    <td>5406</td>
-                    <td>2-4, 6-18</td>
-                    <td>Thu</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8-10</td>
                     <td>思想道德与法治</td>
-                    <td>刘海龙, 韩笑</td>
-                    <td>1302</td>
-                    <td>2-4, 6-17</td>
-                    <td>Mon, Sat</td>
+                    <td>刘海龙; 韩笑</td>
+                    <td>1(8-10), 2-4,6-17 week(s);<br> 6(8-10), 5 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
-                    <td>8-10</td>
-                    <td>习近平新时代中国特色社会主义思想概论</td>
-                    <td>李金龙</td>
-                    <td>5104</td>
-                    <td>2-4, 6-18</td>
-                    <td>Tue</td>
-                    <td>3</td>
+                    <td>计算机程序设计A</td>
+                    <td>司虎</td>
+                    <td>3(6-7), 2-4,6-16 week(s);<br> 5(6-7), 2-3,6-16 week(s);<br> 7(6-7), 6 week(s);<br> 4(11-13), 6-16 week(s)</td>
+                    <td>4</td>
                   </tr>
                   <tr>
-                    <td>8-9</td>
-                    <td>数学分析(A1)</td>
-                    <td>任广斌</td>
-                    <td>5201</td>
-                    <td>3</td>
-                    <td>Wed</td>
-                    <td>6</td>
-                  </tr>
-                  <tr>
-                    <td>8-10</td>
-                    <td>大学生心理学</td>
-                    <td>张效初, 查汝晶</td>
-                    <td>3C202</td>
-                    <td>2-3, 6-15</td>
-                    <td>Fri, Sun</td>
+                    <td>军事技能</td>
+                    <td>刘暄</td>
+                    <td>Null</td>
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td>11-12</td>
+                    <td>军事理论</td>
+                    <td>樊洋洋</td>
+                    <td>Null</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
                     <td>"科学与社会"研讨课</td>
                     <td>麻希南</td>
-                    <td>1101</td>
-                    <td>2</td>
-                    <td>Wed</td>
+                    <td>3(11-12), 2 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
-                    <td>8-13</td>
-                    <td>计算机程序设计A</td>
-                    <td>司虎</td>
-                    <td>西活二楼机房</td>
-                    <td>6-16</td>
-                    <td>Thu</td>
-                    <td>4</td>
+                    <td>习近平新时代中国特色社会主义思想概论</td>
+                    <td>李金龙</td>
+                    <td>2(8-10), 2-4,6-18 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>基础体育</td>
+                    <td>唐莉</td>
+                    <td>1(6-7), 2-4,6-18 week(s);<br> 6(6-7), 5 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>英语交流Ⅰ</td>
+                    <td>汪滔</td>
+                    <td>5(1-2), 2-3,6-18 week(s);<br> 7(1-2), 6 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>英语读写Ⅰ</td>
+                    <td>斯骏</td>
+                    <td>1(1-2), 2-4,6-18 week(s);<br> 6(1-2), 5 week(s)</td>
+                    <td>2</td>
                   </tr>
                 </tbody>
               </table>
@@ -1005,182 +943,102 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Freshman Second Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
                     <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1-2</td>
-                    <td>英语读写Ⅱ</td>
-                    <td>陈澄</td>
-                    <td>2404</td>
-                    <td>1-15, 17-18</td>
-                    <td>Mon</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
-                    <td>线性代数(A1)</td>
-                    <td>陈发来</td>
-                    <td>5402</td>
-                    <td>1-18</td>
-                    <td>Tue</td>
-                    <td>5</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
                     <td>力学B</td>
-                    <td>卢荣德, 李毅</td>
-                    <td>3C102</td>
-                    <td>1-9, 11-12</td>
-                    <td>Wed</td>
-                    <td>Unknown</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
-                    <td>热学B</td>
-                    <td>卢荣德, 李毅</td>
-                    <td>3C102</td>
-                    <td>13-18</td>
-                    <td>Wed</td>
+                    <td>卢荣德; 李毅</td>
+                    <td>3(1-2), 1-9,11-12 week(s);<br> 5(8-9), 1-5,7-9,11-12 week(s);<br> 6(1-2), 11 week(s);<br> 7(8-9), 7 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
-                    <td>1-2</td>
-                    <td>英语交流Ⅱ</td>
-                    <td>汪滔</td>
-                    <td>2303</td>
-                    <td>1-5, 7-9, 11-18</td>
-                    <td>Fri, Sun</td>
-                    <td>2</td>
+                    <td>热学B</td>
+                    <td>卢荣德; 李毅</td>
+                    <td>3(1-2), 13-18 week(s);<br> 5(8-10), 13-18 week(s)</td>
+                    <td>1.5</td>
                   </tr>
                   <tr>
-                    <td>3-4</td>
+                    <td>数学强基讨论班Ⅱ</td>
+                    <td>李沐西</td>
+                    <td>5(11-12), 2-4,7-9,11-18 week(s);<br> 5(13), 2,14,18 week(s);<br> 7(11-12), 7 week(s);<br> 7(13), 7 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
                     <td>数学分析(A2)</td>
                     <td>罗罗</td>
-                    <td>5201</td>
-                    <td>1-15, 17-18</td>
-                    <td>Mon, Fri, Sat</td>
+                    <td>1(3-4), 1-15,17-18 week(s);<br> 3(3-4), 1-9,11-18 week(s);<br> 5(3-4), 1-5,7-9,11-18 week(s);<br> 6(3-4), 11 week(s);<br> 7(3-4), 7 week(s)</td>
                     <td>6</td>
                   </tr>
                   <tr>
-                    <td>3-4</td>
-                    <td>线性代数(A1)</td>
-                    <td>陈发来</td>
-                    <td>5402</td>
-                    <td>1-5, 7-9, 11-18</td>
-                    <td>Thu, Sun</td>
-                    <td>5</td>
+                    <td>思想政治理论课实践</td>
+                    <td>Null</td>
+                    <td>Null</td>
+                    <td>2</td>
                   </tr>
                   <tr>
-                    <td>5</td>
-                    <td>线性代数(A1)</td>
-                    <td>陈发来</td>
-                    <td>5402</td>
-                    <td>1-5, 7-9, 11-18</td>
-                    <td>Thu, Sun</td>
-                    <td>5</td>
+                    <td>中国近现代史纲要</td>
+                    <td>樊桂敏</td>
+                    <td>4(8-10), 1-5,7-9,11-16 week(s);<br> 7(8-10), 10 week(s)</td>
+                    <td>2.5</td>
                   </tr>
                   <tr>
-                    <td>6-7</td>
                     <td>散打Ⅰ</td>
                     <td>李达</td>
-                    <td>中区体育馆</td>
-                    <td>1-5, 7-9, 11-18</td>
-                    <td>Thu, Sat</td>
+                    <td>4(6-7), 1-5,7-9,11-18 week(s);<br> 7(6-7), 10 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
-                    <td>8-9</td>
-                    <td>英语口语沟通(基础)</td>
-                    <td>Thomas Yifang Xiao</td>
-                    <td>2204</td>
-                    <td>1-8</td>
-                    <td>Tue</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
-                    <td>力学B</td>
-                    <td>卢荣德, 李毅</td>
-                    <td>3C102</td>
-                    <td>1-5, 7-9, 11-12</td>
-                    <td>Fri, Sat</td>
-                    <td>2.5</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
-                    <td>热学B</td>
-                    <td>卢荣德, 李毅</td>
-                    <td>3C102</td>
-                    <td>13-18</td>
-                    <td>Fri, Sat</td>
-                    <td>1.5</td>
-                  </tr>
-                  <tr>
-                    <td>8-10</td>
-                    <td>中国近现代史纲要</td>
-                    <td>樊桂敏</td>
-                    <td>1101</td>
-                    <td>1-5, 7-9, 11-16</td>
-                    <td>Fri, Sun</td>
-                    <td>2.5</td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>热学B</td>
-                    <td>卢荣德, 李毅</td>
-                    <td>3C102</td>
-                    <td>13-18</td>
-                    <td>Fri, Sat</td>
-                    <td>1.5</td>
-                  </tr>
-                  <tr>
-                    <td>10</td>
-                    <td>中国近现代史纲要</td>
-                    <td>樊桂敏</td>
-                    <td>1101</td>
-                    <td>10</td>
-                    <td>Sat</td>
-                    <td>2.5</td>
-                  </tr>
-                  <tr>
-                    <td>11-12</td>
-                    <td>气象与摄影</td>
-                    <td>傅云飞</td>
-                    <td>5201</td>
-                    <td>2-9, 11, 13</td>
-                    <td>Wed, Fri</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8-13</td>
                     <td>大学物理-基础实验B</td>
                     <td>……</td>
-                    <td>一教</td>
-                    <td>3-5, 7-9, 11-16</td>
-                    <td>Thu, Sun</td>
+                    <td>4(11-13), 3-5,7-9,11-16 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
-                    <td>8-13</td>
-                    <td>数学强基讨论班Ⅱ</td>
-                    <td>李沐西</td>
-                    <td>5307</td>
-                    <td>2-4, 7-9, 11-18</td>
-                    <td>Fri, Sun</td>
+                    <td>英语口语沟通(基础)</td>
+                    <td>Thomas Tifang Xiao</td>
+                    <td>2(8-9), 1-8 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>英语交流Ⅱ</td>
+                    <td>汪滔</td>
+                    <td>5(1-2), 1-5,7-9,11-18 week(s);<br> 7(1,2), 7 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>英语读写Ⅱ</td>
+                    <td>陈澄</td>
+                    <td>1(1-2), 1-15,17-18 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>线性代数(A1)</td>
+                    <td>陈发来</td>
+                    <td>2(1-2), 1-18 week(s);<br> 4(3-5), 1-5, 7-9, 11-18 week(s);<br> 7(3-5), 10 week(s)</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>"科学与社会"研讨课</td>
+                    <td>麻希南</td>
+                    <td>Null</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>气象与摄影</td>
+                    <td>傅云飞</td>
+                    <td>3(11-12), 2-9,11,13 week(s);<br> 6(11-12), 11 week(s)</td>
                     <td>1</td>
                   </tr>
                 </tbody>
@@ -1519,146 +1377,72 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Sophomore First Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
                     <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1-2</td>
-                    <td>线性代数(A2)</td>
-                    <td>陈发来</td>
-                    <td>5302</td>
-                    <td>1-2, 4-5, 7-18</td>
-                    <td>Mon, Fri</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
-                    <td>数学分析(A3)</td>
-                    <td>左达峰</td>
-                    <td>5302</td>
-                    <td>1-4, 6-18</td>
-                    <td>Thu</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
-                    <td>电磁学B</td>
-                    <td>徐春凯</td>
-                    <td>5303</td>
-                    <td>1-4, 6-18</td>
-                    <td>Fri</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
-                    <td>微分方程引论</td>
-                    <td>赵立丰</td>
-                    <td>5302</td>
-                    <td>1-2, 4-5, 7-15, 17-18</td>
-                    <td>Mon, Fri</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
-                    <td>数学分析(A3)</td>
-                    <td>左达峰</td>
-                    <td>5302</td>
-                    <td>1-2, 4, 6, 7-18</td>
-                    <td>Tue</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
-                    <td>线性代数(A2)</td>
-                    <td>陈发来</td>
-                    <td>5302</td>
-                    <td>1-4, 6-17</td>
-                    <td>Wed</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>3-5</td>
-                    <td>概率论与数理统计</td>
-                    <td>张曙光</td>
-                    <td>5102</td>
-                    <td>1-4, 6-18</td>
-                    <td>Fri</td>
-                    <td>3.5</td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>微分方程引论</td>
-                    <td>赵立丰</td>
-                    <td>5302</td>
-                    <td>14</td>
-                    <td>Mon</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>电磁学B</td>
-                    <td>徐春凯</td>
-                    <td>5303</td>
-                    <td>1-4, 6-17</td>
-                    <td>Wed, Sat</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>微分方程引论</td>
-                    <td>赵立丰</td>
-                    <td>5302</td>
-                    <td>1-4, 6-8, 10-18</td>
-                    <td>Thu</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
-                    <td>游泳</td>
-                    <td>曾文</td>
-                    <td>中区游泳馆</td>
-                    <td>1-2, 4-5, 7-18</td>
-                    <td>Mon, Sat</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8-10</td>
-                    <td>符号计算软件</td>
-                    <td>张娜</td>
-                    <td>5102</td>
-                    <td>1-2, 4, 6, 7-14</td>
-                    <td>Tue, Sun</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>8-10</td>
                     <td>马克思主义基本原理</td>
                     <td>张旭</td>
-                    <td>5302</td>
-                    <td>1-4, 6-16</td>
-                    <td>Thu</td>
+                    <td>4(8-10), 1-4,6-16 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
-                    <td>8-13</td>
+                    <td>电磁学B</td>
+                    <td>徐春凯</td>
+                    <td>5(1-2), 1-4,6-18 week(s);<br> 3(6-7), 1-4,6-17 week(s);<br> 6(6-7), 6 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>符号计算软件</td>
+                    <td>张娜</td>
+                    <td>2(8-10), 1-2,4,6,7-14 week(s);<br> 7(8-10), 5 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>线性代数(A2)</td>
+                    <td>陈发来</td>
+                    <td>1(1-2), 1-2,4-5,7-18 week(s);<br> 3(3-4), 1-4,6-17 week(s);<br> 6(1-2), 2 week(s);<br> 6(3,4), 6 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>数学分析(A3)</td>
+                    <td>左达峰</td>
+                    <td>4(1-2), 1-4,6-18 week(s);<br> 2(3-4), 1-2,4,6,7-18 week(s);<br> 7(3-4), 5 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>微分方程引论</td>
+                    <td>赵立丰</td>
+                    <td>1(3-4), 1-2,4-5,7-15,17-18 week(s);<br> 4(6-7), 1-4,6-8,10-18 week(s);<br> 1(5), 14 week(s);<br> 6(3-4), 2 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>概率论与数理统计</td>
+                    <td>张曙光</td>
+                    <td>5(3-5), 1-4,6-18 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>游泳</td>
+                    <td>曾文</td>
+                    <td>1(8-9) 1-2,4-5,7-18 week(s);<br> 6(8-9), 2 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
                     <td>大学物理-综合实验B</td>
                     <td>……</td>
-                    <td>一教</td>
-                    <td>4, 6, 7-18</td>
-                    <td>Tue, Sun</td>
+                    <td>2(11-13), 4,6,7-18 week(s);<br> 7(11-13), 5 week(s)</td>
                     <td>0.5</td>
                   </tr>
                 </tbody>
@@ -1993,192 +1777,85 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Sophomore Second Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
                     <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>1-2</td>
-                    <td>复分析</td>
-                    <td>李思敏</td>
-                    <td>5401</td>
-                    <td>1-15</td>
-                    <td>Tue</td>
-                    <td>3</td>
+                    <td>毛泽东思想和中国特色社会主义理论体系概论</td>
+                    <td>王冬青</td>
+                    <td>2(8-10), 1-16 week(s)</td>
+                    <td>2.5</td>
                   </tr>
                   <tr>
-                    <td>1-2</td>
-                    <td>实分析(H)</td>
-                    <td>任广斌</td>
-                    <td>5404</td>
-                    <td>1-16</td>
-                    <td>Wed</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
-                    <td>光学B</td>
-                    <td>姚培军</td>
-                    <td>5306</td>
-                    <td>1-8</td>
-                    <td>Thu</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>1-2</td>
                     <td>原子物理B</td>
                     <td>姚培军</td>
-                    <td>5306</td>
-                    <td>9, 11, 12-16</td>
-                    <td>Thu</td>
+                    <td>4(1-2), 9,11,12-16 week(s);<br> 2(3-5), 9-16 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td>3-5</td>
-                    <td>实分析(H)</td>
-                    <td>任广斌</td>
-                    <td>5404</td>
-                    <td>1-10, 12-14, 16</td>
-                    <td>Mon</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>3-5</td>
-                    <td>光学B</td>
-                    <td>姚培军</td>
-                    <td>5306</td>
-                    <td>1-8</td>
-                    <td>Tue</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>3-5</td>
-                    <td>原子物理B</td>
-                    <td>姚培军</td>
-                    <td>5306</td>
-                    <td>9-16</td>
-                    <td>Tue</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>3-5</td>
-                    <td>概率论</td>
-                    <td>刘党政</td>
-                    <td>5401</td>
-                    <td>1-12</td>
-                    <td>Wed</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>3-4</td>
-                    <td>复分析</td>
-                    <td>李思敏</td>
-                    <td>5401</td>
-                    <td>1-9, 11-15</td>
-                    <td>Thu</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>数据结构A</td>
-                    <td>徐小华</td>
-                    <td>3B101</td>
-                    <td>1-9, 11-16</td>
-                    <td>Thu</td>
-                    <td>4</td>
-                  </tr>
-                  <tr>
-                    <td>6-7</td>
-                    <td>概率论</td>
-                    <td>刘党政</td>
-                    <td>5401</td>
-                    <td>1-5, 7-9, 11-12</td>
-                    <td>Fri, Sat</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
                     <td>计算机导论</td>
                     <td>孙广中</td>
-                    <td>2121</td>
-                    <td>1-10</td>
-                    <td>Mon</td>
+                    <td>1(8-9), 1-10 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
-                    <td>8-9</td>
-                    <td>毛泽东思想和中国特色社会主义理论体系概论</td>
-                    <td>王冬青</td>
-                    <td>2121</td>
-                    <td>1-16</td>
-                    <td>Tue</td>
-                    <td>2.5</td>
+                    <td>光学B</td>
+                    <td>姚培军</td>
+                    <td>4(1-2), 1-8 week(s);<br> 2(3-5), 1-8 week(s)</td>
+                    <td>2</td>
                   </tr>
                   <tr>
-                    <td>8-9</td>
-                    <td>数据结构A</td>
-                    <td>徐小华</td>
-                    <td>3B101</td>
-                    <td>1-16</td>
-                    <td>Tue</td>
+                    <td>实分析(H)</td>
+                    <td>任广斌</td>
+                    <td>3(1-2), 1-16 week(s);<br> 1(3-5), 1-10,12-14,16 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
-                    <td>8-9</td>
-                    <td>社交媒体分析</td>
-                    <td>沈晓蓓, 程琪</td>
-                    <td>2306</td>
-                    <td>1-9, 11-16</td>
-                    <td>Thu</td>
-                    <td>2</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
-                    <td>拓展训练Ⅱ</td>
-                    <td>王永</td>
-                    <td>东区操场</td>
-                    <td>1-5, 7-9, 11-16</td>
-                    <td>Fri, Sat</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>8-9</td>
                     <td>复分析</td>
                     <td>李思敏</td>
-                    <td>5401</td>
-                    <td>1-6, 8-9, 12-14</td>
-                    <td>Sat</td>
+                    <td>2(1-2), 1-15 week(s);<br> 4(3-4), 1-9,11-15 week(s);<br> 7(8-9), 1-6,8-9,12-14 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
-                    <td>10</td>
-                    <td>毛泽东思想和中国特色社会主义理论体系概论</td>
-                    <td>王冬青</td>
-                    <td>2121</td>
-                    <td>1-16</td>
-                    <td>Tue</td>
-                    <td>2.5</td>
+                    <td>拓展训练Ⅱ</td>
+                    <td>王永</td>
+                    <td>5(8-9), 1-5,7-9,11-16 week(s);<br> 7(8-9), 10 week(s)</td>
+                    <td>1</td>
                   </tr>
                   <tr>
-                    <td>10</td>
+                    <td>概率论</td>
+                    <td>刘党政</td>
+                    <td>3(3-5), 1-12 week(s);<br> 5(6-7), 1-5,7-9,11-12 week(s);<br> 7(6-7), 10 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
                     <td>社交媒体分析</td>
-                    <td>沈晓蓓, 程琪</td>
-                    <td>2306</td>
-                    <td>1-15单</td>
-                    <td>Thu</td>
+                    <td>沈晓蓓; 程琪</td>
+                    <td>4(8-9), 1-9,11-16 week(s);<br> 4(10), 1-15单 week(s)</td>
                     <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>数据结构A</td>
+                    <td>徐小华</td>
+                    <td>4(6-7), 1-9,11-16 week(s);<br> 2(8-9), 1-16 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>改革开放史</td>
+                    <td>丁浩</td>
+                    <td>Null</td>
+                    <td>1</td>
                   </tr>
                 </tbody>
               </table>
@@ -2346,18 +2023,17 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Junior First Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2528,18 +2204,17 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Junior Second Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2710,18 +2385,17 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Senior First Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -2892,18 +2566,17 @@ document.write(`
                 </tbody>
               </table>
             </div>
+
             <!-- My Classes Table for Senior Second Semester -->
             <div class="my-classes-container">
               <h3 style="text-align: center; margin-top: 20px;">My Classes</h3>
               <table class="my-classes-table">
                 <thead>
                   <tr>
-                    <th>Period Range</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
-                    <th>Location</th>
-                    <th>Weeks</th>
-                    <th>Days</th>
+                    <th>Time</th>
+                    <th>Credits</th>
                   </tr>
                 </thead>
                 <tbody>
