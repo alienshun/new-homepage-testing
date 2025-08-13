@@ -1,6 +1,8 @@
 document.write(`
   <div id="cover">
-    <div id="avatar-frame">
+    <div id="avatar-frame" 
+         data-cursor="precise_select" 
+         data-cursor-fallback="pointer">
       <img src="./assets/images/avatar.jpg" alt="Profile Avatar" loading="lazy">
     </div>
     <div id="name">Stardust</div>
@@ -13,3 +15,4 @@ document.write(`
     </div>
   </div>
 `);
+
