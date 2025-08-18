@@ -208,7 +208,7 @@
     rgba(255, 255, 255, 0.15),
     rgba(255, 255, 255, 0.1)
   );
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(1px);
   z-index: -1;
   border-radius: 30px;
   transition: all 0.4s ease;
@@ -262,3 +262,4 @@
   gap: 20px;
   z-index: 20;
 }
+
