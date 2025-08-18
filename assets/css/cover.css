@@ -39,6 +39,21 @@
     0 8px 24px rgba(0,0,0,0.18),
     0 2px 6px rgba(0,0,0,0.12);
   isolation: isolate;
+
+  outline: 1px solid rgba(255,255,255,0.70);
+  outline-offset: 2px;
+  filter:
+    drop-shadow(0 0 0.8px rgba(255,255,255,0.85))
+    drop-shadow(0 0 1.2px rgba(0,0,0,0.75))
+    drop-shadow(0 6px 22px rgba(0,0,0,0.22));
+  box-shadow:
+    inset 0 0 0.5px rgba(255,255,255,0.35),
+    0 8px 24px rgba(0,0,0,0.18),
+    0 2px 6px rgba(0,0,0,0.12),
+    0 0 0 6px rgba(255,255,255,0.06),
+    0 0 0 12px rgba(0,0,0,0.06);
+  -webkit-backdrop-filter: saturate(1.05) contrast(1.02);
+          backdrop-filter: saturate(1.05) contrast(1.02);
 }
 
 #avatar-frame::before {
@@ -48,18 +63,21 @@
   border-radius: 50%;
   background:
     conic-gradient(
-      from 30deg,
+      from 28deg,
       rgba(255,255,255,0.65),
-      rgba(208,214,230,0.35),
-      rgba(160,170,190,0.28),
+      rgba(224,232,248,0.35),
+      rgba(170,182,206,0.30),
       rgba(255,255,255,0.65)
     );
-  filter: blur(0.3px);
+  filter: blur(0.28px);
   -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 0);
           mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 0);
   z-index: -1;
   animation: ring-rotate 18s linear infinite;
   opacity: 0.9;
+
+  -webkit-backdrop-filter: blur(2.2px) saturate(1.06);
+          backdrop-filter: blur(2.2px) saturate(1.06);
 }
 
 #avatar-frame::after {
@@ -72,6 +90,9 @@
     radial-gradient(120% 120% at 20% 15%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0.0) 60%),
     radial-gradient(90% 90% at 80% 85%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0.0) 70%);
   mix-blend-mode: screen;
+  box-shadow:
+    inset 0 0 1px rgba(255,255,255,0.45),
+    inset 0 6px 12px rgba(0,0,0,0.10);
 }
 
 @keyframes ring-rotate {
