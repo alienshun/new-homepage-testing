@@ -102,9 +102,13 @@
 /* Button styling */
 #about-btn, #social-btn, #toolkit-btn, #schedule-btn {
   position: relative;
-  z-index: 20;
+  z-index: 30;
   background: transparent;
-  color: rgba(255, 255, 255, 0.95);
+  color: #ffffff;
+  -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.62);
+  text-shadow:
+    0 1px 1px rgba(0, 0, 0, 0.65), 
+    0 0 12px rgba(255, 255, 255, 0.18);
   border: none;
   padding: 10px 24px;
   font-family: "Times New Roman", Times, serif;
@@ -122,6 +126,7 @@
     0 0 0 1px rgba(255, 255, 255, 0.4),
     0 0 20px rgba(255, 255, 255, 0.15);
   letter-spacing: 0.5px;
+  isolation: isolate;
 }
 
 #about-btn::before, #social-btn::before, #toolkit-btn::before, #schedule-btn::before {
