@@ -796,8 +796,14 @@ body.dark-mode .schedule-switch-btn:hover {
 }
 
 body.dark-mode .schedule-switch-btn.active {
-  background: linear-gradient(135deg, #E3DCFF, #D8F5FF);
-  box-shadow: 0 4px 15px rgba(227, 220, 255, 0.4);
+  background: linear-gradient(135deg, #F2FFE1, #CAE7FF, #CEFFF7);
+  color: #3c506e;
+  box-shadow: none;
+}
+
+body.dark-mode .schedule-switch-btn.active:hover {
+  background: linear-gradient(135deg, #CEFFF7, #CAE7FF);
+  color: #3c506e;
 }
 
 body.dark-mode .fc-toolbar-title {
