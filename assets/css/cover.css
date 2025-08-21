@@ -181,6 +181,7 @@
   font-family: "Times New Roman", Times, serif;
   font-style: italic;
   font-size: 1.1em;
+  font-weight: bold;
   cursor: pointer;
   transition: all 0.4s ease;
   opacity: 0;
@@ -262,4 +263,3 @@
   gap: 20px;
   z-index: 20;
 }
-
