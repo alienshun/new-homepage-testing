@@ -25,22 +25,22 @@ document.write(`
       
       <div class="section">
         <h2>Honors and Awards</h2>
-        <ul class="award-list">
-          <li>
-            <span class="award-name">"Zhang Zongzhi Sci-Tech Scholarship"</span>
-            <span class="award-year">2024</span>
-          </li>
-          <li>
-            <span class="award-name">"Outstanding Freshman Scholarship (Grade 2)"</span>
-            <span class="award-year">2023</span>
-          </li>
-          <li>
-            <span class="award-name">
+        <table>
+          <tr>
+            <td>"Zhang Zongzhi Sci-Tech Scholarship"</td>
+            <td align="right">2024</td>
+          </tr>
+          <tr>
+            <td>"Outstanding Freshman Scholarship (Grade 2)"</td>
+            <td align="right">2023</td>
+          </tr>
+          <tr>
+            <td>
               Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B
-            </span>
-            <span class="award-year">2025</span>
-          </li>
-        </ul>
+            </td>
+            <td align="right">2025</td>
+          </tr>
+        </table>
       </div>
 
       <div class="section">
@@ -98,6 +98,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
