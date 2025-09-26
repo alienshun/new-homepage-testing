@@ -42,17 +42,7 @@ document.write(`
           </li>
         </ul>
       </div>
-      
-      <div class="section">
-        <h2>Work Experience</h2>
-        <div class="subheading">
-          <span class="subheading-title">Teaching assistant of "Probability Theory and Mathematical Statistics" led by Shuguang Zhang</span>
-          <span>Expected September 2025 – January 2026</span>
-        </div>
-        <div class="subsubheading">Compile the reference answers for "Probability Theory and Mathematical Statistics" (Textbook by Baiqi Miu and Weiping Zhang)</div>
-        <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Click here to download: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
-      </div>
-      
+
       <div class="section">
         <h2>Research Projects</h2>
         <div class="subheading">
@@ -78,6 +68,16 @@ document.write(`
       </div>
       
       <div class="section">
+        <h2>Work Experience</h2>
+        <div class="subheading">
+          <span class="subheading-title">Teaching assistant of "Probability Theory and Mathematical Statistics" led by Shuguang Zhang</span>
+          <span>Expected September 2025 – January 2026</span>
+        </div>
+        <div class="subsubheading">Compile the reference answers for "Probability Theory and Mathematical Statistics" (Textbook by Baiqi Miu and Weiping Zhang)</div>
+        <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Click here to download: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
+      </div>
+      
+      <div class="section">
         <h2>Publications</h2>
       </div>
       
@@ -98,5 +98,6 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
