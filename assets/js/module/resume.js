@@ -19,16 +19,27 @@ document.write(`
           <span class="subheading-title">University of Science and Technology of China</span>
           <span>Expected June 2027</span>
         </div>
-        <div class="subsubheading">Bachelor of Science in Mathematics (Information and Computing Science)</div>
-        <div class="subsubheading">Minor in Computer Science and Technology</div>
+        <div class="subsubheading">Bachelor of Science in Computational and Applied Mathematics (Major)</div>
+        <div class="subsubheading">Bachelor of Engineering in Computer Science and Technology (Minor)</div>
       </div>
       
       <div class="section">
         <h2>Honors and Awards</h2>
-        <ul>
-          <li>"Zhang Zongzhi Sci-Tech Scholarship"</li>
-          <li>"Outstanding Freshman Scholarship (Grade 2)"</li>
-          <li>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B, 2025</li>
+        <ul class="award-list">
+          <li>
+            <span class="award-name">"Zhang Zongzhi Sci-Tech Scholarship"</span>
+            <span class="award-year">2024</span>
+          </li>
+          <li>
+            <span class="award-name">"Outstanding Freshman Scholarship (Grade 2)"</span>
+            <span class="award-year">2023</span>
+          </li>
+          <li>
+            <span class="award-name">
+              Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B
+            </span>
+            <span class="award-year">2025</span>
+          </li>
         </ul>
       </div>
       
@@ -87,4 +98,5 @@ document.write(`
     </a>
   </div>
 `);
+
 
