@@ -25,7 +25,7 @@ document.write(`
       
       <div class="section">
         <h2>Honors and Awards</h2>
-        <table>
+        <table width="100%">
           <tr>
             <td>"Zhang Zongzhi Sci-Tech Scholarship"</td>
             <td align="right">2024</td>
@@ -42,6 +42,7 @@ document.write(`
           </tr>
         </table>
       </div>
+
 
       <div class="section">
         <h2>Research Projects</h2>
@@ -91,6 +92,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
