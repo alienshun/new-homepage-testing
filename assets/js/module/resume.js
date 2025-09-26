@@ -70,6 +70,11 @@ document.write(`
         <div class="subsubheading">Compile the reference answers for "Probability Theory and Mathematical Statistics" (Textbook by Baiqi Miu and Weiping Zhang)</div>
         <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Click here to download: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
       </div>
+
+      <div class="section">
+        <h2>Research Interests</h2>
+        <ul>Operations Management, Game Theory, Machine Learning, Deep Learning, etc.</ul>
+      </div>
       
       <div class="section">
         <h2>Publications</h2>
@@ -92,6 +97,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
