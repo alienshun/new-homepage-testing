@@ -46,25 +46,18 @@ document.write(`
       <div class="section">
         <h2>Research Projects</h2>
         <div class="subheading">
-          <span class="subheading-title"></span>
-          <span>September 2024 – Present</span>
+          <span class="subheading-title">Demand Information Sharing Under Consumer Inequality Aversion</span>
+          <span>July 2025 -- Present</span>
         </div>
-        <div class="subsubheading">Cooperating with <strong>Xiaobei Shen</strong>, <strong>Jiancheng Lv</strong> and <strong>Qi Cheng</strong></div>
-        <ul><li></li></ul>
+        <div class="subsubheading">Cooperating with <strong>Yimin Yu</strong>, <strong>Qian Wang</strong> and <strong>Qi Cheng</strong></div>
+        <ul><li>Examined a tripartite sequential game within a supply chain, incorporating manufacturers, retailers and consumers endowed with inequality aversion preferences, under fluctuating marketing size. The manufacturer obtains a private demand signal, integrates prior beliefs with this signal's accuracy to determine posterior probabilities and decide on sharing information with the retailer. When information is withheld, a high-type manufacturer has an incentive to mimic a low-type by lowering wholesale prices to increase sales. This strategic interaction necessitated the formulation of a PBE (Perfect Bayesian Equilibrium) for the low-type manufacturer, further refined by applying the LMSE (Lexicographically Maximum Sequential Equilibrium) criterion. In response, the retailer engaged in a Bayesian game, inferring the signal's likelihood based on the observed wholesale price, while consumer behavior was modeled under possible belief systems—transparency, passive, or linear beliefs—incorporating inequality aversion toward the retailer. Ultimately, the solution was derived through backward induction and results demonstrate that inequality aversion, information asymmetry, and prior probability distributions significantly influence information-sharing strategies, pricing, and overall supply chain efficiency and profit allocation.</li></ul>
         
         <div class="subheading">
-          <span class="subheading-title"></span>
-          <span>July 2025 – Present</span>
+          <span class="subheading-title">Monopoly Firm’s Bilateral Game Under Ship-then-Shop(STS) and Traditional Business Models</span>
+          <span>September 2024 -- August 2025</span>
         </div>
-        <div class="subsubheading">Cooperating with <strong>Yimin Yu</strong> and <strong>Qian Wang</strong></div>
-        <ul><li></li></ul>
-        
-        <div class="subheading">
-          <span class="subheading-title"></span>
-          <span>July 2025 – Present</span>
-        </div>
-        <div class="subsubheading">Cooperating with <strong>Yimin Yu</strong> and <strong>Qian Wang</strong></div>
-        <ul><li></li></ul>
+        <div class="subsubheading">Cooperating with <strong>Xiaobei Shen</strong> and <strong>Jiancheng Lv</strong></div>
+        <ul><li>Investigated the bilateral game and channel selection strategy of a monopolistic firm, comparing the traditional business model with the Ship-then-Shop (STS) framework. Characterized how customer heterogeneity—driven by variations in subscription fees, search costs, and return costs—shapes the firm's optimal pricing. The model was extended by relaxing key assumptions, specifically regarding consumer awareness of their own types and by employing generalized probability distributions for consumer types and return costs. The analysis robustly demonstrated the absence of a showrooming effect in either channel, thereby extending the theoretical framework on strategic channel management.</li></ul>
       </div>
       
       <div class="section">
@@ -98,6 +91,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
