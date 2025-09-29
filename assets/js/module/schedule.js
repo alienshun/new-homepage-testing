@@ -1966,9 +1966,9 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
-                        <div class="course-name">算法基础</div>
-                        <div class="instructor">杨子江</div>
-                        <div class="location">GT-B212</div>
+                        <div class="course-name">概率论与数理统计(助教)</div>
+                        <div class="instructor">张曙光</div>
+                        <div class="location">5104</div>
                         <div class="weeks">1-18 week(s)</div>
                       </div>
                     </td>
@@ -2239,6 +2239,24 @@ document.write(`
                     <td>常晓军; 李志慧</td>
                     <td>4(11-13), 1-18 week(s)</td>
                     <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>人工智能引论(AI+X微专业基础课)</td>
+                    <td>吴飞</td>
+                    <td></td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>人工智能数学基础(AI+X微专业基础课)</td>
+                    <td>黄正行, 戴俊飞</td>
+                    <td></td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>人工智能伦理与安全(AI+X微专业基础课)</td>
+                    <td>杨子祺</td>
+                    <td></td>
+                    <td>1</td>
                   </tr>
                 </tbody>
               </table>
@@ -3172,4 +3190,5 @@ document.write(`
     </div>
   </div>
 `);
+
 
