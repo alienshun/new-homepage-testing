@@ -2205,10 +2205,10 @@ document.write(`
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td>算法基础</td>
-                    <td>杨子江</td>
+                    <td>概率论与数理统计(助教)</td>
+                    <td>张曙光</td>
                     <td>5(3-5), 1-18 week(s)</td>
-                    <td>3.5</td>
+                    <td>3</td>
                   </tr>
                   <tr>
                     <td>运筹学</td>
@@ -3172,3 +3172,4 @@ document.write(`
     </div>
   </div>
 `);
+
