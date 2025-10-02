@@ -50,7 +50,7 @@ document.write(`
           <span class="subheading-title">Demand Information Sharing Under Consumer Inequality Aversion</span>
           <span>July 2025 -- Present</span>
         </div>
-        <div class="subsubheading">Cooperating with <strong>Yimin Yu</strong>, <strong>Qian Wang</strong> and <strong>Qi Cheng</strong></div>
+        <div class="subsubheading">Cooperating with <strong>Yimin Yu</strong> and <strong>Qian Wang</strong></div>
         <ul><li>Examined a tripartite sequential game within a supply chain, incorporating manufacturers, retailers and consumers endowed with inequality aversion preferences, under fluctuating marketing size. The manufacturer obtains a private demand signal, integrates prior beliefs with this signal's accuracy to determine posterior probabilities and decide on sharing information with the retailer. When information is withheld, a high-type manufacturer has an incentive to mimic a low-type by lowering wholesale prices to increase sales. This strategic interaction necessitated the formulation of a PBE (Perfect Bayesian Equilibrium) for the low-type manufacturer, further refined by applying the LMSE (Lexicographically Maximum Sequential Equilibrium) criterion. In response, the retailer engaged in a Bayesian game, inferring the signal's likelihood based on the observed wholesale price, while consumer behavior was modeled under possible belief systems—transparency, passive, or linear beliefs—incorporating inequality aversion toward the retailer. Ultimately, the solution was derived through backward induction and results demonstrate that inequality aversion, information asymmetry, and prior probability distributions significantly influence information-sharing strategies, pricing, and overall supply chain efficiency and profit allocation.</li></ul>
         
         <div class="subheading">
@@ -97,6 +97,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
