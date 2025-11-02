@@ -95,7 +95,7 @@ document.write(`
             </li>
             <li>
               <strong>Scientific Writing and Illustration:</strong>
-              LaTeX (Proficient)
+              LaTeX (Mastery), Visio (Proficient), Adobe Illustrator (Competent), Adobe Photoshop (Competent)
             </li>
           </ul>
           </li>
@@ -124,3 +124,4 @@ document.write(`
     </a>
   </div>
 `);
+
