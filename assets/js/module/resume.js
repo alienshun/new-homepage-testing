@@ -6,12 +6,11 @@ document.write(`
     <div id="clock">GMT+8 00:00</div>
     <div class="container">
       <div class="resume-heading">Jinghao Chen</div>
-      <p class="contact-info">
-        Hefei Anhui, 230026<br />
-        <span class="email">Email 1: chenjinghao@mail.ustc.edu.cn</span>
-        <span class="email">Email 2: stardust.math26@gmail.com</span><br />
-        Tel: +86 18806590966
-      </p>
+      <div class="contact-info">
+        <div>Hefei Anhui, 230026</div>
+        <div>Email: chenjinghao@mail.ustc.edu.cn / stardust.math26@gmail.com</div>
+        <div>Tel: +86 18806590966</div>
+      </div>
 
       <div class="section">
         <h2>Education</h2>
@@ -97,6 +96,7 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
 
