@@ -16,7 +16,7 @@ document.write(`
         <h2>Education</h2>
         <div class="subheading">
           <span class="subheading-title">University of Science and Technology of China</span>
-          <span>Expected June 2027</span>
+          <span>Expected July 2023 -- July 2027</span>
         </div>
         <div class="subsubheading">Bachelor of Science in Computational and Applied Mathematics (Major)</div>
         <div class="subsubheading">Bachelor of Engineering in Computer Science and Technology (Minor)</div>
@@ -25,6 +25,10 @@ document.write(`
       <div class="section">
         <h2>Honors and Awards</h2>
         <table width="100%">
+          <tr>
+            <td>"Outstanding Student Scholarship (Grade 2)"</td>
+            <td align="right">2025</td>
+          </tr>
           <tr>
             <td>"Zhang Zongzhi Sci-Tech Scholarship"</td>
             <td align="right">2024</td>
@@ -67,7 +71,7 @@ document.write(`
           <span>Expected September 2025 – January 2026</span>
         </div>
         <div class="subsubheading">Compile the reference answers for "Probability Theory and Mathematical Statistics" (Textbook by Baiqi Miu and Weiping Zhang)</div>
-        <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Click here to download: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
+        <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Repository available at: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
       </div>
 
       <div class="section">
@@ -82,10 +86,34 @@ document.write(`
       <div class="section">
         <h2>Additional Skills/Information</h2>
         <ul>
-          <li><strong>Computer Skills:</strong> Mathematica (Proficient), Python (4 yr), C (2 yr), LaTeX (Proficient)</li>
-          <li><strong>Languages:</strong> Chinese (Native), English (Fluent -- TOEFL Score: Reading 22, Listening 21, Speaking 24, Writing 24)</li>
-          <li><strong>Hobbies:</strong> Playing Bamboo Flute, Swimming, Singing</li>
-          <li><strong>Reflections and Essays: </strong>''Stardust Meditations''</li>
+          <li>
+          <strong>Technical Skills:</strong> 
+          <ul>
+            <li>
+              <strong>Programming Languages:</strong>
+              Python (5 yr), C (3 yr), Mathematica (3 yr)
+            </li>
+            <li>
+              <strong>Scientific Writing and Illustration:</strong>
+              LaTeX (Proficient)
+            </li>
+          </ul>
+          </li>
+          
+          <li>
+          <strong>Languages:</strong>
+          Chinese (Native), English (Fluent -- TOEFL Score: Reading 22, Listening 21, Speaking 24, Writing 24)
+          </li>
+          
+          <li>
+          <strong>Hobbies:</strong>
+          Playing Bamboo Flute, Swimming, Singing
+          </li>
+          
+          <li>
+          <strong>Reflections and Essays: </strong>
+          ''Stardust Meditations''
+          </li>
           <a class="download-link" href="./assets/pdf/Stardust_Meditations.pdf" download>Click here to download: Stardust Meditations</a>
         </ul>
       </div>
@@ -96,12 +124,3 @@ document.write(`
     </a>
   </div>
 `);
-
-
-
-
-
-
-
-
-
