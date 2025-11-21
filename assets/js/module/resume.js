@@ -63,6 +63,11 @@ document.write(`
         <div class="subsubheading">Cooperating with <strong>Xiaobei Shen</strong> and <strong>Jiancheng Lv</strong></div>
         <ul><li>Investigated the bilateral game and channel selection strategy of a monopolistic firm, comparing the traditional business model with the Ship-then-Shop (STS) framework. Characterized how customer heterogeneity—driven by variations in subscription fees, search costs, and return costs—shapes the firm's optimal pricing. The model was extended by relaxing key assumptions, specifically regarding consumer awareness of their own types and by employing generalized probability distributions for consumer types and return costs. The analysis robustly demonstrated the absence of a showrooming effect in either channel, thereby extending the theoretical framework on strategic channel management.</li></ul>
       </div>
+
+      <div class="section">
+        <h2>Research Interests</h2>
+        <ul>Operations Management, Operations Research, Industrial Engineering, Supply Chain, Game Theory, Machine Learning, Deep Learning, etc.</ul>
+      </div>
       
       <div class="section">
         <h2>Work Experience</h2>
@@ -72,11 +77,6 @@ document.write(`
         </div>
         <div class="subsubheading">Compile the reference answers for "Probability Theory and Mathematical Statistics" (Textbook by Baiqi Miu and Weiping Zhang)</div>
         <a class="download-link" href="./assets/pdf/Reference_Answer_of_''Probability_Theory_and_Mathematical_Statistics''_(by Baiqi_Miu_and_Weiping_Zhang).pdf" download>Repository available at: Reference Answer of "Probability Theory and Mathematical Statistics"</a>
-      </div>
-
-      <div class="section">
-        <h2>Research Interests</h2>
-        <ul>Operations Management, Game Theory, Machine Learning, Deep Learning, etc.</ul>
       </div>
       
       <div class="section">
@@ -124,5 +124,6 @@ document.write(`
     </a>
   </div>
 `);
+
 
 
