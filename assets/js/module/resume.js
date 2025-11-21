@@ -26,15 +26,15 @@ document.write(`
         <h2>Honors and Awards</h2>
         <table width="100%">
           <tr>
-            <td>"Outstanding Student Scholarship (Grade 2)"</td>
+            <td>Excellent Student Scholarship--Silver</td>
             <td align="right">2025</td>
           </tr>
           <tr>
-            <td>"Zhang Zongzhi Sci-Tech Scholarship"</td>
+            <td>Zhang Zongzhi Sci-Tech Scholarship</td>
             <td align="right">2024</td>
           </tr>
           <tr>
-            <td>"Outstanding Freshman Scholarship (Grade 2)"</td>
+            <td>Excellent Freshman Scholarship--Silver</td>
             <td align="right">2023</td>
           </tr>
           <tr>
@@ -124,4 +124,5 @@ document.write(`
     </a>
   </div>
 `);
+
 
