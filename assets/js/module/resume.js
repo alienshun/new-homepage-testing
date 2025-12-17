@@ -115,7 +115,7 @@ document.write(`
       </div>
     </div>
     
-    <a href="#" class="back-btn" id="resume-back-btn" style="color: lightblue;">
+    <a href="#" class="back-btn" id="resume-back-btn">
       <i class="fas fa-arrow-left"></i>
     </a>
   </div>
