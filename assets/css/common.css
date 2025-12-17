@@ -243,15 +243,15 @@ a.download-link:hover {
   position: fixed;
   bottom: 30px;
   right: 30px;
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   background: linear-gradient(135deg, #F2FFE1, #CAE7FF, #CEFFF7); 
   color: #3c506e;
-  border-radius: 32px; 
+  border-radius: 24px; 
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   box-shadow: 0 5px 20px rgba(202, 231, 255, 0.5); 
   transition: all 0.3s ease;
   z-index: 100;
@@ -268,4 +268,5 @@ a.download-link:hover {
 .back-btn:hover {
   transform: translateY(-5px) scale(1.1);
   background: linear-gradient(135deg, #CEFFF7, #CAE7FF); 
+
 }
