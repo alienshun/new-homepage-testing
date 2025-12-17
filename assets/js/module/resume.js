@@ -7,7 +7,8 @@ document.write(`
     <div class="container">
       <div class="resume-heading">Jinghao Chen</div>
       <div class="contact-info">
-        <div>Email: chenjinghao@mail.ustc.edu.cn | Tel: +86 18806590966 | Personal Website: <a href="https://stardust-math.github.io/" target="_blank">stardust-math.github.io</a></div>
+        <div>Email: chenjinghao@mail.ustc.edu.cn / stardust.math26@gmail.com</div>
+        <div>Tel: +86 18806590966</div>
       </div>
 
       <div class="section">
@@ -16,12 +17,10 @@ document.write(`
           <span class="subheading-title">University of Science and Technology of China</span>
           <span>Sep. 2023 – Jul. 2027 (Expected)</span>
         </div>
-        <div class="subsubheading">B.Sc. in Mathematics (Major); B.Eng. in Computer Science and Technology (Minor)</div>
-        <div class="subsubheading">Hefei, China</div>
-        <ul>
-          <li>GPA: 3.42/4.3 (Average Score: 84.36/100); Ranking: 18/50 in major, 51/128 in School of Mathematical Sciences.</li>
-          <li>Selected Coursework: Probability Theory and Mathematical Statistics (94), Mathematical Analysis A1 (90), Mathematical Experiments (A+), Mathematical Software (A+), Foundations of Geometry (86), Operations Research (in progress), Machine Learning (in progress), Numerical Algebra (in progress).</li>
-        </ul>
+        <div class="subsubheading" style="display: flex; justify-content: space-between;">
+          <span>B.Sc. in Mathematics (Major); B.Eng. in Computer Science and Technology (Minor)</span>
+          <span>Hefei, China</span>
+        </div>
       </div>
       
       <div class="section">
@@ -35,7 +34,13 @@ document.write(`
           <span class="subheading-title">Demand Information Sharing with Inequality-Averse Consumers</span>
           <span>Jul. 2025 -- Present</span>
         </div>
-        <div class="subsubheading">Advisors: <strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong), <strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
+        <div class="subsubheading">
+          <div>Advisors:</div>
+          <div style="margin-left: 20px;">
+            <div><strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong)</div>
+            <div><strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
+          </div>
+        </div>
         <ul>
           <li>Formulated a Bayesian manufacturer-retailer pricing/signaling model with demand-forecast uncertainty and inequality-averse consumers, and solved Perfect Bayesian equilibria refined by the least-misleading sequential equilibrium (LMSE) criterion.</li>
           <li>Derived closed-form pooling and separating wholesale-price policies and profit expressions across no-sharing and retailer-sharing regimes.</li>
@@ -46,7 +51,13 @@ document.write(`
           <span class="subheading-title">Monopoly Firm's Bilateral Game Under Ship-then-Shop (STS) and Traditional Business Models</span>
           <span>Sep. 2024 -- Aug. 2025</span>
         </div>
-        <div class="subsubheading">Advisors: <strong>Prof. Xiaobei Shen</strong> (Department of Management Science, USTC), <strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, USTC)</div>
+        <div class="subsubheading">
+          <div>Advisors:</div>
+          <div style="margin-left: 20px;">
+            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, USTC)</div>
+            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, USTC)</div>
+          </div>
+        </div>
         <ul>
           <li>Formulated a bilateral channel-selection game comparing a traditional channel with a Ship-then-Shop (STS) channel for a monopolistic firm, incorporating subscription, search, and return costs.</li>
           <li>Characterized the firm's optimal pricing and proved that showrooming does not arise in equilibrium, even after relaxing assumptions on consumer type awareness and the distributions of consumer types and return costs.</li>
@@ -57,11 +68,11 @@ document.write(`
         <h2>Honors and Awards</h2>
         <table width="100%">
           <tr>
-            <td>Excellent Student Scholarship--Silver (About top 20% in School of Mathematical Sciences)</td>
+            <td>Excellent Student Scholarship--Silver</td>
             <td align="right">2025</td>
           </tr>
           <tr>
-            <td>Zhang Zongzhi Sci-Tech Scholarship (About top 25% in School of Mathematical Sciences)</td>
+            <td>Zhang Zongzhi Sci-Tech Scholarship</td>
             <td align="right">2024</td>
           </tr>
           <tr>
@@ -69,7 +80,7 @@ document.write(`
             <td align="right">2023</td>
           </tr>
           <tr>
-            <td>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)</td>
+            <td>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B</td>
             <td align="right">2025</td>
           </tr>
         </table>
@@ -83,7 +94,7 @@ document.write(`
         </div>
         <div class="subsubheading">Instructor: <strong>Prof. Shuguang Zhang</strong></div>
         <ul>
-          <li>Compiled detailed LaTeX solutions and reference answers based on the textbook by Baiqi Miu and Weiping Zhang; maintained an open-source repository for students: <a href="https://github.com/Stardust-math/Reference-Answer" target="_blank">https://github.com/Stardust-math/Reference-Answer</a></li>
+          <li>Compiled detailed LaTeX solutions and reference answers based on the textbook by Baiqi Miu and Weiping Zhang; maintained an open-source repository for students: <a href="https://github.com/Stardust-math/Reference-Answer" target="_blank" style="color: lightblue;">https://github.com/Stardust-math/Reference-Answer</a></li>
         </ul>
       </div>
       
@@ -104,7 +115,7 @@ document.write(`
       </div>
     </div>
     
-    <a href="#" class="back-btn" id="resume-back-btn">
+    <a href="#" class="back-btn" id="resume-back-btn" style="color: lightblue;">
       <i class="fas fa-arrow-left"></i>
     </a>
   </div>
