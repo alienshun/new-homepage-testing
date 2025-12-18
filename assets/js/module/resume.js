@@ -54,8 +54,8 @@ document.write(`
         <div class="subsubheading">
           <div>Advisors:</div>
           <div style="margin-left: 20px;">
-            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, USTC)</div>
-            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, USTC)</div>
+            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, University of Science and Technology of China)</div>
+            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, University of Science and Technology of China)</div>
           </div>
         </div>
         <ul>
@@ -120,3 +120,4 @@ document.write(`
     </a>
   </div>
 `);
+
