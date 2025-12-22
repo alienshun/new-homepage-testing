@@ -75,6 +75,13 @@ document.write(`
           <div class="social-description">My code repositories and projects</div>
           <a href="https://github.com/Stardust-math" class="social-link" target="_blank">Profile</a>
         </div>
+
+        <div class="social-card">
+          <div class="social-icon"><i class="fab fa-steam"></i></div>
+          <div class="social-title">Steam</div>
+          <div class="social-description">My gaming profile and library</div>
+          <a href="https://steamcommunity.com/id/stardust-math/" class="social-link" target="_blank">Profile</a>
+        </div>
       </div>
     </div>
     
