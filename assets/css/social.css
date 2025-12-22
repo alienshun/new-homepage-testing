@@ -63,6 +63,17 @@
   transform: scale(1.2);
 }
 
+/* Steam 图标样式 (新增) */
+.social-card .fa-steam {
+  color: #5CA4D9;
+  transition: all 0.3s ease;
+}
+
+.social-card:hover .fa-steam {
+  color: #2A9FD6;
+  transform: scale(1.2);
+}
+
 /* Redesigned Bilibili SVG icon styling */
 .bilibili-icon {
   width: 2.5rem;
@@ -193,4 +204,13 @@ body.dark-mode .bilibili-icon svg {
 
 body.dark-mode .social-card:hover .bilibili-icon svg {
   fill: #0099CC;
+}
+
+/* Dark mode Steam icon */
+body.dark-mode .social-card .fa-steam {
+  color: #D8F5FF;
+}
+
+body.dark-mode .social-card:hover .fa-steam {
+  color: #2A9FD6;
 }
