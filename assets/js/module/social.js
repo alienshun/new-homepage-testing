@@ -58,17 +58,21 @@ document.write(`
         
         <!-- Bilibili card -->
         <div class="social-card">
-          <svg class="bilibili-icon" viewBox="0 0 24 24" width="2.5rem" height="2.5rem" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.99 6.5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6.01a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2.75l-1-3a.5.5 0 0 1 .33-.63l.94-.3a.5.5 0 0 1 .63.32l1.1 3.1h2.64l1.1-3.1a.5.5 0 0 1 .63-.32l.94.3a.5.5 0 0 1 .33.63l-1 3h2.75zm-2.74 2.5H8.75a1.5 1.5 0 0 0-1.5 1.5v3a1.5 1.5 0 0 0 1.5 1.5h6.5a1.5 1.5 0 0 0 1.5-1.5v-3a1.5 1.5 0 0 0-1.5-1.5z" fill="#3498db" stroke="#3498db" stroke-width="0.2"/>
-            <circle cx="10.5" cy="11.5" r="1" fill="#3498db"/>
-            <circle cx="13.5" cy="11.5" r="1" fill="#3498db"/>
-          </svg>
+          <div class="social-icon">
+            <svg class="bilibili-icon" viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.99 6.5a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6.01a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h2.75l-1-3a.5.5 0 0 1 .33-.63l.94-.3a.5.5 0 0 1 .63.32l1.1 3.1h2.64l1.1-3.1a.5.5 0 0 1 .63-.32l.94.3a.5.5 0 0 1 .33.63l-1 3h2.75zm-2.74 2.5H8.75a1.5 1.5 0 0 0-1.5 1.5v3a1.5 1.5 0 0 0 1.5 1.5h6.5a1.5 1.5 0 0 0 1.5-1.5v-3a1.5 1.5 0 0 0-1.5-1.5z"
+                    fill="currentColor" stroke="currentColor" stroke-width="0.2"/>
+              <circle cx="10.5" cy="11.5" r="1" fill="currentColor"/>
+              <circle cx="13.5" cy="11.5" r="1" fill="currentColor"/>
+            </svg>
+          </div>
           <div class="social-title">Bilibili</div>
           <div class="social-description">Chinese video platform for my content</div>
           <a href="https://space.bilibili.com/470364718" class="social-link" target="_blank">Channel</a>
         </div>
 
-        <!-- GitHub card -->
+
+<!-- GitHub card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-github"></i></div>
           <div class="social-title">GitHub</div>
