@@ -546,13 +546,27 @@ event-form-btn-cancel {
 }
   
 /* Time information styling */
-.time-info {
+/* Time information styling: show only on hover */
+.event-cell .time-info {
   position: absolute;
   font-size: 0.7em;
-  padding: 2px;
-  z-index: 0;
-  background: transparent;
+  padding: 2px 4px;
+  border-radius: 4px;
+  z-index: 20;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
 }
+
+.event-cell:hover .time-info,
+.event-cell:focus-within .time-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+.start-info { top: 2px; left: 2px; }
+.end-info { bottom: 2px; right: 2px; }
   
 .start-info {
   top: 2px;
@@ -989,8 +1003,8 @@ body.dark-mode .my-classes-table td {
   color: rgba(255, 255, 255, 0.9);
 }
 
-body.dark-mode .time-info {
-  color: rgba(210, 220, 230, 0.85);
+body.dark-mode .event-cell .time-info {
+  background: rgba(25, 30, 40, 0.55);
 }
 
 body.dark-mode .event-cell::before {
