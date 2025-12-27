@@ -64,6 +64,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1005.23 [2]</div>
                         <div class="course-name">English Reading & Writing I</div>
                         <div class="instructor">Jun Si</div>
                         <div class="location">2409</div>
@@ -74,6 +75,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">001356.02 [3]</div>
                         <div class="course-name">Fundation of Algebra</div>
                         <div class="instructor">Liming Ma</div>
                         <div class="location">5202</div>
@@ -85,6 +87,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH2002.02 [3]</div>
                         <div class="course-name">Fundations of Geometry</div>
                         <div class="instructor">Chen Zhao</div>
                         <div class="location">5202</div>
@@ -95,6 +98,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1003.25 [2]</div>
                         <div class="course-name">English Communication I</div>
                         <div class="instructor">Tao Wang</div>
                         <div class="location">2304</div>
@@ -105,6 +109,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1005.23 [2]</div>
                         <div class="course-name">English Reading & Writing I</div>
                         <div class="instructor">Jun Si</div>
                         <div class="location">2409</div>
@@ -115,6 +120,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1003.25 [2]</div>
                         <div class="course-name">English Communication I</div>
                         <div class="instructor">Tao Wang</div>
                         <div class="location">2304</div>
@@ -132,6 +138,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5102</div>
@@ -142,6 +149,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH2002.02 [3]</div>
                         <div class="course-name">Fundations of Geometry</div>
                         <div class="instructor">Chen Zhao</div>
                         <div class="location">5202</div>
@@ -152,6 +160,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5102</div>
@@ -162,6 +171,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">001356.02 [3]</div>
                         <div class="course-name">Fundations of Algebra</div>
                         <div class="instructor">Liming Ma</div>
                         <div class="location">5202</div>
@@ -172,6 +182,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5102</div>
@@ -182,6 +193,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5102</div>
@@ -192,6 +204,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5102</div>
@@ -221,6 +234,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PE00001.36 [1]</div>
                         <div class="course-name">Basic Sports</div>
                         <div class="instructor">Li Tang</div>
                         <div class="location">East Campus Track Field</div>
@@ -232,6 +246,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">CS1001A.11 [4]</div>
                         <div class="course-name">Computer Programming A</div>
                         <div class="instructor">Hu Si</div>
                         <div class="location">1101</div>
@@ -242,6 +257,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">MATH2801.01 [1]</div>
                         <div class="course-name">Elementary Seminar for Qiangji Class I</div>
                         <div class="instructor">Muxi Li</div>
                         <div class="location">5406</div>
@@ -252,6 +268,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">CS1001A.11 [4]</div>
                         <div class="course-name">Computer Programming A</div>
                         <div class="instructor">Hu Si</div>
                         <div class="location">1101</div>
@@ -262,6 +279,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PE00001.36 [1]</div>
                         <div class="course-name">Basic Sports</div>
                         <div class="instructor">Li Tang</div>
                         <div class="location">East Campus Track Field</div>
@@ -272,6 +290,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">CS1001A.11 [4]</div>
                         <div class="course-name">Computer Programming A</div>
                         <div class="instructor">Hu Si</div>
                         <div class="location">1101</div>
@@ -289,6 +308,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1012.06 [2.5]</div>
                         <div class="course-name">Ideology, Morality, and Rule of Law</div>
                         <div class="instructor">Hailong Liu, Xiao Han</div>
                         <div class="location">1302</div>
@@ -299,6 +319,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1014.08 [3]</div>
                         <div class="course-name">Introduction to Xi Jinping Thought on Socialism with Chinese Characteristics for a New Era</div>
                         <div class="instructor">Jinlong Li</div>
                         <div class="location">5104</div>
@@ -309,6 +330,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1001.01 [6]</div>
                         <div class="course-name">Mathematical Analysis (A1)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5201</div>
@@ -320,6 +342,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">HS1531.06 [2]</div>
                         <div class="course-name">Collegiate Psychology</div>
                         <div class="instructor">Xiaochu Zhang, Rujing Zha</div>
                         <div class="location">3C202</div>
@@ -330,6 +353,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1012.06 [2.5]</div>
                         <div class="course-name">Ideology, Morality, and Rule of Law</div>
                         <div class="instructor">Hailong Liu, Xiao Han</div>
                         <div class="location">1302</div>
@@ -340,6 +364,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">HS1531.06 [2]</div>
                         <div class="course-name">Collegiate Psychology</div>
                         <div class="instructor">Xiaochu Zhang</div>
                         <div class="location">3C202</div>
@@ -367,6 +392,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:05</div>
                       <div class="course-container">
+                        <div class="course-number">FS1001.48 [1]</div>
                         <div class="course-name">Freshman Seminar</div>
                         <div class="instructor">Xinan Ma</div>
                         <div class="location">1101</div>
@@ -377,6 +403,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">CS1001A.11 [4]</div>
                         <div class="course-name">Computer Programming A</div>
                         <div class="instructor">Hu Si</div>
                         <div class="location">West Student Activity Center (2F) Computer Lab</div>
@@ -414,6 +441,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -422,84 +450,98 @@ document.write(`
                 </thead>
                 <tbody>
                   <tr>
+                    <td>HS1531.06</td>
                     <td>Collegiate Psychology</td>
                     <td>Xiaochu Zhang; Rujing Zha</td>
                     <td>5(8-10), 2-3,6-15 week(s);<br> 7(8-10), 6 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>001356.02</td>
                     <td>Fundation of Algebra</td>
                     <td>Liming Ma</td>
                     <td>2(1-2), 2-4,6-15,17-18 week(s);<br> 4(3-4), 2-4,6-17 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>MATH2801.01</td>
                     <td>Elementary Seminar for Qiangji Class I</td>
                     <td>Muxi Li</td>
                     <td>4(6-7), 2-4,6-18 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>MATH2002.02</td>
                     <td>Fundations of Geometry</td>
                     <td>Chen Zhao</td>
                     <td>4(1-2), 2-4,6-17 week(s);<br> 2(3-4), 2-4,6-17 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>MATH1001.01</td>
                     <td>Mathematical Analysis (A1)</td>
                     <td>Guangbin Ren</td>
                     <td>1(3-4), 2-4,6-18 week(s);<br> 3(3-4), 2,4,6,7-18 week(s);<br> 5(3-4), 2-3,6-18 week(s);<br> 6(3-4), 5 week(s);<br> 7(3-4), 6 week(s);<br> 3(8-9), 3 week(s)</td>
                     <td>6</td>
                   </tr>
                   <tr>
+                    <td>MARX1012.06</td>
                     <td>Ideology, Morality, and Rule of Law</td>
                     <td>Hailong Liu; Xiao Han</td>
                     <td>1(8-10), 2-4,6-17 week(s);<br> 6(8-10), 5 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>CS1001A.11</td>
                     <td>Computer Programming A</td>
                     <td>Hu Si</td>
                     <td>3(6-7), 2-4,6-16 week(s);<br> 5(6-7), 2-3,6-16 week(s);<br> 7(6-7), 6 week(s);<br> 4(11-13), 6-16 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>MIL1002.05</td>
                     <td>Military Skills</td>
                     <td>Xuan Liu</td>
                     <td>Null</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>MIL1001.05</td>
                     <td>Military Theory</td>
                     <td>Yangyang Fan</td>
                     <td>Null</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>FS1001.48</td>
                     <td>Freshman Seminar</td>
                     <td>Xinan Ma</td>
                     <td>3(11-12), 2 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>MARX1014.08</td>
                     <td>Introduction to Xi Jinping Thought on Socialism with Chinese Characteristics for a New Era</td>
                     <td>Jinlong Li</td>
                     <td>2(8-10), 2-4,6-18 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>PE00001.36</td>
                     <td>Basic Sports</td>
                     <td>Li Tang</td>
                     <td>1(6-7), 2-4,6-18 week(s);<br> 6(6-7), 5 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>FL1003.25</td>
                     <td>English Communication I</td>
                     <td>Tao Wang</td>
                     <td>5(1-2), 2-3,6-18 week(s);<br> 7(1-2), 6 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>FL1005.23</td>
                     <td>English Reading & Writing I</td>
                     <td>Jun Si</td>
                     <td>1(1-2), 2-4,6-18 week(s);<br> 6(1-2), 5 week(s)</td>
@@ -537,6 +579,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1006.07 [2]</div>
                         <div class="course-name">English Reading & Writing II</div>
                         <div class="instructor">Cheng Chen</div>
                         <div class="location">2404</div>
@@ -547,6 +590,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1004.01 [5]</div>
                         <div class="course-name">Linear Algebra (A1)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5402</div>
@@ -558,12 +602,14 @@ document.write(`
                       <div class="time-info end-info">9:25</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1001B.09 [2.5]</div>
                           <div class="course-name">Mechanics B</div>
                           <div class="instructor">Rongde Lu, Yi Li</div>
                           <div class="location">3C102</div>
                           <div class="weeks">1-9, 11-12 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1001B.09 [1.5]</div>
                           <div class="course-name">Thermotics B</div>
                           <div class="instructor">Rongde Lu, Yi Li</div>
                           <div class="location">3C102</div>
@@ -576,6 +622,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1004.06 [2]</div>
                         <div class="course-name">English Communication II</div>
                         <div class="instructor">Tao Wang</div>
                         <div class="location">2303</div>
@@ -586,6 +633,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1001B.09 [2.5]</div>
                         <div class="course-name">Mechanics B</div>
                         <div class="instructor">Rongde Lu, Yi Li</div>
                         <div class="location">3C102</div>
@@ -596,6 +644,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">FL1004.06 [2]</div>
                         <div class="course-name">English Communication II</div>
                         <div class="instructor">Tao Wang</div>
                         <div class="location">2303</div>
@@ -613,6 +662,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1002.02 [6]</div>
                         <div class="course-name">Mathematical Analysis (A2)</div>
                         <div class="instructor">Luo Luo</div>
                         <div class="location">5201</div>
@@ -625,12 +675,14 @@ document.write(`
                       <div class="time-info end-info">11:20</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">MATH1002.02 [6]</div>
                           <div class="course-name">Mathematical Analysis (A2)</div>
                           <div class="instructor">Luo Luo</div>
                           <div class="location">1301</div>
                           <div class="weeks">16-17 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MATH1002.02</div>
                           <div class="course-name">Mathematical Analysis (A2)</div>
                           <div class="instructor">Luo Luo</div>
                           <div class="location">5201</div>
@@ -642,6 +694,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1004.01 [5]</div>
                         <div class="course-name">Linear Algebra (A1)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5402</div>
@@ -652,6 +705,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1002.02 [6]</div>
                         <div class="course-name">Mathematical Analysis (A2)</div>
                         <div class="instructor">Luo Luo</div>
                         <div class="location">5201</div>
@@ -662,6 +716,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1002.02</div>
                         <div class="course-name">Mathematical Analysis (A2)</div>
                         <div class="instructor">Luo Luo</div>
                         <div class="location">5201</div>
@@ -673,12 +728,14 @@ document.write(`
                       <div class="time-info end-info">11:20</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">MATH1004.01 [5]</div>
                           <div class="course-name">Linear Algebra (A1)</div>
                           <div class="instructor">Falai Chen</div>
                           <div class="location">5402</div>
                           <div class="weeks">10 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MATH1002.02 [6]</div>
                           <div class="course-name">Mathematical Analysis (A2)</div>
                           <div class="instructor">Luo Luo</div>
                           <div class="location">5201</div>
@@ -695,22 +752,14 @@ document.write(`
                     <td class="period-number">5</td>
                     <td></td>
                     <td></td>
-                    <td class="has-class event-cell">
-                      <div class="time-info start-info">11:25</div>
-                      <div class="time-info end-info">12:10</div>
-                      <div class="course-container">
-                        <div class="course-name">Linear Algebra (A1)</div>
-                        <div class="instructor">Falai Chen</div>
-                        <div class="location">5402</div>
-                        <div class="weeks">1-5, 7-9, 11-18 week(s)</div>
-                      </div>
-                    </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td class="has-class event-cell">
                       <div class="time-info start-info">11:25</div>
                       <div class="time-info end-info">12:10</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1004.01 [5]</div>
                         <div class="course-name">Linear Algebra (A1)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5402</div>
@@ -730,6 +779,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PE00130w.01 [1]</div>
                         <div class="course-name">Free Combat I</div>
                         <div class="instructor">Da Li</div>
                         <div class="location">Central Campus Gymnasium</div>
@@ -742,6 +792,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PE00130w.01 [1]</div>
                         <div class="course-name">Free Combat I</div>
                         <div class="instructor">Da Li</div>
                         <div class="location">Central Campus Gymnasium</div>
@@ -764,6 +815,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">FL1502.01 [1]</div>
                         <div class="course-name">English Oral Practice (Elementary)</div>
                         <div class="instructor">Thomas Yifang Xiao</div>
                         <div class="location">2204</div>
@@ -775,6 +827,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1010.11 [2.5]</div>
                         <div class="course-name">An Outline of Modern and Contemporary Chinese History</div>
                         <div class="instructor">Guimin Fan</div>
                         <div class="location">1101</div>
@@ -786,12 +839,14 @@ document.write(`
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1001B.09 [2.5]</div>
                           <div class="course-name">Mechanics B</div>
                           <div class="instructor">Rongde Lu, Yi Li</div>
                           <div class="location">3C102</div>
                           <div class="weeks">1-5, 7-9, 11-12 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1002B.09 [1.5]</div>
                           <div class="course-name">Thermotics B</div>
                           <div class="instructor">Rongde Lu, Yi Li</div>
                           <div class="location">3C102</div>
@@ -805,12 +860,14 @@ document.write(`
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-name">PHYS1001B.09 [2.5]</div>
                           <div class="course-name">Mechanics B</div>
                           <div class="instructor">Rongde Lu, Yi Li</div>
                           <div class="location">3C102</div>
                           <div class="weeks">7 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MARX1010.11 [2.5]</div>
                           <div class="course-name">An Outline of Modern and Contemporary Chinese History</div>
                           <div class="instructor">Guimin Fan</div>
                           <div class="location">1101</div>
@@ -834,6 +891,7 @@ document.write(`
                       <div class="time-info start-info">17:35</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-name">PHYS1002B.09 [1.5]</div>
                         <div class="course-name">Thermotics B</div>
                         <div class="instructor">Rongde Lu, Yi Li</div>
                         <div class="location">3C102</div>
@@ -845,6 +903,7 @@ document.write(`
                       <div class="time-info start-info">17:35</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1010.11 [2.5]</div>
                         <div class="course-name">An Outline of Modern and Contemporary Chinese History</div>
                         <div class="instructor">Guimin Fan</div>
                         <div class="location">1101</div>
@@ -863,6 +922,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:05</div>
                       <div class="course-container">
+                        <div class="course-number">ESS1513.01 [1]</div>
                         <div class="course-name">Meteorology and Photography</div>
                         <div class="instructor">Yunfei Fu</div>
                         <div class="location">5201</div>
@@ -873,6 +933,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1008B.08 [1]</div>
                         <div class="course-name">College Physics - Base Experimentation B</div>
                         <div class="instructor">……</div>
                         <div class="location">First Teaching Building</div>
@@ -883,6 +944,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">MATH2802.01 [1]</div>
                         <div class="course-name">Elementary Seminar for Qiangji Class II</div>
                         <div class="instructor">Muxi Li</div>
                         <div class="location">5307</div>
@@ -893,6 +955,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:05</div>
                       <div class="course-container">
+                        <div class="course-number">ESS1513.01 [1]</div>
                         <div class="course-name">Meteorology and Photography</div>
                         <div class="instructor">Yunfei Fu</div>
                         <div class="location">5201</div>
@@ -904,12 +967,14 @@ document.write(`
                       <div class="time-info end-info">21:55</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1008B.08 [1]</div>
                           <div class="course-name">College Physics - Base Experimentation B</div>
                           <div class="instructor">……</div>
                           <div class="location">First Teaching Building</div>
                           <div class="weeks">10 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MATH2802.01 [1]</div>
                           <div class="course-name">Elementary Seminar for Qiangji Class II</div>
                           <div class="instructor">Muxi Li</div>
                           <div class="location">5307</div>
@@ -932,6 +997,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">MATH2802.01 [1]</div>
                         <div class="course-name">Elementary Seminar for Qiangji Class II</div>
                         <div class="instructor">Muxi Li</div>
                         <div class="location">5307</div>
@@ -950,6 +1016,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -958,84 +1025,98 @@ document.write(`
                 </thead>
                 <tbody>
                   <tr>
+                    <td>PHYS1001B.09</td>
                     <td>Mechanics B</td>
                     <td>Rongde Lu; Yi Li</td>
                     <td>3(1-2), 1-9,11-12 week(s);<br> 5(8-9), 1-5,7-9,11-12 week(s);<br> 6(1-2), 11 week(s);<br> 7(8-9), 7 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>PHYS1002B.09</td>
                     <td>Thermotics B</td>
                     <td>Rongde Lu; Yi Li</td>
                     <td>3(1-2), 13-18 week(s);<br> 5(8-10), 13-18 week(s)</td>
                     <td>1.5</td>
                   </tr>
                   <tr>
+                    <td>MATH2802.01</td>
                     <td>Elementary Seminar for Qiangji Class II</td>
                     <td>Muxi Li</td>
                     <td>5(11-12), 2-4,7-9,11-18 week(s);<br> 5(13), 2,14,18 week(s);<br> 7(11-12), 7 week(s);<br> 7(13), 7 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>MATH1002.02</td>
                     <td>Mathematical Analysis (A2)</td>
                     <td>Luo Luo</td>
                     <td>1(3-4), 1-15,17-18 week(s);<br> 3(3-4), 1-9,11-18 week(s);<br> 5(3-4), 1-5,7-9,11-18 week(s);<br> 6(3-4), 11 week(s);<br> 7(3-4), 7 week(s)</td>
                     <td>6</td>
                   </tr>
                   <tr>
+                    <td>MARX1005.18</td>
                     <td>Practice on Chinese Important Thoughts</td>
                     <td>Null</td>
                     <td>Null</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>MARX1010.11</td>
                     <td>An Outline of Modern and Contemporary Chinese History</td>
                     <td>Guimin Fan</td>
                     <td>4(8-10), 1-5,7-9,11-16 week(s);<br> 7(8-10), 10 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>PE00130w.01</td>
                     <td>Free Combat I</td>
                     <td>Da Li</td>
                     <td>4(6-7), 1-5,7-9,11-18 week(s);<br> 7(6-7), 10 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>PHYS1008B.08</td>
                     <td>College Physics - Base Experimentation B</td>
                     <td>……</td>
                     <td>4(11-13), 3-5,7-9,11-16 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>FL1502.01</td>
                     <td>English Oral Practice (Elementary)</td>
                     <td>Thomas Tifang Xiao</td>
                     <td>2(8-9), 1-8 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>FL1004.06</td>
                     <td>English Communication II</td>
                     <td>Tao Wang</td>
                     <td>5(1-2), 1-5,7-9,11-18 week(s);<br> 7(1,2), 7 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>FL1006.07</td>
                     <td>English Reading & Writing II</td>
                     <td>Cheng Chen</td>
                     <td>1(1-2), 1-15,17-18 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>MATH1004.01</td>
                     <td>Linear Algebra (A1)</td>
                     <td>Falai Chen</td>
                     <td>2(1-2), 1-18 week(s);<br> 4(3-5), 1-5, 7-9, 11-18 week(s);<br> 7(3-5), 10 week(s)</td>
                     <td>5</td>
                   </tr>
                   <tr>
+                    <td>FS1001.6C</td>
                     <td>Freshman Seminar</td>
                     <td>Xinan Ma</td>
                     <td>Null</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>ESS1513.01</td>
                     <td>Meteorology and Photography</td>
                     <td>Yunfei Fu</td>
                     <td>3(11-12), 2-9,11,13 week(s);<br> 6(11-12), 11 week(s)</td>
@@ -1073,6 +1154,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1005.01 [4]</div>
                         <div class="course-name">Linear Algebra (A2)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5302</div>
@@ -1085,6 +1167,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1003.01 [4]</div>
                         <div class="course-name">Mathematical Analysis (A3)</div>
                         <div class="instructor">Dafeng Zuo</div>
                         <div class="location">5302</div>
@@ -1095,6 +1178,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1004B.02 [4]</div>
                         <div class="course-name">Electromagnetism B</div>
                         <div class="instructor">Chunkai Xu</div>
                         <div class="location">5303</div>
@@ -1105,6 +1189,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1005.01 [4]</div>
                         <div class="course-name">Linear Algebra (A2)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5302</div>
@@ -1125,6 +1210,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3012.02 [4]</div>
                         <div class="course-name">Introduction to Differential Equations</div>
                         <div class="instructor">Lifeng Zhao</div>
                         <div class="location">5302</div>
@@ -1135,6 +1221,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1003.01 [4]</div>
                         <div class="course-name">Mathematical Analysis (A3)</div>
                         <div class="instructor">Dafeng Zuo</div>
                         <div class="location">5302</div>
@@ -1145,6 +1232,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1005.01 [4]</div>
                         <div class="course-name">Linear Algebra (A2)</div>
                         <div class="instructor">Falai Chen</div>
                         <div class="location">5302</div>
@@ -1156,6 +1244,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">12:10</div>
                       <div class="course-container">
+                        <div class="course-number">STAT2002.06 [3]</div>
                         <div class="course-name">Probability Theory and Mathematical Statistics</div>
                         <div class="instructor">Shuguang Zhang</div>
                         <div class="location">5102</div>
@@ -1167,12 +1256,14 @@ document.write(`
                       <div class="time-info end-info">11:20</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">MATH1005.01 [4]</div>
                           <div class="course-name">Linear Algebra (A2)</div>
                           <div class="instructor">Falai Chen</div>
                           <div class="location">5302</div>
                           <div class="weeks">6 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MATH3012.02 [4]</div>
                           <div class="course-name">Introduction to Differential Equations</div>
                           <div class="instructor">Lifeng Zhao</div>
                           <div class="location">5302</div>
@@ -1184,6 +1275,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH1003.01 [4]</div>
                         <div class="course-name">Mathematical Analysis (A3)</div>
                         <div class="instructor">Dafeng Zuo</div>
                         <div class="location">5302</div>
@@ -1201,6 +1293,7 @@ document.write(`
                       <div class="time-info start-info">11:25</div>
                       <div class="time-info end-info">12:10</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3012.02 [4]</div>
                         <div class="course-name">Introduction to Differential Equations</div>
                         <div class="instructor">Lifeng Zhao</div>
                         <div class="location">5302</div>
@@ -1225,6 +1318,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1004B.02 [4]</div>
                         <div class="course-name">Electromagnetism B</div>
                         <div class="instructor">Chunkai Xu</div>
                         <div class="location">5303</div>
@@ -1235,6 +1329,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3012.02 [4]</div>
                         <div class="course-name">Introduction to Differential Equations</div>
                         <div class="instructor">Lifeng Zhao</div>
                         <div class="location">5302</div>
@@ -1246,6 +1341,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1004B.02 [4]</div>
                         <div class="course-name">Electromagnetism B</div>
                         <div class="instructor">Chunkai Xu</div>
                         <div class="location">5303</div>
@@ -1266,6 +1362,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">PE00127.06 [1]</div>
                         <div class="course-name">Swimming</div>
                         <div class="instructor">Wen Zeng</div>
                         <div class="location">Central Campus Swimming Pool</div>
@@ -1276,6 +1373,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">001361.01 [2]</div>
                         <div class="course-name">Mathematical Software</div>
                         <div class="instructor">Na Zhang</div>
                         <div class="location">5102</div>
@@ -1287,6 +1385,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1011.11 [2.5]</div>
                         <div class="course-name">Fundamentals of Marxism</div>
                         <div class="instructor">Xu Zhang</div>
                         <div class="location">5302</div>
@@ -1298,6 +1397,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">PE00127.06 [1]</div>
                         <div class="course-name">Swimming</div>
                         <div class="instructor">Wen Zeng</div>
                         <div class="location">Central Campus Swimming Pool</div>
@@ -1308,6 +1408,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">001361.01 [2]</div>
                         <div class="course-name">Mathematical Software</div>
                         <div class="instructor">Na Zhang</div>
                         <div class="location">5102</div>
@@ -1337,6 +1438,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1009B.04 [0.5]</div>
                         <div class="course-name">College Physics - Comprehensive Experimentation B</div>
                         <div class="instructor">……</div>
                         <div class="location">First Teaching Building</div>
@@ -1351,6 +1453,7 @@ document.write(`
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
                       <div class="course-container">
+                        <div class="course-number">PHYS1009B.04 [0.5]</div>
                         <div class="course-name">College Physics - Comprehensive Experimentation B</div>
                         <div class="instructor">……</div>
                         <div class="location">First Teaching Building</div>
@@ -1384,6 +1487,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -1392,54 +1496,63 @@ document.write(`
                 </thead>
                 <tbody>
                   <tr>
+                    <td>MARX1011.11</td>
                     <td>Fundamentals of Marxism</td>
                     <td>Xu Zhang</td>
                     <td>4(8-10), 1-4,6-16 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>PHYS1004B.02</td>
                     <td>Electromagnetism B</td>
                     <td>Chunkai Xu</td>
                     <td>5(1-2), 1-4,6-18 week(s);<br> 3(6-7), 1-4,6-17 week(s);<br> 6(6-7), 6 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>001361.01</td>
                     <td>Mathematical Software</td>
                     <td>Na Zhang</td>
                     <td>2(8-10), 1-2,4,6,7-14 week(s);<br> 7(8-10), 5 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>MATH1005.01</td>
                     <td>Linear Algebra (A2)</td>
                     <td>Falai Chen</td>
                     <td>1(1-2), 1-2,4-5,7-18 week(s);<br> 3(3-4), 1-4,6-17 week(s);<br> 6(1-2), 2 week(s);<br> 6(3,4), 6 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>MATH1003.01</td>
                     <td>Mathematical Analysis (A3)</td>
                     <td>Dafeng Zuo</td>
                     <td>4(1-2), 1-4,6-18 week(s);<br> 2(3-4), 1-2,4,6,7-18 week(s);<br> 7(3-4), 5 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>MATH3012.02</td>
                     <td>Introduction to Differential Equations</td>
                     <td>Lifeng Zhao</td>
                     <td>1(3-4), 1-2,4-5,7-15,17-18 week(s);<br> 4(6-7), 1-4,6-8,10-18 week(s);<br> 1(5), 14 week(s);<br> 6(3-4), 2 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>STAT2002.06</td>
                     <td>Probability Theory and Mathematical Statistics</td>
                     <td>Shuguang Zhang</td>
                     <td>5(3-5), 1-4,6-18 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>PE00127.06</td>
                     <td>Swimming</td>
                     <td>Wen Zeng</td>
                     <td>1(8-9) 1-2,4-5,7-18 week(s);<br> 6(8-9), 2 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>PHYS1009B.04</td>
                     <td>College Physics - Comprehensive Experimentation B</td>
                     <td>……</td>
                     <td>2(11-13), 4,6,7-18 week(s);<br> 7(11-13), 5 week(s)</td>
@@ -1478,6 +1591,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3008.01 [3]</div>
                         <div class="course-name">Complex Variable</div>
                         <div class="instructor">Simin Li</div>
                         <div class="location">5401</div>
@@ -1488,6 +1602,7 @@ document.write(`
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">001702.01 [4]</div>
                         <div class="course-name">Real Analysis (H)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5404</div>
@@ -1499,12 +1614,14 @@ document.write(`
                       <div class="time-info end-info">9:25</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1003B.14 [2]</div>
                           <div class="course-name">Optics B</div>
                           <div class="instructor">Peijun Yao</div>
                           <div class="location">5306</div>
                           <div class="weeks">1-8 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1005B.02 [2]</div>
                           <div class="course-name">Atomic Physics B</div>
                           <div class="instructor">Peijun Yao</div>
                           <div class="location">5306</div>
@@ -1529,6 +1646,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">12:10</div>
                       <div class="course-container">
+                        <div class="course-name">001702.01 [4]</div>
                         <div class="course-name">Real Analysis (H)</div>
                         <div class="instructor">Guangbin Ren</div>
                         <div class="location">5404</div>
@@ -1540,12 +1658,14 @@ document.write(`
                       <div class="time-info end-info">12:10</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1003B.14 [2]</div>
                           <div class="course-name">Optics B</div>
                           <div class="instructor">Peijun Yao</div>
                           <div class="location">5306</div>
                           <div class="weeks">1-8 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">PHYS1005B.02 [2]</div>
                           <div class="course-name">Atomic Physics B</div>
                           <div class="instructor">Peijun Yao</div>
                           <div class="location">5306</div>
@@ -1557,6 +1677,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">12:10</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3007.02 [3]</div>
                         <div class="course-name">Probability Theory</div>
                         <div class="instructor">Dangzheng Liu</div>
                         <div class="location">5401</div>
@@ -1567,6 +1688,7 @@ document.write(`
                       <div class="time-info start-info">9:45</div>
                       <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3008.01 [3]</div>
                         <div class="course-name">Complex Variable</div>
                         <div class="instructor">Simin Li</div>
                         <div class="location">5401</div>
@@ -1602,6 +1724,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">CS2502A.01 [4]</div>
                         <div class="course-name">Data Structures A</div>
                         <div class="instructor">Xiaohua Xu</div>
                         <div class="location">3B101</div>
@@ -1612,6 +1735,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3007.02 [3]</div>
                         <div class="course-name">Probability Theory</div>
                         <div class="instructor">Dangzheng Liu</div>
                         <div class="location">5401</div>
@@ -1623,6 +1747,7 @@ document.write(`
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3007.02 [3]</div>
                         <div class="course-name">Probability Theory</div>
                         <div class="instructor">Dangzheng Liu</div>
                         <div class="location">5401</div>
@@ -1643,6 +1768,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">011044.02 [1]</div>
                         <div class="course-name">Introduction to Computer Science</div>
                         <div class="instructor">Guangzhong Sun</div>
                         <div class="location">2121</div>
@@ -1654,12 +1780,14 @@ document.write(`
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">MARX1013.02 [2.5]</div>
                           <div class="course-name">Introduction to Mao Zedong Thought and Theoretical System of Socialism with Chinese Characteristics</div>
                           <div class="instructor">Dongqing Wang</div>
                           <div class="location">2121</div>
                           <div class="weeks">1-16 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">CS2502A.01 [4]</div>
                           <div class="course-name">Data Structures A</div>
                           <div class="instructor">Xiaohua Xu</div>
                           <div class="location">3B101</div>
@@ -1672,6 +1800,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">MNSC4004.01 [2]</div>
                         <div class="course-name">Social Media Analytics</div>
                         <div class="instructor">Xiaobei Shen, Qi Cheng</div>
                         <div class="location">2306</div>
@@ -1682,6 +1811,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">PE00139.06 [1]</div>
                         <div class="course-name">Outward Development II</div>
                         <div class="instructor">Yong Wang</div>
                         <div class="location">East Campus Track Field</div>
@@ -1694,12 +1824,14 @@ document.write(`
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-name">PE00139.06 [1]</div>
                           <div class="course-name">Outward Development II</div>
                           <div class="instructor">Yong Wang</div>
                           <div class="location">East Campus Track Field</div>
                           <div class="weeks">10 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">MATH3008.01 [3]</div>
                           <div class="course-name">Complex Variable</div>
                           <div class="instructor">Simin Li</div>
                           <div class="location">5401</div>
@@ -1720,6 +1852,7 @@ document.write(`
                       <div class="time-info start-info">17:35</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MARX1013.02 [2.5]</div>
                         <div class="course-name">Introduction to Mao Zedong Thought and Theoretical System of Socialism with Chinese Characteristics</div>
                         <div class="instructor">Dongqing Wang</div>
                         <div class="location">2121</div>
@@ -1731,6 +1864,7 @@ document.write(`
                       <div class="time-info start-info">17:35</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">MNSC4004.01 [2]</div>
                         <div class="course-name">Social Media Analytics</div>
                         <div class="instructor">Xiaobei Shen, Qi Cheng</div>
                         <div class="location">2306</div>
@@ -1784,6 +1918,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -1792,66 +1927,77 @@ document.write(`
                 </thead>
                 <tbody>
                   <tr>
+                    <td>MARX1013.02</td>
                     <td>Introduction to Mao Zedong Thought and Theoretical System of Socialism with Chinese Characteristics</td>
                     <td>Dongqing Wang</td>
                     <td>2(8-10), 1-16 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>PHYS1005B.02</td>
                     <td>Atomic Physics B</td>
                     <td>Peijun Yao</td>
                     <td>4(1-2), 9,11,12-16 week(s);<br> 2(3-5), 9-16 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>011044.02</td>
                     <td>Introduction to Computer Science</td>
                     <td>Guangzhong Sun</td>
                     <td>1(8-9), 1-10 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>PHYS1003B.14</td>
                     <td>Optics B</td>
                     <td>Peijun Yao</td>
                     <td>4(1-2), 1-8 week(s);<br> 2(3-5), 1-8 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>001702.01</td>
                     <td>Real Analysis (H)</td>
                     <td>Guangbin Ren</td>
                     <td>3(1-2), 1-16 week(s);<br> 1(3-5), 1-10,12-14,16 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
+                    <td>MATH3008.01</td>
                     <td>Complex Variable</td>
                     <td>Simin Li</td>
                     <td>2(1-2), 1-15 week(s);<br> 4(3-4), 1-9,11-15 week(s);<br> 7(8-9), 1-6,8-9,12-14 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>PE00139.06</td>
                     <td>Outward Development II</td>
                     <td>Yong Wang</td>
                     <td>5(8-9), 1-5,7-9,11-16 week(s);<br> 7(8-9), 10 week(s)</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>MATH3007.02</td>
                     <td>Probability Theory</td>
                     <td>Dangzheng Liu</td>
                     <td>3(3-5), 1-12 week(s);<br> 5(6-7), 1-5,7-9,11-12 week(s);<br> 7(6-7), 10 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>MNSC4004.01</td>
                     <td>Social Media Analytics</td>
                     <td>Xiaobei Shen; Qi Cheng</td>
                     <td>4(8-9), 1-9,11-16 week(s);<br> 4(10), 1-15 (odd) week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>MARX1503.01</td>
                     <td>History of Reform and Open-up</td>
                     <td>Hao Ding</td>
                     <td>Null</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>CS2502A.01</td>
                     <td>Data Structures A</td>
                     <td>Xiaohua Xu</td>
                     <td>4(6-7), 1-9,11-16 week(s);<br> 2(8-9), 1-16 week(s)</td>
@@ -1889,9 +2035,10 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">7:50</div>
+                      <div class="time-info end-info">9:25</div>
                       <div class="course-container">
+                        <div class="course-number">001108.01 [2]</div>
                         <div class="course-name">Mathematical Experiments</div>
                         <div class="instructor">Xinmao Wang</div>
                         <div class="location">2210</div>
@@ -1900,7 +2047,17 @@ document.write(`
                     </td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">7:50</div>
+                      <div class="time-info end-info">9:25</div>
+                      <div class="course-container">
+                        <div class="course-number">001108.01 [2]</div>
+                        <div class="course-name">Mathematical Experiments</div>
+                        <div class="instructor">Xinmao Wang</div>
+                        <div class="location">2210</div>
+                        <div class="weeks">5 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                   </tr>
                   <tr>
@@ -1910,14 +2067,14 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">3</td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3011.01 [3.5]</div>
                         <div class="course-name">Operations Research</div>
                         <div class="instructor">Shixiang Chen</div>
                         <div class="location">5504</div>
@@ -1925,16 +2082,18 @@ document.write(`
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">006196.01 [2.5]</div>
                           <div class="course-name">Fundamentals of Multimedia Technology</div>
                           <div class="instructor">Nenghai Yu</div>
                           <div class="location">GH-206</div>
                           <div class="weeks">1-7 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">006196.02</div>
                           <div class="course-name">Fundamentals of Multimedia Technology</div>
                           <div class="instructor">Xiaohui Chen</div>
                           <div class="location">GH-206</div>
@@ -1943,9 +2102,10 @@ document.write(`
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3011.01 [3.5]</div>
                         <div class="course-name">Operations Research</div>
                         <div class="instructor">Shixiang Chen</div>
                         <div class="location">5504</div>
@@ -1953,9 +2113,10 @@ document.write(`
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3004.01 [3]</div>
                         <div class="course-name">Functional Analysis</div>
                         <div class="instructor">Congwen Liu</div>
                         <div class="location">2121</div>
@@ -1963,22 +2124,41 @@ document.write(`
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
                       <div class="course-container">
+                        <div class="course-number">STAT2002.06 [3]</div>
                         <div class="course-name">Probability Theory and Mathematical Statistics (TA)</div>
                         <div class="instructor">Shuguang Zhang</div>
                         <div class="location">5104</div>
                         <div class="weeks">1-18 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
+                      <div class="course-container">
+                        <div class="course-number">MATH3011.01 [3.5]</div>
+                        <div class="course-name">Operations Research</div>
+                        <div class="instructor">Shixiang Chen</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-18 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
+                      <div class="course-container">
+                        <div class="course-number">MATH3004.01 [3]</div>
+                        <div class="course-name">Functional Analysis</div>
+                        <div class="instructor">Congwen Liu</div>
+                        <div class="location">2121</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td class="period-number">4</td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
@@ -1994,9 +2174,10 @@ document.write(`
                     <td rowspan="5" class="period-header">Afternoon</td>
                     <td class="period-number">6</td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">001108.01 [2]</div>
                         <div class="course-name">Mathematical Experiments</div>
                         <div class="instructor">Xinmao Wang</div>
                         <div class="location">2210</div>
@@ -2004,9 +2185,10 @@ document.write(`
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">MATH3004.01 [3]</div>
                         <div class="course-name">Functional Analysis</div>
                         <div class="instructor">Congwen Liu</div>
                         <div class="location">2121</div>
@@ -2015,9 +2197,10 @@ document.write(`
                     </td>
                     <td></td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
                       <div class="course-container">
+                        <div class="course-number">001125.01 [3]</div>
                         <div class="course-name">Numerical Algebra</div>
                         <div class="instructor">Yanzhi Song</div>
                         <div class="location">5504</div>
@@ -2026,11 +2209,20 @@ document.write(`
                     </td>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
+                      <div class="course-container">
+                        <div class="course-number">001125.01 [3]</div>
+                        <div class="course-name">Numerical Algebra</div>
+                        <div class="instructor">Yanzhi Song</div>
+                        <div class="location">5504</div>
+                        <div class="weeks">1-16 week(s)</div>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td class="period-number">7</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2041,6 +2233,7 @@ document.write(`
                       <div class="time-info start-info">15:55</div>
                       <div class="time-info end-info">17:30</div>
                       <div class="course-container">
+                        <div class="course-number">001125.01 [3]</div>
                         <div class="course-name">Numerical Algebra</div>
                         <div class="instructor">Yanzhi Song</div>
                         <div class="location">5504</div>
@@ -2049,8 +2242,9 @@ document.write(`
                     </td>
                     <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">HS1534.03 [2]</div>
                         <div class="course-name">Social Psychology</div>
                         <div class="instructor">Yingqiu Yang</div>
                         <div class="location">3A318</div>
@@ -2058,11 +2252,22 @@ document.write(`
                       </div>
                     </td>
                     <td></td>
-                    <td></td>
                     <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info end-info">18:20</div>
                       <div class="course-container">
+                        <div class="course-number">210706.01 [2]</div>
+                        <div class="course-name">Introduction to Brain and Cognition Science</div>
+                        <div class="instructor">Ao Li</div>
+                        <div class="location">GT-B212</div>
+                        <div class="weeks">1-12 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">18:20</div>
+                      <div class="course-container">
+                        <div class="course-number">HS1523.01 [2]</div>
                         <div class="course-name">The Beauty of Science</div>
                         <div class="instructor">Yan Liang</div>
                         <div class="location">5207</div>
@@ -2070,19 +2275,25 @@ document.write(`
                       </div>
                     </td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">18:20</div>
+                      <div class="course-container">
+                        <div class="course-number">210706.01 [2]</div>
+                        <div class="course-name">Introduction to Brain and Cognition Science</div>
+                        <div class="instructor">Ao Li</div>
+                        <div class="location">GT-B212</div>
+                        <div class="weeks">1-12 week(s)</div>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td class="period-number">9</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">10</td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2093,22 +2304,25 @@ document.write(`
                     <td rowspan="3" class="period-header">Evening</td>
                     <td class="period-number">11</td>
                     <td class="has-class event-cell" rowspan="2">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:05</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">HS1590.01 [2]]</div>
                           <div class="course-name">Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</div>
                           <div class="instructor">Shukun Tang</div>
                           <div class="location">2105</div>
                           <div class="weeks">1-2, 15-17 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">HS1590.01</div>
                           <div class="course-name">Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</div>
                           <div class="instructor">Bin Qian</div>
                           <div class="location">2105</div>
                           <div class="weeks">3-4 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">HS1590.01</div>
                           <div class="course-name">Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</div>
                           <div class="instructor">Biao Chen</div>
                           <div class="location">2105</div>
@@ -2119,16 +2333,18 @@ document.write(`
                     <td></td>
                     <td></td>
                     <td class="has-class event-cell" rowspan="3">
-                      <div class="time-info start-info">15:55</div>
-                      <div class="time-info end-info">17:30</div>
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
+                          <div class="course-number">AI3001.02 [4]</div>
                           <div class="course-name">Machine Learning A</div>
                           <div class="instructor">Zhihui Li</div>
                           <div class="location">GT-B112</div>
                           <div class="weeks">1-9 week(s)</div>
                         </div>
                         <div class="overlap-course">
+                          <div class="course-number">AI3001.02</div>
                           <div class="course-name">Machine Learning A</div>
                           <div class="instructor">Xiaojun Chang</div>
                           <div class="location">GT-B112</div>
@@ -2167,6 +2383,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -2175,87 +2392,115 @@ document.write(`
                 </thead>
                 <tbody>
                   <tr>
+                    <td>HS1523.01</td>
                     <td>The Beauty of Science</td>
                     <td>Yan Liang</td>
                     <td>5(8-10), 1-12 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>HS1590.01</td>
                     <td>Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</td>
                     <td>Shukun Tang; Bin Qian; Biao Chen</td>
                     <td>1(11-12), 1-4,10-11,15-17 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>006196.01</td>
                     <td>Fundamentals of Multimedia Technology</td>
                     <td>Nenghai Yu; Xiaohui Chen</td>
                     <td>2(3-5), 1-14</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
+                    <td>210706.01</td>
+                    <td>Introduction to Brain and Cognition Science</td>
+                    <td>Ao Li</td>
+                    <td>7(3-5), 1-12 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>MARX1006.05</td>
                     <td>Situation and Policy</td>
                     <td>Null</td>
                     <td>Null</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>HS1534.03</td>
                     <td>Social Psychology</td>
                     <td>Yingqiu Yang</td>
                     <td>2(8-10), 1-13 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td>Probability Theory and Mathematical Statistics (TA)</td>
-                    <td>Shuguang Zhang</td>
-                    <td>5(3-5), 1-18 week(s)</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
+                    <td>MATH3011.01</td>
                     <td>Operations Research</td>
                     <td>Shixiang Chen</td>
                     <td>1(3,4), 1-18 week(s);<br> 3(3-4), 1-18 week(s)</td>
                     <td>3.5</td>
                   </tr>
                   <tr>
+                    <td>001125.01</td>
                     <td>Numerical Algebra</td>
                     <td>Yanzhi Song</td>
                     <td>1(8-9), 1-16 week(s);<br> 4(6-7), 1-16 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>MATH3004.01</td>
                     <td>Functional Analysis</td>
                     <td>Congwen Liu</td>
                     <td>2(6-7), 1-15 week(s);<br> 4(3-4), 1-15 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
+                    <td>001108.01</td>
                     <td>Mathematical Experiments</td>
                     <td>Xinmao Wang</td>
                     <td>1(6-7), 1-10 week(s);<br> 3(1-2), 1-10 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td>AI3001.02</td>
                     <td>Machine Learning A</td>
                     <td>Xiaojun Chang; Zhihui Li</td>
                     <td>4(11-13), 1-18 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
-                    <td>Introduction to Artificial Intelligence (AI+X Micro-minor Foundation Course)</td>
-                    <td>Fei Wu</td>
-                    <td></td>
-                    <td>2</td>
+                    <td>STAT2002.06 [3]</td>
+                    <td>Probability Theory and Mathematical Statistics (TA)</td>
+                    <td>Shuguang Zhang</td>
+                    <td>5(3-5), 1-18 week(s)</td>
+                    <td>3</td>
                   </tr>
                   <tr>
-                    <td>Mathematical Foundations of AI (AI+X Micro-minor Foundation Course)</td>
-                    <td>Zhengxing Huang, Junfei Dai</td>
-                    <td></td>
+                    <td>EDUS1001.33</td>
+                    <td>Labor Education</td>
+                    <td>Yi Xie</td>
+                    <td>Null</td>
                     <td>1</td>
                   </tr>
                   <tr>
+                    <td>Null</td>
+                    <td>Introduction to Artificial Intelligence (AI+X Micro-minor Foundation Course)</td>
+                    <td>Fei Wu</td>
+                    <td>……</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
+                    <td>Mathematical Foundations of AI (AI+X Micro-minor Foundation Course)</td>
+                    <td>Zhengxing Huang, Junfei Dai</td>
+                    <td>……</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
                     <td>AI Ethics and Security (AI+X Micro-minor Foundation Course)</td>
                     <td>Ziqi Yang</td>
-                    <td></td>
+                    <td>……</td>
                     <td>1</td>
                   </tr>
                 </tbody>
@@ -2431,6 +2676,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -2612,6 +2858,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
@@ -2793,6 +3040,7 @@ document.write(`
               <table class="my-classes-table">
                 <thead>
                   <tr>
+                    <th>Course Number</th>
                     <th>Course Name</th>
                     <th>Instructor</th>
                     <th>Time</th>
