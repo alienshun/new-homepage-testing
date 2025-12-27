@@ -1,122 +1,27 @@
-/* Resume page styling (academic / understated) */
-#resume {
-  position: relative;
-  z-index: 1;
-  display: none;
-  padding: 40px 20px;
-  background:
-    linear-gradient(var(--page-overlay), var(--page-overlay)),
-    var(--paper-texture);
-  min-height: 100vh;
-  overflow-y: auto;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
+/* Dark mode theme tokens (keeps the same understated academic style) */
+body.dark-mode {
+  --bg: #0b1220;
+  --page-overlay: rgba(11, 18, 32, 0.96);
+  --surface: rgba(17, 26, 44, 0.96);
+  --surface-2: rgba(31, 41, 55, 0.92);
 
-#resume.visible {
-  display: block;
-  opacity: 1;
-}
+  --text: rgba(236, 242, 250, 0.96);
+  --muted: rgba(172, 185, 201, 0.95);
 
-.container {
-  max-width: 95%;
-  margin: 0 auto;
-  background: var(--surface);
-  padding: 30px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
+  --border: rgba(148, 163, 184, 0.26);
+  --accent: #8ab4f8;
+  --accent-strong: #5ea0ff;
+  --accent-weak: rgba(138, 180, 248, 0.18);
 
-.resume-heading {
-  font-size: 2.6em;
-  text-align: center;
-  color: var(--accent);
-  margin-bottom: 10px;
-}
+  --danger: #fb7185;
+  --danger-strong: #f43f5e;
 
-.contact-info {
-  text-align: center;
-  margin-bottom: 20px;
-  color: var(--muted);
-}
+  --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.35);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 
-h2 {
-  font-variant: small-caps;
-  color: var(--accent);
-  font-size: 1.35em;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid var(--border);
-}
+  /* Texture is usually too noisy in dark mode */
+  --paper-texture: none;
 
-.section {
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: var(--radius-sm);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.section:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
-.subheading {
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.03em;
-  margin-bottom: 8px;
-  gap: 12px;
-}
-
-.subheading-title {
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.subsubheading {
-  font-style: italic;
-  font-size: 0.95em;
-  color: var(--muted);
-}
-
-ul {
-  padding-left: 20px;
-  margin: 0;
-  list-style-type: disc;
-}
-
-li {
-  font-size: 1em;
+  background-color: var(--bg);
   color: var(--text);
-  line-height: 1.55;
-  margin-bottom: 8px;
-}
-
-ul li::marker { font-size: 0.6em; }
-
-.highlight {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-a.download-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.95em;
-  margin-top: 8px;
-  display: inline-block;
-}
-
-a.download-link:hover {
-  text-decoration: underline;
-}
-
-.email + .email {
-  margin-left: 20px;
 }
