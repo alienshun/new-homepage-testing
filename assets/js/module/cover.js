@@ -9,9 +9,9 @@ document.write(`
     <div id="slogan">${getRandomSlogan()}</div>
     <div class="cover-buttons">
       <button id="about-btn">About</button>
+      <button id="schedule-btn">Schedule</button>
       <button id="social-btn">Social</button>
       <button id="toolkit-btn">Toolkit</button>
-      <button id="schedule-btn">Schedule</button>
     </div>
   </div>
 `);
