@@ -1004,7 +1004,7 @@ body.dark-mode .my-classes-table td {
 }
 
 body.dark-mode .event-cell .time-info {
-  background: rgba(25, 30, 40, 0.55);
+  background: transparent !important;
 }
 
 body.dark-mode .event-cell::before {
