@@ -78,15 +78,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Initialize theme
   initializeTheme();
+
+  // Initialize top navigation
+  initTopNav();
       
   // Initialize toolkit filters
   initToolkitFilter();
       
   // Initialize schedule page
   initSchedulePage();
-      
-  // Initialize clock toggle
-  initClockToggle();
       
   // Initialize weeks selection
   initWeeksSelection();
@@ -120,11 +120,61 @@ const resumeBackBtn = document.getElementById("resume-back-btn");
 const socialBackBtn = document.getElementById("social-back-btn");
 const toolkitBackBtn = document.getElementById("toolkit-back-btn");
 const scheduleBackBtn = document.getElementById("schedule-back-btn");
+const topNav = document.getElementById("top-nav");
+const topToggleBtn = document.getElementById("top-toggle-btn");
+const topBackBtn = document.getElementById("top-back-btn");
+const topClock = document.getElementById("top-clock");
+
 
 let coverHidden = false;
 let currentPage = null;
 let calendar; // FullCalendar instance
 let currentWeek = new Date(); // Timetable current week
+
+// Top navigation helpers
+function showTopNav() {
+  document.body.classList.add("nav-visible");
+}
+
+function hideTopNav() {
+  document.body.classList.remove("nav-visible");
+}
+
+function setTopNavActive(pageKey) {
+  const links = document.querySelectorAll(".top-nav-link");
+  links.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.page === pageKey);
+  });
+}
+
+function initTopNav() {
+  if (!topNav) return;
+
+  // Theme toggle on the left
+  if (topToggleBtn) {
+    topToggleBtn.addEventListener("click", toggleTheme);
+  }
+
+  // Back button on the right
+  if (topBackBtn) {
+    topBackBtn.addEventListener("click", () => {
+      backToCover();
+    });
+  }
+
+  // Center navigation buttons
+  const links = topNav.querySelectorAll(".top-nav-link");
+  links.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const target = btn.dataset.page;
+      if (!target) return;
+      showPage(target);
+    });
+  });
+
+  // Hidden on cover by default
+  hideTopNav();
+}
     
 // Animated display of cover elements
 function showCoverElements() {
@@ -141,56 +191,72 @@ function showCoverElements() {
     toolkitBtn.classList.add("visible");
     scheduleBtn.classList.add("visible");
   }, 1200);
-
-  // Hide clock toggle initially
-  const clockToggle = document.querySelector('.clock-toggle');
-  if (clockToggle) clockToggle.style.display = 'none';
 }
 
 // Transition from cover to content page
 function showPage(page) {
   if (coverHidden && currentPage === page) return;
-      
-  cover.classList.add("hidden");
-  setTimeout(() => {
-    cover.style.display = "none";
-    document.body.style.overflow = "auto";
-    coverHidden = true;
-        
+
+  // If we are already inside a content page, switch immediately (no cover animation)
+  if (coverHidden) {
     // Hide all pages
     resume.classList.remove("visible");
     social.classList.remove("visible");
     toolkit.classList.remove("visible");
     schedule.classList.remove("visible");
-        
+
     // Show selected page
     if (page === 'resume') {
       resume.classList.add("visible");
       currentPage = 'resume';
-      setTimeout(() => {
-        resumeBackBtn.classList.add("visible");
-      }, 500);
     } else if (page === 'social') {
       social.classList.add("visible");
       currentPage = 'social';
-      setTimeout(() => {
-        socialBackBtn.classList.add("visible");
-      }, 500);
     } else if (page === 'toolkit') {
       toolkit.classList.add("visible");
       currentPage = 'toolkit';
-      setTimeout(() => {
-        toolkitBackBtn.classList.add("visible");
-      }, 500);
     } else if (page === 'schedule') {
       schedule.classList.add("visible");
       currentPage = 'schedule';
-      setTimeout(() => {
-        scheduleBackBtn.classList.add("visible");
-      }, 500);
     }
+
+    showTopNav();
+    setTopNavActive(currentPage);
+    return;
+  }
+
+  // Transition from cover to content page
+  cover.classList.add("hidden");
+  setTimeout(() => {
+    cover.style.display = "none";
+    document.body.style.overflow = "auto";
+    coverHidden = true;
+
+    // Hide all pages
+    resume.classList.remove("visible");
+    social.classList.remove("visible");
+    toolkit.classList.remove("visible");
+    schedule.classList.remove("visible");
+
+    // Show selected page
+    if (page === 'resume') {
+      resume.classList.add("visible");
+      currentPage = 'resume';
+    } else if (page === 'social') {
+      social.classList.add("visible");
+      currentPage = 'social';
+    } else if (page === 'toolkit') {
+      toolkit.classList.add("visible");
+      currentPage = 'toolkit';
+    } else if (page === 'schedule') {
+      schedule.classList.add("visible");
+      currentPage = 'schedule';
+    }
+
+    showTopNav();
+    setTopNavActive(currentPage);
   }, 1500);
-      
+
   avatarFrame.classList.remove("visible");
   name.classList.remove("visible");
   slogan.classList.remove("visible");
@@ -198,18 +264,20 @@ function showPage(page) {
   socialBtn.classList.remove("visible");
   toolkitBtn.classList.remove("visible");
   scheduleBtn.classList.remove("visible");
-
-  // Show clock toggle
-  const clockToggle = document.querySelector('.clock-toggle');
-  if (clockToggle) clockToggle.style.display = 'flex';
 }
+
 
 // Return to cover page
 function backToCover() {
   coverHidden = false;
+  currentPage = null;
+
+  hideTopNav();
+  setTopNavActive("");
+
   cover.style.display = "flex";
   cover.classList.remove("hidden");
-      
+
   // Hide all pages and back buttons
   resume.classList.remove("visible");
   social.classList.remove("visible");
@@ -219,7 +287,7 @@ function backToCover() {
   socialBackBtn.classList.remove("visible");
   toolkitBackBtn.classList.remove("visible");
   scheduleBackBtn.classList.remove("visible");
-      
+
   // Reset cover elements
   setTimeout(() => {
     cover.classList.add("visible");
@@ -227,8 +295,10 @@ function backToCover() {
   }, 100);
 }
 
+
 // Initialize on page load
 window.addEventListener("load", () => {
+  hideTopNav();
   cover.classList.add("visible");
   showCoverElements();
   startClock();
@@ -276,7 +346,7 @@ function updateToggleBtnIcon() {
   const isDark = document.body.classList.contains("dark-mode");
       
   // Update all theme toggle buttons
-  const toggleButtons = document.querySelectorAll("#toggle-btn, #toggle-btn-social, #toggle-btn-toolkit, #toggle-btn-schedule");
+  const toggleButtons = document.querySelectorAll("#toggle-btn, #toggle-btn-social, #toggle-btn-toolkit, #toggle-btn-schedule, #top-toggle-btn");
       
   toggleButtons.forEach(button => {
     const icon = button.querySelector("i");
@@ -303,6 +373,7 @@ function updateClock() {
   const mins = now.getMinutes().toString().padStart(2, "0");
   const timeString = `${timeZoneName} ${hours}:${mins}`;
       
+  if (topClock) topClock.textContent = timeString;
   clock.textContent = timeString;
   clockSocial.textContent = timeString;
   clockToolkit.textContent = timeString;
@@ -312,6 +383,7 @@ function updateClock() {
 // Clock toggle functionality
 function initClockToggle() {
   const clockToggle = document.getElementById("clock-toggle");
+  if (!clockToggle) return;
   const clocks = [clock, clockSocial, clockToolkit, clockSchedule];
       
   // Initial state: clocks expanded
