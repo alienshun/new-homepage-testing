@@ -1,0 +1,154 @@
+/* Top fixed navigation bar (content pages only; hidden on cover) */
+:root{
+  --topnav-height: 72px;
+}
+
+.top-nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--topnav-height);
+  z-index: 12000;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(var(--page-overlay), var(--page-overlay)),
+    var(--paper-texture);
+  border-bottom: 1px solid var(--border);
+
+  /* Soft “academic” glass */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+body.nav-visible .top-nav{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.top-nav .top-nav-inner{
+  width: min(1100px, 100%);
+  margin: 0 auto;
+  padding: 0 18px;
+
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 14px;
+}
+
+.top-nav-left,
+.top-nav-right{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-nav-left{ justify-content: flex-start; }
+.top-nav-right{ justify-content: flex-end; }
+
+.top-nav-center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.top-nav-icon{
+  width: 40px;
+  height: 40px;
+  border-radius: 24px;
+  cursor: pointer;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.top-nav-icon:hover{
+  transform: translateY(-1px);
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+.top-nav-icon:active{
+  transform: translateY(0);
+}
+
+.top-nav-clock{
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 26px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  font-size: 0.95em;
+
+  user-select: none;
+}
+
+.top-nav-link{
+  position: relative;
+
+  padding: 10px 18px;
+  border-radius: 14px;
+
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  font-size: 0.98em;
+
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.top-nav-link:hover{
+  transform: translateY(-1px);
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+.top-nav-link.active{
+  background: var(--accent-weak);
+  border-color: rgba(31, 78, 121, 0.35);
+  color: var(--accent-strong);
+}
+
+/* Hide legacy fixed controls (moved into top-nav) */
+#toggle-btn, #toggle-btn-social, #toggle-btn-toolkit, #toggle-btn-schedule,
+#clock, #clock-social, #clock-toolkit, #clock-schedule,
+#resume-back-btn, #social-back-btn, #toolkit-back-btn, #schedule-back-btn,
+.clock-toggle{
+  display: none !important;
+}
