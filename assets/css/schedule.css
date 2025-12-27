@@ -441,6 +441,14 @@ event-form-btn-cancel {
   background: rgba(202, 231, 255, 0.35);
   box-shadow: inset 0 0 8px rgba(0,0,0,0.15);
 }
+
+.course-number {
+  font-weight: 700;
+  font-size: 0.75em;
+  margin-bottom: 2px;
+  color: rgba(60, 80, 110, 0.95);
+  letter-spacing: 0.3px;
+}
   
 .course-name {
   font-weight: bold;
@@ -944,7 +952,11 @@ body.dark-mode #ustc-timetable .period-header {
 body.dark-mode #ustc-timetable td.has-class {
   background: rgba(216, 245, 255, 0.2) !important;
 }
-  
+
+body.dark-mode .course-number {
+  color: rgba(245, 250, 255, 0.92);
+}
+
 body.dark-mode .course-name {
   color: rgba(245, 250, 255, 0.97);
 }
