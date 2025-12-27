@@ -3,7 +3,7 @@
   position: relative;
   z-index: 1;
   display: none;
-  padding: 40px 20px;
+  padding: calc(var(--topnav-height, 72px) + 40px) 20px 40px;
   background:
     linear-gradient(var(--page-overlay), var(--page-overlay)),
     var(--paper-texture);
