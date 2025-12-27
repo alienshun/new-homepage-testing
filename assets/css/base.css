@@ -7,10 +7,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  background-color: rgba(245, 247, 252, 0.92);
+  background-color: var(--surface);
   transition: opacity 0.5s ease;
 }
-        
+
 /* Preloading technique for critical images */
 .preload-images {
   position: absolute;
@@ -18,16 +18,67 @@
   height: 0;
   overflow: hidden;
 }
-    
+
+/* =========================================================
+   Academic / understated theme tokens
+   ========================================================= */
+:root {
+  /* Layout */
+  --radius: 12px;
+  --radius-sm: 10px;
+
+  /* Surfaces */
+  --bg: #f6f7f9;
+  --page-overlay: rgba(246, 247, 249, 0.96);
+  --surface: rgba(255, 255, 255, 0.98);
+  --surface-2: rgba(240, 243, 247, 0.98);
+
+  /* Typography */
+  --text: rgba(31, 41, 55, 0.94);
+  --muted: rgba(102, 112, 133, 0.92);
+
+  /* Lines / accents */
+  --border: rgba(217, 222, 231, 0.95);
+  --accent: #1f4e79;          /* muted academic navy */
+  --accent-strong: #163a5c;
+  --accent-weak: rgba(31, 78, 121, 0.12);
+
+  /* Status */
+  --danger: #b42318;
+  --danger-strong: #8a1c13;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 10px rgba(17, 24, 39, 0.06);
+  --shadow: 0 8px 22px rgba(17, 24, 39, 0.08);
+
+  /* Texture */
+  --paper-texture: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+}
+
 /* Base document styling */
-body, html {
+html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: "Georgia", serif;
-  transition: background-color 0.5s ease, color 0.5s ease;
-  background-color: rgba(248, 250, 253, 0.98);
-  color: rgba(40, 45, 55, 0.92);
+  line-height: 1.55;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Sensible defaults */
+* { box-sizing: border-box; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+a:hover { color: var(--accent-strong); text-decoration: underline; }
+
+::selection {
+  background: var(--accent-weak);
 }
 
 @font-face {
