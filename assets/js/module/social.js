@@ -130,11 +130,6 @@ document.write(`
             src="https://stardust.goatcounter.com?hideui=1"
           ></iframe>
         </div>
-
-        <div class="stats-note">
-          If the dashboard is blank: set GoatCounter “Dashboard viewable by” to public,
-          and add stardust-math.github.io to “Sites that can embed GoatCounter”.
-        </div>
       </div>
 
       <div class="stats-sep"></div>
