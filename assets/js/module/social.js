@@ -201,3 +201,41 @@ document.write(`
   // Run once after load to avoid timing issues with document.write rendering
   window.addEventListener("load", initStats, { once: true });
 })();
+
+function socialIsVisible() {
+  const social = document.getElementById("social");
+  if (!social) return false;
+  if (social.classList.contains("visible")) return true;
+  const cs = window.getComputedStyle(social);
+  return cs.display !== "none" && social.offsetWidth > 0 && social.offsetHeight > 0;
+}
+
+function bumpClustrMapsLayout() {
+  const bump = () => window.dispatchEvent(new Event("resize"));
+  requestAnimationFrame(bump);
+  setTimeout(bump, 200);
+  setTimeout(bump, 600);
+}
+
+function armClustrMapsLoad() {
+  const social = document.getElementById("social");
+  if (!social) return;
+
+  const tryLoad = () => {
+    if (!socialIsVisible()) return false;
+    bumpClustrMapsLayout();
+    return true;
+  };
+
+  if (tryLoad()) return;
+
+  const obs = new MutationObserver(() => {
+    if (tryLoad()) obs.disconnect();
+  });
+  obs.observe(social, { attributes: true, attributeFilter: ["class", "style"] });
+}
+
+window.addEventListener("load", () => {
+  armClustrMapsLoad();
+  setTimeout(() => window.dispatchEvent(new Event("resize")), 800);
+}, { once: true });
