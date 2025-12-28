@@ -135,7 +135,7 @@ body.nav-visible .top-nav{
   justify-content: center;
 
   background: transparent;
-  border: 1px solid var(--border);
+  border: transparent;
 
   font-family: var(--topnav-font);
   font-weight: 600;
