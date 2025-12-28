@@ -252,3 +252,18 @@
   .goatcounter-frame { height: 680px; }
   .stats-metric-value { font-size: 1.55rem; }
 }
+
+/* ClustrMaps: bigger + responsive */
+.clustrmaps-wrap{
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.clustrmaps-wrap #clustrmaps-widget,
+.clustrmaps-wrap a,
+.clustrmaps-wrap img{
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+}
