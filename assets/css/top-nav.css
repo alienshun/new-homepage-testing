@@ -141,9 +141,11 @@ body.nav-visible .top-nav{
 
 .top-nav-link.active{
   background: var(--accent-weak);
-  border-color: rgba(31, 78, 121, 0.35);
+  border-color: var(--accent); /* fallback */
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
   color: var(--accent-strong);
 }
+
 
 /* Hide legacy fixed controls (moved into top-nav) */
 #toggle-btn, #toggle-btn-social, #toggle-btn-toolkit, #toggle-btn-schedule,
