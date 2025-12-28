@@ -1,22 +1,4 @@
 /* Social page specific styling (academic / understated) */
-#social {
-  position: relative;
-  z-index: 1;
-  display: none;
-  padding: 40px 20px;
-  background:
-    linear-gradient(var(--page-overlay), var(--page-overlay)),
-    var(--paper-texture);
-  min-height: 100vh;
-  overflow-y: auto;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-#social.visible {
-  display: block;
-  opacity: 1;
-}
 
 .social-heading {
   font-size: 2.4em;
