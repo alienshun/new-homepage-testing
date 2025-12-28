@@ -1,22 +1,33 @@
-/* Dark mode theme tokens (keeps the same understated academic style) */
+/* Dark mode theme tokens (academic / understated)
+   Goal: keep the same "paper + ink" vibe as light mode, without neon blues.
+   Uses neutral slates + the same navy hue family for accents.
+*/
 body.dark-mode {
-  --bg: #0b1220;
-  --page-overlay: rgba(11, 18, 32, 0.96);
-  --surface: rgba(17, 26, 44, 0.96);
-  --surface-2: rgba(31, 41, 55, 0.92);
+  /* Let the browser render native controls (inputs, scrollbars) in dark style */
+  color-scheme: dark;
 
-  --text: rgba(236, 242, 250, 0.96);
-  --muted: rgba(172, 185, 201, 0.95);
+  /* Surfaces (neutral, not overly blue) */
+  --bg: #101318;
+  --page-overlay: rgba(16, 19, 24, 0.94);
+  --surface: rgba(23, 28, 36, 0.96);
+  --surface-2: rgba(30, 36, 46, 0.94);
 
-  --border: rgba(148, 163, 184, 0.26);
-  --accent: #8ab4f8;
-  --accent-strong: #5ea0ff;
-  --accent-weak: rgba(138, 180, 248, 0.18);
+  /* Typography */
+  --text: rgba(232, 237, 244, 0.96);
+  --muted: rgba(165, 174, 188, 0.92);
 
-  --danger: #fb7185;
-  --danger-strong: #f43f5e;
+  /* Lines / accents (same hue family as light mode: muted academic navy) */
+  --border: rgba(211, 219, 232, 0.18);
+  --accent: #8fb3d6;
+  --accent-strong: #b4d2ec;
+  --accent-weak: rgba(143, 179, 214, 0.16);
 
-  --shadow-sm: 0 4px 18px rgba(0, 0, 0, 0.35);
+  /* Status */
+  --danger: #e46a5e;
+  --danger-strong: #ff7c6f;
+
+  /* Shadows (slightly stronger than light mode, but still soft) */
+  --shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.35);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 
   /* Texture is usually too noisy in dark mode */
@@ -24,4 +35,42 @@ body.dark-mode {
 
   background-color: var(--bg);
   color: var(--text);
+}
+
+/* -----------------------------------------
+   Dark-mode polish for a few "non-token" areas
+   ----------------------------------------- */
+
+/* FullCalendar (prevents default bright/bluish panel in dark mode) */
+body.dark-mode .fc {
+  --fc-page-bg-color: var(--surface);
+  --fc-neutral-bg-color: var(--surface-2);
+  --fc-neutral-text-color: var(--text);
+  --fc-border-color: var(--border);
+
+  --fc-button-text-color: var(--text);
+  --fc-button-bg-color: var(--surface);
+  --fc-button-border-color: var(--border);
+  --fc-button-hover-bg-color: var(--surface-2);
+  --fc-button-hover-border-color: var(--border);
+  --fc-button-active-bg-color: var(--accent);
+  --fc-button-active-border-color: var(--accent);
+
+  --fc-event-bg-color: var(--accent-weak);
+  --fc-event-border-color: var(--border);
+  --fc-event-text-color: var(--text);
+
+  --fc-today-bg-color: var(--accent-weak);
+}
+
+/* Slightly tone down very colorful toolkit icon blocks in dark mode */
+body.dark-mode .toolkit-icon {
+  filter: saturate(0.55) contrast(0.95) brightness(0.90);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Make hover highlight feel "academic" instead of flashy */
+body.dark-mode a:hover {
+  text-decoration-color: rgba(180, 210, 236, 0.55);
 }
