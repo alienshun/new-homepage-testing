@@ -146,7 +146,7 @@ document.write(`
         </div>
         <div class="clustrmaps-wrap">
           <script type="text/javascript" id="clustrmaps"
-            src="https://clustrmaps.com/map_v2.js?d=JNHdsUlsgFLa9cs6tAwlyymTImAhTyfKPyc_DG4MDX8&cl=ffffff&w=1000">
+            src="https://clustrmaps.com/map_v2.js?d=JNHdsUlsgFLa9cs6tAwlyymTImAhTyfKPyc_DG4MDX8&cl=ffffff&w=800">
           </script>
         </div>
       </div>
