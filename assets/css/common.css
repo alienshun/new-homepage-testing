@@ -3,7 +3,7 @@
   position: relative;
   z-index: 1;
   display: none;
-  padding: calc(var(--topnav-height, 72px) + 40px) 20px 40px;
+  padding: calc(var(--topnav-height, 72px) + 40px) 20px 40px !important;
   background:
     linear-gradient(var(--page-overlay), var(--page-overlay)),
     var(--paper-texture);
@@ -173,6 +173,7 @@ a.download-link:hover {
   transform: translateY(0);
 }
 
+/* Toggle button icon */
 #toggle-btn span, #toggle-btn-social span, #toggle-btn-toolkit span, #toggle-btn-schedule span {
   position: relative;
   z-index: 1;
@@ -290,4 +291,38 @@ a.download-link:hover {
   transform: translateY(-3px);
   background: var(--surface-2);
   box-shadow: var(--shadow);
+}
+
+/* Back button icon */
+.back-btn i {
+  pointer-events: none;
+}
+
+/* Ensure buttons do not show on cover page */
+#cover #toggle-btn,
+#cover #clock,
+#cover #resume-back-btn,
+#cover #social-back-btn,
+#cover #toolkit-back-btn,
+#cover #schedule-back-btn,
+#cover .clock-toggle {
+  display: none;
+}
+
+/* =========================================
+   Responsiveness
+   ========================================= */
+@media (max-width: 768px) {
+  .container {
+    max-width: 98%;
+    padding: 20px;
+  }
+  .resume-heading { font-size: 2.1em; }
+  h2 { font-size: 1.2em; }
+
+  #clock, #clock-social, #clock-toolkit, #clock-schedule {
+    left: 60px;
+    padding: 10px 14px;
+    font-size: 0.95em;
+  }
 }
