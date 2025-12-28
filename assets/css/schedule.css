@@ -1,23 +1,5 @@
 /* schedule.css */
 /* Schedule Page Styles (academic / understated) */
-#schedule {
-  position: relative;
-  z-index: 1;
-  display: none;
-  padding: 40px 20px;
-  background:
-    linear-gradient(var(--page-overlay), var(--page-overlay)),
-    var(--paper-texture);
-  min-height: 100vh;
-  overflow-y: auto;
-  opacity: 0;
-  transition: opacity 0.8s ease-in-out;
-}
-
-#schedule.visible {
-  display: block;
-  opacity: 1;
-}
 
 .schedule-heading {
   font-size: 2.4em;
@@ -806,9 +788,6 @@
   font-family: "Georgia", serif;
   font-variant: small-caps;
 }
-
-/* Clock initial state */
-.clock-toggle { display: none; }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
