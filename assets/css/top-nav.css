@@ -9,6 +9,10 @@
   --topnav-item-height: 40px;
   --topnav-item-radius: 10px;
 
+  --topnav-center-gap: 16px;
+
+  --topnav-side-shift: 6px;
+
   /* B: classic serif (publisher / paper-like) */
   --topnav-font: "Palatino Linotype", Palatino, "Book Antiqua",
                  "Times New Roman", "Noto Serif", "Songti SC", STSong, "SimSun", serif;
@@ -67,6 +71,11 @@ body.nav-visible .top-nav{
   gap: 10px;
 }
 
+.top-nav-left,
+.top-nav-right{
+  transform: translateX(var(--topnav-side-shift));
+}
+
 .top-nav-left{ justify-content: flex-start; }
 .top-nav-right{ justify-content: flex-end; }
 
@@ -74,7 +83,8 @@ body.nav-visible .top-nav{
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+
+  gap: var(--topnav-center-gap);
 }
 
 /* ---------- Icon buttons ---------- */
@@ -156,7 +166,7 @@ body.nav-visible .top-nav{
 
   font-family: var(--topnav-font);
   font-weight: 600;
-  font-size: 0.98em;
+  font-size: 1.10em;
   font-variant: small-caps;
   letter-spacing: 0.45px;
 
@@ -220,7 +230,13 @@ body.nav-visible .top-nav{
 
 /* ---------- Responsive ---------- */
 @media (max-width: 560px){
-  :root{ --topnav-height: 60px; }
+  :root{
+    --topnav-height: 60px;
+
+    --topnav-center-gap: 10px;
+
+    --topnav-side-shift: 3px;
+  }
 
   .top-nav .top-nav-inner{
     padding: 0 12px;
