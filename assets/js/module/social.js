@@ -4,9 +4,11 @@ document.write(`
       <span><i class="fas fa-sun"></i></span>
     </button>
     <div id="clock-social">GMT+8 00:00</div>
+
+    <!-- ============ Social links container ============ -->
     <div class="container">
       <div class="social-heading">Connect With Me</div>
-      
+
       <div class="social-grid">
         <!-- YouTube card -->
         <div class="social-card">
@@ -19,7 +21,7 @@ document.write(`
             <a href="https://www.youtube.com/@JinghaoChen-Stardust" class="social-link" target="_blank">Handle</a>
           </div>
         </div>
-        
+
         <!-- TikTok card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-tiktok"></i></div>
@@ -31,7 +33,7 @@ document.write(`
             <a href="https://v.douyin.com/PzIS6mSXJGY/" class="social-link" target="_blank">Link 2</a>
           </div>
         </div>
-        
+
         <!-- REDnote (Xiaohongshu) card -->
         <div class="social-card">
           <div class="social-icon"><i class="fas fa-book"></i></div>
@@ -39,7 +41,7 @@ document.write(`
           <div class="social-description">Chinese lifestyle and knowledge sharing</div>
           <a href="https://www.xiaohongshu.com/user/profile/64c696da000000000b005093" class="social-link" target="_blank">Profile</a>
         </div>
-        
+
         <!-- Quora card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-quora"></i></div>
@@ -47,7 +49,7 @@ document.write(`
           <div class="social-description">Various questions and answers</div>
           <a href="https://www.quora.com/profile/Jinghao-Chen-11/" class="social-link" target="_blank">Profile</a>
         </div>
-        
+
         <!-- Twitter/X card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-twitter"></i></div>
@@ -55,7 +57,7 @@ document.write(`
           <div class="social-description">Notes and sharing</div>
           <a href="https://x.com/stardust_math" class="social-link" target="_blank">Profile</a>
         </div>
-        
+
         <!-- Bilibili card -->
         <div class="social-card">
           <div class="social-icon">
@@ -71,8 +73,7 @@ document.write(`
           <a href="https://space.bilibili.com/470364718" class="social-link" target="_blank">Channel</a>
         </div>
 
-
-<!-- GitHub card -->
+        <!-- GitHub card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-github"></i></div>
           <div class="social-title">GitHub</div>
@@ -80,6 +81,7 @@ document.write(`
           <a href="https://github.com/Stardust-math" class="social-link" target="_blank">Profile</a>
         </div>
 
+        <!-- Steam card -->
         <div class="social-card">
           <div class="social-icon"><i class="fab fa-steam"></i></div>
           <div class="social-title">Steam</div>
@@ -88,7 +90,88 @@ document.write(`
         </div>
       </div>
     </div>
-    
+
+    <!-- ============ Website statistics container (NEW) ============ -->
+    <div class="container stats-container">
+      <div class="social-heading stats-heading">Website Statistics</div>
+      <div class="stats-subtitle">
+        Free analytics powered by GoatCounter & ClustrMaps.
+      </div>
+
+      <div class="stats-grid">
+        <!-- Counters + IP -->
+        <div class="social-card stats-card">
+          <div class="social-icon"><i class="fas fa-chart-simple"></i></div>
+          <div class="social-title">Quick Stats</div>
+          <div class="social-description">Auto-updated when you open this Social page.</div>
+
+          <div class="stats-kv">
+            <div class="stats-kv-label">Total site views</div>
+            <div class="stats-kv-value" id="gc-total-count">—</div>
+          </div>
+
+          <div class="stats-kv">
+            <div class="stats-kv-label">This page views</div>
+            <div class="stats-kv-value" id="gc-page-count">—</div>
+          </div>
+
+          <div class="stats-kv">
+            <div class="stats-kv-label">Last 30 days (site)</div>
+            <div class="stats-kv-value" id="gc-month-count">—</div>
+          </div>
+
+          <div class="stats-kv">
+            <div class="stats-kv-label">Your public IP</div>
+            <div class="stats-kv-value stats-mono" id="visitor-ip">—</div>
+          </div>
+
+          <button class="stats-refresh" id="stats-refresh-btn" type="button">
+            <i class="fas fa-rotate-right"></i>&nbsp;Refresh
+          </button>
+
+          <div class="stats-note">
+            Notes: counts may be cached; IP only shows your own address (privacy-friendly).
+          </div>
+        </div>
+
+        <!-- GoatCounter dashboard (line chart) -->
+        <div class="social-card stats-card">
+          <div class="social-icon"><i class="fas fa-wave-square"></i></div>
+          <div class="social-title">Traffic Trend</div>
+          <div class="social-description">Embedded GoatCounter dashboard (line chart + pages).</div>
+
+          <div class="stats-iframe-wrap">
+            <iframe
+              id="goatcounter-dashboard"
+              title="GoatCounter Dashboard"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              allowfullscreen
+            ></iframe>
+          </div>
+
+          <div class="stats-note">
+            If this panel shows “Sign in”, enable public dashboard or add an access token (see steps).
+          </div>
+        </div>
+
+        <!-- Visitor map -->
+        <div class="social-card stats-card stats-card-wide">
+          <div class="social-icon"><i class="fas fa-globe"></i></div>
+          <div class="social-title">Visitor Map</div>
+          <div class="social-description">ClustrMaps globe / map visualization.</div>
+
+          <div id="clustrmaps-holder" class="clustrmaps-holder">
+            <div class="stats-placeholder">Loading map…</div>
+          </div>
+
+          <div class="stats-note">
+            Map loads only when Social page becomes visible (prevents layout bugs).
+          </div>
+        </div>
+      </div>
+    </div>
+
     <a href="#" class="back-btn" id="social-back-btn">
       <i class="fas fa-arrow-left"></i>
     </a>
