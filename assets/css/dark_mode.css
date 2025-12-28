@@ -7,10 +7,16 @@ body.dark-mode {
   color-scheme: dark;
 
   /* Surfaces (neutral, not overly blue) */
-  --bg: #101318;
-  --page-overlay: rgba(16, 19, 24, 0.94);
+  --bg: #0f1217;
+  --page-overlay: rgba(15, 18, 23, 0.92);
   --surface: rgba(23, 28, 36, 0.96);
   --surface-2: rgba(30, 36, 46, 0.94);
+  --surface-3: rgba(18, 22, 30, 0.96);
+
+  /* Navigation (separate layer) */
+  --nav-surface: rgba(18, 22, 30, 0.90);
+  --nav-border: rgba(211, 219, 232, 0.14);
+  --nav-shadow: 0 14px 40px rgba(0, 0, 0, 0.60);
 
   /* Typography */
   --text: rgba(232, 237, 244, 0.96);
@@ -27,8 +33,10 @@ body.dark-mode {
   --danger-strong: #ff7c6f;
 
   /* Shadows (slightly stronger than light mode, but still soft) */
+  --shadow-xs: 0 2px 10px rgba(0, 0, 0, 0.28);
   --shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.35);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 55px rgba(0, 0, 0, 0.60);
 
   /* Texture is usually too noisy in dark mode */
   --paper-texture: none;
