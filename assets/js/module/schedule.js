@@ -10,15 +10,15 @@ document.write(`
       <div class="schedule-container">
         <div class="schedule-switcher">
           <!-- My Timetable button -->
-          <button class="schedule-switch-btn" data-view="my-timetable">My Timetable</button>
+          <button class="schedule-switch-btn active" data-view="my-timetable">My Timetable</button>
           <!-- USTC Timetable button -->
           <button class="schedule-switch-btn" data-view="ustc-timetable">USTC Timetable</button>
           <button class="schedule-switch-btn" data-view="timetable">Timetable</button>
-          <button class="schedule-switch-btn active" data-view="calendar">Calendar</button>
+          <button class="schedule-switch-btn" data-view="calendar">Calendar</button>
         </div>
         
         <!-- My Timetable Section -->
-        <div class="schedule-section" id="my-timetable-section">
+        <div class="schedule-section active" id="my-timetable-section">
           <div class="semester-selector">
             <div class="semester-dropdown">
               <button class="semester-dropdown-btn">
@@ -3280,7 +3280,7 @@ document.write(`
         </div>
 
         <!-- Calendar Section -->
-        <div class="schedule-section active" id="calendar-section">
+        <div class="schedule-section" id="calendar-section">
           <div id="calendar-container"></div>
           <button class="add-event-btn" id="add-calendar-event">
             <i class="fas fa-plus"></i> Add Event
