@@ -260,10 +260,26 @@
   margin: 0 auto;
 }
 
-.clustrmaps-wrap #clustrmaps-widget,
-.clustrmaps-wrap a,
-.clustrmaps-wrap img{
-  width: 100% !important;
-  height: auto !important;
-  display: block;
+.clustrmaps-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  padding: 10px;
+
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.clustrmaps-wrap a{
+  display: inline-block;
 }
