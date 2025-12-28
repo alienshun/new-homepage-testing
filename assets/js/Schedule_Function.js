@@ -129,6 +129,9 @@ const topClock = document.getElementById("top-clock");
 let coverHidden = false;
 let currentPage = null;
 let calendar; // FullCalendar instance
+let calendarRendered = false;
+let calendarPendingView = null;
+let calendarRefreshPending = false;
 let currentWeek = new Date(); // Timetable current week
 
 // Top navigation helpers
@@ -218,6 +221,8 @@ function showPage(page) {
     } else if (page === 'schedule') {
       schedule.classList.add("visible");
       currentPage = 'schedule';
+      setScheduleView('my-timetable');
+      setScheduleView('my-timetable');
     }
 
     showTopNav();
@@ -251,6 +256,7 @@ function showPage(page) {
     } else if (page === 'schedule') {
       schedule.classList.add("visible");
       currentPage = 'schedule';
+      setScheduleView('my-timetable');
     }
 
     showTopNav();
@@ -485,54 +491,60 @@ function initToolkitFilter() {
 }
     
 // Schedule Page Functionality
-function initSchedulePage() {
-  // Initialize calendar and timetable
-  initCalendar();
-  initTimetable();
-      
-  // View switching functionality
+function setScheduleView(view) {
   const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
   const calendarSection = document.getElementById('calendar-section');
   const timetableSection = document.getElementById('timetable-section');
   const ustcTimetableSection = document.getElementById('ustc-timetable-section');
   const myTimetableSection = document.getElementById('my-timetable-section');
-      
-  // Set My Timetable as default view
-  viewSwitchers.forEach(b => b.classList.remove('active'));
-  document.querySelector('.schedule-switch-btn[data-view="my-timetable"]').classList.add('active');
-  calendarSection.classList.remove('active');
-  timetableSection.classList.remove('active');
-  ustcTimetableSection.classList.remove('active');
-  myTimetableSection.classList.add('active');
-      
+
+  // Update switcher active state
+  viewSwitchers.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === view);
+  });
+
+  // Update section visibility
+  [calendarSection, timetableSection, ustcTimetableSection, myTimetableSection].forEach(sec => {
+    if (sec) sec.classList.remove('active');
+  });
+
+  if (view === 'calendar') {
+    if (calendarSection) calendarSection.classList.add('active');
+    // Default to month view, and render only when visible
+    // Wait a tick to let the section become visible before rendering
+    setTimeout(() => ensureCalendarRendered('dayGridMonth'), 0);
+  } else if (view === 'timetable') {
+    if (timetableSection) timetableSection.classList.add('active');
+    updateTimetable();
+  } else if (view === 'ustc-timetable') {
+    if (ustcTimetableSection) ustcTimetableSection.classList.add('active');
+    renderUstcTimetable();
+  } else {
+    // my-timetable (default)
+    if (myTimetableSection) myTimetableSection.classList.add('active');
+  }
+}
+
+
+function initSchedulePage() {
+  // Initialize calendar and timetable
+  initCalendar();
+  initTimetable();
+
+  // View switching functionality
+  const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
+
+  // Default: show My Timetable when entering Schedule
+  setScheduleView('my-timetable');
+
   viewSwitchers.forEach(btn => {
     btn.addEventListener('click', () => {
-      viewSwitchers.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-          
       const view = btn.dataset.view;
-      calendarSection.classList.remove('active');
-      timetableSection.classList.remove('active');
-      ustcTimetableSection.classList.remove('active');
-      myTimetableSection.classList.remove('active');
-          
-      if (view === 'calendar') {
-        calendarSection.classList.add('active');
-        // Ensure calendar always shows day view when activated
-        calendar.changeView('dayGridDay');
-      } else if (view === 'timetable') {
-        timetableSection.classList.add('active');
-        updateTimetable();
-      } else if (view === 'ustc-timetable') {
-        ustcTimetableSection.classList.add('active');
-        renderUstcTimetable();
-      } else if (view === 'my-timetable') {
-        myTimetableSection.classList.add('active');
-      }
+      setScheduleView(view);
     });
   });
-      
-  // Event modal functionality
+
+// Event modal functionality
   const eventModal = document.getElementById('event-modal');
   const eventModalClose = document.getElementById('event-modal-close');
   const eventCancelBtn = document.getElementById('event-cancel-btn');
@@ -645,11 +657,63 @@ function initSemesterSelection() {
 }
     
 // Calendar functionality
+// Calendar render guard: FullCalendar must NOT render inside a hidden container
+// (otherwise it may appear as a blank/blue block when shown later).
+function isCalendarVisible() {
+  const schedulePage = document.getElementById('schedule');
+  const calendarSection = document.getElementById('calendar-section');
+  const container = document.getElementById('calendar-container');
+  return !!(
+    schedulePage &&
+    schedulePage.classList.contains('visible') &&
+    calendarSection &&
+    calendarSection.classList.contains('active') &&
+    container &&
+    container.offsetParent !== null
+  );
+}
+
+function ensureCalendarRendered(forceView) {
+  if (!calendar) return;
+
+  if (forceView) {
+    calendarPendingView = forceView;
+  }
+
+  // Defer rendering until the calendar is actually visible
+  if (!isCalendarVisible()) {
+    calendarRefreshPending = true;
+    return;
+  }
+
+  if (!calendarRendered) {
+    calendar.render();
+    calendarRendered = true;
+  } else if (calendarRefreshPending) {
+    // Rerender deferred updates once visible
+    calendar.render();
+  }
+
+  if (calendarPendingView) {
+    calendar.changeView(calendarPendingView);
+    calendarPendingView = null;
+  }
+
+  calendarRefreshPending = false;
+
+  // Defer size recalculation to the next frame
+  setTimeout(() => {
+    try { calendar.updateSize(); } catch (e) {}
+  }, 0);
+}
+
+
+
 function initCalendar() {
   const calendarEl = document.getElementById('calendar-container');
       
   calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridDay',  // Default to day view
+    initialView: 'dayGridMonth',  // Default to month view
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -668,7 +732,7 @@ function initCalendar() {
     }
   });
       
-  calendar.render();
+  // Render is deferred until the Calendar section becomes visible
   updateCalendarTheme();
 }
     
@@ -1378,7 +1442,8 @@ function saveGeneralEvent() {
   if (type === 'calendar') {
     calendar.removeAllEvents();
     calendar.addEventSource(events);
-    calendar.render();
+    calendarRefreshPending = true;
+    ensureCalendarRendered();
   } else {
     updateTimetable();
   }
@@ -1422,7 +1487,8 @@ function deleteGeneralEvent() {
   if (type === 'calendar') {
     calendar.removeAllEvents();
     calendar.addEventSource(events);
-    calendar.render();
+    calendarRefreshPending = true;
+    ensureCalendarRendered();
   } else {
     updateTimetable();
   }
