@@ -1,6 +1,19 @@
-/* Top fixed navigation bar (content pages only; hidden on cover) */
+/* Top fixed navigation bar (academic / classic serif) */
 :root{
   --topnav-height: 72px;
+  --topnav-max-width: 1120px;
+
+  --topnav-pad-x: 18px;
+  --topnav-gap: 12px;
+
+  --topnav-item-height: 40px;
+  --topnav-item-radius: 10px;
+
+  /* B: classic serif (publisher / paper-like) */
+  --topnav-font: "Palatino Linotype", Palatino, "Book Antiqua",
+                 "Times New Roman", "Noto Serif", "Songti SC", STSong, "SimSun", serif;
+
+  --topnav-focus-ring: 0 0 0 3px var(--accent-weak);
 }
 
 .top-nav{
@@ -19,14 +32,15 @@
     var(--paper-texture);
   border-bottom: 1px solid var(--border);
 
-  /* Soft “academic” glass */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  box-shadow: 0 10px 26px rgba(17, 24, 39, 0.04);
 
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-6px);
   pointer-events: none;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
 body.nav-visible .top-nav{
@@ -36,14 +50,14 @@ body.nav-visible .top-nav{
 }
 
 .top-nav .top-nav-inner{
-  width: min(1100px, 100%);
+  width: min(var(--topnav-max-width), 100%);
   margin: 0 auto;
-  padding: 0 18px;
+  padding: 0 var(--topnav-pad-x);
 
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 14px;
+  gap: var(--topnav-gap);
 }
 
 .top-nav-left,
@@ -63,89 +77,163 @@ body.nav-visible .top-nav{
   gap: 10px;
 }
 
+/* ---------- Icon buttons ---------- */
 .top-nav-icon{
-  width: 40px;
-  height: 40px;
-  border-radius: 24px;
-  cursor: pointer;
+  width: var(--topnav-item-height);
+  height: var(--topnav-item-height);
+  border-radius: var(--topnav-item-radius);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  background: var(--surface);
-  color: var(--accent);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  user-select: none;
 
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid transparent;
+  box-shadow: none;
+
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .top-nav-icon:hover{
-  transform: translateY(-1px);
   background: var(--surface-2);
-  box-shadow: var(--shadow);
+  border-color: var(--border);
+  color: var(--accent-strong);
 }
 
 .top-nav-icon:active{
-  transform: translateY(0);
+  background: var(--surface);
 }
 
+.top-nav-icon:focus-visible{
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow: var(--topnav-focus-ring);
+}
+
+/* ---------- Clock ---------- */
 .top-nav-clock{
-  height: 40px;
-  padding: 0 14px;
-  border-radius: 26px;
+  height: var(--topnav-item-height);
+  padding: 0 12px;
+  border-radius: var(--topnav-item-radius);
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  background: var(--surface);
-  color: var(--text);
+  background: transparent;
   border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
 
-  font-family: Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.6px;
+  font-family: var(--topnav-font);
+  font-weight: 600;
   font-size: 0.95em;
+  letter-spacing: 0.2px;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
 
   user-select: none;
 }
 
+/* ---------- Nav links (underline indicates state) ---------- */
 .top-nav-link{
   position: relative;
 
-  padding: 10px 18px;
-  border-radius: 14px;
+  height: var(--topnav-item-height);
+  padding: 0 14px;
+  border-radius: var(--topnav-item-radius);
 
-  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
   color: var(--text);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow-sm);
+  border: 1px solid transparent;
+  box-shadow: none;
 
-  font-family: Arial, sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.4px;
+  font-family: var(--topnav-font);
+  font-weight: 600;
   font-size: 0.98em;
+  font-variant: small-caps;
+  letter-spacing: 0.45px;
 
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  -webkit-appearance: none;
+  appearance: none;
+
+  transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.top-nav-link::after{
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 6px;
+  height: 2px;
+
+  background: transparent;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.18s ease, background-color 0.18s ease;
 }
 
 .top-nav-link:hover{
-  transform: translateY(-1px);
   background: var(--surface-2);
-  box-shadow: var(--shadow);
-}
-
-.top-nav-link.active{
-  background: var(--accent-weak);
-  border-color: var(--accent); /* fallback */
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  border-color: var(--border);
   color: var(--accent-strong);
 }
 
+.top-nav-link:hover::after{
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: scaleX(1);
+}
+
+.top-nav-link:active{
+  background: var(--surface);
+}
+
+.top-nav-link:focus-visible{
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  box-shadow: var(--topnav-focus-ring);
+}
+
+.top-nav-link.active{
+  background: transparent;
+  border-color: transparent;
+  color: var(--accent-strong);
+}
+
+.top-nav-link.active::after{
+  background: var(--accent);
+  transform: scaleX(1);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  .top-nav, .top-nav-link, .top-nav-icon{ transition: none !important; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 560px){
+  :root{ --topnav-height: 60px; }
+
+  .top-nav .top-nav-inner{
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .top-nav-link{
+    padding: 0 10px;
+    letter-spacing: 0.35px;
+  }
+
+  .top-nav-clock{ display: none; }
+}
 
 /* Hide legacy fixed controls (moved into top-nav) */
 #toggle-btn, #toggle-btn-social, #toggle-btn-toolkit, #toggle-btn-schedule,
