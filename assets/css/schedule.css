@@ -554,8 +554,8 @@
   border-radius: 6px;
   z-index: 20;
 
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  background: transparent;
+  border: transparent;
   color: var(--text);
 
   opacity: 0;
