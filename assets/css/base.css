@@ -64,16 +64,24 @@
 }
 
 /* Base document styling */
-html, body {
+html {
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+body {
+  min-height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
   font-family: "Georgia", serif;
   line-height: 1.55;
   background-color: var(--bg);
   color: var(--text);
   transition: background-color 0.35s ease, color 0.35s ease;
 }
+
 
 /* Sensible defaults */
 * { box-sizing: border-box; }
