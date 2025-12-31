@@ -247,6 +247,8 @@
   max-width: 400px;
   transform: scale(0.9);
   transform-origin: center;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
 .event-modal-close {
