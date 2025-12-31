@@ -3057,6 +3057,10 @@ document.write(`
 
         <!-- USTC Timetable Section -->
         <div class="schedule-section" id="ustc-timetable-section">
+          <div class="ustc-local-save-hint">
+            <i class="fas fa-info-circle"></i>
+            <span>Your actions will be saved locally, allowing you to pick up right where you left off next time.</span>
+          </div>
           <div class="timetable-container">
             <table class="timetable" id="ustc-timetable">
               <thead>
