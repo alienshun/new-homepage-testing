@@ -1054,8 +1054,10 @@ function renderUstcTimetable() {
       courses.forEach(course => {
         const courseDiv = document.createElement('div');
         courseDiv.className = 'overlap-course';
+        const credit = (course.credits ?? '').toString().trim();
+        const creditHtml = credit ? ` <span class="credits-inline">[${credit}]</span>` : '';
         courseDiv.innerHTML = `
-          <div class="course-name">${course.courseName}</div>
+          <div class="course-name">${course.courseName}${creditHtml}</div>
           <div class="instructor">${course.instructor}</div>
           <div class="location">${course.location}</div>
           <div class="weeks">${formatWeeks(course.weeks)}</div>
