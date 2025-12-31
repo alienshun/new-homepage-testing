@@ -58,6 +58,28 @@
 .schedule-section { display: none; }
 .schedule-section.active { display: block; }
 
+/* USTC Timetable - local save hint (shown only in USTC Timetable section) */
+.ustc-local-save-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px auto 16px;
+  padding: 10px 14px;
+  max-width: 980px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 0.95em;
+  box-shadow: var(--shadow-sm);
+}
+
+.ustc-local-save-hint i {
+  color: var(--accent);
+}
+
+
 /* =========================
    Calendar Styles (FullCalendar)
    ========================= */
@@ -481,6 +503,15 @@
   margin-bottom: 2px;
   color: var(--accent);
 }
+
+.credits-inline {
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--text);
+  margin-left: 6px;
+  letter-spacing: 0.2px;
+}
+
 
 .instructor {
   font-size: 0.8em;
