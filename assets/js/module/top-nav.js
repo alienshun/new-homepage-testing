@@ -1,4 +1,6 @@
-document.write(`
+(function () {
+  const mount = document.getElementById("mount-top-nav") || document.body;
+  mount.insertAdjacentHTML("beforeend", `
   <nav id="top-nav" class="top-nav" aria-label="Primary navigation">
     <div class="top-nav-inner">
       <div class="top-nav-left">
@@ -23,3 +25,4 @@ document.write(`
     </div>
   </nav>
 `);
+})();
