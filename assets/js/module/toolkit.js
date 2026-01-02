@@ -1,4 +1,6 @@
-document.write(`
+(function () {
+  const mount = document.getElementById("mount-toolkit") || document.body;
+  mount.insertAdjacentHTML("beforeend", `
   <div id="toolkit">
     <button id="toggle-btn-toolkit">
       <span><i class="fas fa-sun"></i></span>
@@ -604,3 +606,4 @@ document.write(`
     </a>
   </div>
 `);
+})();
