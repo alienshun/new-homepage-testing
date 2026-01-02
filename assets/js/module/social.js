@@ -1,4 +1,6 @@
-document.write(`
+(function () {
+  const mount = document.getElementById("mount-social") || document.body;
+  mount.insertAdjacentHTML("beforeend", `
   <div id="social">
     <button id="toggle-btn-social">
       <span><i class="fas fa-sun"></i></span>
@@ -140,9 +142,7 @@ document.write(`
           <span>Visitor Map</span>
         </div>
         <div class="clustrmaps-wrap">
-          <script type="text/javascript" id="clustrmaps"
-            src="https://clustrmaps.com/map_v2.js?d=JNHdsUlsgFLa9cs6tAwlyymTImAhTyfKPyc_DG4MDX8&cl=ffffff&w=800">
-          </script>
+          <div id="clustrmaps-placeholder"></div>
         </div>
       </div>
     </div>
@@ -152,6 +152,20 @@ document.write(`
     </a>
   </div>
 `);
+
+  // Ensure ClustrMaps script executes (scripts inserted via innerHTML/insertAdjacentHTML won't auto-run)
+  (function mountClustrMapsScript() {
+    const placeholder = document.getElementById("clustrmaps-placeholder");
+    if (!placeholder) return;
+    if (document.getElementById("clustrmaps")) return; // avoid duplicates
+
+    const s = document.createElement("script");
+    s.type = "text/javascript";
+    s.id = "clustrmaps";
+    s.src = "https://clustrmaps.com/map_v2.js?d=JNHdsUlsgFLa9cs6tAwlyymTImAhTyfKPyc_DG4MDX8&cl=ffffff&w=800";
+    placeholder.replaceWith(s);
+  })();
+})();
 
 (function () {
   const GC_SITE = "https://stardust.goatcounter.com";
@@ -193,7 +207,7 @@ document.write(`
     }
   }
 
-  // Run once after load to avoid timing issues with document.write rendering
+  // Run once after load to avoid timing issues with inline mount rendering
   window.addEventListener("load", initStats, { once: true });
 })();
 
@@ -234,3 +248,4 @@ window.addEventListener("load", () => {
   armClustrMapsLoad();
   setTimeout(() => window.dispatchEvent(new Event("resize")), 800);
 }, { once: true });
+
