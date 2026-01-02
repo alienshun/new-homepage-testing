@@ -1,4 +1,6 @@
-document.write(`
+(function () {
+  const mount = document.getElementById("mount-schedule") || document.body;
+  mount.insertAdjacentHTML("beforeend", `
   <div id="schedule">
     <button id="toggle-btn-schedule">
       <span><i class="fas fa-sun"></i></span>
@@ -3442,3 +3444,4 @@ document.write(`
     </div>
   </div>
 `);
+})();
