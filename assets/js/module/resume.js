@@ -5,10 +5,20 @@ document.write(`
     </button>
     <div id="clock">GMT+8 00:00</div>
     <div class="container">
-      <div class="resume-heading">Jinghao Chen</div>
-      <div class="contact-info">
-        <div>Email: chenjinghao@mail.ustc.edu.cn / stardust.math26@gmail.com</div>
-        <div>Tel: +86 18806590966</div>
+
+      <div class="section resume-hero" id="resume-hero">
+        <div class="resume-hero-avatar">
+          <img src="./assets/images/profile.jpg" alt="Profile photo">
+        </div>
+        <div class="resume-hero-body">
+          <div class="resume-hero-name">Jinghao Chen</div>
+          <div class="resume-hero-chips">
+            <span class="contact-pill"><strong>Tel</strong><span>+86 18806590966</span></span>
+            <span class="contact-pill"><strong>Email 1</strong><a href="mailto:chenjinghao@mail.ustc.edu.cn">chenjinghao@mail.ustc.edu.cn</a></span>
+            <span class="contact-pill"><strong>Email 2</strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
+          </div>
+          <p class="resume-hero-intro"><strong>Introduction:</strong> (your brief introduction here)</p>
+        </div>
       </div>
 
       <div class="section">
@@ -120,4 +130,3 @@ document.write(`
     </a>
   </div>
 `);
-
