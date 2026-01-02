@@ -1,4 +1,6 @@
-document.write(`
+(function () {
+  const mount = document.getElementById("mount-resume") || document.body;
+  mount.insertAdjacentHTML("beforeend", `
   <div id="resume">
     <button id="toggle-btn">
       <span><i class="fas fa-sun"></i></span>
@@ -136,3 +138,4 @@ document.write(`
     </a>
   </div>
 `);
+})();
