@@ -20,12 +20,12 @@
             <span class="contact-pill"><strong>Email 2:</strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
           </div>
           <p class="resume-hero-intro">
-          I am an undergraduate student at the University of Science and Technology of China (USTC), majoring in Mathematics with a minor in Computer Science. My current interests lie primarily in Operations Management, Operations Research, Supply Chain, Stochastic Models, and Game Theory.
+          I am an undergraduate at the University of Science and Technology of China (USTC), majoring in Mathematics with a minor in Computer Science. My primary research interests lie in operations management and operations research, with a particular focus on supply chain analytics, stochastic modeling, and game theory.
           <br><br>
-          Although I am not doing “pure” mathematics or computer science research at the moment, my mathematical training gives me strong intuition for these areas. It also allows me to draw on tools from number theory and algebra to bypass heavy computation and arrive quickly at clean solutions or proofs. When my work intersects with computing or AI, I can ramp up fast—both conceptually and in implementation. Meanwhile, years of programming experience make it natural for me to use research software efficiently for visualization, analysis, and academic writing.
+          My training in rigorous mathematics shapes how I approach applied problems: I tend to look for underlying structure before reaching for computation. This perspective often lets me use tools and ways of thinking drawn from algebra and number theory—such as invariance, symmetry, and discrete reasoning—to replace brute-force calculations with concise arguments, cleaner derivations, and more interpretable results. Even when the end goal is empirical or decision-oriented, I strive to make the modeling assumptions explicit and the logic transparent. When my work intersects with computing or AI, I can ramp up fast—both conceptually and in implementation. Meanwhile, years of programming experience make it natural for me to use research software efficiently for visualization, analysis, and academic writing.
           <br><br>
-          I enjoy the aesthetic of structure—symmetry, invariance, and the feeling that different problems share the same skeleton. This is the core taste that ultimately drives my research.</p>
-
+          At the core of my academic taste is an appreciation for structure—the sense that seemingly different problems share the same “skeleton.” I am most excited by research that reveals these shared principles and uses them to design models and methods that are not only effective, but also principled and explainable.
+          </p>
         </div>
       </div>
 
