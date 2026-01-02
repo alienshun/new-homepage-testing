@@ -13,11 +13,17 @@ document.write(`
         <div class="resume-hero-body">
           <div class="resume-hero-name">Jinghao Chen</div>
           <div class="resume-hero-chips">
-            <span class="contact-pill"><strong>Tel</strong><span>+86 18806590966</span></span>
-            <span class="contact-pill"><strong>Email 1</strong><a href="mailto:chenjinghao@mail.ustc.edu.cn">chenjinghao@mail.ustc.edu.cn</a></span>
-            <span class="contact-pill"><strong>Email 2</strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
+            <span class="contact-pill"><strong>Tel:</strong><span>+86 18806590966</span></span>
+            <span class="contact-pill"><strong>Email 1:</strong><a href="mailto:chenjinghao@mail.ustc.edu.cn">chenjinghao@mail.ustc.edu.cn</a></span>
+            <span class="contact-pill"><strong>Email 2:</strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
           </div>
-          <p class="resume-hero-intro"><strong>Introduction:</strong> (your brief introduction here)</p>
+          <p class="resume-hero-intro">
+          I am an undergraduate student at the University of Science and Technology of China (USTC), majoring in Mathematics with a minor in Computer Science. My current interests lie primarily in Operations Management, Operations Research, Supply Chain, Stochastic Models, and Game Theory.
+          <br><br>
+          Although I am not doing “pure” mathematics or computer science research at the moment, my mathematical training gives me strong intuition for these areas. It also allows me to draw on tools from number theory and algebra to bypass heavy computation and arrive quickly at clean solutions or proofs. When my work intersects with computing or AI, I can ramp up fast—both conceptually and in implementation. Meanwhile, years of programming experience make it natural for me to use research software efficiently for visualization, analysis, and academic writing.
+          <br><br>
+          I enjoy the aesthetic of structure—symmetry, invariance, and the feeling that different problems share the same skeleton. This is the core taste that ultimately drives my research.</p>
+
         </div>
       </div>
 
