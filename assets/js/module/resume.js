@@ -33,7 +33,7 @@
         <h2>Education</h2>
         <div class="subheading">
           <span class="subheading-title">University of Science and Technology of China</span>
-          <span>Sep. 2023 – Jul. 2027 (Expected)</span>
+          <span>Sep. 2023 -- Jul. 2027 (Expected)</span>
         </div>
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
           <span>B.Sc. in Mathematics (Major)<br>B.Eng. in Computer Science and Technology (Minor)<br>AI+X Micro-Program (East China Five Universities Consortium)</span>
@@ -127,7 +127,7 @@
             </ul>
           </li>
           <li>
-            <strong>Languages:</strong> Mandarin (Native), English (Fluent——Toefl: Reading 28, Listening 24, Speaking 24, Writing 27)
+            <strong>Languages:</strong> Mandarin (Native), English (Fluent--Toefl: Reading 28, Listening 24, Speaking 24, Writing 27)
           </li>
         </ul>
       </div>
