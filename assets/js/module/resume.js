@@ -36,7 +36,7 @@
           <span>Sep. 2023 -- Jul. 2027 (Expected)</span>
         </div>
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
-          <span>B.Sc. in Mathematics; B.Eng. in Computer Science and Technology<br>(PS: AI+X Micro-Program (East China Five Universities Consortium))</span>
+          <span>B.Sc. in Mathematics; B.Eng. in Computer Science and Technology<br>(Additional Specialization in AI+X (Certificate Program), East China Five Universities Consortium)</span>
           <span>Hefei, China</span>
         </div>
       </div>
