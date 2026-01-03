@@ -127,7 +127,7 @@
             </ul>
           </li>
           <li>
-            <strong>Languages:</strong> Mandarin (Native), English (Fluent)
+            <strong>Languages:</strong> Mandarin (Native), English (Fluent——Toefl: Reading 28, Listening 24, Speaking 24, Writing 27)
           </li>
         </ul>
       </div>
