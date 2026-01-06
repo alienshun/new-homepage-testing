@@ -2044,7 +2044,7 @@
                         <div class="course-name">Mathematical Experiments</div>
                         <div class="instructor">Xinmao Wang</div>
                         <div class="location">2210</div>
-                        <div class="weeks">1-10 week(s)</div>
+                        <div class="weeks">1-3, 6-10 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2080,7 +2080,7 @@
                         <div class="course-name">Operations Research</div>
                         <div class="instructor">Shixiang Chen</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-18 week(s)</div>
+                        <div class="weeks">1-4, 6-18 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2092,7 +2092,7 @@
                           <div class="course-name">Fundamentals of Multimedia Technology</div>
                           <div class="instructor">Nenghai Yu</div>
                           <div class="location">GH-206</div>
-                          <div class="weeks">1-7 week(s)</div>
+                          <div class="weeks">1-4, 7-7 week(s)</div>
                         </div>
                         <div class="overlap-course">
                           <div class="course-number">006196.02</div>
@@ -2111,7 +2111,7 @@
                         <div class="course-name">Operations Research</div>
                         <div class="instructor">Shixiang Chen</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-18 week(s)</div>
+                        <div class="weeks">1-3, 6-18 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2122,7 +2122,7 @@
                         <div class="course-name">Functional Analysis</div>
                         <div class="instructor">Congwen Liu</div>
                         <div class="location">2121</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">1-3, 5-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2144,7 +2144,7 @@
                         <div class="course-name">Operations Research</div>
                         <div class="instructor">Shixiang Chen</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-18 week(s)</div>
+                        <div class="weeks">5 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2155,7 +2155,7 @@
                         <div class="course-name">Functional Analysis</div>
                         <div class="instructor">Congwen Liu</div>
                         <div class="location">2121</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">4 week(s)</div>
                       </div>
                     </td>
                   </tr>
@@ -2183,7 +2183,7 @@
                         <div class="course-name">Mathematical Experiments</div>
                         <div class="instructor">Xinmao Wang</div>
                         <div class="location">2210</div>
-                        <div class="weeks">1-10 week(s)</div>
+                        <div class="weeks">1-4, 6-10 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2194,7 +2194,7 @@
                         <div class="course-name">Functional Analysis</div>
                         <div class="instructor">Congwen Liu</div>
                         <div class="location">2121</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">1-4, 6-15 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2206,7 +2206,7 @@
                         <div class="course-name">Numerical Algebra</div>
                         <div class="instructor">Yanzhi Song</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-16 week(s)</div>
+                        <div class="weeks">1-3, 5-12, 14-16 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2219,7 +2219,7 @@
                         <div class="course-name">Numerical Algebra</div>
                         <div class="instructor">Yanzhi Song</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-16 week(s)</div>
+                        <div class="weeks">4 week(s)</div>
                       </div>
                     </td>
                   </tr>
@@ -2239,7 +2239,7 @@
                         <div class="course-name">Numerical Algebra</div>
                         <div class="instructor">Yanzhi Song</div>
                         <div class="location">5504</div>
-                        <div class="weeks">1-16 week(s)</div>
+                        <div class="weeks">1-4, 6-17 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2250,7 +2250,7 @@
                         <div class="course-name">Social Psychology</div>
                         <div class="instructor">Yingqiu Yang</div>
                         <div class="location">3A318</div>
-                        <div class="weeks">1-13 week(s)</div>
+                        <div class="weeks">1-4, 6-13 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2262,7 +2262,7 @@
                         <div class="course-name">Introduction to Brain and Cognition Science</div>
                         <div class="instructor">Ao Li</div>
                         <div class="location">GT-B212</div>
-                        <div class="weeks">1-12 week(s)</div>
+                        <div class="weeks">1-3, 5-8, 10-14 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2273,7 +2273,7 @@
                         <div class="course-name">The Beauty of Science</div>
                         <div class="instructor">Yan Liang</div>
                         <div class="location">5207</div>
-                        <div class="weeks">1-12 week(s)</div>
+                        <div class="weeks">1-3, 5-13 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2285,7 +2285,7 @@
                         <div class="course-name">Introduction to Brain and Cognition Science</div>
                         <div class="instructor">Ao Li</div>
                         <div class="location">GT-B212</div>
-                        <div class="weeks">1-12 week(s)</div>
+                        <div class="weeks">4 week(s)</div>
                       </div>
                     </td>
                   </tr>
@@ -2314,7 +2314,7 @@
                           <div class="course-name">Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</div>
                           <div class="instructor">Shukun Tang</div>
                           <div class="location">2105</div>
-                          <div class="weeks">1-2, 15-17 week(s)</div>
+                          <div class="weeks">1-2, 8, 12, 15-17 week(s)</div>
                         </div>
                         <div class="overlap-course">
                           <div class="course-number">HS1590.01</div>
@@ -2333,7 +2333,17 @@
                       </div>
                     </td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">AI3001.02 [4]</div>
+                        <div class="course-name">Machine Learning A</div>
+                        <div class="instructor">Xiaojun Chang</div>
+                        <div class="location">GH-206</div>
+                        <div class="weeks">10 week(s)</div>
+                      </div>
+                    </td>
                     <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
@@ -2343,34 +2353,48 @@
                           <div class="course-name">Machine Learning A</div>
                           <div class="instructor">Zhihui Li</div>
                           <div class="location">GT-B112</div>
-                          <div class="weeks">1-9 week(s)</div>
+                          <div class="weeks">1-3, 5-8 week(s)</div>
                         </div>
                         <div class="overlap-course">
                           <div class="course-number">AI3001.02</div>
                           <div class="course-name">Machine Learning A</div>
                           <div class="instructor">Xiaojun Chang</div>
                           <div class="location">GT-B112</div>
-                          <div class="weeks">10-18 week(s)</div>
+                          <div class="weeks">10-13, 15-16, 18 week(s)</div>
                         </div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">AI3001.02 [4]</div>
+                        <div class="course-name">Machine Learning A</div>
+                        <div class="instructor">Xiaojun Chang</div>
+                        <div class="location">GT-B212</div>
+                        <div class="weeks">14 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">AI3001.02 [4]</div>
+                        <div class="course-name">Machine Learning A</div>
+                        <div class="instructor">Zhihui Li</div>
+                        <div class="location">GT-B112</div>
+                        <div class="weeks">5 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">12</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">13</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2397,34 +2421,34 @@
                     <td>HS1523.01</td>
                     <td>The Beauty of Science</td>
                     <td>Yan Liang</td>
-                    <td>5(8-10), 1-12 week(s)</td>
+                    <td>5(8-10), 1-3, 5-13 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>HS1590.01</td>
                     <td>Four Treasures of the Study: Chinese Paper, Ink, Pen and Inkstone</td>
                     <td>Shukun Tang; Bin Qian; Biao Chen</td>
-                    <td>1(11-12), 1-4,10-11,15-17 week(s)</td>
+                    <td>1(11-12), 1-4,10-12,15-17 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>006196.01</td>
                     <td>Fundamentals of Multimedia Technology</td>
                     <td>Nenghai Yu; Xiaohui Chen</td>
-                    <td>2(3-5), 1-14</td>
+                    <td>2(3-5), 1-4, 6-14 week(s)</td>
                     <td>2.5</td>
                   </tr>
                   <tr>
                     <td>210706.01</td>
                     <td>Introduction to Brain and Cognition Science</td>
                     <td>Ao Li</td>
-                    <td>7(3-5), 1-12 week(s)</td>
+                    <td>4(8-10), 1-3, 5-8, 10-14 week(s);<br> 7(8-10), 4 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>MARX1006.05</td>
                     <td>Situation and Policy</td>
-                    <td>Null</td>
+                    <td>Xuxin Hu</td>
                     <td>Null</td>
                     <td>2</td>
                   </tr>
@@ -2432,42 +2456,42 @@
                     <td>HS1534.03</td>
                     <td>Social Psychology</td>
                     <td>Yingqiu Yang</td>
-                    <td>2(8-10), 1-13 week(s)</td>
+                    <td>2(8-10), 1-4, 6-13 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>MATH3011.01</td>
                     <td>Operations Research</td>
                     <td>Shixiang Chen</td>
-                    <td>1(3,4), 1-18 week(s);<br> 3(3-4), 1-18 week(s)</td>
+                    <td>1(3-4), 1-4, 6-18 week(s);<br> 3(3-4), 1-3, 6-18 week(s)</td>
                     <td>3.5</td>
                   </tr>
                   <tr>
                     <td>001125.01</td>
                     <td>Numerical Algebra</td>
                     <td>Yanzhi Song</td>
-                    <td>1(8-9), 1-16 week(s);<br> 4(6-7), 1-16 week(s)</td>
+                    <td>1(8-9), 1-4, 6-17 week(s);<br> 4(6-7), 1-3, 5-12, 14-16 week(s);<br> 7(6-7), 4 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
                     <td>MATH3004.01</td>
                     <td>Functional Analysis</td>
                     <td>Congwen Liu</td>
-                    <td>2(6-7), 1-15 week(s);<br> 4(3-4), 1-15 week(s)</td>
+                    <td>2(6-7), 1-4, 6-15 week(s);<br> 4(3-4), 1-3, 5-15 week(s);<br> 7(3-4), 4 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
                     <td>001108.01</td>
                     <td>Mathematical Experiments</td>
                     <td>Xinmao Wang</td>
-                    <td>1(6-7), 1-10 week(s);<br> 3(1-2), 1-10 week(s)</td>
+                    <td>1(6-7), 1-4, 6-10 week(s);<br> 3(1-2), 1-3, 6-10 week(s);<br> 6(1-2), 5 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>AI3001.02</td>
                     <td>Machine Learning A</td>
                     <td>Xiaojun Chang; Zhihui Li</td>
-                    <td>4(11-13), 1-18 week(s)</td>
+                    <td>3(11-13), 10 week(s);<br> 4(11-13), 1-3, 5-8, 10-13, 15-16, 18 week(s);<br> 5(11-13), 14 week(s);<br> 6(11-13), 5 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
