@@ -141,10 +141,10 @@ body.nav-visible .top-nav{
   justify-content: center;
   gap: 4px;
 
-  font-family: Arial, sans-serif;
-  font-weight: 800;
+  font-family: var(--topnav-font);
+  font-weight: 700;
   line-height: 1;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.35px;
 }
 
 .top-nav-lang-btn .lang-sep{
