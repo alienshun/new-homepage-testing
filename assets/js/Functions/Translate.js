@@ -99,12 +99,47 @@
   // ------------------------------
   let resumeEnInnerHTML = null;
 
+  function ensureLangButtonMarkup(btn) {
+    if (!btn) return null;
+
+    let wrap = btn.querySelector(".top-nav-lang");
+    let left = wrap ? wrap.querySelector(".lang-left") : null;
+    let right = wrap ? wrap.querySelector(".lang-right") : null;
+    let sep = wrap ? wrap.querySelector(".lang-sep") : null;
+
+    if (!wrap || !left || !right || !sep) {
+      btn.innerHTML = `
+        <span class="top-nav-lang" aria-hidden="true">
+          <span class="lang-token lang-left">EN</span>
+          <span class="lang-sep">/</span>
+          <span class="lang-token lang-right">ZH</span>
+        </span>`;
+      wrap = btn.querySelector(".top-nav-lang");
+      left = wrap.querySelector(".lang-left");
+      right = wrap.querySelector(".lang-right");
+      sep = wrap.querySelector(".lang-sep");
+    }
+
+    return { wrap, left, right, sep };
+  }
+
   function updateLangButton(lang) {
     const btn = document.getElementById("top-lang-btn");
-    if (!btn) return;
-    const nextLabel = (lang === LANG.EN) ? "中" : "EN";
-    btn.innerHTML = `<span style="font-family: Arial, sans-serif; font-weight: 700;">${nextLabel}</span>`;
-    btn.setAttribute("aria-label", lang === LANG.EN ? "切换到中文" : "Switch to English");
+    const parts = ensureLangButtonMarkup(btn);
+    if (!btn || !parts) return;
+
+    // NOTE: Button shows CURRENT mode (not "next")
+    if (lang === LANG.ZH) {
+      parts.left.textContent = "英";
+      parts.right.textContent = "中";
+      btn.setAttribute("aria-label", "切换到英文");
+      btn.title = "切换到英文";
+    } else {
+      parts.left.textContent = "EN";
+      parts.right.textContent = "ZH";
+      btn.setAttribute("aria-label", "Switch to Chinese");
+      btn.title = "Switch to Chinese";
+    }
   }
 
   function captureResumeEnglishTemplate() {
@@ -232,8 +267,8 @@
   }
 
   function init() {
-    const lang = getLang();
-    applyLanguage(lang);
+    // Always default back to English on a full refresh
+    applyLanguage(LANG.EN);
     bindLangToggle();
 
     let retry = 0;
