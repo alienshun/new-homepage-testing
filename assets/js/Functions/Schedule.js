@@ -716,10 +716,19 @@ function ensureCalendarRendered(forceView) {
   }
 
   if (!calendarRendered) {
+    // First render
     calendar.render();
     calendarRendered = true;
   } else if (calendarRefreshPending) {
-    calendar.render();
+    try {
+      calendar.destroy();
+      calendarRendered = false;
+      calendar.render();
+      calendarRendered = true;
+    } catch (e) {
+      // Fallback: at least try a size update
+      try { calendar.updateSize(); } catch (err) { }
+    }
   }
 
   if (calendarPendingView) {
