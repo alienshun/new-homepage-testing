@@ -76,6 +76,7 @@
 
   // 作为兜底：按英文课程名匹配
   const COURSE_NAME_ZH_BY_TEXT = {
+    "AI Ethics and Security (AI+X Micro-minor Foundation Course)": "人工智能伦理与安全 (AI+X 微专业基础课)",
     "English Reading & Writing I": "英语读写 I",
     "English Communication I": "英语交流 I",
     "Foundation of Algebra": "代数基础",
@@ -85,8 +86,10 @@
     "Computer Programming A": "计算机程序设计 A",
     "Elementary Seminar for Qiangji Class I": "数学强基讨论班 I",
     "Ideology, Morality, and Rule of Law": "思想道德与法治",
+    "Introduction to Artificial Intelligence (AI+X Micro-minor Foundation Course)": "人工智能导论 (AI+X 微专业基础课)",
     "Introduction to Xi Jinping Thought on Socialism with Chinese Characteristics for a New Era": "习近平新时代中国特色社会主义思想概论",
     "Collegiate Psychology": "大学心理学",
+    "Mathematical Foundations of AI (AI+X Micro-minor Foundation Course)": "人工智能数学基础 (AI+X 微专业基础课)",
     "Military Skills": "军事技能",
     "Military Theory": "军事理论",
     "Freshman Seminar": "\"科学与社会\"研讨课",
@@ -535,6 +538,14 @@
       storeIfEmptyDataset(th, "enText", th.textContent.trim());
       const en = th.dataset.enText;
       th.textContent = (l === LANG.ZH) ? (TH_ZH_GLOBAL[en] || en) : en;
+    });
+
+    // Period section labels (USTC Timetable)
+    const PERIOD_ZH = { "Morning": "上午", "Afternoon": "下午", "Evening": "晚上" };
+    scheduleRoot.querySelectorAll("#ustc-timetable-section .period-header").forEach(td => {
+      storeIfEmptyDataset(td, "enText", td.textContent.trim());
+      const en = td.dataset.enText;
+      td.textContent = (l === LANG.ZH) ? (PERIOD_ZH[en] || en) : en;
     });
 
     // ---- Extra: USTC list / modals / dynamic UI labels ----
