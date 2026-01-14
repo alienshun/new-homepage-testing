@@ -542,6 +542,17 @@ function setScheduleView(view) {
   } else if (view === 'ustc-timetable') {
     if (ustcTimetableSection) ustcTimetableSection.classList.add('active');
     renderUstcTimetable();
+
+    try {
+      const currentLang = getCurrentLang();
+      if (typeof CustomEvent === 'function') {
+        window.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: currentLang } }));
+      } else {
+        const evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent('site:langchange', false, false, { lang: currentLang });
+        window.dispatchEvent(evt);
+      }
+    } catch (e) { }
   } else {
     if (myTimetableSection) myTimetableSection.classList.add('active');
   }
