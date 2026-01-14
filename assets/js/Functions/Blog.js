@@ -1,4 +1,3 @@
-// blog.js
 // Easter Egg Blog + transitions
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -23,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /**
  * A higher-fidelity vortex transition (canvas-based).
- * - Uses additive particle trails + ring highlights for a "premium" feel
- * - Keeps the rest of the pipeline (scroll / flame / blog) unchanged
  */
 function runVortexTransition(options) {
     const {
@@ -265,7 +262,6 @@ function runVortexTransition(options) {
 
 /**
  * Initiates the vortex animation sequence preceding the narrative transition
- * (Upgraded: canvas-based vortex; other effects remain untouched)
  */
 function startSwirlAnimation() {
     const avatar = document.querySelector('#avatar-frame');
@@ -575,9 +571,6 @@ function stopAllSounds() {
 /**
  * Constructs the blog interface following flame animation
  * Implements responsive multi-panel navigation system
- *
- * Refactor: layout & styling moved to ./assets/css/blog.css
- * - JS now focuses on DOM structure + interactions.
  */
 function transitionToBlogPage() {
     stopAllSounds(); // Terminate audio components
