@@ -176,7 +176,7 @@
     }
     return {
       toolkit_heading: "Academic Toolkit",
-      search_placeholder: "Search tools by name...",
+      search_placeholder: "Search tools by name.",
       filter_all: "All",
       no_results: "No matching tools found. Try a different search term."
     };
@@ -238,6 +238,26 @@
     });
   }
 
+  /* ------------------------------
+   * Top Nav I18N
+   * ------------------------------ */
+  function applyTopNavI18N(lang) {
+    const nav = document.getElementById("top-nav");
+    if (!nav) return;
+
+    const l = normalizeLang(lang);
+    const labels = (l === LANG.ZH)
+      ? { resume: "关于", schedule: "日程", social: "社交", toolkit: "工具" }
+      : { resume: "About", schedule: "Schedule", social: "Social", toolkit: "Toolkit" };
+
+    nav.querySelectorAll(".top-nav-link[data-page]").forEach((btn) => {
+      const page = btn.getAttribute("data-page");
+      if (!page) return;
+      const text = labels[page];
+      if (typeof text === "string") btn.textContent = text;
+    });
+  }
+
   function applyLanguage(lang) {
     const l = setLang(lang);
     updateLangButton(l);
@@ -245,6 +265,7 @@
     applyResumeLanguage(l);
     applyToolkitI18N(l);
     applySocialI18N(l);
+    applyTopNavI18N(l);
 
     try {
       window.dispatchEvent(new CustomEvent("site:langchange", { detail: { lang: l } }));
@@ -285,6 +306,7 @@
       applyResumeLanguage(l);
       applyToolkitI18N(l);
       applySocialI18N(l);
+      applyTopNavI18N(l);
       updateLangButton(l);
     });
   }
