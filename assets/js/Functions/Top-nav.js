@@ -18,9 +18,13 @@
       </div>
 
       <div class="top-nav-right">
-        <!-- Language toggle (EN / 中) -->
-        <button id="top-lang-btn" class="top-nav-icon" aria-label="Switch language" data-cursor="precise_select" data-cursor-fallback="pointer">
-          <span style="font-family: Arial, sans-serif; font-weight: 700;">中</span>
+        <!-- Language toggle (EN/ZH ↔ 英/中) -->
+        <button id="top-lang-btn" class="top-nav-icon top-nav-lang-btn" aria-label="Switch to Chinese" data-cursor="precise_select" data-cursor-fallback="pointer">
+          <span class="top-nav-lang" aria-hidden="true">
+            <span class="lang-token lang-left">EN</span>
+            <span class="lang-sep">/</span>
+            <span class="lang-token lang-right">ZH</span>
+          </span>
         </button>
 
         <button id="top-back-btn" class="top-nav-icon" aria-label="Back to cover" data-cursor="precise_select" data-cursor-fallback="pointer">
