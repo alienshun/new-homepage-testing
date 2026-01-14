@@ -1,10 +1,3 @@
-// ./assets/js/custom-cursors.js
-// Cursor loader and assignment.
-// This script maps DOM element types and data attributes to .cur files
-// and applies native .cur cursors via inline styles.
-// Place this file at ./assets/js/custom-cursors.js and include it
-// just before </body> in index.html using: <script src="./assets/js/custom-cursors.js"></script>
-
 (function () {
   'use strict';
 
