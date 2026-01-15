@@ -37,7 +37,7 @@
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
           <span>
             数学理学学士; 计算机科学与技术工学学士
-            <button class="expander" type="button" data-expand-target="exp-edu-bg-zh" aria-expanded="false" aria-label="展开详情">
+            <button class="expander" type="button" data-expand-target="exp-edu-bg-zh" data-expand-key="edu-bg" aria-expanded="false" aria-label="展开详情">
               <i class="fas fa-chevron-right"></i>
             </button>
             <br>
@@ -98,7 +98,7 @@
         <h2>荣誉与奖项</h2>
         <table width="100%">
           <tr>
-            <td>优秀学生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-ess-silver-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>优秀学生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-ess-silver-zh" data-expand-key="ess-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2025</td>
           </tr>
           <tr class="expand-row" id="exp-ess-silver-zh" aria-hidden="true">
@@ -111,7 +111,7 @@
           </tr>
 
           <tr>
-            <td>张宗植科技奖学金 <button class="expander" type="button" data-expand-target="exp-zzst-scholarship-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>张宗植科技奖学金 <button class="expander" type="button" data-expand-target="exp-zzst-scholarship-zh" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2024</td>
           </tr>
           <tr class="expand-row" id="exp-zzst-scholarship-zh" aria-hidden="true">
@@ -124,7 +124,7 @@
           </tr>
 
           <tr>
-            <td>优秀新生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-efs-silver-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>优秀新生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-efs-silver-zh" data-expand-key="efs-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2023</td>
           </tr>
           <tr class="expand-row" id="exp-efs-silver-zh" aria-hidden="true">
