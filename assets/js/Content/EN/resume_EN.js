@@ -35,9 +35,23 @@
           <span class="subheading-title">University of Science and Technology of China</span>
           <span>Sep. 2023 -- Jul. 2027 (Expected)</span>
         </div>
+
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
-          <span>B.Sc. in Mathematics; B.Eng. in Computer Science and Technology<br>(Additional Specialization in AI+X (Certificate Program), East China Five Universities Consortium)</span>
+          <span>
+            B.Sc. in Mathematics; B.Eng. in Computer Science and Technology
+            <button class="expander" type="button" data-expand-target="exp-edu-bg" aria-expanded="false" aria-label="Expand details">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <br>
+            (Additional Specialization in AI+X (Certificate Program), East China Five Universities Consortium)
+          </span>
           <span>Hefei, China</span>
+        </div>
+
+        <div class="expand-row" id="exp-edu-bg" aria-hidden="true" style="display:none;">
+          <div class="expand-content">
+            <img class="expand-media" src="./assets/images/Education_Background.jpg" alt="Education Background">
+          </div>
         </div>
       </div>
       
@@ -86,19 +100,44 @@
         <h2>Honors and Awards</h2>
         <table width="100%">
           <tr>
-            <td>Excellent Student Scholarship--Silver</td>
+            <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2025</td>
           </tr>
+          <tr class="expand-row" id="exp-ess-silver" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
+                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer">Visit</a>
+              </div>
+            </td>
+          </tr>
+
           <tr>
-            <td>Zhang Zongzhi Sci-Tech Scholarship</td>
+            <td>Zhang Zongzhi Sci-Tech Scholarship <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2024</td>
           </tr>
+          <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
+                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer">Visit</a>
+              </div>
+            </td>
+          </tr>
+
           <tr>
-            <td>Excellent Freshman Scholarship--Silver</td>
+            <td>Excellent Freshman Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2023</td>
           </tr>
+          <tr class="expand-row" id="exp-efs-silver" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <a class="expand-action-btn" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download>Download PDF</a>
+              </div>
+            </td>
+          </tr>
           <tr>
-            <td>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B</td>
+            <td>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)</td>
             <td align="right">2025</td>
           </tr>
         </table>
