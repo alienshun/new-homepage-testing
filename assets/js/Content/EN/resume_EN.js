@@ -136,10 +136,24 @@
               </div>
             </td>
           </tr>
+
           <tr>
-            <td>Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)</td>
+            <td>
+              Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)
+              <button class="expander" type="button" data-expand-target="exp-mcm-hm" data-expand-key="mcm-hm" aria-expanded="false" aria-label="Expand details">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </td>
             <td align="right">2025</td>
           </tr>
+          <tr class="expand-row" id="exp-mcm-hm" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
+              </div>
+            </td>
+          </tr>
+
         </table>
       </div>
       
