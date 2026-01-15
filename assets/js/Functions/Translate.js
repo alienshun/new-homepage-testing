@@ -258,18 +258,85 @@
     });
   }
 
+  // ---- Smooth resume swap to avoid "flash" when expanders are open ----
+  function getResumeOpenKeys() {
+    try {
+      const api = window.ResumeExpanders;
+      const resume = document.getElementById("resume");
+      if (api && typeof api.getOpenKeys === "function") {
+        return api.getOpenKeys(resume || document);
+      }
+    } catch (e) { }
+    return [];
+  }
+
+  function restoreResumeOpenKeys(keys) {
+    try {
+      const api = window.ResumeExpanders;
+      const resume = document.getElementById("resume");
+      if (api && typeof api.init === "function") {
+        api.init(resume || document, { openKeys: Array.isArray(keys) ? keys : [] });
+      }
+    } catch (e) { }
+  }
+
+  function smoothSwapResume(lang, openKeys) {
+    const resume = document.getElementById("resume");
+    if (!resume) {
+      applyResumeLanguage(lang);
+      return;
+    }
+
+    // Freeze current height to prevent layout jump
+    const prevH = resume.getBoundingClientRect().height;
+    if (prevH > 0) resume.style.minHeight = prevH + "px";
+
+    // Lightweight fade to hide transient DOM replacement
+    resume.style.transition = "opacity 120ms ease";
+    resume.style.opacity = "0";
+
+    // Swap content in next frame (let opacity start)
+    requestAnimationFrame(() => {
+      applyResumeLanguage(lang);
+
+      // Restore expanders immediately (before we fade back in)
+      restoreResumeOpenKeys(openKeys);
+
+      // Dispatch langchange AFTER resume is consistent, include openKeys for listeners
+      try {
+        window.dispatchEvent(new CustomEvent("site:langchange", { detail: { lang: lang, openKeys: openKeys } }));
+      } catch (e) { }
+
+      // Fade back in on next frame, then cleanup minHeight
+      requestAnimationFrame(() => {
+        resume.style.opacity = "1";
+        // cleanup after transition ends (fallback timeout in case event doesn't fire)
+        const cleanup = () => {
+          resume.style.minHeight = "";
+          resume.removeEventListener("transitionend", cleanup);
+        };
+        resume.addEventListener("transitionend", cleanup);
+        setTimeout(cleanup, 250);
+      });
+    });
+  }
+
   function applyLanguage(lang) {
     const l = setLang(lang);
     updateLangButton(l);
 
-    applyResumeLanguage(l);
+    // Capture open expanders BEFORE swapping resume HTML
+    const openKeys = getResumeOpenKeys();
+
+    // Resume swap is the main source of flash; do it smoothly and restore state
+    smoothSwapResume(l, openKeys);
+
+    // Other sections can update immediately (they don't replace large DOM blocks like resume)
     applyToolkitI18N(l);
     applySocialI18N(l);
     applyTopNavI18N(l);
 
-    try {
-      window.dispatchEvent(new CustomEvent("site:langchange", { detail: { lang: l } }));
-    } catch (e) { }
+    // NOTE: site:langchange is dispatched inside smoothSwapResume with openKeys
   }
 
   // Expose applyLanguage for pages that want to force a change
@@ -303,7 +370,8 @@
 
     window.addEventListener("site:langchange", function (e) {
       const l = normalizeLang(e && e.detail ? e.detail.lang : getLang());
-      applyResumeLanguage(l);
+
+      // Resume is handled by smoothSwapResume (and Resume_Expanders listens too)
       applyToolkitI18N(l);
       applySocialI18N(l);
       applyTopNavI18N(l);
