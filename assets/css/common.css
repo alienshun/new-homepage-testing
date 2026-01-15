@@ -456,3 +456,86 @@ a.download-link:hover {
     font-size: 1.95em;
   }
 }
+
+/* =========================================================
+   Resume inline expanders (arrow -> reveal details)
+   ========================================================= */
+.expander {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  line-height: 1;
+  font-size: 0.95em;
+}
+
+.expander i {
+  transition: transform 0.18s ease, opacity 0.18s ease;
+  opacity: 0.88;
+}
+
+.expander:hover i {
+  opacity: 1;
+  transform: translateX(1px);
+}
+
+.expander.is-open i {
+  transform: rotate(90deg);
+  opacity: 1;
+}
+
+.expand-row {
+  display: none;
+}
+
+.expand-row.is-open {
+  display: table-row;
+}
+
+.expand-content {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.expand-media {
+  max-width: 50%;
+  height: auto;
+  border-radius: calc(var(--radius-sm) - 2px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+.expand-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  background: color-mix(in srgb, var(--surface) 86%, var(--accent-weak));
+  color: var(--accent);
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  font-size: 0.92em;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.expand-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  background: var(--surface-2);
+}
