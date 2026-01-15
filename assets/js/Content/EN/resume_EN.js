@@ -103,7 +103,7 @@
             <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" data-expand-key="ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2025</td>
           </tr>
-          <tr class="expand-row" id="exp-ess-silver" aria-hidden="true">
+          <tr class="expand-row" id="exp-ess-silver" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
                 <img class="expand-media" src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
@@ -116,7 +116,7 @@
             <td>Zhang Zongzhi Sci-Tech Scholarship <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2024</td>
           </tr>
-          <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true">
+          <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
                 <img class="expand-media" src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
@@ -129,7 +129,7 @@
             <td>Excellent Freshman Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-efs-silver" data-expand-key="efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2023</td>
           </tr>
-          <tr class="expand-row" id="exp-efs-silver" aria-hidden="true">
+          <tr class="expand-row" id="exp-efs-silver" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-action-btn" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download>Download PDF</a>
@@ -146,7 +146,7 @@
             </td>
             <td align="right">2025</td>
           </tr>
-          <tr class="expand-row" id="exp-mcm-hm" aria-hidden="true">
+          <tr class="expand-row" id="exp-mcm-hm" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
                 <img class="expand-media" src="./assets/images/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
