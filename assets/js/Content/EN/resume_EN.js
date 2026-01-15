@@ -39,7 +39,7 @@
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
           <span>
             B.Sc. in Mathematics; B.Eng. in Computer Science and Technology
-            <button class="expander" type="button" data-expand-target="exp-edu-bg" aria-expanded="false" aria-label="Expand details">
+            <button class="expander" type="button" data-expand-target="exp-edu-bg" data-expand-key="edu-bg" aria-expanded="false" aria-label="Expand details">
               <i class="fas fa-chevron-right"></i>
             </button>
             <br>
@@ -100,7 +100,7 @@
         <h2>Honors and Awards</h2>
         <table width="100%">
           <tr>
-            <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" data-expand-key="ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2025</td>
           </tr>
           <tr class="expand-row" id="exp-ess-silver" aria-hidden="true">
@@ -113,7 +113,7 @@
           </tr>
 
           <tr>
-            <td>Zhang Zongzhi Sci-Tech Scholarship <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>Zhang Zongzhi Sci-Tech Scholarship <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2024</td>
           </tr>
           <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true">
@@ -126,7 +126,7 @@
           </tr>
 
           <tr>
-            <td>Excellent Freshman Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>Excellent Freshman Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-efs-silver" data-expand-key="efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2023</td>
           </tr>
           <tr class="expand-row" id="exp-efs-silver" aria-hidden="true">
