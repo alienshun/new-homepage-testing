@@ -33,9 +33,23 @@
           <span class="subheading-title">中国科学技术大学</span>
           <span>2023年9月 -- 2027年7月 (预计)</span>
         </div>
+
         <div class="subsubheading" style="display: flex; justify-content: space-between;">
-          <span>数学理学学士; 计算机科学与技术工学学士<br>(PS: AI+X 微专业, 华东五校联盟)</span>
+          <span>
+            数学理学学士; 计算机科学与技术工学学士
+            <button class="expander" type="button" data-expand-target="exp-edu-bg-zh" aria-expanded="false" aria-label="展开详情">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <br>
+            (PS: AI+X 微专业, 华东五校联盟)
+          </span>
           <span>中国·合肥</span>
+        </div>
+
+        <div class="expand-row" id="exp-edu-bg-zh" aria-hidden="true" style="display:none;">
+          <div class="expand-content">
+            <img class="expand-media" src="./assets/images/Education_Background.jpg" alt="教育背景">
+          </div>
         </div>
       </div>
       
@@ -84,19 +98,44 @@
         <h2>荣誉与奖项</h2>
         <table width="100%">
           <tr>
-            <td>优秀学生奖学金 (银奖)</td>
+            <td>优秀学生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-ess-silver-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2025</td>
           </tr>
+          <tr class="expand-row" id="exp-ess-silver-zh" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="优秀学生奖学金（银奖）">
+                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer">访问</a>
+              </div>
+            </td>
+          </tr>
+
           <tr>
-            <td>张宗植科技奖学金</td>
+            <td>张宗植科技奖学金 <button class="expander" type="button" data-expand-target="exp-zzst-scholarship-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2024</td>
           </tr>
+          <tr class="expand-row" id="exp-zzst-scholarship-zh" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="张宗植科技奖学金">
+                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer">访问</a>
+              </div>
+            </td>
+          </tr>
+
           <tr>
-            <td>优秀新生奖学金 (银奖)</td>
+            <td>优秀新生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-efs-silver-zh" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
             <td align="right">2023</td>
           </tr>
+          <tr class="expand-row" id="exp-efs-silver-zh" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <a class="expand-action-btn" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download>下载 PDF</a>
+              </div>
+            </td>
+          </tr>
           <tr>
-            <td>美国大学生数学建模竞赛 MCM (B题) Honorable Mention</td>
+            <td>美国大学生数学建模竞赛 MCM (B题) Honorable Mention (担任队长)</td>
             <td align="right">2025</td>
           </tr>
         </table>
