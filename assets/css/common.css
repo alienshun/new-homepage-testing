@@ -504,16 +504,20 @@ a.download-link:hover {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 12px;
 }
 
 .expand-media {
   max-width: 50%;
   height: auto;
+  display: block;
+  margin: 0 auto;
   border-radius: calc(var(--radius-sm) - 2px);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
 }
+
 
 .expand-action-btn {
   display: inline-flex;
