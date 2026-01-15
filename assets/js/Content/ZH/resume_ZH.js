@@ -134,10 +134,24 @@
               </div>
             </td>
           </tr>
+
           <tr>
-            <td>美国大学生数学建模竞赛 MCM (B题) Honorable Mention (担任队长)</td>
+            <td>
+              美国大学生数学建模竞赛 MCM (B题) Honorable Mention (担任队长)
+              <button class="expander" type="button" data-expand-target="exp-mcm-hm-zh" data-expand-key="mcm-hm" aria-expanded="false" aria-label="展开详情">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </td>
             <td align="right">2025</td>
           </tr>
+          <tr class="expand-row" id="exp-mcm-hm-zh" aria-hidden="true">
+            <td colspan="2">
+              <div class="expand-content">
+                <img class="expand-media" src="./assets/images/Honorable_Mention.jpg" alt="MCM Honorable Mention">
+              </div>
+            </td>
+          </tr>
+
         </table>
       </div>
       
