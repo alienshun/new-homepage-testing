@@ -165,7 +165,10 @@
         </div>
         <div class="subsubheading">Instructor: <strong>Prof. Shuguang Zhang</strong></div>
         <ul>
-          <li>Compiled detailed LaTeX solutions and reference answers based on the textbook by Baiqi Miu and Weiping Zhang; maintained an open-source repository for students: <a href="https://github.com/Stardust-math/Reference-Answer" target="_blank" style="color: lightblue;">https://github.com/Stardust-math/Reference-Answer</a></li>
+          <li>
+            Compiled detailed LaTeX solutions and reference answers based on the textbook by Baiqi Miu and Weiping Zhang; maintained an open-source repository for students:
+            <a class="expand-action-btn" href="https://github.com/Stardust-math/Reference-Answer" target="_blank" rel="noopener noreferrer">Visit</a>
+          </li>
           <li>Assisted in homework and exam grading, providing feedback and tutoring. Held weekly problem-solving sessions to answer questions and help students prepare for exams.</li>
         </ul>
       </div>
