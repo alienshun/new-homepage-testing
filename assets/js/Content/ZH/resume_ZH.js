@@ -163,7 +163,10 @@
         </div>
         <div class="subsubheading">授课教师: <strong>张曙光教授</strong></div>
         <ul>
-          <li>基于缪柏其、张伟平编撰的教材整理并编写详细 LaTeX 习题解答与参考答案；维护开源仓库供同学使用: <a href="https://github.com/Stardust-math/Reference-Answer" target="_blank" style="color: lightblue;">https://github.com/Stardust-math/Reference-Answer</a></li>
+          <li>
+            基于缪柏其、张伟平编撰的教材整理并编写详细 LaTeX 习题解答与参考答案；维护开源仓库供同学使用:
+            <a class="expand-action-btn" href="https://github.com/Stardust-math/Reference-Answer" target="_blank" rel="noopener noreferrer">Visit</a>
+          </li>
           <li>给学生的作业和考试评分, 提供反馈和辅导. 每周开设习题课, 回答问题, 帮助学生准备考试.</li>
         </ul>
       </div>
