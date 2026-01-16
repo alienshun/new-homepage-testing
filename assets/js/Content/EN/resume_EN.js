@@ -50,7 +50,9 @@
 
         <div class="expand-row" id="exp-edu-bg" aria-hidden="true" style="display:none;">
           <div class="expand-content">
-            <img class="expand-media" src="./assets/images/Education_Background.jpg" alt="Education Background">
+            <div class="expand-item">
+              <img src="./assets/images/Education_Background.jpg" alt="Education Background">
+            </div>
           </div>
         </div>
       </div>
@@ -106,8 +108,9 @@
           <tr class="expand-row" id="exp-ess-silver" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
-                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer">Visit</a>
+                <a class="expand-item" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">
+                  <img src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
+                </a>
               </div>
             </td>
           </tr>
@@ -119,8 +122,9 @@
           <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
-                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer">Visit</a>
+                <a class="expand-item" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">
+                  <img src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
+                </a>
               </div>
             </td>
           </tr>
@@ -132,7 +136,9 @@
           <tr class="expand-row" id="exp-efs-silver" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <a class="expand-action-btn" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download>Download PDF</a>
+                <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="Download PDF">
+                  <img src="./assets/images/Excellent_Freshman_Scholarship--Silver.jpg" alt="Excellent Freshman Scholarship--Silver">
+                </a>
               </div>
             </td>
           </tr>
@@ -149,7 +155,10 @@
           <tr class="expand-row" id="exp-mcm-hm" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
+                <!-- CHANGED: click the MCM image to download the PDF -->
+                <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">
+                  <img src="./assets/images/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
+                </a>
               </div>
             </td>
           </tr>
