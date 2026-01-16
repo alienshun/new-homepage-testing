@@ -93,6 +93,21 @@
     });
   }
 
+  // Mark each expander's media layout so CSS can do:
+  // - 1 item => centered (1/3 width)
+  // - N>1 => 3-per-row, left-aligned
+  function markExpandLayouts(scope) {
+    const root = scope || document;
+    qsAll(".expand-content", root).forEach(function (box) {
+      const items = box.querySelectorAll(".expand-item");
+      const n = items ? items.length : 0;
+
+      box.classList.remove("is-single", "is-multi");
+      if (n === 1) box.classList.add("is-single");
+      if (n > 1) box.classList.add("is-multi");
+    });
+  }
+
   // Read open keys from current DOM (not storage)
   function getOpenKeys(scope) {
     try {
@@ -137,6 +152,7 @@
     const options = opts || {};
 
     normalizeRows(scope);
+    markExpandLayouts(scope);
     qsAll("button.expander[data-expand-target]", scope).forEach(bindOne);
 
     if (Array.isArray(options.openKeys) && options.openKeys.length > 0) {
