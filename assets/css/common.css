@@ -461,6 +461,7 @@ a.download-link:hover {
    Resume inline expanders (arrow -> reveal details)
    ========================================================= */
 .expander {
+  /* Inline, borderless trigger */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -472,21 +473,115 @@ a.download-link:hover {
   cursor: pointer;
   line-height: 1;
   font-size: 0.95em;
+
+  /* Give the arrow a predictable hit area without adding frames */
+  width: 16px;
+  height: 16px;
+  position: relative;
+  transform: translateY(0.5px);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .expander i {
-  transition: transform 0.18s ease, opacity 0.18s ease;
-  opacity: 0.88;
+  /* Hide legacy icon (FontAwesome/etc). We draw a custom arrow with ::before. */
+  display: none;
 }
 
-.expander:hover i {
+/* Custom arrow: symmetric with slight concave sides, no border/box */
+.expander::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  display: block;
+
+  /* Slightly “dreamy” but not loud: use the theme accent with a soft depth cue */
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 92%, white),
+    color-mix(in srgb, var(--accent) 85%, transparent)
+  );
+
+  /* Two-sided slight inward curve (concave) via clip-path */
+  clip-path: polygon(
+    8% 50%,
+    46% 8%,
+    40% 32%,
+    58% 42%,
+    92% 50%,
+    58% 58%,
+    40% 68%,
+    46% 92%
+  );
+
+  border-radius: 3px; /* soften corners a touch so it doesn't look rigid */
+  opacity: 0.9;
+
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease,
+    filter 0.18s ease;
+
+  /* Subtle depth without a “frame” */
+  filter: drop-shadow(0 0.4px 0.8px rgba(0, 0, 0, 0.22));
+}
+
+/* Tiny highlight “sheen” on hover (still borderless) */
+.expander::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  pointer-events: none;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.75),
+    rgba(255, 255, 255, 0) 55%
+  );
+  clip-path: polygon(
+    10% 50%,
+    46% 10%,
+    41% 33%,
+    58% 43%,
+    90% 50%,
+    58% 57%,
+    41% 67%,
+    46% 90%
+  );
+
+  opacity: 0;
+  transition: opacity 0.18s ease;
+  mix-blend-mode: screen;
+}
+
+.expander:hover::before {
   opacity: 1;
   transform: translateX(1px);
+  filter:
+    drop-shadow(0 0.6px 1.1px rgba(0, 0, 0, 0.24))
+    drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 32%, transparent));
 }
 
-.expander.is-open i {
-  transform: rotate(90deg);
+.expander:hover::after {
+  opacity: 0.55;
+}
+
+/* ✅ 初始向右，展开后向上（由 90deg 改为 -90deg） */
+.expander.is-open::before {
+  transform: rotate(-90deg);
   opacity: 1;
+}
+
+/* Keep keyboard accessibility without adding visible “frames” */
+.expander:focus-visible {
+  outline: none;
+  filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.18));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .expander::before,
+  .expander::after {
+    transition: none;
+  }
 }
 
 .expand-row {
@@ -574,7 +669,6 @@ a.expand-item img {
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
 }
-
 
 .expand-action-btn {
   display: inline-flex;
