@@ -101,72 +101,6 @@
   }
 
   // ------------------------------
-  // Toolkit filtering (search + categories)
-  // ------------------------------
-  function initToolkitFilter() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const searchInput = document.getElementById('toolkit-search-input');
-    const toolkitCards = document.querySelectorAll('.toolkit-card');
-    const categorySections = document.querySelectorAll('.category-section');
-    const noResultsMessage = document.querySelector('.no-results');
-
-    if (!filterButtons.length || !searchInput || !toolkitCards.length) return;
-
-    function filterTools(category, searchTerm) {
-      let totalVisible = 0;
-
-      toolkitCards.forEach((card) => {
-        const cardCategories = String(card.dataset.categories || '').split(' ');
-        const cardTitle = String(card.dataset.title || '').toLowerCase();
-        const searchMatch = searchTerm === '' || cardTitle.includes(searchTerm.toLowerCase());
-        const categoryMatch = category === 'all' || cardCategories.includes(category);
-
-        if (searchMatch && categoryMatch) {
-          card.style.display = 'flex';
-          totalVisible++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      categorySections.forEach((section) => {
-        const sectionCategory = section.dataset.category;
-        const hasVisibleCards = Array.from(section.querySelectorAll('.toolkit-card')).some(
-          (card) => card.style.display !== 'none'
-        );
-
-        if ((category === 'all' || sectionCategory === category) && hasVisibleCards) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-
-      if (noResultsMessage) {
-        noResultsMessage.style.display = totalVisible === 0 ? 'block' : 'none';
-      }
-    }
-
-    filterButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const category = button.dataset.category;
-        filterButtons.forEach((btn) => btn.classList.remove('active'));
-        button.classList.add('active');
-        filterTools(category, searchInput.value.trim());
-      });
-    });
-
-    searchInput.addEventListener('input', () => {
-      const active = document.querySelector('.filter-btn.active');
-      const activeCategory = active ? active.dataset.category : 'all';
-      filterTools(activeCategory, searchInput.value.trim());
-    });
-
-    // Initial display
-    filterTools('all', '');
-  }
-
-  // ------------------------------
   // Navigation (cover <-> pages)
   // ------------------------------
   let coverHidden = false;
@@ -347,7 +281,12 @@
     initializeTheme();
     bindThemeToggles();
     initTopNav();
-    initToolkitFilter();
+
+    // Toolkit page init (migrated)
+    if (window.Toolkit && typeof window.Toolkit.initToolkitFilter === 'function') {
+      window.Toolkit.initToolkitFilter();
+    }
+
     initClockToggle();
 
     if (window.Schedule && typeof window.Schedule.initSchedulePage === 'function') {
