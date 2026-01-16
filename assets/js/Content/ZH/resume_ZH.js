@@ -48,7 +48,9 @@
 
         <div class="expand-row" id="exp-edu-bg-zh" aria-hidden="true" style="display:none;">
           <div class="expand-content">
-            <img class="expand-media" src="./assets/images/Education_Background.jpg" alt="教育背景">
+            <div class="expand-item">
+              <img src="./assets/images/Education_Background.jpg" alt="教育背景">
+            </div>
           </div>
         </div>
       </div>
@@ -104,8 +106,9 @@
           <tr class="expand-row" id="exp-ess-silver-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="优秀学生奖学金（银奖）">
-                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer">访问</a>
+                <a class="expand-item" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">
+                  <img src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="优秀学生奖学金（银奖）">
+                </a>
               </div>
             </td>
           </tr>
@@ -117,8 +120,9 @@
           <tr class="expand-row" id="exp-zzst-scholarship-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="张宗植科技奖学金">
-                <a class="expand-action-btn" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer">访问</a>
+                <a class="expand-item" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">
+                  <img src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="张宗植科技奖学金">
+                </a>
               </div>
             </td>
           </tr>
@@ -130,7 +134,9 @@
           <tr class="expand-row" id="exp-efs-silver-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <a class="expand-action-btn" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download>下载 PDF</a>
+                <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="下载 PDF">
+                  <img src="./assets/images/Excellent_Freshman_Scholarship--Silver.jpg" alt="优秀新生奖学金（银奖）">
+                </a>
               </div>
             </td>
           </tr>
@@ -147,7 +153,10 @@
           <tr class="expand-row" id="exp-mcm-hm-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <img class="expand-media" src="./assets/images/Honorable_Mention.jpg" alt="MCM Honorable Mention">
+                <!-- CHANGED: 点击 MCM 图片下载 PDF -->
+                <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">
+                  <img src="./assets/images/Honorable_Mention.jpg" alt="MCM Honorable Mention">
+                </a>
               </div>
             </td>
           </tr>
