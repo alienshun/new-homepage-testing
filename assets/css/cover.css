@@ -167,7 +167,7 @@
 }
 
 /* ------------------------------------
-   Cover bottom arrow (no border/circle)
+   Cover bottom arrow (adaptive contrast)
 ------------------------------------- */
 #cover-scroll {
   position: absolute;
@@ -191,13 +191,56 @@
   -webkit-tap-highlight-color: transparent;
   user-select: none;
 
-  /* ⭐ allow stardust to render outside button bounds */
   overflow: visible;
 
   transition:
     opacity 1.6s ease,
     transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
     filter 0.35s ease;
+
+  /* Default theme vars (dark background -> light arrow) */
+  --arrow-stroke: rgba(245, 250, 255, 0.92);
+  --arrow-sub: rgba(245, 250, 255, 0.86);
+  --arrow-stroke-w: 2.6px;
+
+  --arrow-ds-1: drop-shadow(0 2px 10px rgba(0,0,0,0.34));
+  --arrow-ds-2: drop-shadow(0 0 18px rgba(170, 210, 255, 0.30));
+
+  --chev-glow-1: drop-shadow(0 0 10px rgba(200, 230, 255, 0.28));
+  --chev-glow-2: drop-shadow(0 0 20px rgba(120, 185, 255, 0.18));
+
+  --sub-stroke: 0.35px;
+  --sub-stroke-color: rgba(0,0,0,0.35);
+  --sub-shadow-1: 0 1px 3px rgba(0,0,0,0.28);
+  --sub-shadow-2: 0 0 14px rgba(150, 200, 255, 0.18);
+
+  /* Halo (still no “底板”，只是光晕) */
+  --halo-a: rgba(255,255,255,0.16);
+  --halo-b: rgba(170,210,255,0.10);
+  --halo-opacity: 0.78;
+}
+
+/* Bright background -> dark arrow + inverted glow */
+#cover-scroll[data-contrast="dark"] {
+  --arrow-stroke: rgba(12, 18, 28, 0.92);
+  --arrow-sub: rgba(12, 18, 28, 0.82);
+  --arrow-stroke-w: 2.85px;
+
+  /* 双向阴影：既有暗边也有亮边，保证亮底也清晰 */
+  --arrow-ds-1: drop-shadow(0 2px 12px rgba(255,255,255,0.22));
+  --arrow-ds-2: drop-shadow(0 2px 10px rgba(0,0,0,0.32));
+
+  --chev-glow-1: drop-shadow(0 0 10px rgba(0,0,0,0.22));
+  --chev-glow-2: drop-shadow(0 0 16px rgba(255,255,255,0.18));
+
+  --sub-stroke: 0.32px;
+  --sub-stroke-color: rgba(255,255,255,0.32);
+  --sub-shadow-1: 0 1px 3px rgba(255,255,255,0.20);
+  --sub-shadow-2: 0 0 12px rgba(0,0,0,0.18);
+
+  --halo-a: rgba(0,0,0,0.12);
+  --halo-b: rgba(20,40,80,0.10);
+  --halo-opacity: 0.70;
 }
 
 #cover-scroll.visible {
@@ -209,27 +252,21 @@
   width: 54px;
   height: 54px;
   overflow: visible;
-  filter:
-    drop-shadow(0 2px 10px rgba(0,0,0,0.30))
-    drop-shadow(0 0 18px rgba(170, 210, 255, 0.30));
+  filter: var(--arrow-ds-1) var(--arrow-ds-2);
 }
 
 #cover-scroll .chev {
   fill: none;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 2.6px;
 
-  /* “高级感”金属冷光 */
-  stroke: rgba(245, 250, 255, 0.90);
+  stroke-width: var(--arrow-stroke-w);
+  stroke: var(--arrow-stroke);
 
-  /* 让线条像“能量流”一样 */
   stroke-dasharray: 56 220;
   stroke-dashoffset: 80;
 
-  filter:
-    drop-shadow(0 0 10px rgba(200, 230, 255, 0.28))
-    drop-shadow(0 0 20px rgba(120, 185, 255, 0.18));
+  filter: var(--chev-glow-1) var(--chev-glow-2);
   opacity: 0.92;
 }
 
@@ -250,12 +287,12 @@
   pointer-events: none;
   background:
     radial-gradient(60% 70% at 50% 40%,
-      rgba(255,255,255,0.16) 0%,
-      rgba(170,210,255,0.10) 30%,
+      var(--halo-a) 0%,
+      var(--halo-b) 30%,
       rgba(0,0,0,0) 70%);
   mix-blend-mode: screen;
   filter: blur(0.2px);
-  opacity: 0.75;
+  opacity: var(--halo-opacity);
 }
 
 #cover-scroll:hover {
@@ -281,12 +318,12 @@
   font-size: 0.78rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(245, 250, 255, 0.85);
+  color: var(--arrow-sub);
 
-  -webkit-text-stroke: 0.35px rgba(0,0,0,0.35);
+  -webkit-text-stroke: var(--sub-stroke) var(--sub-stroke-color);
   text-shadow:
-    0 1px 3px rgba(0,0,0,0.28),
-    0 0 14px rgba(150, 200, 255, 0.18);
+    var(--sub-shadow-1),
+    var(--sub-shadow-2);
 }
 
 /* ------------------------------------
