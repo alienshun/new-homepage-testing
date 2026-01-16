@@ -612,4 +612,78 @@
     </a>
   </div>
 `);
+
+  // ------------------------------
+  // Toolkit filtering (search + categories)
+  // ------------------------------
+  function initToolkitFilter() {
+    const root = document.getElementById('toolkit');
+    if (!root) return;
+
+    const filterButtons = root.querySelectorAll('.filter-btn');
+    const searchInput = root.querySelector('#toolkit-search-input');
+    const toolkitCards = root.querySelectorAll('.toolkit-card');
+    const categorySections = root.querySelectorAll('.category-section');
+    const noResultsMessage = root.querySelector('.no-results');
+
+    if (!filterButtons.length || !searchInput || !toolkitCards.length) return;
+
+    function filterTools(category, searchTerm) {
+      let totalVisible = 0;
+      const term = String(searchTerm || '').trim().toLowerCase();
+
+      toolkitCards.forEach((card) => {
+        const cardCategories = String(card.dataset.categories || '').split(' ').filter(Boolean);
+        const cardTitle = String(card.dataset.title || '').toLowerCase();
+        const searchMatch = term === '' || cardTitle.includes(term);
+        const categoryMatch = category === 'all' || cardCategories.includes(category);
+
+        if (searchMatch && categoryMatch) {
+          card.style.display = 'flex';
+          totalVisible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      categorySections.forEach((section) => {
+        const sectionCategory = section.dataset.category;
+        const hasVisibleCards = Array.from(section.querySelectorAll('.toolkit-card')).some(
+          (card) => card.style.display !== 'none'
+        );
+
+        if ((category === 'all' || sectionCategory === category) && hasVisibleCards) {
+          section.style.display = 'block';
+        } else {
+          section.style.display = 'none';
+        }
+      });
+
+      if (noResultsMessage) {
+        noResultsMessage.style.display = totalVisible === 0 ? 'block' : 'none';
+      }
+    }
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+        filterButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+        filterTools(category, searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', () => {
+      const active = root.querySelector('.filter-btn.active');
+      const activeCategory = active ? active.dataset.category : 'all';
+      filterTools(activeCategory, searchInput.value);
+    });
+
+    // Initial display
+    filterTools('all', '');
+  }
+
+  // Expose as a page module API
+  window.Toolkit = window.Toolkit || {};
+  window.Toolkit.initToolkitFilter = initToolkitFilter;
 })();
