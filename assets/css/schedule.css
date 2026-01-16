@@ -18,53 +18,85 @@
 .schedule-switcher {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  padding: 6px;
+  gap: 6px;
   margin-bottom: 18px;
+
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 92%, var(--surface-2)),
+    color-mix(in srgb, var(--surface) 72%, var(--surface-2))
+  );
+  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+
   flex-wrap: wrap;
 }
 
 .schedule-switch-btn {
   padding: 10px 18px;
-  background: var(--surface);
+  background: transparent;
   color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: 26px;
+  border: 1px solid transparent;
+  border-radius: 999px;
   cursor: pointer;
   font-size: 1em;
   transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
 }
 
 .schedule-switch-btn:hover {
-  background: var(--surface-2);
+  background: color-mix(in srgb, var(--surface-2) 78%, transparent);
   transform: translateY(-0.5px);
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 
 .schedule-switch-btn:active {
   transform: translateY(0);
-  box-shadow: var(--shadow-xs);
 }
 
 .schedule-switch-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-xs);
 }
 
 .schedule-switch-btn.active {
   background: var(--accent);
   border-color: var(--accent);
   color: #ffffff;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-xs);
 }
 
 .schedule-switch-btn.active:hover {
   background: var(--accent-strong);
 }
 
+@media (max-width: 520px){
+  .schedule-switcher{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .schedule-switcher::-webkit-scrollbar{ display:none; }
+  .schedule-switch-btn{ white-space: nowrap; }
+}
 .schedule-section { display: none; }
-.schedule-section.active { display: block; }
 
+.schedule-section.active {
+  display: block;
+  padding: 18px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--surface) 70%, var(--surface-2))
+  );
+  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+}
 .ustc-local-save-hint {
   display: flex;
   align-items: center;
@@ -245,6 +277,29 @@
 .timetable td.time-cell {
   background-color: var(--surface-2);
   font-weight: 600;
+}
+
+/* Sticky first (time/period) column for easier horizontal scrolling */
+.timetable th:first-child,
+.timetable td.time-cell,
+#ustc-timetable th:first-child,
+#ustc-timetable .period-header {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
+.timetable th:first-child,
+#ustc-timetable th:first-child {
+  z-index: 4;
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+.timetable td.time-cell,
+#ustc-timetable .period-header {
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
 }
 
 .timetable td.empty-cell {
@@ -532,12 +587,32 @@
 }
 
 .week-navigation {
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 14px;
+
   margin-bottom: 18px;
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
 }
 
+@media (max-width: 520px){
+  .week-navigation{
+    top: 8px;
+  }
+}
 .week-title {
   font-size: 1.35em;
   color: var(--accent);
@@ -960,6 +1035,10 @@
 }
 
 .semester-dropdown:hover .semester-dropdown-content {
+  display: block;
+}
+
+.semester-dropdown:focus-within .semester-dropdown-content {
   display: block;
 }
 
