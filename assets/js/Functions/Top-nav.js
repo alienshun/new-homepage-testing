@@ -1,4 +1,9 @@
 (function () {
+  'use strict';
+
+  // ------------------------------
+  // Render Top Nav HTML
+  // ------------------------------
   const mount = document.getElementById("mount-top-nav") || document.body;
   mount.insertAdjacentHTML("beforeend", `
   <nav id="top-nav" class="top-nav" aria-label="Primary navigation">
@@ -34,4 +39,51 @@
     </div>
   </nav>
 `);
+
+  function showTopNav() {
+    document.body.classList.add('nav-visible');
+  }
+
+  function hideTopNav() {
+    document.body.classList.remove('nav-visible');
+  }
+
+  function setTopNavActive(pageKey) {
+    const links = document.querySelectorAll('.top-nav-link');
+    links.forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.page === pageKey);
+    });
+  }
+
+  function initTopNav(onNavigate, onBackToCover) {
+    const topNav = document.getElementById('top-nav');
+    if (!topNav) return;
+
+    const topBackBtn = document.getElementById('top-back-btn');
+    if (topBackBtn && onBackToCover) {
+      topBackBtn.addEventListener('click', onBackToCover);
+    }
+
+    const links = topNav.querySelectorAll('.top-nav-link');
+    links.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.page;
+        if (!target || !onNavigate) return;
+        onNavigate(target);
+      });
+    });
+
+    // Hidden on cover by default
+    hideTopNav();
+  }
+
+  // ------------------------------
+  // Export to global
+  // ------------------------------
+  window.TopNav = {
+    show: showTopNav,
+    hide: hideTopNav,
+    setActive: setTopNavActive,
+    init: initTopNav
+  };
 })();
