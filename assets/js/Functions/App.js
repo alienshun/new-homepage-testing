@@ -1,55 +1,6 @@
 (function () {
   'use strict';
 
-  // ------------------------------
-  // Custom cursor (outer/inner + ripple)
-  // ------------------------------
-  function initCursorEffects() {
-    const cursorOuter = document.querySelector('.cursor-outer');
-    const cursorInner = document.querySelector('.cursor-inner');
-    if (!cursorOuter || !cursorInner) return;
-
-    const positions = { mouseX: 0, mouseY: 0 };
-
-    document.addEventListener('mousemove', (e) => {
-      positions.mouseX = e.clientX;
-      positions.mouseY = e.clientY;
-
-      cursorOuter.style.left = `${positions.mouseX}px`;
-      cursorOuter.style.top = `${positions.mouseY}px`;
-      cursorInner.style.left = `${positions.mouseX}px`;
-      cursorInner.style.top = `${positions.mouseY}px`;
-    });
-
-    document.addEventListener('mousedown', (e) => {
-      cursorInner.classList.add('click');
-
-      const ripple = document.createElement('div');
-      ripple.classList.add('ripple');
-      ripple.style.left = `${e.clientX}px`;
-      ripple.style.top = `${e.clientY}px`;
-      document.body.appendChild(ripple);
-
-      setTimeout(() => {
-        ripple.remove();
-      }, 600);
-    });
-
-    document.addEventListener('mouseup', () => {
-      cursorInner.classList.remove('click');
-    });
-
-    const hoverElements = document.querySelectorAll(
-      'a, button, [role="button"], #about-btn, #social-btn, #toolkit-btn, #schedule-btn'
-    );
-
-    hoverElements.forEach((el) => {
-      el.addEventListener('mouseenter', () => cursorInner.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursorInner.classList.remove('hover'));
-    });
-  }
-
-  // ------------------------------
   // Theme
   // ------------------------------
   function applyTheme(theme) {
@@ -393,7 +344,6 @@
   // Boot
   // ------------------------------
   function bootDOMContentLoaded() {
-    initCursorEffects();
     initializeTheme();
     bindThemeToggles();
     initTopNav();
