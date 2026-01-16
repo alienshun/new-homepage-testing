@@ -501,18 +501,75 @@ a.download-link:hover {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  display: grid;
   gap: 12px;
+  align-items: start;
 }
 
-.expand-media {
-  max-width: 33.3%;
+/* When there are multiple media items: 3 per row, left-aligned */
+.expand-content.is-multi {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: start;
+  justify-items: start;
+}
+
+/* When there is only one media item: center it at 1/3 of the section width */
+.expand-content.is-single {
+  grid-template-columns: minmax(0, 33.333%);
+  justify-content: center;
+  justify-items: center;
+}
+
+/* Item wrapper: can be <a> (clickable) or <div> (static) */
+.expand-item {
+  width: 100%;
+  display: block;
+}
+
+.expand-item,
+.expand-item:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.expand-item img {
+  width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
+  border-radius: calc(var(--radius-sm) - 2px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Subtle hover affordance for linked items (still "only image") */
+a.expand-item {
+  cursor: pointer;
+}
+
+a.expand-item:hover img {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+a.expand-item img {
+  transition: transform 0.16s ease, box-shadow 0.16s ease;
+}
+
+/* Responsive: avoid overly tiny tiles on mobile */
+@media (max-width: 768px) {
+  .expand-content.is-multi {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .expand-content.is-single {
+    grid-template-columns: minmax(0, min(360px, 80%));
+  }
+}
+
+/* Legacy: keep compatibility with old markup (<img class="expand-media">) */
+.expand-media {
+  width: 100%;
+  height: auto;
+  display: block;
   border-radius: calc(var(--radius-sm) - 2px);
   border: 1px solid var(--border);
   box-shadow: var(--shadow-xs);
