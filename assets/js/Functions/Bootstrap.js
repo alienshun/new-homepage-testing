@@ -7,25 +7,38 @@
   let coverHidden = false;
   let currentPage = null;
 
+  let wheelTriggered = false;
+  let wheelLockTimer = null;
+
+  function lockWheelTrigger(ms) {
+    wheelTriggered = true;
+    if (wheelLockTimer) clearTimeout(wheelLockTimer);
+    wheelLockTimer = setTimeout(() => { wheelTriggered = false; }, ms);
+  }
+
+  function scrollTargetIntoView(targetId) {
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    try {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e) {
+      // ignore
+    }
+  }
+
   function showCoverElements() {
     const avatarFrame = document.getElementById('avatar-frame');
     const name = document.getElementById('name');
     const slogan = document.getElementById('slogan');
-    const aboutBtn = document.getElementById('about-btn');
-    const socialBtn = document.getElementById('social-btn');
-    const toolkitBtn = document.getElementById('toolkit-btn');
-    const scheduleBtn = document.getElementById('schedule-btn');
+    const arrow = document.getElementById('cover-scroll');
 
-    if (!avatarFrame || !name || !slogan || !aboutBtn || !socialBtn || !toolkitBtn || !scheduleBtn) return;
+    if (!avatarFrame || !name || !slogan) return;
 
     avatarFrame.classList.add('visible');
     setTimeout(() => name.classList.add('visible'), 400);
     setTimeout(() => slogan.classList.add('visible'), 800);
     setTimeout(() => {
-      aboutBtn.classList.add('visible');
-      socialBtn.classList.add('visible');
-      toolkitBtn.classList.add('visible');
-      scheduleBtn.classList.add('visible');
+      if (arrow) arrow.classList.add('visible');
     }, 1200);
   }
 
@@ -48,15 +61,19 @@
       if (target === 'resume') {
         resume.classList.add('visible');
         currentPage = 'resume';
+        scrollTargetIntoView('resume');
       } else if (target === 'social') {
         social.classList.add('visible');
         currentPage = 'social';
+        scrollTargetIntoView('social');
       } else if (target === 'toolkit') {
         toolkit.classList.add('visible');
         currentPage = 'toolkit';
+        scrollTargetIntoView('toolkit');
       } else if (target === 'schedule') {
         schedule.classList.add('visible');
         currentPage = 'schedule';
+        scrollTargetIntoView('schedule');
         if (window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
           window.Schedule.setScheduleView('my-timetable');
         }
@@ -83,7 +100,7 @@
     }, 1500);
 
     // Hide cover elements immediately
-    ['avatar-frame', 'name', 'slogan', 'about-btn', 'social-btn', 'toolkit-btn', 'schedule-btn'].forEach((id) => {
+    ['avatar-frame', 'name', 'slogan', 'cover-scroll'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.classList.remove('visible');
     });
@@ -121,27 +138,59 @@
       if (el) el.classList.remove('visible');
     });
 
+    // Reset scroll position for wheel trigger
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+
     setTimeout(() => {
       cover.classList.add('visible');
       showCoverElements();
     }, 100);
   }
 
-  function bindCoverButtons() {
-    const aboutBtn = document.getElementById('about-btn');
-    const socialBtn = document.getElementById('social-btn');
-    const toolkitBtn = document.getElementById('toolkit-btn');
-    const scheduleBtn = document.getElementById('schedule-btn');
+  function bindCoverArrowAndScroll() {
+    const cover = document.getElementById('cover');
+    const arrow = document.getElementById('cover-scroll');
+    if (!cover) return;
 
-    if (aboutBtn) aboutBtn.addEventListener('click', () => showPage('resume'));
-    if (socialBtn) socialBtn.addEventListener('click', () => showPage('social'));
-    if (toolkitBtn) toolkitBtn.addEventListener('click', () => showPage('toolkit'));
-    if (scheduleBtn) scheduleBtn.addEventListener('click', () => showPage('schedule'));
+    // Arrow click -> About(Resume)
+    if (arrow) {
+      arrow.addEventListener('click', () => {
+        if (coverHidden) return;
+        arrow.classList.add('pulse');
+        setTimeout(() => arrow.classList.remove('pulse'), 320);
+        showPage('resume');
+      });
+    }
 
-    ['resume-back-btn', 'social-back-btn', 'toolkit-back-btn', 'schedule-back-btn'].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.addEventListener('click', backToCover);
-    });
+    // Wheel down -> About(Resume)
+    cover.addEventListener('wheel', (e) => {
+      if (coverHidden) return;
+
+      // Only capture downward intent; avoid continuous trigger
+      if (e.deltaY > 6 && !wheelTriggered) {
+        e.preventDefault();
+        lockWheelTrigger(900);
+        showPage('resume');
+        return;
+      }
+
+      // Prevent page scroll during cover stage
+      e.preventDefault();
+    }, { passive: false });
+
+    // Support touchpad / keyboard down
+    window.addEventListener('keydown', (e) => {
+      if (coverHidden) return;
+      const keys = ['ArrowDown', 'PageDown', 'Space'];
+      if (keys.includes(e.code)) {
+        e.preventDefault();
+        if (!wheelTriggered) {
+          lockWheelTrigger(900);
+          showPage('resume');
+        }
+      }
+    }, { passive: false });
   }
 
   // ------------------------------
@@ -185,12 +234,16 @@
       window.TopNav.hide();
     }
 
+    // Lock scroll initially; transition via wheel/arrow
+    document.body.style.overflow = 'hidden';
+
     const cover = document.getElementById('cover');
     if (cover) {
       cover.classList.add('visible');
       showCoverElements();
     }
-    bindCoverButtons();
+
+    bindCoverArrowAndScroll();
 
     // Clock start (migrated)
     if (window.Clock && typeof window.Clock.start === 'function') {
