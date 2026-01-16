@@ -7,21 +7,6 @@
   let coverHidden = false;
   let currentPage = null;
 
-  function showTopNav() {
-    document.body.classList.add('nav-visible');
-  }
-
-  function hideTopNav() {
-    document.body.classList.remove('nav-visible');
-  }
-
-  function setTopNavActive(pageKey) {
-    const links = document.querySelectorAll('.top-nav-link');
-    links.forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.page === pageKey);
-    });
-  }
-
   function showCoverElements() {
     const avatarFrame = document.getElementById('avatar-frame');
     const name = document.getElementById('name');
@@ -77,8 +62,11 @@
         }
       }
 
-      showTopNav();
-      setTopNavActive(currentPage);
+      // Use TopNav module
+      if (window.TopNav) {
+        window.TopNav.show();
+        window.TopNav.setActive(currentPage);
+      }
     }
 
     if (coverHidden) {
@@ -113,8 +101,11 @@
     coverHidden = false;
     currentPage = null;
 
-    hideTopNav();
-    setTopNavActive('');
+    // Use TopNav module
+    if (window.TopNav) {
+      window.TopNav.hide();
+      window.TopNav.setActive('');
+    }
 
     cover.style.display = 'flex';
     cover.classList.remove('hidden');
@@ -134,28 +125,6 @@
       cover.classList.add('visible');
       showCoverElements();
     }, 100);
-  }
-
-  function initTopNav() {
-    const topNav = document.getElementById('top-nav');
-    if (!topNav) return;
-
-    const topBackBtn = document.getElementById('top-back-btn');
-    if (topBackBtn) {
-      topBackBtn.addEventListener('click', backToCover);
-    }
-
-    const links = topNav.querySelectorAll('.top-nav-link');
-    links.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.page;
-        if (!target) return;
-        showPage(target);
-      });
-    });
-
-    // Hidden on cover by default
-    hideTopNav();
   }
 
   function bindCoverButtons() {
@@ -184,7 +153,10 @@
       window.Theme.init();
     }
 
-    initTopNav();
+    // Initialize TopNav with callbacks
+    if (window.TopNav && typeof window.TopNav.init === 'function') {
+      window.TopNav.init(showPage, backToCover);
+    }
 
     // Toolkit page init (migrated)
     if (window.Toolkit && typeof window.Toolkit.initToolkitFilter === 'function') {
@@ -208,7 +180,11 @@
   }
 
   function bootOnLoad() {
-    hideTopNav();
+    // Use TopNav module
+    if (window.TopNav) {
+      window.TopNav.hide();
+    }
+
     const cover = document.getElementById('cover');
     if (cover) {
       cover.classList.add('visible');
