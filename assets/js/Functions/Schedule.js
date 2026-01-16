@@ -758,12 +758,7 @@ function initCalendar() {
     eventClick: function (info) {
       openGeneralEventModal('calendar', info.event);
     },
-    eventDidMount: function (info) {
-      if (document.body.classList.contains('dark-mode')) {
-        info.el.style.backgroundColor = '#6a3093';
-        info.el.style.borderColor = '#6a3093';
-      }
-    }
+    // Visual styling is handled by CSS tokens (including dark mode).
   });
 
   updateCalendarTheme();
