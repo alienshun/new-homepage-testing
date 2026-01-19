@@ -43,7 +43,7 @@
       'cover_24.jpg',
       //'cover_25.jpg',
       'cover_26.jpg',
-      'cover_27.jpg',
+      //'cover_27.jpg',
       'cover_28.jpg',
       'cover_29.jpg',
       'cover_30.jpg',
