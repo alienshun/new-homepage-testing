@@ -32,16 +32,16 @@
       'cover_13.jpg',
       'cover_14.jpg',
       'cover_15.jpg',
-      'cover_16.png',
-      'cover_17.jpg',
-      'cover_18.jpg',
+      //'cover_16.png',
+      //'cover_17.jpg',
+      //'cover_18.jpg',
       'cover_19.png',
-      'cover_20.jpg',
-      'cover_21.jpg',
+      //'cover_20.jpg',
+      //'cover_21.jpg',
       'cover_22.jpg',
       'cover_23.jpg',
       'cover_24.jpg',
-      'cover_25.jpg',
+      //'cover_25.jpg',
       'cover_26.jpg',
       'cover_27.jpg',
       'cover_28.jpg',
@@ -51,9 +51,9 @@
       'cover_32.jpg',
       'cover_33.jpg',
       'cover_34.jpg',
-      'cover_35.jpg',
+      //'cover_35.jpg',
       'cover_36.jpg',
-      'cover_37.jpg'
+      //'cover_37.jpg'
     ];
 
     const chosen = covers[Math.floor(Math.random() * covers.length)];
