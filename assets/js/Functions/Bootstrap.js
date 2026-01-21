@@ -10,6 +10,26 @@
   let wheelTriggered = false;
   let wheelLockTimer = null;
 
+  // Keep a stable viewport height on mobile browsers (fixes 100vh issues with dynamic address bars)
+  let appHeightRaf = 0;
+  function syncAppHeight() {
+    try {
+      document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    } catch (e) {
+      // ignore
+    }
+  }
+  function scheduleAppHeightSync() {
+    if (appHeightRaf) cancelAnimationFrame(appHeightRaf);
+    appHeightRaf = requestAnimationFrame(() => {
+      appHeightRaf = 0;
+      syncAppHeight();
+    });
+  }
+  syncAppHeight();
+  window.addEventListener('resize', scheduleAppHeightSync, { passive: true });
+  window.addEventListener('orientationchange', scheduleAppHeightSync, { passive: true });
+
   function lockWheelTrigger(ms) {
     wheelTriggered = true;
     if (wheelLockTimer) clearTimeout(wheelLockTimer);
@@ -178,6 +198,56 @@
       // Prevent page scroll during cover stage
       e.preventDefault();
     }, { passive: false });
+
+    // Touch swipe (mobile/tablet) -> About(Resume)
+    // NOTE: On iOS/Android there is no wheel event, and body scroll is locked on the cover.
+    // This enables "swipe to enter" while preventing pull-to-refresh / overscroll.
+    let touchStartY = 0;
+    let touchStartX = 0;
+    let touchActive = false;
+
+    cover.addEventListener('touchstart', (e) => {
+      if (coverHidden) return;
+      if (!e.touches || e.touches.length !== 1) return;
+      touchActive = true;
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    }, { passive: true });
+
+    cover.addEventListener('touchmove', (e) => {
+      if (coverHidden || !touchActive) return;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+
+      const dy = t.clientY - touchStartY;
+      const dx = t.clientX - touchStartX;
+
+      // Stop browser from treating it as page scroll / pull-to-refresh on the cover
+      if (Math.abs(dy) > Math.abs(dx) * 1.2) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    cover.addEventListener('touchend', (e) => {
+      if (coverHidden || !touchActive) return;
+      touchActive = false;
+
+      const t = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0] : null;
+      if (!t) return;
+
+      const dy = t.clientY - touchStartY;
+      const dx = t.clientX - touchStartX;
+
+      // "Scroll down" intent on mobile is usually an upward finger swipe.
+      // We accept either direction as long as it is a strong vertical swipe.
+      const isVertical = Math.abs(dy) > Math.abs(dx) * 1.2;
+      const strongEnough = Math.abs(dy) > 60;
+
+      if (isVertical && strongEnough && !wheelTriggered) {
+        lockWheelTrigger(900);
+        showPage('resume');
+      }
+    }, { passive: true });
 
     // Support touchpad / keyboard down
     window.addEventListener('keydown', (e) => {
