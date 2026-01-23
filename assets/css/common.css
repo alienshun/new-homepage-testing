@@ -589,6 +589,12 @@ a.download-link:hover {
 }
 
 .expand-row.is-open {
+  /* Default: expanders used in normal (non-table) layouts */
+  display: block;
+}
+
+/* Expanders used inside <table> keep valid table layout */
+tr.expand-row.is-open {
   display: table-row;
 }
 
