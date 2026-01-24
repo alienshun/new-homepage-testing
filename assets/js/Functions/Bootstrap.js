@@ -69,7 +69,10 @@
     const toolkit = document.getElementById('toolkit');
     const schedule = document.getElementById('schedule');
 
-    if (!cover || !resume || !social || !toolkit || !schedule) return;
+    // [NEW]
+    const meditations = document.getElementById('meditations');
+
+    if (!cover || !resume || !social || !toolkit || !schedule || !meditations) return;
     if (coverHidden && currentPage === page) return;
 
     function activatePage(target) {
@@ -77,6 +80,9 @@
       social.classList.remove('visible');
       toolkit.classList.remove('visible');
       schedule.classList.remove('visible');
+
+      // [NEW]
+      meditations.classList.remove('visible');
 
       if (target === 'resume') {
         resume.classList.add('visible');
@@ -97,6 +103,10 @@
         if (window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
           window.Schedule.setScheduleView('my-timetable');
         }
+      } else if (target === 'meditations') {
+        meditations.classList.add('visible');
+        currentPage = 'meditations';
+        scrollTargetIntoView('meditations');
       }
 
       // Use TopNav module
@@ -133,7 +143,10 @@
     const toolkit = document.getElementById('toolkit');
     const schedule = document.getElementById('schedule');
 
-    if (!cover || !resume || !social || !toolkit || !schedule) return;
+    // [NEW]
+    const meditations = document.getElementById('meditations');
+
+    if (!cover || !resume || !social || !toolkit || !schedule || !meditations) return;
 
     coverHidden = false;
     currentPage = null;
@@ -151,6 +164,9 @@
     social.classList.remove('visible');
     toolkit.classList.remove('visible');
     schedule.classList.remove('visible');
+
+    // [NEW]
+    meditations.classList.remove('visible');
 
     // Back buttons are optional (kept for compatibility)
     ['resume-back-btn', 'social-back-btn', 'toolkit-back-btn', 'schedule-back-btn'].forEach((id) => {
@@ -200,8 +216,6 @@
     }, { passive: false });
 
     // Touch swipe (mobile/tablet) -> About(Resume)
-    // NOTE: On iOS/Android there is no wheel event, and body scroll is locked on the cover.
-    // This enables "swipe to enter" while preventing pull-to-refresh / overscroll.
     let touchStartY = 0;
     let touchStartX = 0;
     let touchActive = false;
@@ -222,7 +236,6 @@
       const dy = t.clientY - touchStartY;
       const dx = t.clientX - touchStartX;
 
-      // Stop browser from treating it as page scroll / pull-to-refresh on the cover
       if (Math.abs(dy) > Math.abs(dx) * 1.2) {
         e.preventDefault();
       }
@@ -238,8 +251,6 @@
       const dy = t.clientY - touchStartY;
       const dx = t.clientX - touchStartX;
 
-      // "Scroll down" intent on mobile is usually an upward finger swipe.
-      // We accept either direction as long as it is a strong vertical swipe.
       const isVertical = Math.abs(dy) > Math.abs(dx) * 1.2;
       const strongEnough = Math.abs(dy) > 60;
 
