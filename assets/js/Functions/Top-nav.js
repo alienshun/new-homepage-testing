@@ -20,6 +20,9 @@
         <button class="top-nav-link" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</button>
         <button class="top-nav-link" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</button>
         <button class="top-nav-link" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</button>
+
+        <!-- [NEW] -->
+        <button class="top-nav-link" data-page="meditations" data-cursor="precise_select" data-cursor-fallback="pointer">Meditations</button>
       </div>
 
       <div class="top-nav-right">
