@@ -99,6 +99,9 @@
   // ------------------------------
   let resumeEnInnerHTML = null;
 
+  // [NEW] cache Meditations English template too
+  let meditationsEnInnerHTML = null;
+
   function ensureLangButtonMarkup(btn) {
     if (!btn) return null;
 
@@ -163,6 +166,32 @@
     } else {
       if (typeof resumeEnInnerHTML === "string") {
         resume.innerHTML = resumeEnInnerHTML;
+      }
+    }
+  }
+
+  // [NEW] Meditations language swap (same pattern as Resume, but no expander state needed)
+  function captureMeditationsEnglishTemplate() {
+    const m = document.getElementById("meditations");
+    if (!m) return;
+    if (meditationsEnInnerHTML == null) {
+      meditationsEnInnerHTML = m.innerHTML;
+    }
+  }
+
+  function applyMeditationsLanguage(lang) {
+    const m = document.getElementById("meditations");
+    if (!m) return;
+
+    captureMeditationsEnglishTemplate();
+
+    if (lang === LANG.ZH) {
+      if (typeof window.MEDITATIONS_ZH_INNER_HTML === "string" && window.MEDITATIONS_ZH_INNER_HTML.trim()) {
+        m.innerHTML = window.MEDITATIONS_ZH_INNER_HTML;
+      }
+    } else {
+      if (typeof meditationsEnInnerHTML === "string") {
+        m.innerHTML = meditationsEnInnerHTML;
       }
     }
   }
@@ -247,8 +276,8 @@
 
     const l = normalizeLang(lang);
     const labels = (l === LANG.ZH)
-      ? { resume: "关于", schedule: "日程", social: "社交", toolkit: "工具" }
-      : { resume: "About", schedule: "Schedule", social: "Social", toolkit: "Toolkit" };
+      ? { resume: "关于", schedule: "日程", social: "社交", toolkit: "工具", meditations: "沉思录" }
+      : { resume: "About", schedule: "Schedule", social: "Social", toolkit: "Toolkit", meditations: "Meditations" };
 
     nav.querySelectorAll(".top-nav-link[data-page]").forEach((btn) => {
       const page = btn.getAttribute("data-page");
@@ -287,30 +316,22 @@
       return;
     }
 
-    // Freeze current height to prevent layout jump
     const prevH = resume.getBoundingClientRect().height;
     if (prevH > 0) resume.style.minHeight = prevH + "px";
 
-    // Lightweight fade to hide transient DOM replacement
     resume.style.transition = "opacity 120ms ease";
     resume.style.opacity = "0";
 
-    // Swap content in next frame (let opacity start)
     requestAnimationFrame(() => {
       applyResumeLanguage(lang);
-
-      // Restore expanders immediately (before we fade back in)
       restoreResumeOpenKeys(openKeys);
 
-      // Dispatch langchange AFTER resume is consistent, include openKeys for listeners
       try {
         window.dispatchEvent(new CustomEvent("site:langchange", { detail: { lang: lang, openKeys: openKeys } }));
       } catch (e) { }
 
-      // Fade back in on next frame, then cleanup minHeight
       requestAnimationFrame(() => {
         resume.style.opacity = "1";
-        // cleanup after transition ends (fallback timeout in case event doesn't fire)
         const cleanup = () => {
           resume.style.minHeight = "";
           resume.removeEventListener("transitionend", cleanup);
@@ -325,18 +346,17 @@
     const l = setLang(lang);
     updateLangButton(l);
 
-    // Capture open expanders BEFORE swapping resume HTML
+    // Resume: keep smooth swap
     const openKeys = getResumeOpenKeys();
-
-    // Resume swap is the main source of flash; do it smoothly and restore state
     smoothSwapResume(l, openKeys);
 
-    // Other sections can update immediately (they don't replace large DOM blocks like resume)
+    // [NEW] Meditations: swap immediately (simple DOM)
+    applyMeditationsLanguage(l);
+
+    // Other sections
     applyToolkitI18N(l);
     applySocialI18N(l);
     applyTopNavI18N(l);
-
-    // NOTE: site:langchange is dispatched inside smoothSwapResume with openKeys
   }
 
   // Expose applyLanguage for pages that want to force a change
@@ -371,7 +391,7 @@
     window.addEventListener("site:langchange", function (e) {
       const l = normalizeLang(e && e.detail ? e.detail.lang : getLang());
 
-      // Resume is handled by smoothSwapResume (and Resume_Expanders listens too)
+      applyMeditationsLanguage(l);
       applyToolkitI18N(l);
       applySocialI18N(l);
       applyTopNavI18N(l);
