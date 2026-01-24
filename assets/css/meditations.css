@@ -1,0 +1,41 @@
+/* =========================================================
+   Meditations page (scoped styles)
+   Load AFTER main.css (and after top-nav.css if you want).
+   ========================================================= */
+
+/* 1) Make the "Meditations" title look like Social page heading */
+#meditations .resume-heading{
+  font-size: 2.4em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 26px;
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+  letter-spacing: 0.6px;
+}
+
+/* 2) Typography: EN = Times New Roman, ZH = 楷体 (KaiTi)
+   Only applies to Meditations body content (not the title above). */
+body[data-lang="zh"] #meditations .container,
+body[data-lang="zh"] #meditations .section,
+body[data-lang="zh"] #meditations p,
+body[data-lang="zh"] #meditations li,
+body[data-lang="zh"] #meditations .subheading,
+body[data-lang="zh"] #meditations .subheading-title{
+  font-family: "KaiTi", "STKaiti", "Kaiti SC", "DFKai-SB", serif;
+}
+
+body:not([data-lang="zh"]) #meditations .container,
+body:not([data-lang="zh"]) #meditations .section,
+body:not([data-lang="zh"]) #meditations p,
+body:not([data-lang="zh"]) #meditations li,
+body:not([data-lang="zh"]) #meditations .subheading,
+body:not([data-lang="zh"]) #meditations .subheading-title{
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Optional: make paragraphs a bit more book-like without affecting other pages */
+#meditations p{
+  font-size: 1.02em;
+  line-height: 1.75;
+}
