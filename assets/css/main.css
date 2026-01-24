@@ -107,7 +107,7 @@ a:hover { color: var(--accent-strong); text-decoration: underline; }
    2) Shared pages (Resume / Social / Toolkit / Schedule)
    ========================================================= */
 /* Shared content styling (Resume / Social / Toolkit / Schedule) */
-#resume, #social, #toolkit, #schedule {
+#resume, #social, #toolkit, #schedule, #meditations {
   position: relative;
   z-index: 1;
   display: none;
@@ -122,7 +122,7 @@ a:hover { color: var(--accent-strong); text-decoration: underline; }
   transition: opacity 0.8s ease-in-out;
 }
 
-#resume.visible, #social.visible, #toolkit.visible, #schedule.visible {
+#resume.visible, #social.visible, #toolkit.visible, #schedule.visible, #meditations.visible {
   display: block;
   opacity: 1;
 }
