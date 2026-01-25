@@ -99,7 +99,7 @@
   // ------------------------------
   let resumeEnInnerHTML = null;
 
-  // [NEW] cache Meditations English template too
+  // cache Meditations English template too
   let meditationsEnInnerHTML = null;
 
   function ensureLangButtonMarkup(btn) {
@@ -170,7 +170,7 @@
     }
   }
 
-  // [NEW] Meditations language swap (same pattern as Resume, but no expander state needed)
+  // Meditations language swap (same pattern as Resume)
   function captureMeditationsEnglishTemplate() {
     const m = document.getElementById("meditations");
     if (!m) return;
@@ -287,16 +287,34 @@
     });
   }
 
+  // ---- Helpers: capture expander openKeys for the WHOLE page (so Meditations won't be reset) ----
+  function getFallbackOpenKeys(scope) {
+    try {
+      const root = scope || document;
+      const btns = Array.prototype.slice.call(root.querySelectorAll('button.expander[aria-expanded="true"]'));
+      return btns.map(function (btn) {
+        const k = btn.getAttribute("data-expand-key");
+        if (k && String(k).trim()) return String(k).trim();
+        const t = btn.getAttribute("data-expand-target");
+        if (t && String(t).trim()) return String(t).trim();
+        return null;
+      }).filter(Boolean);
+    } catch (e) {
+      return [];
+    }
+  }
+
   // ---- Smooth resume swap to avoid "flash" when expanders are open ----
+  // NOTE: we intentionally capture ALL openKeys across the page, not just resume,
+  // so Meditations expanders keep their open/closed state during lang switch.
   function getResumeOpenKeys() {
     try {
       const api = window.ResumeExpanders;
-      const resume = document.getElementById("resume");
       if (api && typeof api.getOpenKeys === "function") {
-        return api.getOpenKeys(resume || document);
+        return api.getOpenKeys(document);
       }
     } catch (e) { }
-    return [];
+    return getFallbackOpenKeys(document);
   }
 
   function restoreResumeOpenKeys(keys) {
@@ -342,16 +360,59 @@
     });
   }
 
+  // ---- Smooth Meditations swap (keep expander state + no flash) ----
+  function restoreMeditationsOpenKeys(keys) {
+    try {
+      const api = window.ResumeExpanders;
+      const m = document.getElementById("meditations");
+      if (api && typeof api.init === "function") {
+        // skipSave: avoid overwriting storage with just the meditations scope
+        api.init(m || document, { openKeys: Array.isArray(keys) ? keys : [], skipSave: true });
+      }
+    } catch (e) { }
+  }
+
+  function smoothSwapMeditations(lang, openKeys) {
+    const m = document.getElementById("meditations");
+    if (!m) {
+      applyMeditationsLanguage(lang);
+      return;
+    }
+
+    const prevH = m.getBoundingClientRect().height;
+    if (prevH > 0) m.style.minHeight = prevH + "px";
+
+    m.style.transition = "opacity 120ms ease";
+    m.style.opacity = "0";
+
+    requestAnimationFrame(() => {
+      applyMeditationsLanguage(lang);
+      restoreMeditationsOpenKeys(openKeys);
+
+      requestAnimationFrame(() => {
+        m.style.opacity = "1";
+        const cleanup = () => {
+          m.style.minHeight = "";
+          m.removeEventListener("transitionend", cleanup);
+        };
+        m.addEventListener("transitionend", cleanup);
+        setTimeout(cleanup, 250);
+      });
+    });
+  }
+
   function applyLanguage(lang) {
     const l = setLang(lang);
     updateLangButton(l);
 
-    // Resume: keep smooth swap
+    // Capture ALL open expanders (resume + meditations + any others)
     const openKeys = getResumeOpenKeys();
+
+    // Resume: keep smooth swap
     smoothSwapResume(l, openKeys);
 
-    // [NEW] Meditations: swap immediately (simple DOM)
-    applyMeditationsLanguage(l);
+    // Meditations: smooth swap + keep expander state
+    smoothSwapMeditations(l, openKeys);
 
     // Other sections
     applyToolkitI18N(l);
@@ -391,7 +452,7 @@
     window.addEventListener("site:langchange", function (e) {
       const l = normalizeLang(e && e.detail ? e.detail.lang : getLang());
 
-      applyMeditationsLanguage(l);
+      // IMPORTANT: do NOT re-swap meditations here (avoid double DOM replacement / flicker)
       applyToolkitI18N(l);
       applySocialI18N(l);
       applyTopNavI18N(l);
