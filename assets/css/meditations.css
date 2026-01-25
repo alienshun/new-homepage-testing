@@ -1,14 +1,11 @@
-/* =========================================================
-   Meditations page (scoped styles)
-   Load AFTER main.css
-   ========================================================= */
-
 #meditations{
-  /* layout tokens */
-  --medit-arrow-space: 26px;   /* keep space for right-side arrow */
-  --medit-indent: 18px;        /* visual indent for small chapters (collapsed only) */
+  --medit-arrow-space: 26px;
+  --medit-indent: 18px;
 
-  /* typography tokens */
+  --medit-par-indent-zh: 2em;
+  --medit-par-indent-en: 1.6em;
+  --medit-par-indent: var(--medit-par-indent-en);
+
   --medit-en-body: "Times New Roman", Times, serif;
   --medit-en-title: "Cinzel", "Georgia", serif;
 
@@ -17,19 +14,17 @@
   --medit-zh-subtitle: "FangSong", "STFangsong", "仿宋", "KaiTi", "楷体", serif;
 }
 
-/* Base typography by language (正文基调) */
 body[data-lang="zh"] #meditations{
   font-family: var(--medit-zh-body);
+  --medit-par-indent: var(--medit-par-indent-zh);
 }
 body:not([data-lang="zh"]) #meditations{
   font-family: var(--medit-en-body);
+  --medit-par-indent: var(--medit-par-indent-en);
 }
 
-/* ------------------------------
-   Page Title / Contents Title
-   ------------------------------ */
+/* Page title */
 #meditations .resume-heading{
-  /* match Social: .social-heading */
   font-size: 2.4em;
   text-align: center;
   color: var(--accent);
@@ -39,13 +34,11 @@ body:not([data-lang="zh"]) #meditations{
   letter-spacing: 0.6px;
 }
 
-/* EN title: same as Social (Georgia + small-caps) */
 body:not([data-lang="zh"]) #meditations .resume-heading{
   font-family: "Georgia", serif;
   font-variant: small-caps;
 }
 
-/* ZH title: similar "book title" feel */
 body[data-lang="zh"] #meditations .resume-heading{
   font-family: var(--medit-zh-title);
   font-variant: normal;
@@ -55,12 +48,9 @@ body[data-lang="zh"] #meditations .resume-heading{
 #meditations .medit-contents-title{
   text-align: center;
   margin: 6px 0 18px;
-
-  /* clearer than muted */
   color: var(--text);
 }
 
-/* EN/ZH contents title fonts */
 body:not([data-lang="zh"]) #meditations .medit-contents-title{
   font-family: var(--medit-en-title);
   font-variant: small-caps;
@@ -70,12 +60,9 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   font-variant: normal;
 }
 
-/* Contents title PDF badge (keeps title centered; PDF sits to the right, out of flow) */
 #meditations .medit-contents-title-text{
   position: relative;
   display: inline-block;
-
-  /* Stardust / 星尘依旧: larger + clearer */
   font-size: 1.35em;
   font-weight: 700;
   color: var(--text);
@@ -91,11 +78,9 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   top: 50%;
   transform: translateY(-50%);
   margin-left: 10px;
-
   font-size: 0.92em;
   letter-spacing: 0;
   white-space: nowrap;
-
   color: var(--accent);
   opacity: 0.92;
 }
@@ -105,66 +90,60 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   text-decoration: underline;
 }
 
-/* ------------------------------
-   Paragraphs (正文)
-   ------------------------------ */
+/* Paragraphs */
 #meditations p{
   font-size: 1.02em;
   line-height: 1.85;
   margin: 0 0 12px;
 }
 
-/* ------------------------------
-   Contents + Expanders
-   ------------------------------ */
+#meditations .medit-body p{
+  text-indent: var(--medit-par-indent);
+}
+
+body:not([data-lang="zh"]) #meditations .medit-body p:first-child{
+  text-indent: 0;
+}
+
+#meditations .medit-body p.medit-empty{
+  text-indent: 0;
+}
+
+/* Contents structure */
 #meditations .medit-entry{
   margin: 10px 0;
 }
 
-/*
-  KEY FIX for alignment:
-  1) Do NOT shrink child container width (remove .medit-children padding-left)
-  2) Do NOT use asymmetric row padding-right that shifts "center"
-  3) Indent ONLY the small title text when collapsed
-  4) When expanded+centered, use symmetric left/right padding to keep axis identical
-*/
 #meditations .medit-row{
   position: relative;
-  padding: 10px 0;            /* no asymmetric padding */
+  padding: 10px 0;
   user-select: none;
 }
 
-/* Right-side arrow stays pinned, does not affect centering math */
 #meditations .medit-row .expander{
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  margin-left: 0;             /* override main.css */
+  margin-left: 0;
 }
 
-/* Title: leave space on the right for arrow (collapsed state) */
 #meditations .medit-title{
   display: block;
   text-align: left;
   padding-right: var(--medit-arrow-space);
 }
 
-/* Small chapters: visual indent (collapsed only) */
 #meditations .medit-row-small .medit-title{
   padding-left: var(--medit-indent);
 }
 
-/* Expanded: CENTER with symmetric paddings => center axis matches "沉思录/目录" */
 #meditations .medit-row .expander.is-open + .medit-title{
   text-align: center;
-
-  /* symmetric padding is crucial: do NOT shift axis */
   padding-left: var(--medit-arrow-space);
   padding-right: var(--medit-arrow-space);
 }
 
-/* Big vs small chapter typography */
 #meditations .medit-row-big .medit-title{
   font-size: 1.55em;
   font-weight: 700;
@@ -178,7 +157,6 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   color: var(--text);
 }
 
-/* Title fonts by language (章节名多样但协调) */
 body:not([data-lang="zh"]) #meditations .medit-row-big .medit-title{
   font-family: var(--medit-en-title);
 }
@@ -193,13 +171,11 @@ body[data-lang="zh"] #meditations .medit-row-small .medit-title{
   font-family: var(--medit-zh-subtitle);
 }
 
-/* IMPORTANT: keep child container full-width so centering shares the same axis */
 #meditations .medit-children{
   padding-left: 0;
   margin-top: 6px;
 }
 
-/* Content block (no divider lines) */
 #meditations .medit-body{
   margin: 10px 0 2px;
   padding: 14px 16px;
@@ -207,8 +183,8 @@ body[data-lang="zh"] #meditations .medit-row-small .medit-title{
   background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
 }
 
-/* Empty placeholder text */
 #meditations .medit-empty{
   color: var(--muted);
   margin: 0;
+  text-indent: 0;
 }
