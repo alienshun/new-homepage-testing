@@ -3,7 +3,7 @@
    Load AFTER main.css (and after top-nav.css if you want).
    ========================================================= */
 
-/* 1) Make the "Meditations" title look like Social page heading */
+/* Title */
 #meditations .resume-heading{
   font-size: 2.4em;
   text-align: center;
@@ -14,28 +14,96 @@
   letter-spacing: 0.6px;
 }
 
-/* 2) Typography: EN = Times New Roman, ZH = 楷体 (KaiTi)
-   Only applies to Meditations body content (not the title above). */
-body[data-lang="zh"] #meditations .container,
-body[data-lang="zh"] #meditations .section,
-body[data-lang="zh"] #meditations p,
-body[data-lang="zh"] #meditations li,
-body[data-lang="zh"] #meditations .subheading,
-body[data-lang="zh"] #meditations .subheading-title{
-  font-family: "KaiTi", "STKaiti", "Kaiti SC", "DFKai-SB", serif;
-}
-
+/* Keep EN typography book-like */
 body:not([data-lang="zh"]) #meditations .container,
 body:not([data-lang="zh"]) #meditations .section,
 body:not([data-lang="zh"]) #meditations p,
 body:not([data-lang="zh"]) #meditations li,
 body:not([data-lang="zh"]) #meditations .subheading,
-body:not([data-lang="zh"]) #meditations .subheading-title{
+body:not([data-lang="zh"]) #meditations .subheading-title,
+body:not([data-lang="zh"]) #meditations .medit-title{
   font-family: "Times New Roman", Times, serif;
 }
 
-/* Optional: make paragraphs a bit more book-like without affecting other pages */
+/* Paragraphs */
 #meditations p{
   font-size: 1.02em;
   line-height: 1.75;
+  margin: 0 0 12px;
+}
+
+/* ---------------------------------------------------------
+   Book-like Contents + Expanders
+   --------------------------------------------------------- */
+#meditations .medit-contents-title{
+  text-align: center;
+  margin: 6px 0 18px;
+  color: var(--muted);
+  font-variant: small-caps;
+  letter-spacing: 0.8px;
+}
+
+/* Each entry */
+#meditations .medit-entry{
+  margin: 10px 0;
+}
+
+/* Row with right-side arrow */
+#meditations .medit-row{
+  position: relative;
+  padding: 10px 26px 10px 0; /* leave room for arrow */
+  user-select: none;
+}
+
+#meditations .medit-row .expander{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0; /* override main.css */
+}
+
+#meditations .medit-title{
+  display: block;
+  text-align: left;
+  padding-right: 6px;
+}
+
+/* Collapsed: left aligned; Expanded: centered */
+#meditations .medit-row .expander.is-open + .medit-title{
+  text-align: center;
+}
+
+/* Big vs small chapter typography */
+#meditations .medit-row-big .medit-title{
+  font-size: 1.55em;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.6px;
+}
+
+#meditations .medit-row-small .medit-title{
+  font-size: 1.12em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Indent small chapters inside big chapters */
+#meditations .medit-children{
+  padding-left: 18px;
+  margin-top: 6px;
+}
+
+/* Content block (no divider lines) */
+#meditations .medit-body{
+  margin: 10px 0 2px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
+}
+
+/* Empty placeholder text */
+#meditations .medit-empty{
+  color: var(--muted);
+  margin: 0;
 }
