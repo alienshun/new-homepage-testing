@@ -188,3 +188,22 @@ body[data-lang="zh"] #meditations .medit-row-small .medit-title{
   margin: 0;
   text-indent: 0;
 }
+
+.medit-poem{
+  text-align: center;
+  margin: 12px 0;
+  line-height: 1.9;
+}
+
+.medit-poem p{
+  margin: 0.25em 0;
+}
+
+/* Epilogue signature / date line */
+#meditations .medit-body p.medit-signature{
+  text-align: right;
+  text-indent: 0;
+  margin-top: 16px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
