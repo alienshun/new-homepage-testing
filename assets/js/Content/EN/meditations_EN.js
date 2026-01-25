@@ -7,7 +7,9 @@
       <div class="resume-heading">Meditations</div>
 
       <div class="section">
-        <div class="medit-contents-title">Contents</div>
+        <div class="medit-contents-title">
+          <span class="medit-contents-title-text">Stardust<a class="medit-pdf-link" href="./assets/pdf/Stardust_Meditations.pdf" download="Stardust_Meditations.pdf" aria-label="Download Stardust PDF">&lceil; PDF &rfloor;</a></span>
+        </div>
 
         <div class="medit-contents">
 
