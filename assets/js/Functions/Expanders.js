@@ -191,6 +191,39 @@
     );
   }
 
+  // ---------------------------------------------------------
+  // Meditations: click the whole row to toggle (not just arrow)
+  // ---------------------------------------------------------
+  function setupMeditationsRowClickOnce() {
+    if (document.documentElement.dataset.meditRowClick === "1") return;
+    document.documentElement.dataset.meditRowClick = "1";
+
+    // Capture phase so it works consistently with expander delegation
+    document.addEventListener(
+      "click",
+      function (e) {
+        const t = e.target;
+
+        // Only apply inside the Meditations page
+        const row = t && t.closest ? t.closest("#meditations .medit-row") : null;
+        if (!row) return;
+
+        // If user clicked the expander button itself, the expander delegation handles it
+        if (t && t.closest && t.closest("button.expander")) return;
+
+        // Don't hijack clicks on other interactive elements (future-proof)
+        if (t && t.closest && t.closest("a, button, input, textarea, select, label")) return;
+
+        const btn = row.querySelector('button.expander[data-expand-target]');
+        if (!btn) return;
+
+        toggle(btn);
+      },
+      true
+    );
+  }
+
+
   // Expose a tiny API so Translate.js can restore state synchronously
   window.ResumeExpanders = window.ResumeExpanders || {};
   window.ResumeExpanders.init = init;
@@ -199,6 +232,7 @@
   window.ResumeExpanders.saveState = saveState;
 
   setupDelegatedClickOnce();
+  setupMeditationsRowClickOnce();
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", function () {
