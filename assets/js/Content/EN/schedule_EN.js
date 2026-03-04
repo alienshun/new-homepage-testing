@@ -2495,7 +2495,7 @@
                     <td>4</td>
                   </tr>
                   <tr>
-                    <td>STAT2002.06 [3]</td>
+                    <td>STAT2002.06</td>
                     <td>Probability Theory and Mathematical Statistics (TA)</td>
                     <td>Shuguang Zhang</td>
                     <td>5(3-5), 1-18 week(s)</td>
@@ -2560,8 +2560,37 @@
                     <td class="period-number">1</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">7:50</div>
+                      <div class="time-info end-info">9:25</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-number">001362.01 [3]</div>
+                          <div class="course-name">Wavelet Analysis</div>
+                          <div class="instructor">Xin Li</div>
+                          <div class="location">1201</div>
+                          <div class="weeks">1-15 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-number">011174.01 [4]</div>
+                          <div class="course-name">Operating System</div>
+                          <div class="instructor">Xianglan Chen</div>
+                          <div class="location">3C304</div>
+                          <div class="weeks">1-15 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">7:50</div>
+                      <div class="time-info end-info">9:25</div>
+                      <div class="course-container">
+                        <div class="course-number">011103.02 [3]</div>
+                        <div class="course-name">Algebraic Structure</div>
+                        <div class="instructor">Hongli Xu</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2573,16 +2602,64 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">3</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
+                      <div class="course-container">
+                        <div class="course-number">011174.01 [4]</div>
+                        <div class="course-name">Operating System</div>
+                        <div class="instructor">Xianglan Chen</div>
+                        <div class="location">3C304</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">12:10</div>
+                      <div class="course-container">
+                        <div class="course-number">CS2002.03 [2]</div>
+                        <div class="course-name">Mathematical Logic</div>
+                        <div class="instructor">Yi Zhou</div>
+                        <div class="location">3B202</div>
+                        <div class="weeks">1-14 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">12:10</div>
+                      <div class="course-container">
+                        <div class="course-number">001139.01 [3]</div>
+                        <div class="course-name">Mathematical Modeling</div>
+                        <div class="instructor">Renjie Chen, Yumeng Liu</div>
+                        <div class="location">5202</div>
+                        <div class="weeks">1-14 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">12:10</div>
+                      <div class="course-container">
+                        <div class="course-number">001046.01 [3]</div>
+                        <div class="course-name">Numerical Analysis</div>
+                        <div class="instructor">Yan Xu, Yinhua Xia</div>
+                        <div class="location">1201</div>
+                        <div class="weeks">1-12 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
+                      <div class="course-container">
+                        <div class="course-number">017144.07 [2]</div>
+                        <div class="course-name">Stochastic Processes B</div>
+                        <div class="instructor">Weiwei Zhuang</div>
+                        <div class="location">3C204</div>
+                        <div class="weeks">1-16 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -2590,19 +2667,21 @@
                     <td class="period-number">4</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">5</td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="1">
+                      <div class="time-info start-info">11:25</div>
+                      <div class="time-info end-info">12:10</div>
+                      <div class="course-container">
+                        <div class="course-number">017144.07 [2]</div>
+                        <div class="course-name">Stochastic Processes B</div>
+                        <div class="instructor">Weiwei Zhuang</div>
+                        <div class="location">3C204</div>
+                        <div class="weeks">2-16 (even) week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -2611,11 +2690,51 @@
                   <tr>
                     <td rowspan="5" class="period-header">Afternoon</td>
                     <td class="period-number">6</td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
+                      <div class="course-container">
+                        <div class="course-number">011145.02 [4]</div>
+                        <div class="course-name">Computer Organization</div>
+                        <div class="instructor">Jianliang Lu</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
+                      <div class="course-container">
+                        <div class="course-number">011103.02 [3]</div>
+                        <div class="course-name">Algebraic Structure</div>
+                        <div class="instructor">Hongli Xu</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
+                      <div class="course-container">
+                        <div class="course-number">011145.02 [4]</div>
+                        <div class="course-name">Computer Organization</div>
+                        <div class="instructor">Jianliang Lu</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">14:00</div>
+                      <div class="time-info end-info">15:35</div>
+                      <div class="course-container">
+                        <div class="course-number">001362.01 [3]</div>
+                        <div class="course-name">Wavelet Analysis</div>
+                        <div class="instructor">Xin Li</div>
+                        <div class="location">1201</div>
+                        <div class="weeks">1-15 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -2624,15 +2743,40 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">8</td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-number">AI3003.01 [3]</div>
+                          <div class="course-name">Foundation of Deep Learning</div>
+                          <div class="instructor">Wenjie Wang, Fuli Feng</div>
+                          <div class="location">3C203</div>
+                          <div class="weeks">1-14 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-number">EE3502.01 [3]</div>
+                          <div class="course-name">Machine Learning B</div>
+                          <div class="instructor">Li Xiao</div>
+                          <div class="location">2405</div>
+                          <div class="weeks">1-16 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-number">001046.01 [3]</div>
+                        <div class="course-name">Numerical Analysis</div>
+                        <div class="instructor">Yan Xu, Yinhua Xia</div>
+                        <div class="location">1201</div>
+                        <div class="weeks">1-12 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2646,12 +2790,20 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">10</td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="1">
+                      <div class="time-info start-info">17:35</div>
+                      <div class="time-info end-info">18:20</div>
+                      <div class="course-container">
+                        <div class="course-number">AI3003.01 [3]</div>
+                        <div class="course-name">Foundation of Deep Learning</div>
+                        <div class="instructor">Wenjie Wang, Fuli Feng</div>
+                        <div class="location">3C203</div>
+                        <div class="weeks">1-14 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2664,8 +2816,37 @@
                   <tr>
                     <td rowspan="3" class="period-header">Evening</td>
                     <td class="period-number">11</td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="overlap-container">
+                        <div class="overlap-course">
+                          <div class="course-number">AI3003.01 [3]</div>
+                          <div class="course-name">Foundation of Deep Learning</div>
+                          <div class="instructor">Wenjie Wang, Fuli Feng</div>
+                          <div class="location">West Campus Electrical Building (1F) Computer Lab (Hall 1)</div>
+                          <div class="weeks">3-14 week(s)</div>
+                        </div>
+                        <div class="overlap-course">
+                          <div class="course-number">011145.02 [4]</div>
+                          <div class="course-name">Computer Organization</div>
+                          <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
+                          <div class="location">West Campus Electrical Building (3F) 406, 408</div>
+                          <div class="weeks">1-15 week(s)</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">011174.01 [4]</div>
+                        <div class="course-name">Operating System</div>
+                        <div class="instructor">Xianglan Chen</div>
+                        <div class="location">West Campus Electrical Building (3F) 406</div>
+                        <div class="weeks">3-12 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2679,13 +2860,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">13</td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2710,7 +2887,76 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <!-- No classes in this semester -->
+                  <tr>
+                    <td>011103.02</td>
+                    <td>Algebraic Structure</td>
+                    <td>Hongli Xu</td>
+                    <td>2(6-7), 1-15 week(s);<br> 4(1-2), 1-15 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>011145.02</td>
+                    <td>Computer Organization</td>
+                    <td>Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</td>
+                    <td>1(6-7), 1-15 week(s);<br> 3(6-7), 1-15 week(s);<br> 1(11-13), 1-15 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>011174.01</td>
+                    <td>Operating System</td>
+                    <td>Xianglan Chen</td>
+                    <td>1(3-4), 1-15 week(s);<br> 3(1-2), 1-15 week(s);<br> 2(11-13), 3-12 week(s)</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td>CS2002.03</td>
+                    <td>Mathematical Logic</td>
+                    <td>Yi Zhou</td>
+                    <td>2(3-5), 1-14 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>017144.07</td>
+                    <td>Stochastic Processes B</td>
+                    <td>Weiwei Zhuang</td>
+                    <td>5(3-4), 1-16 week(s);<br> 5(5), 2-16 (even) week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>001046.01</td>
+                    <td>Numerical Analysis</td>
+                    <td>Yan Xu, Yinhua Xia</td>
+                    <td>2(8-9), 1-12 week(s);<br> 4(3-5), 1-12 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>001362.01</td>
+                    <td>Wavelet Analysis</td>
+                    <td>Xin Li</td>
+                    <td>3(1-2), 1-15 week(s);<br> 5(6-7), 1-15 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>001139.01</td>
+                    <td>Mathematical Modeling</td>
+                    <td>Renjie Chen, Yumeng Liu</td>
+                    <td>3(3-5), 1-14 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>AI3003.01</td>
+                    <td>Foundation of Deep Learning</td>
+                    <td>Fuli Feng, Wenjie Wang</td>
+                    <td>1(8-10), 1-14 week(s);<br> 1(11-13), 3-14 week(s)</td>
+                    <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>EE3502.01</td>
+                    <td>Machine Learning B</td>
+                    <td>Li Xiao</td>
+                    <td>1(8-9), 1-16 week(s);<br> 4(8-9), 1-16 week(s)</td>
+                    <td>3</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
