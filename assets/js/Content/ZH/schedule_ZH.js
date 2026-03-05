@@ -254,6 +254,141 @@
     "West Campus Electrical Building (3F) 406": "西区电三楼406",
   };
 
+  // ====== Course Type (manual; defined in schedule_EN.js) ======
+  // Supported EN tokens: Major / Minor / Micro-minor / TA
+  const COURSE_TYPE_ZH = {
+    "Major": "主修",
+    "Minor": "辅修",
+    "Micro-minor": "微专业",
+    "TA": "助教",
+  };
+
+  function normalizeCourseTypeToken(v) {
+    const s0 = String(v || "").trim();
+    if (!s0) return "";
+    const s = s0.toLowerCase();
+    if (s === "major") return "Major";
+    if (s === "minor") return "Minor";
+    if (s === "ta") return "TA";
+    if (s === "micro-minor" || s === "microminor" || s === "micro minor" || s === "micro_minor") return "Micro-minor";
+    // Fallback: keep original casing (user-defined)
+    return s0;
+  }
+
+  function getDefaultCourseTypeToken() {
+    try {
+      const v = (window && window.SCHEDULE_DEFAULT_COURSE_TYPE) ? window.SCHEDULE_DEFAULT_COURSE_TYPE : "Major";
+      return normalizeCourseTypeToken(v) || "Major";
+    } catch (e) {
+      return "Major";
+    }
+  }
+
+  function getCourseTypeByKey(key) {
+    try {
+      const map = (window && window.SCHEDULE_COURSE_TYPE_BY_KEY && typeof window.SCHEDULE_COURSE_TYPE_BY_KEY === "object")
+        ? window.SCHEDULE_COURSE_TYPE_BY_KEY
+        : null;
+      if (map && key && Object.prototype.hasOwnProperty.call(map, key)) {
+        return normalizeCourseTypeToken(map[key]);
+      }
+    } catch (e) { }
+    return "";
+  }
+
+  function getSemesterIdForNode(node) {
+    try {
+      const sem = node && node.closest ? node.closest(".semester-timetable-container") : null;
+      return (sem && sem.id) ? sem.id : "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function buildCourseTypeKey(node, courseCode) {
+    const semId = getSemesterIdForNode(node) || "unknown";
+    const code = String(courseCode || "").trim();
+    return `${semId}|${code}`;
+  }
+
+  // Resolve course type with priority:
+  // 1) data-course-type on the instance node (block/tr/cell)
+  // 2) global map in schedule_EN.js (window.SCHEDULE_COURSE_TYPE_BY_KEY)
+  // 3) global default (window.SCHEDULE_DEFAULT_COURSE_TYPE, default "Major")
+  function resolveCourseTypeToken(primaryNode, secondaryNode, courseCode) {
+    const direct1 = normalizeCourseTypeToken(primaryNode && primaryNode.dataset ? primaryNode.dataset.courseType : "");
+    if (direct1) return direct1;
+
+    const direct2 = normalizeCourseTypeToken(secondaryNode && secondaryNode.dataset ? secondaryNode.dataset.courseType : "");
+    if (direct2) return direct2;
+
+    const byKey = getCourseTypeByKey(buildCourseTypeKey(primaryNode || secondaryNode, courseCode));
+    if (byKey) return byKey;
+
+    return getDefaultCourseTypeToken();
+  }
+
+  function findCourseNumberLikeElement(block) {
+    if (!block || !block.querySelector) return null;
+    const cn = block.querySelector(".course-number");
+    if (cn) return cn;
+
+    // Fallback: some overlap blocks might accidentally use ".course-name" to store the course number
+    const firstName = block.querySelector(".course-name");
+    if (firstName) {
+      const txt = String(firstName.textContent || "").trim();
+      if (/^[A-Za-z]{0,8}\d{3,8}[A-Za-z]?\./.test(txt) || /^[A-Za-z]{0,8}\d{3,8}[A-Za-z]?\b/.test(txt)) {
+        return firstName;
+      }
+    }
+    return null;
+  }
+
+  function setBadgeText(badgeEl, enToken, lang) {
+    const token = normalizeCourseTypeToken(enToken) || getDefaultCourseTypeToken();
+    badgeEl.dataset.enText = token;
+    badgeEl.dataset.type = token;
+    badgeEl.textContent = (normalizeLang(lang) === LANG.ZH) ? (COURSE_TYPE_ZH[token] || token) : token;
+  }
+
+  function ensureCourseTypeBadgeInCourseBlock(block, courseCode, lang) {
+    const holder = findCourseNumberLikeElement(block);
+    if (!holder) return;
+
+    const token = resolveCourseTypeToken(block, holder, courseCode);
+
+    let badge = holder.querySelector(".course-type-badge");
+    if (!badge) {
+      badge = document.createElement("span");
+      badge.className = "course-type-badge";
+      holder.appendChild(document.createTextNode(" "));
+      holder.appendChild(badge);
+    }
+    setBadgeText(badge, token, lang);
+  }
+
+  function ensureCourseTypeBadgeInMyClassesCell(courseNumberCell, courseCode, lang) {
+    if (!courseNumberCell) return;
+    const token = resolveCourseTypeToken(courseNumberCell.closest("tr"), courseNumberCell, courseCode);
+
+    let badge = courseNumberCell.querySelector(".course-type-badge");
+    if (!badge) {
+      // Rebuild only the first column to keep it clean: "CODE  [badge]"
+      const code = String(courseCode || "").trim() || getCourseCodeFromCourseNumberText(courseNumberCell.textContent || "");
+      courseNumberCell.innerHTML = "";
+      const codeSpan = document.createElement("span");
+      codeSpan.className = "course-code";
+      codeSpan.textContent = code;
+      courseNumberCell.appendChild(codeSpan);
+      courseNumberCell.appendChild(document.createTextNode(" "));
+      badge = document.createElement("span");
+      badge.className = "course-type-badge";
+      courseNumberCell.appendChild(badge);
+    }
+    setBadgeText(badge, token, lang);
+  }
+
+
   function getCourseCodeFromCourseNumberText(courseNumberText) {
     const s = String(courseNumberText || "").trim();
     if (!s) return "";
@@ -329,6 +464,11 @@
         courseCode = "";
       }
 
+      // ---- [NEW] Course type badge (default: Major) ----
+      try {
+        ensureCourseTypeBadgeInCourseBlock(block, courseCode, l);
+      } catch (e) { }
+
       const nameEl = block.querySelector(".course-name");
       if (nameEl) {
         storeIfEmptyDataset(nameEl, "enText", nameEl.textContent);
@@ -363,6 +503,12 @@
       const courseNumberCell = cells[0];
       storeIfEmptyDataset(courseNumberCell, "enText", courseNumberCell.textContent.trim());
       const courseCode = getCourseCodeFromCourseNumberText(courseNumberCell.dataset.enText);
+
+      // ---- [NEW] Course type badge (default: Major) ----
+      try {
+        ensureCourseTypeBadgeInMyClassesCell(courseNumberCell, courseCode, l);
+      } catch (e) { }
+
 
       // Course name (col 2)
       const nameCell = cells[1];
