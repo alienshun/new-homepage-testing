@@ -2778,14 +2778,23 @@
                       </div>
                     </td>
                     <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-number">EE3502.01 [3]</div>
+                        <div class="course-name">Machine Learning B</div>
+                        <div class="instructor">Li Xiao</div>
+                        <div class="location">2405</div>
+                        <div class="weeks">1-16 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">9</td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
