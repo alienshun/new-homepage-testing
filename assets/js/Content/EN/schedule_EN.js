@@ -1,3 +1,26 @@
+// ================================
+// Course Type Tags (manual config)
+// ================================
+// NOTE:
+// - Types are NOT tied to the course number alone; you can define them per semester.
+// - Key format: "<semesterId>|<courseCode>"
+//   e.g. "sophomore-first|STAT2002.06": "Major" | "Minor" | "Micro-minor" | "TA"
+// - Any missing entry will fall back to "Major".
+window.SCHEDULE_DEFAULT_COURSE_TYPE = "Major";
+window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
+  "sophomore-second|011044.02": "Minor",
+  "sophomore-second|CS2502A.01": "Minor",
+  "junior-first|006196.01": "Minor",
+  "junior-first|210706.01": "Minor",
+  "junior-second|011103.02": "Minor",
+  "junior-second|011145.02": "Minor",
+  "junior-second|011174.01": "Minor",
+  "junior-second|CS2002.03": "Minor",
+  "junior-first|Null": "Micro-minor",
+  "junior-second|EE3502.01": "TA",
+  "junior-first|STAT2002.06": "TA",
+};
+
 (function () {
   const mount = document.getElementById("mount-schedule") || document.body;
   mount.insertAdjacentHTML("beforeend", `
