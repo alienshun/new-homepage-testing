@@ -718,7 +718,45 @@
   margin-bottom: 2px;
   color: var(--text);
   letter-spacing: 0.3px;
+
+  /* Allow a small type badge to sit next to the course code */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
+
+/* =========================================================
+   Course type badge (Major / Minor / Micro-minor / TA)
+   ========================================================= */
+.course-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2px 8px;
+  border-radius: 999px;
+
+  font-size: 0.72em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2px;
+
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent-weak) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+}
+
+.my-classes-table .course-type-badge {
+  margin-left: 6px;
+}
+
+.course-code {
+  font-weight: 700;
+}
+
 
 .course-name {
   font-weight: 700;
