@@ -50,7 +50,7 @@
         <div class="expand-row" id="exp-edu-bg" aria-hidden="true" style="display:none;">
           <div class="expand-content">
             <div class="expand-item">
-              <img src="./assets/images/Education_Background.jpg" alt="Education Background">
+              <img src="./assets/images/Education_Background.png" alt="Education Background">
             </div>
           </div>
         </div>
