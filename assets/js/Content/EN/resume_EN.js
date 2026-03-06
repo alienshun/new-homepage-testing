@@ -15,7 +15,6 @@
         <div class="resume-hero-body">
           <div class="resume-hero-name">Jinghao Chen</div>
           <div class="resume-hero-chips">
-            <span class="contact-pill"><strong>Tel:</strong><span>+86 18806590966</span></span>
             <span class="contact-pill"><strong>Email 1:</strong><a href="mailto:chenjinghao@mail.ustc.edu.cn">chenjinghao@mail.ustc.edu.cn</a></span>
             <span class="contact-pill"><strong>Email 2:</strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
           </div>
@@ -179,6 +178,19 @@
             <a class="expand-action-btn" href="https://github.com/Stardust-math/Reference-Answer" target="_blank" rel="noopener noreferrer">Visit</a>
           </li>
           <li>Assisted in homework and exam grading, providing feedback and tutoring. Held weekly problem-solving sessions to answer questions and help students prepare for exams.</li>
+        </ul>
+
+        <div class="subheading">
+          <span class="subheading-title">Teaching Assistant, "Machine Learning B"</span>
+          <span>Mar. 2026 -- Jul. 2026</span>
+        </div>
+        <div class="subsubheading">Instructor: <strong>Prof. Li Xiao</strong></div>
+        <ul>
+          <li>
+            Expanded upon the material learned in "Machine Learning A" and the textbook compiled by Prof. Jie Wang, helping students strengthen the mathematical foundations relevant to machine learning:
+            <a class="expand-action-btn" href="https://github.com/Stardust-math/Machine_Learning_B" target="_blank" rel="noopener noreferrer">Visit</a>
+          </li>
+          <li>Assisted in homework and exam grading, provided feedback and tutoring, and held weekly problem-solving sessions to answer questions and help students prepare for exams.</li>
         </ul>
       </div>
       
