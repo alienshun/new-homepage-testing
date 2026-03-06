@@ -48,7 +48,7 @@
         <div class="expand-row" id="exp-edu-bg-zh" aria-hidden="true" style="display:none;">
           <div class="expand-content">
             <div class="expand-item">
-              <img src="./assets/images/Education_Background.jpg" alt="教育背景">
+              <img src="./assets/images/Education_Background.png" alt="教育背景">
             </div>
           </div>
         </div>
