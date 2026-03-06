@@ -13,7 +13,6 @@
         <div class="resume-hero-body">
           <div class="resume-hero-name">陈璟皓</div>
           <div class="resume-hero-chips">
-            <span class="contact-pill"><strong>电话: </strong><span>+86 18806590966</span></span>
             <span class="contact-pill"><strong>邮箱 1: </strong><a href="mailto:chenjinghao@mail.ustc.edu.cn">chenjinghao@mail.ustc.edu.cn</a></span>
             <span class="contact-pill"><strong>邮箱 2: </strong><a href="mailto:stardust.math26@gmail.com">stardust.math26@gmail.com</a></span>
           </div>
@@ -175,6 +174,19 @@
           <li>
             基于缪柏其、张伟平编撰的教材整理并编写详细 LaTeX 习题解答与参考答案；维护开源仓库供同学使用:
             <a class="expand-action-btn" href="https://github.com/Stardust-math/Reference-Answer" target="_blank" rel="noopener noreferrer">Visit</a>
+          </li>
+          <li>给学生的作业和考试评分, 提供反馈和辅导. 每周开设习题课, 回答问题, 帮助学生准备考试.</li>
+        </ul>
+
+        <div class="subheading">
+          <span class="subheading-title">助教, "机器学习B"</span>
+          <span>2026年3月 -- 2026年7月</span>
+        </div>
+        <div class="subsubheading">指导教师: <strong>肖力教授</strong></div>
+        <ul>
+          <li>
+            补充拓展了“机器学习A”中学到的、王杰老师编的教材内容, 帮助同学们夯实机器学习相关的数学基础:
+            <a class="expand-action-btn" href="https://github.com/Stardust-math/Machine_Learning_B" target="_blank" rel="noopener noreferrer">Visit</a>
           </li>
           <li>给学生的作业和考试评分, 提供反馈和辅导. 每周开设习题课, 回答问题, 帮助学生准备考试.</li>
         </ul>
