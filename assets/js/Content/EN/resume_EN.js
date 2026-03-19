@@ -27,6 +27,11 @@
           </p>
         </div>
       </div>
+      
+      <div class="section">
+        <h2>Research Interests</h2>
+        <ul><li>Operations Management, Operations Research, Supply Chain, Stochastic Models, Game Theory.</li></ul>
+      </div>
 
       <div class="section">
         <h2>Education</h2>
@@ -57,48 +62,7 @@
       </div>
       
       <div class="section">
-        <h2>Research Interests</h2>
-        <ul><li>Operations Management, Operations Research, Supply Chain, Stochastic Models, Game Theory.</li></ul>
-      </div>
-      
-      <div class="section">
-        <h2>Research Experience</h2>
-        <div class="subheading">
-          <span class="subheading-title">Demand Information Sharing with Inequality-Averse Consumers</span>
-          <span>Jul. 2025 -- Present</span>
-        </div>
-        <div class="subsubheading">
-          <div>Advisors:</div>
-          <div style="margin-left: 20px;">
-            <div><strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong)</div>
-            <div><strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
-          </div>
-        </div>
-        <ul>
-          <li>Formulated a Bayesian manufacturer-retailer pricing/signaling model with demand-forecast uncertainty and inequality-averse consumers, and solved Perfect Bayesian equilibria refined by the least-misleading sequential equilibrium (LMSE) criterion.</li>
-          <li>Derived closed-form pooling and separating wholesale-price policies and profit expressions across no-sharing and retailer-sharing regimes.</li>
-          <li>Established payoff equivalence between voluntary and mandatory information sharing, and characterized comparative statics showing how belief specifications (passive vs. linear) and inequality aversion reshape channel performance.</li>
-        </ul>
-        
-        <div class="subheading">
-          <span class="subheading-title">Monopoly Firm's Bilateral Game Under Ship-then-Shop (STS) and Traditional Business Models</span>
-          <span>Sep. 2024 -- Aug. 2025</span>
-        </div>
-        <div class="subsubheading">
-          <div>Advisors:</div>
-          <div style="margin-left: 20px;">
-            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, University of Science and Technology of China)</div>
-            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, University of Science and Technology of China)</div>
-          </div>
-        </div>
-        <ul>
-          <li>Formulated a bilateral channel-selection game comparing a traditional channel with a Ship-then-Shop (STS) channel for a monopolistic firm, incorporating subscription, search, and return costs.</li>
-          <li>Characterized the firm's optimal pricing and proved that showrooming does not arise in equilibrium, even after relaxing assumptions on consumer type awareness and the distributions of consumer types and return costs.</li>
-        </ul>
-      </div>
-      
-      <div class="section">
-        <h2>Honors and Awards</h2>
+        <h2>Honors & Awards</h2>
         <table width="100%">
           <tr>
             <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" data-expand-key="ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
@@ -163,6 +127,42 @@
           </tr>
 
         </table>
+      </div>
+      
+      <div class="section">
+        <h2>Research Experience</h2>
+        <div class="subheading">
+          <span class="subheading-title">Demand Information Sharing with Inequality-Averse Consumers</span>
+          <span>Jul. 2025 -- Present</span>
+        </div>
+        <div class="subsubheading">
+          <div>Advisors:</div>
+          <div style="margin-left: 20px;">
+            <div><strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong)</div>
+            <div><strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
+          </div>
+        </div>
+        <ul>
+          <li>Formulated a Bayesian manufacturer-retailer pricing/signaling model with demand-forecast uncertainty and inequality-averse consumers, and solved Perfect Bayesian equilibria refined by the least-misleading sequential equilibrium (LMSE) criterion.</li>
+          <li>Derived closed-form pooling and separating wholesale-price policies and profit expressions across no-sharing and retailer-sharing regimes.</li>
+          <li>Established payoff equivalence between voluntary and mandatory information sharing, and characterized comparative statics showing how belief specifications (passive vs. linear) and inequality aversion reshape channel performance.</li>
+        </ul>
+        
+        <div class="subheading">
+          <span class="subheading-title">Monopoly Firm's Bilateral Game Under Ship-then-Shop (STS) and Traditional Business Models</span>
+          <span>Sep. 2024 -- Aug. 2025</span>
+        </div>
+        <div class="subsubheading">
+          <div>Advisors:</div>
+          <div style="margin-left: 20px;">
+            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, University of Science and Technology of China)</div>
+            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, University of Science and Technology of China)</div>
+          </div>
+        </div>
+        <ul>
+          <li>Formulated a bilateral channel-selection game comparing a traditional channel with a Ship-then-Shop (STS) channel for a monopolistic firm, incorporating subscription, search, and return costs.</li>
+          <li>Characterized the firm's optimal pricing and proved that showrooming does not arise in equilibrium, even after relaxing assumptions on consumer type awareness and the distributions of consumer types and return costs.</li>
+        </ul>
       </div>
       
       <div class="section">
