@@ -25,6 +25,11 @@
           </p>
         </div>
       </div>
+      
+      <div class="section">
+        <h2>研究兴趣</h2>
+        <ul><li>运营管理、运筹学、供应链、随机模型、博弈论.</li></ul>
+      </div>
 
       <div class="section">
         <h2>教育背景</h2>
@@ -52,47 +57,6 @@
             </div>
           </div>
         </div>
-      </div>
-      
-      <div class="section">
-        <h2>研究兴趣</h2>
-        <ul><li>运营管理、运筹学、供应链、随机模型、博弈论.</li></ul>
-      </div>
-      
-      <div class="section">
-        <h2>科研经历</h2>
-        <div class="subheading">
-          <span class="subheading-title">具有不平等厌恶偏好的消费者下的需求信息共享</span>
-          <span>2025年7月 -- 至今</span>
-        </div>
-        <div class="subsubheading">
-          <div>导师: </div>
-          <div style="margin-left: 20px;">
-            <div><strong>虞义敏教授</strong>(香港城市大学 决策分析与运营学系)</div>
-            <div><strong>汪倩教授</strong>(香港岭南大学 市场营销与国际商务学系)</div>
-          </div>
-        </div>
-        <ul>
-          <li>构建包含需求预测不确定性与不平等厌恶消费者的制造商—零售商贝叶斯定价/信号传递模型, 并在 LMSE (least-misleading sequential equilibrium) 准则下求解精炼的完美贝叶斯均衡.</li>
-          <li>推导信息不共享与零售商共享两种机制下的闭式"混同/分离"批发价策略与利润表达式.</li>
-          <li>证明自愿信息共享与强制信息共享在收益上的等价性, 并给出比较静态: 阐明不同信念设定（被动 vs. 线性）与不平等厌恶如何重塑渠道表现.</li>
-        </ul>
-        
-        <div class="subheading">
-          <span class="subheading-title">垄断企业在"先发货后购物 (STS)"与传统商业模式下的双边博弈</span>
-          <span>2024年9月 -- 2025年8月</span>
-        </div>
-        <div class="subsubheading">
-          <div>导师: </div>
-          <div style="margin-left: 20px;">
-            <div><strong>沈晓蓓教授</strong>(中国科学技术大学 管理科学系)</div>
-            <div><strong>吕建成博士</strong>(中国科学技术大学 管理科学系)</div>
-          </div>
-        </div>
-        <ul>
-          <li>构建比较传统渠道与 STS (Ship-then-Shop) 渠道的双边渠道选择博弈模型, 纳入订阅成本、搜索成本与退货成本等因素.</li>
-          <li>刻画企业最优定价, 并证明在均衡中不会出现"展厅效应 (showrooming)"; 该结论在放松消费者类型认知假设, 以及放宽消费者类型与退货成本分布假设后仍然成立.</li>
-        </ul>
       </div>
       
       <div class="section">
@@ -161,6 +125,42 @@
           </tr>
 
         </table>
+      </div>
+      
+      <div class="section">
+        <h2>科研经历</h2>
+        <div class="subheading">
+          <span class="subheading-title">具有不平等厌恶偏好的消费者下的需求信息共享</span>
+          <span>2025年7月 -- 至今</span>
+        </div>
+        <div class="subsubheading">
+          <div>导师: </div>
+          <div style="margin-left: 20px;">
+            <div><strong>虞义敏教授</strong>(香港城市大学 决策分析与运营学系)</div>
+            <div><strong>汪倩教授</strong>(香港岭南大学 市场营销与国际商务学系)</div>
+          </div>
+        </div>
+        <ul>
+          <li>构建包含需求预测不确定性与不平等厌恶消费者的制造商—零售商贝叶斯定价/信号传递模型, 并在 LMSE (least-misleading sequential equilibrium) 准则下求解精炼的完美贝叶斯均衡.</li>
+          <li>推导信息不共享与零售商共享两种机制下的闭式"混同/分离"批发价策略与利润表达式.</li>
+          <li>证明自愿信息共享与强制信息共享在收益上的等价性, 并给出比较静态: 阐明不同信念设定（被动 vs. 线性）与不平等厌恶如何重塑渠道表现.</li>
+        </ul>
+        
+        <div class="subheading">
+          <span class="subheading-title">垄断企业在"先发货后购物 (STS)"与传统商业模式下的双边博弈</span>
+          <span>2024年9月 -- 2025年8月</span>
+        </div>
+        <div class="subsubheading">
+          <div>导师: </div>
+          <div style="margin-left: 20px;">
+            <div><strong>沈晓蓓教授</strong>(中国科学技术大学 管理科学系)</div>
+            <div><strong>吕建成博士</strong>(中国科学技术大学 管理科学系)</div>
+          </div>
+        </div>
+        <ul>
+          <li>构建比较传统渠道与 STS (Ship-then-Shop) 渠道的双边渠道选择博弈模型, 纳入订阅成本、搜索成本与退货成本等因素.</li>
+          <li>刻画企业最优定价, 并证明在均衡中不会出现"展厅效应 (showrooming)"; 该结论在放松消费者类型认知假设, 以及放宽消费者类型与退货成本分布假设后仍然成立.</li>
+        </ul>
       </div>
       
       <div class="section">
