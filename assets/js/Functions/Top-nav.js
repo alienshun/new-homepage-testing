@@ -1,9 +1,18 @@
 (function () {
   'use strict';
 
-  // ------------------------------
-  // Render Top Nav HTML
-  // ------------------------------
+  const ROUTE_MAP = {
+    resume: '/about/',
+    schedule: '/schedule/',
+    social: '/social/',
+    toolkit: '/toolkit/',
+    meditations: '/meditations/'
+  };
+
+  function getHref(page) {
+    return ROUTE_MAP[page] || '/';
+  }
+
   const mount = document.getElementById("mount-top-nav") || document.body;
   mount.insertAdjacentHTML("beforeend", `
   <nav id="top-nav" class="top-nav" aria-label="Primary navigation">
@@ -16,15 +25,14 @@
       </div>
 
       <div class="top-nav-center" role="navigation" aria-label="Pages">
-        <button class="top-nav-link" data-page="resume" data-cursor="precise_select" data-cursor-fallback="pointer">About</button>
-        <button class="top-nav-link" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</button>
-        <button class="top-nav-link" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</button>
-        <!-- <button class="top-nav-link" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</button> -->
-        <button class="top-nav-link" data-page="meditations" data-cursor="precise_select" data-cursor-fallback="pointer">Meditations</button>
+        <a class="top-nav-link" href="/about/" data-page="resume" data-cursor="precise_select" data-cursor-fallback="pointer">About</a>
+        <a class="top-nav-link" href="/schedule/" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</a>
+        <a class="top-nav-link" href="/social/" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</a>
+        <a class="top-nav-link" href="/toolkit/" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</a>
+        <a class="top-nav-link" href="/meditations/" data-page="meditations" data-cursor="precise_select" data-cursor-fallback="pointer">Meditations</a>
       </div>
 
       <div class="top-nav-right">
-        <!-- Language toggle (EN/ZH ↔ 英/中) -->
         <button id="top-lang-btn" class="top-nav-icon top-nav-lang-btn" aria-label="Switch to Chinese" data-cursor="precise_select" data-cursor-fallback="pointer">
           <span class="top-nav-lang" aria-hidden="true">
             <span class="lang-token lang-left">EN</span>
@@ -62,25 +70,29 @@
 
     const topBackBtn = document.getElementById('top-back-btn');
     if (topBackBtn && onBackToCover) {
-      topBackBtn.addEventListener('click', onBackToCover);
+      topBackBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        onBackToCover();
+      });
     }
 
     const links = topNav.querySelectorAll('.top-nav-link');
     links.forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (event) => {
         const target = btn.dataset.page;
         if (!target || !onNavigate) return;
+
+        event.preventDefault();
         onNavigate(target);
       });
+
+      // JS 失效时仍可正常跳转
+      btn.setAttribute('href', getHref(btn.dataset.page));
     });
 
-    // Hidden on cover by default
     hideTopNav();
   }
 
-  // ------------------------------
-  // Export to global
-  // ------------------------------
   window.TopNav = {
     show: showTopNav,
     hide: hideTopNav,
