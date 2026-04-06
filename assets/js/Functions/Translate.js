@@ -17,20 +17,16 @@
   function setLang(lang) {
     const l = normalizeLang(lang);
     localStorage.setItem(STORAGE_KEY, l);
-
     document.documentElement.setAttribute("lang", l === LANG.ZH ? "zh-CN" : "en");
     document.body.dataset.lang = l;
-
     return l;
   }
 
   function getFullCalendarLocale(lang) {
     const l = normalizeLang(lang);
-    // FullCalendar locale IDs: use zh-cn for Simplified Chinese
     return (l === LANG.ZH) ? "zh-cn" : "en";
   }
 
-  // Attach to window (for other page scripts)
   window.SiteLang = window.SiteLang || {};
   window.SiteLang.LANG = LANG;
   window.SiteLang.normalizeLang = normalizeLang;
@@ -44,7 +40,6 @@
   window.SiteI18N = window.SiteI18N || {};
   window.SiteI18N.dict = window.SiteI18N.dict || {};
 
-  // Schedule i18n (migrated from Schedule_Function.js)
   window.SiteI18N.dict.schedule = window.SiteI18N.dict.schedule || {
     en: {
       weekOf: "Week of",
@@ -61,7 +56,7 @@
       fillRequired: "Please fill in all required fields",
       endPeriodEarlier: "End period cannot be earlier than start period",
       confirmDeleteClass: "Are you sure you want to delete this class?",
-      confirmDeleteEvent: "Are you sure you want to delete this event?",
+      confirmDeleteEvent: "Are you sure you want to delete this event?"
     },
     zh: {
       weekOf: "本周：",
@@ -78,28 +73,22 @@
       fillRequired: "请填写所有必填项",
       endPeriodEarlier: "结束节次不能早于开始节次",
       confirmDeleteClass: "确定要删除这门课吗？",
-      confirmDeleteEvent: "确定要删除这个事件吗？",
-    },
+      confirmDeleteEvent: "确定要删除这个事件吗？"
+    }
   };
 
-  // Unified translate function: t(scope, key)
   window.SiteI18N.t = window.SiteI18N.t || function (scope, key) {
     const l = getLang();
     const store = window.SiteI18N.dict || {};
     const scoped = store[scope] || {};
     const dict = (l === LANG.ZH) ? scoped.zh : scoped.en;
-
-    return (dict && dict[key]) ||
-      (scoped.en && scoped.en[key]) ||
-      key;
+    return (dict && dict[key]) || (scoped.en && scoped.en[key]) || key;
   };
 
   // ------------------------------
   // Existing Translate.js behavior
   // ------------------------------
   let resumeEnInnerHTML = null;
-
-  // cache Meditations English template too
   let meditationsEnInnerHTML = null;
 
   function ensureLangButtonMarkup(btn) {
@@ -116,7 +105,8 @@
           <span class="lang-token lang-left">EN</span>
           <span class="lang-sep">/</span>
           <span class="lang-token lang-right">ZH</span>
-        </span>`;
+        </span>
+      `;
       wrap = btn.querySelector(".top-nav-lang");
       left = wrap.querySelector(".lang-left");
       right = wrap.querySelector(".lang-right");
@@ -131,7 +121,6 @@
     const parts = ensureLangButtonMarkup(btn);
     if (!btn || !parts) return;
 
-    // NOTE: Button shows CURRENT mode (not "next")
     if (lang === LANG.ZH) {
       parts.left.textContent = "英";
       parts.right.textContent = "中";
@@ -153,6 +142,80 @@
     }
   }
 
+  function captureMeditationsEnglishTemplate() {
+    const m = document.getElementById("meditations");
+    if (!m) return;
+    if (meditationsEnInnerHTML == null) {
+      meditationsEnInnerHTML = m.innerHTML;
+    }
+  }
+
+  // ------------------------------
+  // Stable asset root resolver
+  // ------------------------------
+  function getStableSiteRoot() {
+    if (typeof window.__SITE_ROOT__ === "string" && window.__SITE_ROOT__.trim()) {
+      return window.__SITE_ROOT__;
+    }
+
+    const scripts = Array.from(document.scripts || []);
+    const matchedScript = scripts.find((s) => {
+      return typeof s.src === "string" && /assets\/js\/Functions\/Translate\.js(?:\?|#|$)/.test(s.src);
+    });
+
+    if (matchedScript && matchedScript.src) {
+      try {
+        return new URL("../../../", matchedScript.src).href;
+      } catch (e) {}
+    }
+
+    if (document.currentScript && document.currentScript.src) {
+      try {
+        return new URL("../../../", document.currentScript.src).href;
+      } catch (e) {}
+    }
+
+    const anyAssetEl = document.querySelector(
+      'script[src*="assets/"], link[href*="assets/"], img[src*="assets/"]'
+    );
+
+    if (anyAssetEl) {
+      const url = anyAssetEl.src || anyAssetEl.href;
+      if (url) {
+        try {
+          const idx = url.indexOf("/assets/");
+          if (idx >= 0) {
+            return url.slice(0, idx + 1);
+          }
+        } catch (e) {}
+      }
+    }
+
+    try {
+      return new URL("./", window.location.href).href;
+    } catch (e) {
+      return "/";
+    }
+  }
+
+  function getStableAssetBase() {
+    return new URL("assets/", getStableSiteRoot()).href;
+  }
+
+  function absolutizeAssetPaths(html) {
+    if (typeof html !== "string" || !html.trim()) return html;
+
+    const assetBase = getStableAssetBase();
+
+    return html
+      .replace(/((?:src|href|poster)\s*=\s*["'])\.\/assets\//gi, `$1${assetBase}`)
+      .replace(/((?:src|href|poster)\s*=\s*["'])\.\.\/assets\//gi, `$1${assetBase}`)
+      .replace(/((?:src|href|poster)\s*=\s*["'])assets\//gi, `$1${assetBase}`)
+      .replace(/(url\(\s*["']?)\.\/assets\//gi, `$1${assetBase}`)
+      .replace(/(url\(\s*["']?)\.\.\/assets\//gi, `$1${assetBase}`)
+      .replace(/(url\(\s*["']?)assets\//gi, `$1${assetBase}`);
+  }
+
   function applyResumeLanguage(lang) {
     const resume = document.getElementById("resume");
     if (!resume) return;
@@ -161,21 +224,12 @@
 
     if (lang === LANG.ZH) {
       if (typeof window.RESUME_ZH_INNER_HTML === "string" && window.RESUME_ZH_INNER_HTML.trim()) {
-        resume.innerHTML = window.RESUME_ZH_INNER_HTML;
+        resume.innerHTML = absolutizeAssetPaths(window.RESUME_ZH_INNER_HTML);
       }
     } else {
       if (typeof resumeEnInnerHTML === "string") {
-        resume.innerHTML = resumeEnInnerHTML;
+        resume.innerHTML = absolutizeAssetPaths(resumeEnInnerHTML);
       }
-    }
-  }
-
-  // Meditations language swap (same pattern as Resume)
-  function captureMeditationsEnglishTemplate() {
-    const m = document.getElementById("meditations");
-    if (!m) return;
-    if (meditationsEnInnerHTML == null) {
-      meditationsEnInnerHTML = m.innerHTML;
     }
   }
 
@@ -187,17 +241,17 @@
 
     if (lang === LANG.ZH) {
       if (typeof window.MEDITATIONS_ZH_INNER_HTML === "string" && window.MEDITATIONS_ZH_INNER_HTML.trim()) {
-        m.innerHTML = window.MEDITATIONS_ZH_INNER_HTML;
+        m.innerHTML = absolutizeAssetPaths(window.MEDITATIONS_ZH_INNER_HTML);
       }
     } else {
       if (typeof meditationsEnInnerHTML === "string") {
-        m.innerHTML = meditationsEnInnerHTML;
+        m.innerHTML = absolutizeAssetPaths(meditationsEnInnerHTML);
       }
     }
   }
 
   /* ------------------------------
-   * Toolkit I18N (data-i18n / data-i18n-placeholder)
+   * Toolkit I18N
    * ------------------------------ */
   function getToolkitEnDict() {
     if (window.TOOLKIT_EN_I18N && typeof window.TOOLKIT_EN_I18N === "object") {
@@ -207,7 +261,7 @@
       toolkit_heading: "Academic Toolkit",
       search_placeholder: "Search tools by name.",
       filter_all: "All",
-      no_results: "No matching tools found. Try a different search term."
+      no_results: "No matching tools found.\nTry a different search term."
     };
   }
 
@@ -240,15 +294,13 @@
   }
 
   /* ------------------------------
-   * Social I18N (data-i18n)
+   * Social I18N
    * ------------------------------ */
   function getSocialDict(lang) {
     const zh = window.SOCIAL_ZH_I18N;
     const en = window.SOCIAL_EN_I18N;
-
     if (lang === LANG.ZH && zh && typeof zh === "object") return zh;
     if (en && typeof en === "object") return en;
-
     return null;
   }
 
@@ -287,16 +339,20 @@
     });
   }
 
-  // ---- Helpers: capture expander openKeys for the WHOLE page (so Meditations won't be reset) ----
   function getFallbackOpenKeys(scope) {
     try {
       const root = scope || document;
-      const btns = Array.prototype.slice.call(root.querySelectorAll('button.expander[aria-expanded="true"]'));
+      const btns = Array.prototype.slice.call(
+        root.querySelectorAll('button.expander[aria-expanded="true"]')
+      );
+
       return btns.map(function (btn) {
         const k = btn.getAttribute("data-expand-key");
         if (k && String(k).trim()) return String(k).trim();
+
         const t = btn.getAttribute("data-expand-target");
         if (t && String(t).trim()) return String(t).trim();
+
         return null;
       }).filter(Boolean);
     } catch (e) {
@@ -304,16 +360,13 @@
     }
   }
 
-  // ---- Smooth resume swap to avoid "flash" when expanders are open ----
-  // NOTE: we intentionally capture ALL openKeys across the page, not just resume,
-  // so Meditations expanders keep their open/closed state during lang switch.
   function getResumeOpenKeys() {
     try {
       const api = window.ResumeExpanders;
       if (api && typeof api.getOpenKeys === "function") {
         return api.getOpenKeys(document);
       }
-    } catch (e) { }
+    } catch (e) {}
     return getFallbackOpenKeys(document);
   }
 
@@ -324,7 +377,7 @@
       if (api && typeof api.init === "function") {
         api.init(resume || document, { openKeys: Array.isArray(keys) ? keys : [] });
       }
-    } catch (e) { }
+    } catch (e) {}
   }
 
   function smoothSwapResume(lang, openKeys) {
@@ -344,32 +397,38 @@
       applyResumeLanguage(lang);
       restoreResumeOpenKeys(openKeys);
 
+      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === 'function') {
+        window.CustomCursorAPI.refresh(resume);
+      }
+
       try {
-        window.dispatchEvent(new CustomEvent("site:langchange", { detail: { lang: lang, openKeys: openKeys } }));
-      } catch (e) { }
+        window.dispatchEvent(new CustomEvent("site:langchange", {
+          detail: { lang: lang, openKeys: openKeys }
+        }));
+      } catch (e) {}
 
       requestAnimationFrame(() => {
         resume.style.opacity = "1";
+
         const cleanup = () => {
           resume.style.minHeight = "";
           resume.removeEventListener("transitionend", cleanup);
         };
+
         resume.addEventListener("transitionend", cleanup);
         setTimeout(cleanup, 250);
       });
     });
   }
 
-  // ---- Smooth Meditations swap (keep expander state + no flash) ----
   function restoreMeditationsOpenKeys(keys) {
     try {
       const api = window.ResumeExpanders;
       const m = document.getElementById("meditations");
       if (api && typeof api.init === "function") {
-        // skipSave: avoid overwriting storage with just the meditations scope
         api.init(m || document, { openKeys: Array.isArray(keys) ? keys : [], skipSave: true });
       }
-    } catch (e) { }
+    } catch (e) {}
   }
 
   function smoothSwapMeditations(lang, openKeys) {
@@ -389,12 +448,18 @@
       applyMeditationsLanguage(lang);
       restoreMeditationsOpenKeys(openKeys);
 
+      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === 'function') {
+        window.CustomCursorAPI.refresh(m);
+      }
+
       requestAnimationFrame(() => {
         m.style.opacity = "1";
+
         const cleanup = () => {
           m.style.minHeight = "";
           m.removeEventListener("transitionend", cleanup);
         };
+
         m.addEventListener("transitionend", cleanup);
         setTimeout(cleanup, 250);
       });
@@ -405,29 +470,23 @@
     const l = setLang(lang);
     updateLangButton(l);
 
-    // Capture ALL open expanders (resume + meditations + any others)
     const openKeys = getResumeOpenKeys();
 
-    // Resume: keep smooth swap
     smoothSwapResume(l, openKeys);
-
-    // Meditations: smooth swap + keep expander state
     smoothSwapMeditations(l, openKeys);
 
-    // Other sections
     applyToolkitI18N(l);
     applySocialI18N(l);
     applyTopNavI18N(l);
   }
 
-  // Expose applyLanguage for pages that want to force a change
   window.SiteLang.applyLanguage = applyLanguage;
 
   function bindLangToggle() {
     const btn = document.getElementById("top-lang-btn");
     if (!btn || btn.dataset.bound === "1") return;
-    btn.dataset.bound = "1";
 
+    btn.dataset.bound = "1";
     btn.addEventListener("click", function () {
       const cur = getLang();
       const next = (cur === LANG.EN) ? LANG.ZH : LANG.EN;
@@ -436,7 +495,6 @@
   }
 
   function init() {
-    // Always default back to English on a full refresh
     applyLanguage(LANG.EN);
     bindLangToggle();
 
@@ -445,6 +503,7 @@
       bindLangToggle();
       updateLangButton(getLang());
       retry += 1;
+
       if (document.getElementById("top-lang-btn") && retry >= 3) clearInterval(timer);
       if (retry >= 10) clearInterval(timer);
     }, 200);
@@ -452,7 +511,6 @@
     window.addEventListener("site:langchange", function (e) {
       const l = normalizeLang(e && e.detail ? e.detail.lang : getLang());
 
-      // IMPORTANT: do NOT re-swap meditations here (avoid double DOM replacement / flicker)
       applyToolkitI18N(l);
       applySocialI18N(l);
       applyTopNavI18N(l);
