@@ -191,6 +191,49 @@
           <li>给学生的作业和考试评分, 提供反馈和辅导. 每周开设习题课, 回答问题, 帮助学生准备考试.</li>
         </ul>
       </div>
+
+      <div class="section">
+        <h2>课程设计</h2>
+
+        <div class="subheading">
+          <span class="subheading-title">
+            基于加权图建模与系统额外增量的地铁线路规划
+          </span>
+        </div>
+
+        <ul>
+          <li>
+            本项目在加权图建模框架下研究地铁路径规划，并在原始教学模板基础上扩展为一个完整系统，包含最短路径计算、改进的图形交互界面，以及考虑换乘代价的路径规划扩展。
+            <br>
+            <div class="project-actions">
+              <a
+                class="expand-action-btn"
+                href="https://stardust-math.github.io/Mathematical_Modeling/HW_1/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+                <span>展示页</span>
+              </a>
+
+              <a
+                class="expand-action-btn"
+                href="https://github.com/Stardust-math/Mathematical_Modeling/tree/main/HW%26ANS/Answer_1"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.07 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.83 1.19 3.09 0 4.45-2.7 5.42-5.27 5.7.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                </svg>
+                <span>代码</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+      </div>
       
       <div class="section">
         <h2>其他信息</h2>
