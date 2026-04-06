@@ -889,3 +889,22 @@ body.dark-mode .toolkit-icon {
 body.dark-mode a:hover {
   text-decoration-color: rgba(180, 210, 236, 0.55);
 }
+
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.btn-ico {
+  width: 1em;
+  height: 1em;
+  flex: 0 0 1em;
+  display: inline-block;
+  margin-right: 0.1em;
+}
+
+.project-actions .expand-action-btn {
+  gap: 0.42em;
+}
