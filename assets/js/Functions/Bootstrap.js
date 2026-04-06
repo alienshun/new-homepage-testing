@@ -94,6 +94,7 @@
       // ignore
     }
   }
+
   function scheduleAppHeightSync() {
     if (appHeightRaf) cancelAnimationFrame(appHeightRaf);
     appHeightRaf = requestAnimationFrame(() => {
@@ -101,6 +102,7 @@
       syncAppHeight();
     });
   }
+
   syncAppHeight();
   window.addEventListener('resize', scheduleAppHeightSync, { passive: true });
   window.addEventListener('orientationchange', scheduleAppHeightSync, { passive: true });
@@ -208,6 +210,7 @@
       document.body.style.overflow = 'auto';
       coverHidden = true;
       activatePage(page);
+      document.documentElement.classList.remove('route-entry');
       return;
     }
 
@@ -217,6 +220,7 @@
       document.body.style.overflow = 'auto';
       coverHidden = true;
       activatePage(page);
+      document.documentElement.classList.remove('route-entry');
     }, 1500);
 
     ['avatar-frame', 'name', 'slogan', 'cover-scroll'].forEach((id) => {
@@ -414,14 +418,21 @@
     if (window.Schedule && typeof window.Schedule.initSemesterSelection === 'function') {
       window.Schedule.initSemesterSelection();
     }
+
+    const initialPage = getPageFromPath(window.location.pathname);
+    if (initialPage) {
+      applyRouteFromLocation({
+        updateHistory: false,
+        instant: true,
+        scrollBehavior: 'auto'
+      });
+    }
   }
 
   function bootOnLoad() {
     const initialPage = getPageFromPath(window.location.pathname);
 
-    if (initialPage) {
-      applyRouteFromLocation();
-    } else {
+    if (!initialPage) {
       if (window.TopNav) {
         window.TopNav.hide();
       }
