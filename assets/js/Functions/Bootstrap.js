@@ -5,18 +5,19 @@
     '/about': 'resume',
     '/schedule': 'schedule',
     '/social': 'social',
-    '/toolkit': 'toolkit',
     '/meditations': 'meditations'
   };
 
   const PAGE_TO_ROUTE = {
-    resume: '/about/',
-    schedule: '/schedule/',
-    social: '/social/',
-    toolkit: '/toolkit/',
-    meditations: '/meditations/'
+    resume: 'about',
+    schedule: 'schedule',
+    social: 'social',
+    meditations: 'meditations'
   };
 
+  // ------------------------------
+  // Navigation (cover <-> pages)
+  // ------------------------------
   let coverHidden = false;
   let currentPage = null;
 
@@ -30,31 +31,69 @@
     return cleaned || '/';
   }
 
+  function getSiteRootPath() {
+    const normalized = normalizePath(window.location.pathname);
+    const parts = normalized.split('/').filter(Boolean);
+
+    if (parts.length > 0) {
+      const last = parts[parts.length - 1];
+      if (['about', 'schedule', 'social', 'meditations'].includes(last)) {
+        parts.pop();
+      }
+    }
+
+    return '/' + (parts.length ? parts.join('/') + '/' : '');
+  }
+
+  function stripSiteRoot(pathname) {
+    const siteRoot = getSiteRootPath().replace(/\/$/, '');
+    const normalized = normalizePath(pathname);
+
+    if (!siteRoot) return normalized;
+    if (siteRoot === '') return normalized;
+    if (siteRoot === '/') return normalized;
+
+    if (normalized === siteRoot) return '/';
+    if (normalized.startsWith(siteRoot + '/')) {
+      return normalized.slice(siteRoot.length) || '/';
+    }
+    return normalized;
+  }
+
   function getPageFromPath(pathname) {
-    return ROUTE_TO_PAGE[normalizePath(pathname || window.location.pathname)] || null;
+    const relativePath = stripSiteRoot(pathname || window.location.pathname);
+    return ROUTE_TO_PAGE[relativePath] || null;
   }
 
   function getRouteForPage(page) {
-    return PAGE_TO_ROUTE[page] || '/';
+    const siteRoot = getSiteRootPath();
+    const segment = PAGE_TO_ROUTE[page];
+    if (!segment) return siteRoot;
+    return `${siteRoot}${segment}/`;
+  }
+
+  function getCoverRoute() {
+    return getSiteRootPath();
   }
 
   function syncHistory(path, replace) {
     if (!window.history || typeof window.history.pushState !== 'function') return;
-    const nextPath = path || '/';
+    const nextPath = path || getCoverRoute();
     const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
     if (currentPath === nextPath) return;
-
     const method = replace ? 'replaceState' : 'pushState';
     window.history[method]({ path: nextPath }, '', nextPath);
   }
 
+  // Keep a stable viewport height on mobile browsers
   let appHeightRaf = 0;
   function syncAppHeight() {
     try {
       document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
-    } catch (e) {}
+    } catch (e) {
+      // ignore
+    }
   }
-
   function scheduleAppHeightSync() {
     if (appHeightRaf) cancelAnimationFrame(appHeightRaf);
     appHeightRaf = requestAnimationFrame(() => {
@@ -62,7 +101,6 @@
       syncAppHeight();
     });
   }
-
   syncAppHeight();
   window.addEventListener('resize', scheduleAppHeightSync, { passive: true });
   window.addEventListener('orientationchange', scheduleAppHeightSync, { passive: true });
@@ -78,7 +116,9 @@
     if (!el) return;
     try {
       el.scrollIntoView({ behavior: behavior || 'smooth', block: 'start' });
-    } catch (e) {}
+    } catch (e) {
+      // ignore
+    }
   }
 
   function showCoverElements() {
@@ -151,13 +191,13 @@
         window.TopNav.setActive(currentPage);
       }
 
-      if (opts.updateHistory) {
+      if (opts.updateHistory && PAGE_TO_ROUTE[currentPage]) {
         syncHistory(getRouteForPage(currentPage), opts.replaceHistory);
       }
     }
 
     if (coverHidden && currentPage === page) {
-      if (opts.updateHistory) {
+      if (opts.updateHistory && PAGE_TO_ROUTE[page]) {
         syncHistory(getRouteForPage(page), opts.replaceHistory);
       }
       return;
@@ -227,7 +267,7 @@
     document.body.style.overflow = 'hidden';
 
     if (opts.updateHistory) {
-      syncHistory('/', opts.replaceHistory);
+      syncHistory(getCoverRoute(), opts.replaceHistory);
     }
 
     if (opts.instant) {
@@ -263,6 +303,7 @@
     const arrow = document.getElementById('cover-scroll');
     if (!cover) return;
 
+    // Arrow click -> About(Resume)
     if (arrow) {
       arrow.addEventListener('click', () => {
         if (coverHidden) return;
@@ -272,6 +313,7 @@
       });
     }
 
+    // Wheel down -> About(Resume)
     cover.addEventListener('wheel', (e) => {
       if (coverHidden) return;
 
@@ -285,6 +327,7 @@
       e.preventDefault();
     }, { passive: false });
 
+    // Touch swipe -> About(Resume)
     let touchStartY = 0;
     let touchStartX = 0;
     let touchActive = false;
@@ -299,7 +342,6 @@
 
     cover.addEventListener('touchmove', (e) => {
       if (coverHidden || !touchActive) return;
-
       const t = e.touches && e.touches[0];
       if (!t) return;
 
@@ -343,6 +385,9 @@
     }, { passive: false });
   }
 
+  // ------------------------------
+  // Boot
+  // ------------------------------
   function bootDOMContentLoaded() {
     if (window.Theme && typeof window.Theme.init === 'function') {
       window.Theme.init();
