@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Joker Chen</title>
-  <link rel="icon" href="../assets/images/favicon.png" type="image/jpeg">
-  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="preload" href="../assets/images/avatar.jpg" as="image">
-  <link rel="preload" href="../assets/images/background.jpg" as="image">
-  <link rel="preload" href="../assets/images/old-paper-texture.jpg" as="image">
-  <link rel="preload" href="../assets/images/scroll-texture.png" as="image">
-  <link rel="preload" href="../assets/animation/fire-animation.gif" as="image">
-  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<base href="../">
+<title>Joker Chen</title>
+<link rel="icon" href="./assets/images/favicon.png" type="image/jpeg">
+<link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" href="./assets/images/avatar.jpg" as="image">
+<link rel="preload" href="./assets/images/background.jpg" as="image">
+<link rel="preload" href="./assets/images/old-paper-texture.jpg" as="image">
+<link rel="preload" href="./assets/images/scroll-texture.png" as="image">
+<link rel="preload" href="./assets/animation/fire-animation.gif" as="image">
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
 
-  <!-- Easter Egg ( ╯▽╰): Personal Blog(optional) -->
-  <script src="../assets/js/blog.js"></script>
-  <link rel="stylesheet" href="../assets/css/blog.css">
+<!-- Easter Egg ( ╯▽╰): Personal Blog(optional) -->
+<script src="./assets/js/blog.js"></script>
+<link rel="stylesheet" href="./assets/css/blog.css">
 
-  <!-- styles -->
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <link rel="stylesheet" href="../assets/css/top-nav.css">
-  <link rel="stylesheet" href="../assets/css/cursor.css">
-  <link rel="stylesheet" href="../assets/css/cover.css">
-  <link rel="stylesheet" href="../assets/css/social.css">
-  <link rel="stylesheet" href="../assets/css/toolkit.css">
-  <link rel="stylesheet" href="../assets/css/schedule.css">
-  <link rel="stylesheet" href="../assets/css/meditations.css">
+<!-- styles -->
+<link rel="stylesheet" href="./assets/css/main.css">
+<link rel="stylesheet" href="./assets/css/top-nav.css">
+<link rel="stylesheet" href="./assets/css/cursor.css">
+<link rel="stylesheet" href="./assets/css/cover.css">
+<link rel="stylesheet" href="./assets/css/social.css">
+<link rel="stylesheet" href="./assets/css/toolkit.css">
+<link rel="stylesheet" href="./assets/css/schedule.css">
+<link rel="stylesheet" href="./assets/css/meditations.css">
+
 </head>
 <body>
   <!-- Preloaded images for performance optimization -->
   <div class="preload-images">
-    <img src="../assets/images/avatar.jpg" alt="Preload Avatar">
-    <img src="../assets/images/background.jpg" alt="Preload Background">
-    <img src="../assets/images/old-paper-texture.jpg" alt="Preload Paper Texture">
-    <img src="../assets/images/scroll-texture.png" alt="Preload Scroll Texture">
-    <img src="../assets/animation/fire-animation.gif" alt="Preload Fire Animation">
+    <img src="./assets/images/avatar.jpg" alt="Preload Avatar">
+    <img src="./assets/images/background.jpg" alt="Preload Background">
+    <img src="./assets/images/old-paper-texture.jpg" alt="Preload Paper Texture">
+    <img src="./assets/images/scroll-texture.png" alt="Preload Scroll Texture">
+    <img src="./assets/animation/fire-animation.gif" alt="Preload Fire Animation">
   </div>
 
   <!-- Mount points for page modules -->
@@ -49,44 +51,47 @@
   <div id="mount-social"></div>
   <div id="mount-toolkit"></div>
   <div id="mount-schedule"></div>
+
+  <!-- [NEW] Meditations mount -->
   <div id="mount-meditations"></div>
 
-  <!-- Top navigation module -->
-  <script src="../assets/js/Functions/Top-nav.js"></script>
 
+  <!-- Top navigation module -->
+  <script src="./assets/js/Functions/Top-nav.js"></script>
+  
   <!-- Cover page module -->
-  <script src="../assets/js/Functions/Cover.js"></script>
+  <script src="./assets/js/Functions/Cover.js"></script>
 
   <!-- Resume page module -->
-  <script src="../assets/js/Content/EN/resume_EN.js"></script>
-  <script src="../assets/js/Content/ZH/resume_ZH.js"></script>
+  <script src="./assets/js/Content/EN/resume_EN.js"></script>
+  <script src="./assets/js/Content/ZH/resume_ZH.js"></script>
 
-  <!-- Meditations page module -->
-  <script src="../assets/js/Content/EN/meditations_EN.js"></script>
-  <script src="../assets/js/Content/ZH/meditations_ZH.js"></script>
+  <!-- [NEW] Meditations page module -->
+  <script src="./assets/js/Content/EN/meditations_EN.js"></script>
+  <script src="./assets/js/Content/ZH/meditations_ZH.js"></script>
 
   <!-- Social page module -->
-  <script src="../assets/js/Content/EN/social_EN.js"></script>
-  <script src="../assets/js/Content/ZH/social_ZH.js"></script>
-  <script src="../assets/js/Functions/Social.js"></script>
+  <script src="./assets/js/Content/EN/social_EN.js"></script>
+  <script src="./assets/js/Content/ZH/social_ZH.js"></script>
+  <script src="./assets/js/Functions/Social.js"></script>
 
   <!-- Toolkit page module -->
-  <script src="../assets/js/Content/EN/toolkit_EN.js"></script>
-  <script src="../assets/js/Content/ZH/toolkit_ZH.js"></script>
-  <script src="../assets/js/Functions/Toolkit.js"></script>
+  <script src="./assets/js/Content/EN/toolkit_EN.js"></script>
+  <script src="./assets/js/Content/ZH/toolkit_ZH.js"></script>
+  <script src="./assets/js/Functions/Toolkit.js"></script>
 
-  <!-- Schedule page module -->
-  <script src="../assets/js/Content/EN/schedule_EN.js"></script>
-  <script src="../assets/js/Content/ZH/schedule_ZH.js"></script>
-  <script src="../assets/js/Functions/Schedule.js"></script>
+  <!-- Schedule Page module -->
+  <script src="./assets/js/Content/EN/schedule_EN.js"></script>
+  <script src="./assets/js/Content/ZH/schedule_ZH.js"></script>
+  <script src="./assets/js/Functions/Schedule.js"></script>
 
   <!-- Functions -->
-  <script src="../assets/js/Functions/Bootstrap.js"></script>
-  <script src="../assets/js/Functions/Clock.js"></script>
-  <script src="../assets/js/Functions/Theme.js"></script>
-  <script src="../assets/js/Functions/Translate.js"></script>
-  <script src="../assets/js/Functions/Expanders.js"></script>
-  <script src="../assets/js/Functions/Custom-cursors.js"></script>
+  <script src="./assets/js/Functions/Bootstrap.js"></script>
+  <script src="./assets/js/Functions/Clock.js"></script>
+  <script src="./assets/js/Functions/Theme.js"></script>
+  <script src="./assets/js/Functions/Translate.js"></script>
+  <script src="./assets/js/Functions/Expanders.js"></script>
+  <script src="./assets/js/Functions/Custom-cursors.js"></script>
 
   <!-- GoatCounter analytics (tracking) -->
   <script data-goatcounter="https://stardust.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
