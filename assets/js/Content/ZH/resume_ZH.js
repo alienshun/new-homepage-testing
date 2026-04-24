@@ -319,7 +319,7 @@
 
               <a
                 class="expand-action-btn"
-                href="https://github.com/Stardust-math/Mathematical_Modeling/tree/main/HW_3"
+                href="https://github.com/Stardust-math/Mathematical_Modeling/tree/main/HW%26ANS/Answer_3"
                 target="_blank"
                 rel="noopener noreferrer"
               >
