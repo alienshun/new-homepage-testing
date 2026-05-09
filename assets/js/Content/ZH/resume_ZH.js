@@ -331,20 +331,59 @@
             </div>
           </li>
         </ul>
+
+        <div class="subheading">
+          <span class="subheading-title">
+            基于区室传染病模型的周期性爆发建模
+          </span>
+        </div>
+
+        <ul>
+          <li>
+            本项目基于 SIR 型区室传染病模型研究传染病的周期性爆发现象。实验从基础 SIR 模型出发，进一步引入出生死亡导致的人口更新、季节性传播率强迫以及 Gillespie 随机模拟，用于解释单次爆发、反复峰值、季节性流行模式与小感染人数下的早期消亡现象。
+            <br>
+            <div class="project-actions">
+              <a
+                class="expand-action-btn"
+                href="https://stardust-math.github.io/Mathematical_Modeling/HW_4/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+                <span>展示页</span>
+              </a>
+
+              <a
+                class="expand-action-btn"
+                href="https://github.com/Stardust-math/Mathematical_Modeling/tree/main/HW%26ANS/Answer_4"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.07 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.83 1.19 3.09 0 4.45-2.7 5.42-5.27 5.7.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                </svg>
+                <span>代码</span>
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
       
       <div class="section">
-        <h2>其他信息</h2>
+        <h2>附加信息</h2>
         <ul>
           <li>
-            <strong>技术能力: </strong>
+            <strong>技术能力:</strong>
             <ul>
-              <li>编程: Python (熟练), C (熟练), Mathematica (熟练)</li>
-              <li>工具: LaTeX (高级), Visio, Adobe Illustrator, Adobe Photoshop</li>
+              <li>编程: Python（熟练）, C（熟练）, Mathematica（熟练）</li>
+              <li>工具: LaTeX（高级）, Visio, Adobe Illustrator, Adobe Photoshop</li>
             </ul>
           </li>
           <li>
-            <strong>语言: </strong> 中文 (母语), 英语 (流利——托福: 阅读 28, 听力 24, 口语 24, 写作 27)
+            <strong>语言:</strong> 中文（母语）, 英语（流利--托福: 阅读 28, 听力 24, 口语 24, 写作 27）
           </li>
         </ul>
       </div>
