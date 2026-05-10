@@ -4,7 +4,9 @@
   const resources = window.SiteResources || {};
   const loader = window.SiteResourceLoader || {};
   const pageConfigs = resources.pages || {};
-  const defaultPage = (resources.navigation && resources.navigation.defaultPage) || 'resume';
+  const navigation = resources.navigation || {};
+  const defaultPage = navigation.defaultPage || 'resume';
+  const warmupConfig = navigation.warmup || {};
 
   const ROUTE_TO_PAGE = {};
   const PAGE_TO_ROUTE = {};
@@ -33,7 +35,17 @@
   let wheelTriggered = false;
   let wheelLockTimer = null;
 
+  let afterCoverWarmupStarted = false;
+  let afterFirstPageWarmupStarted = false;
+
   const initializedPages = Object.create(null);
+  const intentWarmTimers = Object.create(null);
+
+  function delay(ms) {
+    return new Promise((resolve) => {
+      window.setTimeout(resolve, Math.max(0, Number(ms) || 0));
+    });
+  }
 
   function normalizePath(pathname) {
     let cleaned = pathname || '/';
@@ -155,6 +167,93 @@
     }, 1200);
   }
 
+  function validPages(list) {
+    return (Array.isArray(list) ? list : [])
+      .filter((page) => page && pageConfigs[page]);
+  }
+
+  function warmPage(page, reason) {
+    if (!page || !pageConfigs[page]) return Promise.resolve(null);
+
+    if (!loader || typeof loader.warmPage !== 'function') {
+      if (typeof loader.loadPage === 'function') {
+        return loader.loadPage(page);
+      }
+      return Promise.resolve(null);
+    }
+
+    return loader.warmPage(page, reason || 'bootstrap');
+  }
+
+  function scheduleWarmupSequence(pages, options) {
+    const opts = options || {};
+    const list = validPages(pages);
+
+    if (!list.length) return;
+
+    const startDelay = Number(opts.startDelay) || 0;
+    const gap = Number(opts.gap) || 0;
+    const reason = opts.reason || 'sequence';
+
+    function run() {
+      window.setTimeout(async () => {
+        for (const page of list) {
+          if (page !== currentPage) {
+            await warmPage(page, reason);
+          }
+
+          if (gap > 0) {
+            await delay(gap);
+          }
+        }
+      }, startDelay);
+    }
+
+    if (loader && typeof loader.idle === 'function') {
+      loader.idle(run, 1800);
+    } else {
+      window.setTimeout(run, 800);
+    }
+  }
+
+  function startAfterCoverWarmup() {
+    if (afterCoverWarmupStarted) return;
+    afterCoverWarmupStarted = true;
+
+    scheduleWarmupSequence(warmupConfig.afterCover || [defaultPage], {
+      startDelay: warmupConfig.delayAfterCover || 650,
+      gap: warmupConfig.delayBetweenPages || 850,
+      reason: 'after-cover'
+    });
+  }
+
+  function startAfterFirstPageWarmup() {
+    if (afterFirstPageWarmupStarted) return;
+    afterFirstPageWarmupStarted = true;
+
+    scheduleWarmupSequence(warmupConfig.afterFirstPage || [], {
+      startDelay: warmupConfig.delayAfterFirstPage || 700,
+      gap: warmupConfig.delayBetweenPages || 850,
+      reason: 'after-first-page'
+    });
+  }
+
+  function warmPageByIntent(page) {
+    if (!page || !pageConfigs[page]) return;
+
+    const hoverDelay = Number(warmupConfig.hoverDelay);
+    const ms = Number.isFinite(hoverDelay) ? hoverDelay : 80;
+
+    if (intentWarmTimers[page]) {
+      clearTimeout(intentWarmTimers[page]);
+    }
+
+    intentWarmTimers[page] = window.setTimeout(() => {
+      delete intentWarmTimers[page];
+      warmPage(page, 'nav-intent');
+    }, ms);
+  }
+
   async function ensurePageAssets(page) {
     if (!pageConfigs[page]) return false;
 
@@ -230,6 +329,35 @@
     });
   }
 
+  function activatePage(targetPage, opts) {
+    hideAllPages();
+
+    const targetEl = getPageElement(targetPage);
+    if (!targetEl) return false;
+
+    targetEl.classList.add('visible');
+    currentPage = targetPage;
+
+    scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
+
+    if (targetPage === 'schedule' && window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
+      window.Schedule.setScheduleView('my-timetable');
+    }
+
+    if (window.TopNav) {
+      window.TopNav.show();
+      window.TopNav.setActive(currentPage);
+    }
+
+    if (opts.updateHistory && PAGE_TO_ROUTE[currentPage]) {
+      syncHistory(getRouteForPage(currentPage), opts.replaceHistory);
+    }
+
+    startAfterFirstPageWarmup();
+
+    return true;
+  }
+
   async function showPage(page, options) {
     const opts = Object.assign({
       updateHistory: true,
@@ -238,38 +366,7 @@
       scrollBehavior: 'smooth'
     }, options || {});
 
-    const loaded = await ensurePageAssets(page);
-    if (!loaded) return;
-
-    const cover = document.getElementById('cover');
-    const target = getPageElement(page);
-
-    if (!cover || !target) return;
-
-    function activatePage(targetPage) {
-      hideAllPages();
-
-      const targetEl = getPageElement(targetPage);
-      if (!targetEl) return;
-
-      targetEl.classList.add('visible');
-      currentPage = targetPage;
-
-      scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
-
-      if (targetPage === 'schedule' && window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
-        window.Schedule.setScheduleView('my-timetable');
-      }
-
-      if (window.TopNav) {
-        window.TopNav.show();
-        window.TopNav.setActive(currentPage);
-      }
-
-      if (opts.updateHistory && PAGE_TO_ROUTE[currentPage]) {
-        syncHistory(getRouteForPage(currentPage), opts.replaceHistory);
-      }
-    }
+    if (!pageConfigs[page]) return;
 
     if (coverHidden && currentPage === page) {
       if (opts.updateHistory && PAGE_TO_ROUTE[page]) {
@@ -278,29 +375,55 @@
       return;
     }
 
+    const cover = document.getElementById('cover');
+    const loadPromise = ensurePageAssets(page);
+
     if (coverHidden || opts.instant) {
+      const loaded = await loadPromise;
+      if (!loaded) return;
+
+      const target = getPageElement(page);
+      if (!cover || !target) return;
+
       cover.style.display = 'none';
       document.body.style.overflow = 'auto';
       coverHidden = true;
-      activatePage(page);
+      activatePage(page, opts);
       document.documentElement.classList.remove('route-entry');
+      return;
+    }
+
+    if (!cover) {
+      const loaded = await loadPromise;
+      if (!loaded) return;
+      activatePage(page, opts);
       return;
     }
 
     cover.classList.add('hidden');
 
-    setTimeout(() => {
-      cover.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      coverHidden = true;
-      activatePage(page);
-      document.documentElement.classList.remove('route-entry');
-    }, 1500);
-
     ['avatar-frame', 'name', 'slogan', 'cover-scroll'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.classList.remove('visible');
     });
+
+    const results = await Promise.all([
+      loadPromise,
+      delay(1500)
+    ]);
+
+    const loaded = results[0];
+    if (!loaded) return;
+
+    const target = getPageElement(page);
+    if (!target) return;
+
+    cover.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    coverHidden = true;
+
+    activatePage(page, opts);
+    document.documentElement.classList.remove('route-entry');
   }
 
   function backToCover(options) {
@@ -341,12 +464,14 @@
     if (opts.instant) {
       cover.classList.add('visible');
       showCoverElements();
+      startAfterCoverWarmup();
       return;
     }
 
     setTimeout(() => {
       cover.classList.add('visible');
       showCoverElements();
+      startAfterCoverWarmup();
     }, 100);
   }
 
@@ -372,7 +497,21 @@
     const arrow = document.getElementById('cover-scroll');
     if (!cover) return;
 
-    if (arrow) {
+    if (arrow && arrow.dataset.boundCoverArrow !== '1') {
+      arrow.dataset.boundCoverArrow = '1';
+
+      arrow.addEventListener('pointerenter', () => {
+        warmPage(defaultPage, 'cover-arrow-intent');
+      }, { passive: true });
+
+      arrow.addEventListener('focus', () => {
+        warmPage(defaultPage, 'cover-arrow-focus');
+      });
+
+      arrow.addEventListener('touchstart', () => {
+        warmPage(defaultPage, 'cover-arrow-touch');
+      }, { passive: true });
+
       arrow.addEventListener('click', () => {
         if (coverHidden) return;
 
@@ -382,6 +521,9 @@
         showPage(defaultPage);
       });
     }
+
+    if (cover.dataset.boundCoverScroll === '1') return;
+    cover.dataset.boundCoverScroll = '1';
 
     cover.addEventListener('wheel', (e) => {
       if (coverHidden) return;
@@ -465,7 +607,7 @@
     }
 
     if (window.TopNav && typeof window.TopNav.init === 'function') {
-      window.TopNav.init(showPage, backToCover);
+      window.TopNav.init(showPage, backToCover, warmPageByIntent);
     }
 
     if (window.Clock && typeof window.Clock.initToggle === 'function') {
@@ -497,6 +639,7 @@
       if (cover) {
         cover.classList.add('visible');
         showCoverElements();
+        startAfterCoverWarmup();
       }
     }
 
