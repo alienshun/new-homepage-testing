@@ -686,9 +686,11 @@ tr.expand-row.is-animating {
 }
 
 .expand-content {
+  box-sizing: border-box;
+
   margin-top: 0;
-  padding-top: 0;
-  border-top: 1px dashed transparent;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
 
   display: grid;
   gap: 12px;
@@ -700,20 +702,14 @@ tr.expand-row.is-animating {
   transform: translateY(-3px);
 
   transition:
-    height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    margin-top 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    padding-top 0.42s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.28s ease,
-    opacity 0.28s ease,
-    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+    height 0.40s cubic-bezier(0.33, 1, 0.68, 1),
+    opacity 0.26s ease,
+    transform 0.30s cubic-bezier(0.33, 1, 0.68, 1);
 
-  will-change: height, margin-top, padding-top, opacity, transform;
+  will-change: height, opacity, transform;
 }
 
 .expand-row.is-open .expand-content {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top-color: color-mix(in srgb, var(--border) 80%, transparent);
   opacity: 1;
   transform: translateY(0);
 }
