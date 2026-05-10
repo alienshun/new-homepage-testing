@@ -1,20 +1,9 @@
 // Easter Egg Blog + transitions
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Initialize avatar element and preload image for seamless transition
     const avatarImgEl = document.querySelector('#avatar-frame img');
     if (!avatarImgEl) return;
 
-    // Preload avatar image to ensure visual continuity
-    const avatarImg = new Image();
-    avatarImg.src = './assets/images/avatar.jpg';
-
-    // Execute opacity transition after successful image loading
-    avatarImg.onload = function () {
-        avatarImgEl.style.opacity = '1';
-    };
-
-    // Register click event handler for avatar element
     avatarImgEl.addEventListener('click', function () {
         startSwirlAnimation();
     });
