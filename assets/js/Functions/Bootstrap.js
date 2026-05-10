@@ -56,15 +56,10 @@
   function getSiteRootPath() {
     const normalized = normalizePath(window.location.pathname);
     const parts = normalized.split('/').filter(Boolean);
+    const routeIndex = parts.findIndex((part) => ROUTE_SEGMENTS.includes(part));
+    const rootParts = routeIndex >= 0 ? parts.slice(0, routeIndex) : parts;
 
-    if (parts.length > 0) {
-      const last = parts[parts.length - 1];
-      if (ROUTE_SEGMENTS.includes(last)) {
-        parts.pop();
-      }
-    }
-
-    return '/' + (parts.length ? parts.join('/') + '/' : '');
+    return '/' + (rootParts.length ? rootParts.join('/') + '/' : '');
   }
 
   function stripSiteRoot(pathname) {
@@ -83,7 +78,15 @@
 
   function getPageFromPath(pathname) {
     const relativePath = stripSiteRoot(pathname || window.location.pathname);
-    return ROUTE_TO_PAGE[relativePath] || null;
+    const exactPage = ROUTE_TO_PAGE[relativePath];
+
+    if (exactPage) return exactPage;
+
+    const nestedRoute = Object.keys(ROUTE_TO_PAGE)
+      .sort((a, b) => b.length - a.length)
+      .find((route) => relativePath.startsWith(route + '/'));
+
+    return nestedRoute ? ROUTE_TO_PAGE[nestedRoute] : null;
   }
 
   function getRouteForPage(page) {
