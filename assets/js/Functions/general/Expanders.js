@@ -70,13 +70,9 @@
 
       if (open) {
         panel.style.height = "auto";
-        panel.style.opacity = "1";
-        panel.style.transform = "translateY(0)";
         panel.style.overflow = "";
       } else {
         panel.style.height = "0px";
-        panel.style.opacity = "0";
-        panel.style.transform = "translateY(-3px)";
         panel.style.overflow = "hidden";
       }
     }
@@ -103,21 +99,20 @@
     panel.style.transition = "none";
     panel.style.height = "0px";
     panel.style.overflow = "hidden";
-    panel.style.opacity = "0";
-    panel.style.transform = "translateY(-3px)";
+    panel.style.opacity = "";
+    panel.style.transform = "";
 
     // Force browser to register the collapsed state before animating.
     panel.offsetHeight;
 
-    const targetHeight = panel.scrollHeight;
-
     panel.style.transition = "";
-    row.classList.add("is-open");
 
     requestAnimationFrame(function () {
-      panel.style.height = targetHeight + "px";
-      panel.style.opacity = "1";
-      panel.style.transform = "translateY(0)";
+      row.classList.add("is-open");
+
+      requestAnimationFrame(function () {
+        panel.style.height = panel.scrollHeight + "px";
+      });
     });
 
     const timer = window.setTimeout(function () {
@@ -129,11 +124,9 @@
       }
 
       panel.style.transition = "";
-      panel.style.opacity = "";
-      panel.style.transform = "";
 
       delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 60);
+    }, ANIMATION_MS + 100);
 
     row.dataset.expandTimer = String(timer);
   }
@@ -157,24 +150,20 @@
       return;
     }
 
-    const startHeight = panel.scrollHeight;
-
     panel.style.transition = "none";
-    panel.style.height = startHeight + "px";
+    panel.style.height = panel.scrollHeight + "px";
     panel.style.overflow = "hidden";
-    panel.style.opacity = "1";
-    panel.style.transform = "translateY(0)";
+    panel.style.opacity = "";
+    panel.style.transform = "";
 
     // Force browser to register the expanded state before collapsing.
     panel.offsetHeight;
 
     panel.style.transition = "";
-    row.classList.remove("is-open");
 
     requestAnimationFrame(function () {
+      row.classList.remove("is-open");
       panel.style.height = "0px";
-      panel.style.opacity = "0";
-      panel.style.transform = "translateY(-3px)";
     });
 
     const timer = window.setTimeout(function () {
@@ -183,7 +172,7 @@
       clearPanelInlineMotion(panel);
 
       delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 60);
+    }, ANIMATION_MS + 100);
 
     row.dataset.expandTimer = String(timer);
   }
