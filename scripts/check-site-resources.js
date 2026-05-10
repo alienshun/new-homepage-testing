@@ -141,35 +141,36 @@ function addAsset(assets, value, origin, kind) {
   });
 }
 
-function collectFromResourceList(assets, value, origin, keyName) {
+function collectAssetList(assets, value, origin, kind) {
   if (!value) return;
 
   if (typeof value === 'string') {
-    addAsset(assets, value, origin, 'file');
+    addAsset(assets, value, origin, kind);
     return;
   }
 
   if (Array.isArray(value)) {
     value.forEach((item, index) => {
-      collectFromResourceList(assets, item, `${origin}[${index}]`, keyName);
+      collectAssetList(assets, item, `${origin}[${index}]`, kind);
     });
     return;
   }
 
-  if (typeof value === 'object') {
-    if (typeof value.href === 'string') {
-      addAsset(assets, value.href, `${origin}.href`, 'file');
-    }
+  if (typeof value !== 'object') return;
 
-    if (typeof value.src === 'string') {
-      addAsset(assets, value.src, `${origin}.src`, 'file');
-    }
-
-    Object.keys(value).forEach((key) => {
-      if (key === 'href' || key === 'src' || key === 'attrs') return;
-      collectFromResourceList(assets, value[key], `${origin}.${key}`, keyName);
-    });
+  if (typeof value.href === 'string') {
+    addAsset(assets, value.href, `${origin}.href`, kind);
   }
+
+  if (typeof value.src === 'string') {
+    addAsset(assets, value.src, `${origin}.src`, kind);
+  }
+
+  Object.keys(value).forEach((key) => {
+    if (key === 'href' || key === 'src' || key === 'attrs') return;
+
+    collectAssetList(assets, value[key], `${origin}.${key}`, kind);
+  });
 }
 
 function collectImages(assets, obj, origin, inheritedCoverDir) {
@@ -200,14 +201,14 @@ function collectImages(assets, obj, origin, inheritedCoverDir) {
           return;
         }
 
-        addAsset(assets, localCoverDir + file, `${here}[${index}]`, 'file');
+        addAsset(assets, localCoverDir + file, `${here}[${index}]`, 'image');
       });
 
       return;
     }
 
     if (typeof value === 'string') {
-      addAsset(assets, value, here, 'file');
+      addAsset(assets, value, here, 'image');
       return;
     }
 
@@ -217,17 +218,52 @@ function collectImages(assets, obj, origin, inheritedCoverDir) {
   });
 }
 
+function collectPageAssets(assets, pages) {
+  if (!pages || typeof pages !== 'object') return;
+
+  Object.keys(pages).forEach((pageKey) => {
+    const page = pages[pageKey];
+
+    if (!page || typeof page !== 'object') {
+      fail(`pages.${pageKey} must be an object.`);
+      return;
+    }
+
+    if (typeof page.route !== 'string' || !page.route.trim()) {
+      fail(`pages.${pageKey}.route must be a non-empty string.`);
+    }
+
+    if (typeof page.domId !== 'string' || !page.domId.trim()) {
+      fail(`pages.${pageKey}.domId must be a non-empty string.`);
+    }
+
+    if (typeof page.mountId !== 'string' || !page.mountId.trim()) {
+      fail(`pages.${pageKey}.mountId must be a non-empty string.`);
+    }
+
+    collectAssetList(assets, page.styles || [], `pages.${pageKey}.styles`, 'style');
+    collectAssetList(assets, page.scripts || [], `pages.${pageKey}.scripts`, 'script');
+  });
+}
+
 function collectAssets(resources) {
   const assets = [];
 
-  if (resources.site && resources.site.favicon) {
-    collectFromResourceList(assets, resources.site.favicon, 'site.favicon');
+  if (resources.site && resources.site.favicon && typeof resources.site.favicon.href === 'string') {
+    addAsset(assets, resources.site.favicon.href, 'site.favicon.href', 'image');
   }
 
-  collectFromResourceList(assets, resources.external, 'external');
-  collectFromResourceList(assets, resources.styles, 'styles');
-  collectFromResourceList(assets, resources.scripts, 'scripts');
-  collectFromResourceList(assets, resources.pages, 'pages');
+  collectAssetList(assets, resources.external && resources.external.styles, 'external.styles', 'external');
+  collectAssetList(assets, resources.external && resources.external.analytics, 'external.analytics', 'external');
+
+  if (resources.external && resources.external.libraries) {
+    collectAssetList(assets, resources.external.libraries, 'external.libraries', 'external');
+  }
+
+  collectAssetList(assets, resources.styles, 'styles', 'style');
+  collectAssetList(assets, resources.scripts, 'scripts', 'script');
+
+  collectPageAssets(assets, resources.pages);
 
   if (resources.images) {
     collectImages(assets, resources.images, 'images');
@@ -237,6 +273,8 @@ function collectAssets(resources) {
 }
 
 function checkAssetExists(asset) {
+  if (asset.kind === 'external') return;
+
   const abs = path.join(ROOT, asset.path);
 
   if (!fs.existsSync(abs)) {
@@ -250,15 +288,17 @@ function checkAssetExists(asset) {
     fail(`Expected directory but found file: ${asset.path}    from ${asset.origin}`);
   }
 
-  if (asset.kind === 'file' && !stat.isFile()) {
+  if (asset.kind !== 'dir' && !stat.isFile()) {
     fail(`Expected file but found directory: ${asset.path}    from ${asset.origin}`);
   }
 }
 
-function checkDuplicateAssets(assets) {
+function checkDuplicateLocalScriptsAndStyles(assets) {
   const map = new Map();
 
   assets.forEach((asset) => {
+    if (asset.kind !== 'style' && asset.kind !== 'script') return;
+
     const key = `${asset.kind}:${asset.path}`;
     if (!map.has(key)) map.set(key, []);
     map.get(key).push(asset.origin);
@@ -268,7 +308,7 @@ function checkDuplicateAssets(assets) {
     if (origins.length <= 1) return;
 
     const [, assetPath] = key.split(':');
-    warn(`Duplicate configured resource: ${assetPath}\n  used by: ${origins.join(', ')}`);
+    warn(`Duplicate configured ${key.startsWith('style:') ? 'stylesheet' : 'script'}: ${assetPath}\n  used by: ${origins.join(', ')}`);
   });
 }
 
@@ -323,7 +363,7 @@ function checkForbiddenTextReferences() {
   });
 }
 
-function checkRouteEntries() {
+function checkRouteEntries(resources) {
   const rootIndex = path.join(ROOT, 'index.html');
 
   if (!fs.existsSync(rootIndex)) {
@@ -343,6 +383,21 @@ function checkRouteEntries() {
   if (fs.existsSync(toolkitEntry)) {
     warn('toolkit/index.html exists. If Toolkit is intended to stay hidden, check whether this file is intentional.');
   }
+
+  const pages = resources && resources.pages ? resources.pages : {};
+
+  Object.keys(pages).forEach((pageKey) => {
+    const page = pages[pageKey];
+    if (!page || typeof page !== 'object') return;
+
+    if (pageKey === 'toolkit') return;
+
+    const route = page.route;
+
+    if (typeof route === 'string' && route && !ROUTE_ENTRY_ROUTES.includes(route)) {
+      warn(`pages.${pageKey}.route is "${route}", but ${route}/index.html is not included in ROUTE_ENTRY_ROUTES.`);
+    }
+  });
 }
 
 function printResult() {
@@ -373,11 +428,13 @@ function main() {
     const assets = collectAssets(resources);
 
     assets.forEach(checkAssetExists);
-    checkDuplicateAssets(assets);
+    checkDuplicateLocalScriptsAndStyles(assets);
     checkForbiddenConfiguredAssets(assets);
+    checkRouteEntries(resources);
+  } else {
+    checkRouteEntries(null);
   }
 
-  checkRouteEntries();
   checkForbiddenTextReferences();
 
   printResult();
