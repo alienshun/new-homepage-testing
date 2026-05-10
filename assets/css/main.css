@@ -676,7 +676,8 @@ a.download-link:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .expander::before,
-  .expander::after {
+  .expander::after,
+  .expand-content {
     transition: none;
   }
 }
@@ -685,23 +686,52 @@ a.download-link:hover {
   display: none;
 }
 
-.expand-row.is-open {
+.expand-row.is-open,
+.expand-row.is-animating {
   /* Default: expanders used in normal (non-table) layouts */
   display: block;
 }
 
 /* Expanders used inside <table> keep valid table layout */
-tr.expand-row.is-open {
+tr.expand-row.is-open,
+tr.expand-row.is-animating {
   display: table-row;
 }
 
 .expand-content {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px dashed transparent;
+
   display: grid;
   gap: 12px;
   align-items: start;
+
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+
+  transition:
+    max-height 0.34s ease,
+    opacity 0.24s ease,
+    transform 0.24s ease,
+    margin-top 0.24s ease,
+    padding-top 0.24s ease,
+    border-color 0.24s ease;
+}
+
+.expand-row.is-open .expand-content,
+.expand-row.is-animating .expand-content {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.expand-row.is-open .expand-content {
+  max-height: var(--expand-max-height, 1600px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* When there are multiple media items: 3 per row, left-aligned */
