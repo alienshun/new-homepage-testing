@@ -117,6 +117,13 @@
       },
 
       enter() {
+        const scheduleRoutes = window.ScheduleRoutes;
+
+        if (scheduleRoutes && typeof scheduleRoutes.enterFromLocation === 'function') {
+          scheduleRoutes.enterFromLocation();
+          return;
+        }
+
         callSchedule('setScheduleView', ['my-timetable']);
       }
     });
