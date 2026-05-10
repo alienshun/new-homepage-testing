@@ -97,7 +97,7 @@
           <tr class="expand-row" id="exp-efs-silver-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="下载 PDF">
+                <a class="expand-item" href="./assets/pdf/about/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="下载 PDF">
                   <img src="./assets/images/about/Excellent_Freshman_Scholarship--Silver.jpg" alt="优秀新生奖学金（银奖）">
                 </a>
               </div>
@@ -117,7 +117,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <!-- CHANGED: 点击 MCM 图片下载 PDF -->
-                <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">
+                <a class="expand-item" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">
                   <img src="./assets/images/about/Honorable_Mention.jpg" alt="MCM Honorable Mention">
                 </a>
               </div>
