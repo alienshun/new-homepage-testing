@@ -131,7 +131,8 @@
           ...FULL_CALENDAR.scripts,
           A + 'js/Content/EN/schedule/schedule_EN.js',
           A + 'js/Content/ZH/schedule/schedule_ZH.js',
-          A + 'js/Functions/schedule/Schedule.js'
+          A + 'js/Functions/schedule/Schedule.js',
+          A + 'js/Functions/schedule/ScheduleRoutes.js'
         ]
       },
 
