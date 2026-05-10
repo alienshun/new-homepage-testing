@@ -560,7 +560,6 @@ a.download-link:hover {
 
 /* Inline expanders */
 .expander {
-  /* Inline, borderless trigger */
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -573,7 +572,6 @@ a.download-link:hover {
   line-height: 1;
   font-size: 0.95em;
 
-  /* Give the arrow a predictable hit area without adding frames */
   width: 16px;
   height: 16px;
   position: relative;
@@ -582,11 +580,9 @@ a.download-link:hover {
 }
 
 .expander i {
-  /* Hide legacy icon (FontAwesome/etc). We draw a custom arrow with ::before. */
   display: none;
 }
 
-/* Custom arrow */
 .expander::before {
   content: "";
   width: 14px;
@@ -599,7 +595,6 @@ a.download-link:hover {
     color-mix(in srgb, var(--accent) 85%, transparent)
   );
 
-  /* Slight inward curve (concave) via clip-path */
   clip-path: polygon(
     8% 50%,
     46% 8%,
@@ -615,14 +610,13 @@ a.download-link:hover {
   opacity: 0.9;
 
   transition:
-    transform 0.18s ease,
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
     opacity 0.18s ease,
     filter 0.18s ease;
 
   filter: drop-shadow(0 0.4px 0.8px rgba(0, 0, 0, 0.22));
 }
 
-/* Hover highlight */
 .expander::after {
   content: "";
   position: absolute;
@@ -634,6 +628,7 @@ a.download-link:hover {
     rgba(255, 255, 255, 0.75),
     rgba(255, 255, 255, 0) 55%
   );
+
   clip-path: polygon(
     10% 50%,
     46% 10%,
@@ -662,24 +657,18 @@ a.download-link:hover {
   opacity: 0.55;
 }
 
-/* 初始向右，展开后向上（90deg → -90deg） */
 .expander.is-open::before {
   transform: rotate(-90deg);
   opacity: 1;
 }
 
-/* Keep keyboard accessibility without adding visible “frames” */
+.expander.is-open:hover::before {
+  transform: rotate(-90deg) translateX(1px);
+}
+
 .expander:focus-visible {
   outline: none;
   filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.18));
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .expander::before,
-  .expander::after,
-  .expand-content {
-    transition: none;
-  }
 }
 
 .expand-row {
@@ -688,67 +677,53 @@ a.download-link:hover {
 
 .expand-row.is-open,
 .expand-row.is-animating {
-  /* Default: expanders used in normal (non-table) layouts */
   display: block;
 }
 
-/* Expanders used inside <table> keep valid table layout */
 tr.expand-row.is-open,
 tr.expand-row.is-animating {
   display: table-row;
 }
 
 .expand-content {
-  margin-top: 0;
-  padding-top: 0;
-  border-top: 1px dashed transparent;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--border) 80%, transparent);
 
   display: grid;
   gap: 12px;
   align-items: start;
 
-  max-height: 0;
+  height: 0;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: translateY(-3px);
 
   transition:
-    max-height 0.34s ease,
-    opacity 0.24s ease,
-    transform 0.24s ease,
-    margin-top 0.24s ease,
-    padding-top 0.24s ease,
-    border-color 0.24s ease;
-}
+    height 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.28s ease,
+    transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
 
-.expand-row.is-open .expand-content,
-.expand-row.is-animating .expand-content {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top-color: color-mix(in srgb, var(--border) 80%, transparent);
+  will-change: height, opacity, transform;
 }
 
 .expand-row.is-open .expand-content {
-  max-height: var(--expand-max-height, 1600px);
   opacity: 1;
   transform: translateY(0);
 }
 
-/* When there are multiple media items: 3 per row, left-aligned */
 .expand-content.is-multi {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   justify-content: start;
   justify-items: start;
 }
 
-/* When there is only one media item: center it at 1/3 of the section width */
 .expand-content.is-single {
   grid-template-columns: minmax(0, 33.333%);
   justify-content: center;
   justify-items: center;
 }
 
-/* Item wrapper: can be <a> (clickable) or <div> (static) */
 .expand-item {
   width: 100%;
   display: block;
@@ -769,7 +744,6 @@ tr.expand-row.is-animating {
   box-shadow: var(--shadow-xs);
 }
 
-/* Subtle hover affordance for linked items (still "only image") */
 a.expand-item {
   cursor: pointer;
 }
@@ -783,17 +757,16 @@ a.expand-item img {
   transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
-/* Responsive: avoid overly tiny tiles on mobile */
 @media (max-width: 768px) {
   .expand-content.is-multi {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
   .expand-content.is-single {
     grid-template-columns: minmax(0, min(360px, 80%));
   }
 }
 
-/* Legacy: keep compatibility with old markup (<img class="expand-media">) */
 .expand-media {
   width: 100%;
   height: auto;
@@ -828,6 +801,15 @@ a.expand-item img {
   background: var(--surface-2);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .expander::before,
+  .expander::after,
+  .expand-content,
+  a.expand-item img,
+  .expand-action-btn {
+    transition: none;
+  }
+}
 
 /* =========================================================
    3) Dark mode overrides
