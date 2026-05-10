@@ -1,0 +1,209 @@
+#meditations{
+  --medit-arrow-space: 26px;
+  --medit-indent: 18px;
+
+  --medit-par-indent-zh: 2em;
+  --medit-par-indent-en: 1.6em;
+  --medit-par-indent: var(--medit-par-indent-en);
+
+  --medit-en-body: "Times New Roman", Times, serif;
+  --medit-en-title: "Cinzel", "Georgia", serif;
+
+  --medit-zh-body: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
+  --medit-zh-title: "STSong", "Songti SC", "SimSun", serif;
+  --medit-zh-subtitle: "FangSong", "STFangsong", "仿宋", "KaiTi", "楷体", serif;
+}
+
+body[data-lang="zh"] #meditations{
+  font-family: var(--medit-zh-body);
+  --medit-par-indent: var(--medit-par-indent-zh);
+}
+body:not([data-lang="zh"]) #meditations{
+  font-family: var(--medit-en-body);
+  --medit-par-indent: var(--medit-par-indent-en);
+}
+
+/* Page title */
+#meditations .resume-heading{
+  font-size: 2.4em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 26px;
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+  letter-spacing: 0.6px;
+}
+
+body:not([data-lang="zh"]) #meditations .resume-heading{
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+}
+
+body[data-lang="zh"] #meditations .resume-heading{
+  font-family: var(--medit-zh-title);
+  font-variant: normal;
+  letter-spacing: 0.6px;
+}
+
+#meditations .medit-contents-title{
+  text-align: center;
+  margin: 6px 0 18px;
+  color: var(--text);
+}
+
+body:not([data-lang="zh"]) #meditations .medit-contents-title{
+  font-family: var(--medit-en-title);
+  font-variant: small-caps;
+}
+body[data-lang="zh"] #meditations .medit-contents-title{
+  font-family: var(--medit-zh-title);
+  font-variant: normal;
+}
+
+#meditations .medit-contents-title-text{
+  position: relative;
+  display: inline-block;
+  font-size: 1.35em;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.6px;
+  opacity: 0.98;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#meditations .medit-pdf-link{
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 10px;
+  font-size: 0.92em;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: var(--accent);
+  opacity: 0.92;
+}
+
+#meditations .medit-pdf-link:hover{
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
+/* Paragraphs */
+#meditations p{
+  font-size: 1.02em;
+  line-height: 1.85;
+  margin: 0 0 12px;
+}
+
+#meditations .medit-body p{
+  text-indent: var(--medit-par-indent);
+}
+
+body:not([data-lang="zh"]) #meditations .medit-body p:first-child{
+  text-indent: 0;
+}
+
+#meditations .medit-body p.medit-empty{
+  text-indent: 0;
+}
+
+/* Contents structure */
+#meditations .medit-entry{
+  margin: 10px 0;
+}
+
+#meditations .medit-row{
+  position: relative;
+  padding: 10px 0;
+  user-select: none;
+}
+
+#meditations .medit-row .expander{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0;
+}
+
+#meditations .medit-title{
+  display: block;
+  text-align: left;
+  padding-right: var(--medit-arrow-space);
+}
+
+#meditations .medit-row-small .medit-title{
+  padding-left: var(--medit-indent);
+}
+
+#meditations .medit-row .expander.is-open + .medit-title{
+  text-align: center;
+  padding-left: var(--medit-arrow-space);
+  padding-right: var(--medit-arrow-space);
+}
+
+#meditations .medit-row-big .medit-title{
+  font-size: 1.55em;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.7px;
+}
+
+#meditations .medit-row-small .medit-title{
+  font-size: 1.12em;
+  font-weight: 600;
+  color: var(--text);
+}
+
+body:not([data-lang="zh"]) #meditations .medit-row-big .medit-title{
+  font-family: var(--medit-en-title);
+}
+body:not([data-lang="zh"]) #meditations .medit-row-small .medit-title{
+  font-family: var(--medit-en-body);
+}
+
+body[data-lang="zh"] #meditations .medit-row-big .medit-title{
+  font-family: var(--medit-zh-title);
+}
+body[data-lang="zh"] #meditations .medit-row-small .medit-title{
+  font-family: var(--medit-zh-subtitle);
+}
+
+#meditations .medit-children{
+  padding-left: 0;
+  margin-top: 6px;
+}
+
+#meditations .medit-body{
+  margin: 10px 0 2px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
+}
+
+#meditations .medit-empty{
+  color: var(--muted);
+  margin: 0;
+  text-indent: 0;
+}
+
+.medit-poem{
+  text-align: center;
+  margin: 12px 0;
+  line-height: 1.9;
+}
+
+.medit-poem p{
+  margin: 0.25em 0;
+}
+
+/* Epilogue signature / date line */
+#meditations .medit-body p.medit-signature{
+  text-align: right;
+  text-indent: 0;
+  margin-top: 16px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
