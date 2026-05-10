@@ -10,7 +10,7 @@
 
       <div class="section resume-hero" id="resume-hero">
         <div class="resume-hero-avatar">
-          <img src="./assets/images/profile.jpg" alt="Profile photo">
+          <img src="./assets/images/about/profile.jpg" alt="Profile photo">
         </div>
         <div class="resume-hero-body">
           <div class="resume-hero-name">Jinghao Chen</div>
@@ -55,7 +55,7 @@
         <div class="expand-row" id="exp-edu-bg" aria-hidden="true" style="display:none;">
           <div class="expand-content">
             <div class="expand-item">
-              <img src="./assets/images/Education_Background.png" alt="Education Background">
+              <img src="./assets/images/about/Education_Background.png" alt="Education Background">
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">
-                  <img src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
+                  <img src="./assets/images/about/Excellent_Student_Scholarship--Silver.jpg" alt="Excellent Student Scholarship--Silver">
                 </a>
               </div>
             </td>
@@ -86,7 +86,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">
-                  <img src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
+                  <img src="./assets/images/about/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="Zhang Zongzhi Sci-Tech Scholarship">
                 </a>
               </div>
             </td>
@@ -100,7 +100,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="Download PDF">
-                  <img src="./assets/images/Excellent_Freshman_Scholarship--Silver.jpg" alt="Excellent Freshman Scholarship--Silver">
+                  <img src="./assets/images/about/Excellent_Freshman_Scholarship--Silver.jpg" alt="Excellent Freshman Scholarship--Silver">
                 </a>
               </div>
             </td>
@@ -120,7 +120,7 @@
               <div class="expand-content">
                 <!-- CHANGED: click the MCM image to download the PDF -->
                 <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">
-                  <img src="./assets/images/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
+                  <img src="./assets/images/about/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
                 </a>
               </div>
             </td>
