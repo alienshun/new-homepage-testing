@@ -99,7 +99,7 @@
           <tr class="expand-row" id="exp-efs-silver" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="Download PDF">
+                <a class="expand-item" href="./assets/pdf/about/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="Download PDF">
                   <img src="./assets/images/about/Excellent_Freshman_Scholarship--Silver.jpg" alt="Excellent Freshman Scholarship--Silver">
                 </a>
               </div>
@@ -119,7 +119,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <!-- CHANGED: click the MCM image to download the PDF -->
-                <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">
+                <a class="expand-item" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">
                   <img src="./assets/images/about/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
                 </a>
               </div>
