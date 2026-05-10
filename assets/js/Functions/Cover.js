@@ -58,7 +58,7 @@
 
     const chosen = covers[Math.floor(Math.random() * covers.length)];
 
-    coverEl.style.backgroundImage = `url('./assets/images/${chosen}')`;
+    coverEl.style.backgroundImage = `url('./assets/images/cover/${chosen}')`;
     coverEl.style.backgroundRepeat = 'no-repeat';
     coverEl.style.backgroundPosition = 'center center';
     coverEl.style.backgroundSize = 'cover';
