@@ -2,9 +2,8 @@
   "use strict";
 
   const STORAGE_KEY = "resume_expanders_open_keys_v1";
-  const ANIMATION_MS = 420;
+  const ANIMATION_MS = 400;
 
-  // NOTE: Keep this behavior (reset on full refresh), but don't interfere with in-page lang switches.
   try {
     sessionStorage.removeItem(STORAGE_KEY);
   } catch (e) {}
@@ -53,6 +52,52 @@
     panel.style.overflow = "";
   }
 
+  function measurePanelHeight(panel) {
+    if (!panel) return 0;
+
+    const oldHeight = panel.style.height;
+    const oldOverflow = panel.style.overflow;
+
+    panel.style.height = "auto";
+    panel.style.overflow = "visible";
+
+    const h = Math.ceil(panel.getBoundingClientRect().height);
+
+    panel.style.height = oldHeight;
+    panel.style.overflow = oldOverflow;
+
+    return h;
+  }
+
+  function afterHeightTransition(row, panel, callback) {
+    if (!row || !panel) return;
+
+    clearMotionTimer(row);
+
+    let done = false;
+
+    function finish() {
+      if (done) return;
+      done = true;
+
+      panel.removeEventListener("transitionend", onEnd);
+      clearMotionTimer(row);
+
+      callback();
+    }
+
+    function onEnd(e) {
+      if (e.target !== panel) return;
+      if (e.propertyName !== "height") return;
+      finish();
+    }
+
+    panel.addEventListener("transitionend", onEnd);
+
+    const timer = window.setTimeout(finish, ANIMATION_MS + 180);
+    row.dataset.expandTimer = String(timer);
+  }
+
   function setInstantRowState(row, open) {
     if (!row) return;
 
@@ -86,36 +131,39 @@
     const panel = getPanel(row);
 
     row.classList.add("is-animating");
-    row.classList.remove("is-open");
+    row.classList.add("is-open");
     row.setAttribute("aria-hidden", "false");
     setDisplay(row, true);
 
     if (!panel) {
-      row.classList.add("is-open");
       row.classList.remove("is-animating");
       return;
     }
 
     panel.style.transition = "none";
+    panel.style.height = "auto";
+    panel.style.overflow = "visible";
+    panel.style.opacity = "1";
+    panel.style.transform = "translateY(0)";
+
+    const targetHeight = Math.ceil(panel.getBoundingClientRect().height);
+
     panel.style.height = "0px";
     panel.style.overflow = "hidden";
-    panel.style.opacity = "";
-    panel.style.transform = "";
+    panel.style.opacity = "0";
+    panel.style.transform = "translateY(-3px)";
 
-    // Force browser to register the collapsed state before animating.
     panel.offsetHeight;
 
     panel.style.transition = "";
 
     requestAnimationFrame(function () {
-      row.classList.add("is-open");
-
-      requestAnimationFrame(function () {
-        panel.style.height = panel.scrollHeight + "px";
-      });
+      panel.style.height = targetHeight + "px";
+      panel.style.opacity = "1";
+      panel.style.transform = "translateY(0)";
     });
 
-    const timer = window.setTimeout(function () {
+    afterHeightTransition(row, panel, function () {
       row.classList.remove("is-animating");
 
       if (row.classList.contains("is-open")) {
@@ -124,11 +172,9 @@
       }
 
       panel.style.transition = "";
-
-      delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 100);
-
-    row.dataset.expandTimer = String(timer);
+      panel.style.opacity = "";
+      panel.style.transform = "";
+    });
   }
 
   function animateRowClose(row) {
@@ -151,12 +197,16 @@
     }
 
     panel.style.transition = "none";
-    panel.style.height = panel.scrollHeight + "px";
-    panel.style.overflow = "hidden";
-    panel.style.opacity = "";
-    panel.style.transform = "";
+    panel.style.height = "auto";
+    panel.style.overflow = "visible";
+    panel.style.opacity = "1";
+    panel.style.transform = "translateY(0)";
 
-    // Force browser to register the expanded state before collapsing.
+    const startHeight = Math.ceil(panel.getBoundingClientRect().height);
+
+    panel.style.height = startHeight + "px";
+    panel.style.overflow = "hidden";
+
     panel.offsetHeight;
 
     panel.style.transition = "";
@@ -164,17 +214,15 @@
     requestAnimationFrame(function () {
       row.classList.remove("is-open");
       panel.style.height = "0px";
+      panel.style.opacity = "0";
+      panel.style.transform = "translateY(-3px)";
     });
 
-    const timer = window.setTimeout(function () {
+    afterHeightTransition(row, panel, function () {
       row.classList.remove("is-animating");
       setDisplay(row, false);
       clearPanelInlineMotion(panel);
-
-      delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 100);
-
-    row.dataset.expandTimer = String(timer);
+    });
   }
 
   function getBtnKey(btn) {
