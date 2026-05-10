@@ -296,7 +296,7 @@ function showEpicScrollPage() {
     epicPage.style.width = '100%';
     epicPage.style.height = '100%';
     epicPage.style.zIndex = '1001';
-    epicPage.style.background = 'url("./assets/images/background.jpg") center/cover no-repeat';
+    epicPage.style.background = 'url("./assets/images/blog/background.jpg") center/cover no-repeat';
     epicPage.style.display = 'flex';
     epicPage.style.flexDirection = 'column';
     epicPage.style.justifyContent = 'center';
@@ -316,7 +316,7 @@ function showEpicScrollPage() {
     scroll.style.width = '70%';
     scroll.style.minHeight = '60%';
     scroll.style.maxWidth = '800px';
-    scroll.style.backgroundImage = 'url("./assets/images/old-paper-texture.jpg")';
+    scroll.style.backgroundImage = 'url("./assets/images/blog/old-paper-texture.jpg")';
     scroll.style.backgroundSize = 'cover';
     scroll.style.borderRadius = '5px';
     scroll.style.boxShadow = `
@@ -340,7 +340,7 @@ function showEpicScrollPage() {
     scrollEdgeLeft.style.top = '0';
     scrollEdgeLeft.style.bottom = '0';
     scrollEdgeLeft.style.width = '40px';
-    scrollEdgeLeft.style.backgroundImage = 'url("./assets/images/scroll-texture.png")';
+    scrollEdgeLeft.style.backgroundImage = 'url("./assets/images/blog/scroll-texture.png")';
     scrollEdgeLeft.style.backgroundSize = 'contain';
     scrollEdgeLeft.style.backgroundRepeat = 'repeat-y';
     scrollEdgeLeft.style.filter = 'sepia(100%) brightness(0.8)';
@@ -354,7 +354,7 @@ function showEpicScrollPage() {
     scrollEdgeRight.style.top = '0';
     scrollEdgeRight.style.bottom = '0';
     scrollEdgeRight.style.width = '40px';
-    scrollEdgeRight.style.backgroundImage = 'url("./assets/images/scroll-texture.png")';
+    scrollEdgeRight.style.backgroundImage = 'url("./assets/images/blog/scroll-texture.png")';
     scrollEdgeRight.style.backgroundSize = 'contain';
     scrollEdgeRight.style.backgroundRepeat = 'repeat-y';
     scrollEdgeRight.style.filter = 'sepia(100%) brightness(0.8)';
