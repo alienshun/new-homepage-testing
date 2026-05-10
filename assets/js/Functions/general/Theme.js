@@ -1,6 +1,8 @@
 (function () {
   'use strict';
 
+  let initialized = false;
+
   function applyTheme(theme) {
     if (theme === 'dark') {
       document.body.classList.add('dark-mode');
@@ -18,6 +20,7 @@
     toggleButtons.forEach((button) => {
       const icon = button.querySelector('i');
       if (!icon) return;
+
       if (isDark) {
         icon.classList.remove('fa-sun');
         icon.classList.add('fa-moon');
@@ -32,7 +35,6 @@
     document.body.classList.toggle('dark-mode');
     updateToggleBtnIcon();
 
-    // keep compatibility with Schedule theme
     if (window.Schedule && typeof window.Schedule.updateCalendarTheme === 'function') {
       window.Schedule.updateCalendarTheme();
     }
@@ -47,16 +49,25 @@
 
   function bindThemeToggles() {
     const ids = ['toggle-btn', 'toggle-btn-social', 'toggle-btn-toolkit', 'toggle-btn-schedule', 'top-toggle-btn'];
+
     ids.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
+      if (el.dataset.themeBound === '1') return;
+
+      el.dataset.themeBound = '1';
       el.addEventListener('click', toggleTheme);
     });
   }
 
   function init() {
-    initializeTheme();
+    if (!initialized) {
+      initializeTheme();
+      initialized = true;
+    }
+
     bindThemeToggles();
+    updateToggleBtnIcon();
   }
 
   window.Theme = {
@@ -64,5 +75,6 @@
     toggleTheme,
     updateToggleBtnIcon,
     applyTheme,
+    bindThemeToggles
   };
 })();
