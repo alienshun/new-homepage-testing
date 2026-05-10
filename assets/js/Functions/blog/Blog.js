@@ -525,7 +525,7 @@ function startFlameAnimation() {
     flameOverlay.style.left = '0';
     flameOverlay.style.width = '100%';
     flameOverlay.style.height = '100%';
-    flameOverlay.style.background = 'url("./assets/animation/fire-animation.gif") center/cover no-repeat';
+    flameOverlay.style.background = 'url("./assets/animation/blog/fire-animation.gif") center/cover no-repeat';
     flameOverlay.style.zIndex = '1002';
     flameOverlay.style.opacity = '0';
     flameOverlay.style.transition = 'opacity 1.5s ease-in-out';
