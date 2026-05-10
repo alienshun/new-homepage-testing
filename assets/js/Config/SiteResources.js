@@ -94,7 +94,8 @@
         A + 'js/Functions/general/Theme.js',
         A + 'js/Functions/general/Translate.js',
         A + 'js/Functions/general/Expanders.js',
-        A + 'js/Functions/general/Custom-cursors.js'
+        A + 'js/Functions/general/Custom-cursors.js',
+        A + 'js/Functions/general/SitePages.js'
       ],
 
       bootstrap: [
