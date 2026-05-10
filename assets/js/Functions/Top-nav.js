@@ -56,22 +56,48 @@
     });
   }
 
-  function initTopNav(onNavigate, onBackToCover) {
+  function initTopNav(onNavigate, onBackToCover, onWarmup) {
     const topNav = document.getElementById('top-nav');
     if (!topNav) return;
 
     const topBackBtn = document.getElementById('top-back-btn');
-    if (topBackBtn && onBackToCover) {
+    if (topBackBtn && onBackToCover && topBackBtn.dataset.boundBack !== '1') {
+      topBackBtn.dataset.boundBack = '1';
       topBackBtn.addEventListener('click', onBackToCover);
     }
 
     const links = topNav.querySelectorAll('.top-nav-link');
+
     links.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const target = btn.dataset.page;
-        if (!target || !onNavigate) return;
-        onNavigate(target);
-      });
+      if (btn.dataset.boundNav !== '1') {
+        btn.dataset.boundNav = '1';
+
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.page;
+          if (!target || !onNavigate) return;
+          onNavigate(target);
+        });
+      }
+
+      if (onWarmup && btn.dataset.boundWarmup !== '1') {
+        btn.dataset.boundWarmup = '1';
+
+        let warmed = false;
+
+        function warm() {
+          if (warmed) return;
+          warmed = true;
+
+          const target = btn.dataset.page;
+          if (!target) return;
+
+          onWarmup(target);
+        }
+
+        btn.addEventListener('pointerenter', warm, { passive: true });
+        btn.addEventListener('focus', warm);
+        btn.addEventListener('touchstart', warm, { passive: true });
+      }
     });
 
     // Hidden on cover by default
