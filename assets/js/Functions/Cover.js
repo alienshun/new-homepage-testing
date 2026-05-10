@@ -207,7 +207,7 @@
       <div id="avatar-frame"
            data-cursor="precise_select"
            data-cursor-fallback="pointer">
-        <img src="./assets/images/avatar.jpg" alt="Profile Avatar" loading="lazy">
+        <img src="./assets/images/avatar.jpg" alt="Profile Avatar">
       </div>
 
       <div id="name">Stardust</div>
