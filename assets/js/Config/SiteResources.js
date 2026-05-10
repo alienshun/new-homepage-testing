@@ -30,7 +30,16 @@
 
     navigation: {
       defaultPage: 'resume',
-      pages: ['resume', 'schedule', 'social', 'toolkit', 'meditations']
+      pages: ['resume', 'schedule', 'social', 'toolkit', 'meditations'],
+
+      warmup: {
+        afterCover: ['resume'],
+        afterFirstPage: ['schedule', 'social', 'meditations'],
+        delayAfterCover: 650,
+        delayAfterFirstPage: 700,
+        delayBetweenPages: 850,
+        hoverDelay: 80
+      }
     },
 
     external: {
