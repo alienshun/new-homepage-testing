@@ -496,7 +496,7 @@ function playNarration() {
     }
     
     // Initialize and activate audio component
-    narrationAudio = new Audio('./assets/audio/prologue.m4a');
+    narrationAudio = new Audio('./assets/audio/blog/prologue.m4a');
     narrationAudio.volume = 0.5;
     narrationAudio.play().catch(e => console.log('Audio play failed:', e));
 }
@@ -513,7 +513,7 @@ function playFireSound() {
     }
     
     // Initialize and activate looping audio component
-    fireAudio = new Audio('./assets/audio/fire-sound.mp3');
+    fireAudio = new Audio('./assets/audio/blog/fire-sound.mp3');
     fireAudio.volume = 1.0;
     fireAudio.loop = true;
     fireAudio.play().catch(e => console.log('Fire audio play failed:', e));
