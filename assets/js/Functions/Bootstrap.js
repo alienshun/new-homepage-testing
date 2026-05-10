@@ -38,7 +38,6 @@
   let afterCoverWarmupStarted = false;
   let afterFirstPageWarmupStarted = false;
 
-  const initializedPages = Object.create(null);
   const intentWarmTimers = Object.create(null);
 
   function delay(ms) {
@@ -254,21 +253,25 @@
     }, ms);
   }
 
-  async function ensurePageAssets(page) {
-    if (!pageConfigs[page]) return false;
-
-    if (!loader || typeof loader.loadPage !== 'function') {
-      console.error('[Bootstrap] SiteResourceLoader.loadPage is not available.');
-      return false;
-    }
-
-    await loader.loadPage(page);
-    initLoadedPage(page);
-    return true;
+  function getPageElement(page) {
+    const id = PAGE_DOM_IDS[page];
+    return id ? document.getElementById(id) : null;
   }
 
-  function runOneTimePageInitializers(page) {
-    if (initializedPages[page]) return;
+  function getPageContext(page, extra) {
+    return Object.assign({
+      page,
+      element: getPageElement(page)
+    }, extra || {});
+  }
+
+  function runPageInit(page) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.init === 'function') {
+      sitePages.init(page, getPageContext(page));
+      return;
+    }
 
     if (page === 'schedule' && window.Schedule) {
       if (typeof window.Schedule.initSchedulePage === 'function') {
@@ -285,15 +288,51 @@
     if (page === 'toolkit' && window.Toolkit && typeof window.Toolkit.initToolkitFilter === 'function') {
       window.Toolkit.initToolkitFilter();
     }
+  }
 
-    initializedPages[page] = true;
+  function runPageEnter(page, previousPage) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.enter === 'function') {
+      sitePages.enter(page, getPageContext(page, {
+        previousPage
+      }));
+      return;
+    }
+
+    if (page === 'schedule' && window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
+      window.Schedule.setScheduleView('my-timetable');
+    }
+  }
+
+  function runPageLeave(page, nextPage) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.leave === 'function') {
+      sitePages.leave(page, getPageContext(page, {
+        nextPage
+      }));
+    }
+  }
+
+  async function ensurePageAssets(page) {
+    if (!pageConfigs[page]) return false;
+
+    if (!loader || typeof loader.loadPage !== 'function') {
+      console.error('[Bootstrap] SiteResourceLoader.loadPage is not available.');
+      return false;
+    }
+
+    await loader.loadPage(page);
+    initLoadedPage(page);
+    return true;
   }
 
   function initLoadedPage(page) {
     const pageId = PAGE_DOM_IDS[page];
     const pageEl = pageId ? document.getElementById(pageId) : null;
 
-    runOneTimePageInitializers(page);
+    runPageInit(page);
 
     if (window.SiteLang && typeof window.SiteLang.applyLanguage === 'function') {
       const lang = window.SiteLang.getLang ? window.SiteLang.getLang() : 'en';
@@ -317,11 +356,6 @@
     }
   }
 
-  function getPageElement(page) {
-    const id = PAGE_DOM_IDS[page];
-    return id ? document.getElementById(id) : null;
-  }
-
   function hideAllPages() {
     Object.keys(PAGE_DOM_IDS).forEach((page) => {
       const el = getPageElement(page);
@@ -330,19 +364,22 @@
   }
 
   function activatePage(targetPage, opts) {
-    hideAllPages();
-
     const targetEl = getPageElement(targetPage);
     if (!targetEl) return false;
+
+    const previousPage = currentPage;
+
+    if (previousPage && previousPage !== targetPage) {
+      runPageLeave(previousPage, targetPage);
+    }
+
+    hideAllPages();
 
     targetEl.classList.add('visible');
     currentPage = targetPage;
 
     scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
-
-    if (targetPage === 'schedule' && window.Schedule && typeof window.Schedule.setScheduleView === 'function') {
-      window.Schedule.setScheduleView('my-timetable');
-    }
+    runPageEnter(targetPage, previousPage);
 
     if (window.TopNav) {
       window.TopNav.show();
@@ -435,6 +472,10 @@
 
     const cover = document.getElementById('cover');
     if (!cover) return;
+
+    if (currentPage) {
+      runPageLeave(currentPage, null);
+    }
 
     coverHidden = false;
     currentPage = null;
