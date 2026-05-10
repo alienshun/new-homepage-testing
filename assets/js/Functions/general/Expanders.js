@@ -2,7 +2,7 @@
   "use strict";
 
   const STORAGE_KEY = "resume_expanders_open_keys_v1";
-  const ANIMATION_MS = 340;
+  const ANIMATION_MS = 420;
 
   // NOTE: Keep this behavior (reset on full refresh), but don't interfere with in-page lang switches.
   try {
@@ -47,9 +47,10 @@
     if (!panel) return;
 
     panel.style.transition = "";
-    panel.style.maxHeight = "";
+    panel.style.height = "";
     panel.style.opacity = "";
     panel.style.transform = "";
+    panel.style.overflow = "";
   }
 
   function setInstantRowState(row, open) {
@@ -68,7 +69,15 @@
       clearPanelInlineMotion(panel);
 
       if (open) {
-        panel.style.maxHeight = "none";
+        panel.style.height = "auto";
+        panel.style.opacity = "1";
+        panel.style.transform = "translateY(0)";
+        panel.style.overflow = "";
+      } else {
+        panel.style.height = "0px";
+        panel.style.opacity = "0";
+        panel.style.transform = "translateY(-3px)";
+        panel.style.overflow = "hidden";
       }
     }
   }
@@ -92,18 +101,21 @@
     }
 
     panel.style.transition = "none";
-    panel.style.maxHeight = "0px";
+    panel.style.height = "0px";
+    panel.style.overflow = "hidden";
     panel.style.opacity = "0";
-    panel.style.transform = "translateY(-4px)";
+    panel.style.transform = "translateY(-3px)";
 
     // Force browser to register the collapsed state before animating.
     panel.offsetHeight;
+
+    const targetHeight = panel.scrollHeight;
 
     panel.style.transition = "";
     row.classList.add("is-open");
 
     requestAnimationFrame(function () {
-      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.style.height = targetHeight + "px";
       panel.style.opacity = "1";
       panel.style.transform = "translateY(0)";
     });
@@ -112,15 +124,16 @@
       row.classList.remove("is-animating");
 
       if (row.classList.contains("is-open")) {
-        panel.style.maxHeight = "none";
+        panel.style.height = "auto";
+        panel.style.overflow = "";
       }
 
+      panel.style.transition = "";
       panel.style.opacity = "";
       panel.style.transform = "";
-      panel.style.transition = "";
 
       delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 40);
+    }, ANIMATION_MS + 60);
 
     row.dataset.expandTimer = String(timer);
   }
@@ -144,8 +157,11 @@
       return;
     }
 
+    const startHeight = panel.scrollHeight;
+
     panel.style.transition = "none";
-    panel.style.maxHeight = panel.scrollHeight + "px";
+    panel.style.height = startHeight + "px";
+    panel.style.overflow = "hidden";
     panel.style.opacity = "1";
     panel.style.transform = "translateY(0)";
 
@@ -156,9 +172,9 @@
     row.classList.remove("is-open");
 
     requestAnimationFrame(function () {
-      panel.style.maxHeight = "0px";
+      panel.style.height = "0px";
       panel.style.opacity = "0";
-      panel.style.transform = "translateY(-4px)";
+      panel.style.transform = "translateY(-3px)";
     });
 
     const timer = window.setTimeout(function () {
@@ -167,7 +183,7 @@
       clearPanelInlineMotion(panel);
 
       delete row.dataset.expandTimer;
-    }, ANIMATION_MS + 40);
+    }, ANIMATION_MS + 60);
 
     row.dataset.expandTimer = String(timer);
   }
@@ -266,9 +282,6 @@
     });
   }
 
-  // Mark each expander's media layout so CSS can do:
-  // - 1 item => centered (1/3 width)
-  // - N>1 => 3-per-row, left-aligned
   function markExpandLayouts(scope) {
     const root = scope || document;
 
@@ -283,7 +296,6 @@
     });
   }
 
-  // Read open keys from current DOM (not storage)
   function getOpenKeys(scope) {
     try {
       const root = scope || document;
@@ -296,7 +308,6 @@
     }
   }
 
-  // Apply open keys to current DOM WITHOUT "close-all then open" flash
   function applyOpenKeys(keys, scope) {
     const root = scope || document;
     const wanted = Array.isArray(keys) ? keys.map(String) : [];
@@ -325,7 +336,6 @@
     applyOpenKeys(keys, root);
   }
 
-  // opts: { openKeys?: string[] , skipSave?: boolean }
   function init(root, opts) {
     const scope = root || document;
     const options = opts || {};
@@ -343,15 +353,11 @@
     if (!options.skipSave) saveState(scope);
   }
 
-  // ---------------------------------------------------------
-  // FIX: event delegation for expanders (survives DOM swaps)
-  // ---------------------------------------------------------
   function setupDelegatedClickOnce() {
     if (document.documentElement.dataset.expanderDelegation === "1") return;
 
     document.documentElement.dataset.expanderDelegation = "1";
 
-    // Use capture phase so it works even if inner elements stop propagation
     document.addEventListener(
       "click",
       function (e) {
@@ -361,8 +367,6 @@
 
         if (!btn) return;
 
-        // If the button already has a direct handler bound, that handler will run too;
-        // prevent double toggling by stopping here when delegation handles it.
         e.preventDefault();
         e.stopPropagation();
 
@@ -372,28 +376,20 @@
     );
   }
 
-  // ---------------------------------------------------------
-  // Meditations: click the whole row to toggle (not just arrow)
-  // ---------------------------------------------------------
   function setupMeditationsRowClickOnce() {
     if (document.documentElement.dataset.meditRowClick === "1") return;
 
     document.documentElement.dataset.meditRowClick = "1";
 
-    // Capture phase so it works consistently with expander delegation
     document.addEventListener(
       "click",
       function (e) {
         const t = e.target;
 
-        // Only apply inside the Meditations page
         const row = t && t.closest ? t.closest("#meditations .medit-row") : null;
         if (!row) return;
 
-        // If user clicked the expander button itself, the expander delegation handles it
         if (t && t.closest && t.closest("button.expander")) return;
-
-        // Don't hijack clicks on other interactive elements (future-proof)
         if (t && t.closest && t.closest("a, button, input, textarea, select, label")) return;
 
         const btn = row.querySelector('button.expander[data-expand-target]');
@@ -405,7 +401,6 @@
     );
   }
 
-  // Expose a tiny API so Translate.js can restore state synchronously
   window.ResumeExpanders = window.ResumeExpanders || {};
   window.ResumeExpanders.init = init;
   window.ResumeExpanders.getOpenKeys = getOpenKeys;
@@ -423,7 +418,6 @@
     init(document);
   }
 
-  // Smooth lang switch: use event detail.openKeys if provided
   window.addEventListener("site:langchange", function (e) {
     const openKeys =
       e && e.detail && Array.isArray(e.detail.openKeys) ? e.detail.openKeys : null;
