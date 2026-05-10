@@ -160,7 +160,7 @@
     const arrow = document.getElementById('cover-scroll');
     if (!arrow || !chosenCoverFile) return;
 
-    const url = `./assets/images/${chosenCoverFile}`;
+    const url = `./assets/images/cover/${chosenCoverFile}`;
     const img = new Image();
 
     // same-origin local asset -> safe
