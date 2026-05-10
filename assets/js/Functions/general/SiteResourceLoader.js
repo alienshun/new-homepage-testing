@@ -11,6 +11,7 @@
   const loadedStyles = Object.create(null);
   const loadedScripts = Object.create(null);
   const pagePromises = Object.create(null);
+  const pageLoaded = Object.create(null);
 
   let bootPromise = null;
   let analyticsStarted = false;
@@ -88,15 +89,21 @@
     }, []);
   }
 
-  function idle(callback) {
+  function delay(ms) {
+    return new Promise((resolve) => {
+      window.setTimeout(resolve, Math.max(0, Number(ms) || 0));
+    });
+  }
+
+  function idle(callback, timeout) {
     if (typeof callback !== 'function') return;
 
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(callback, { timeout: 1600 });
+      window.requestIdleCallback(callback, { timeout: timeout || 1600 });
       return;
     }
 
-    window.setTimeout(callback, 800);
+    window.setTimeout(callback, timeout || 800);
   }
 
   function setSiteMeta() {
@@ -220,7 +227,7 @@
       analyticsScripts.forEach((script) => {
         loadScript(script);
       });
-    });
+    }, 2000);
   }
 
   async function bootCore() {
@@ -270,6 +277,8 @@
       await loadStylesInParallel(page.styles || []);
       await loadScriptsInOrder(page.scripts || []);
 
+      pageLoaded[pageKey] = true;
+
       try {
         window.dispatchEvent(new CustomEvent('site:pageassetsloaded', {
           detail: { page: pageKey, config: page }
@@ -280,6 +289,38 @@
     })();
 
     return pagePromises[pageKey];
+  }
+
+  function warmPage(pageKey, reason) {
+    const pages = resources.pages || {};
+    const page = pages[pageKey];
+
+    if (!page) return Promise.resolve(null);
+    if (pageLoaded[pageKey]) return Promise.resolve(page);
+
+    return loadPage(pageKey).catch((err) => {
+      console.warn('[SiteResourceLoader] Warm-up failed:', pageKey, reason || '', err);
+      return null;
+    });
+  }
+
+  async function warmPagesSequential(pageKeys, options) {
+    const opts = options || {};
+    const list = Array.isArray(pageKeys) ? pageKeys : [];
+    const gap = Number(opts.gap) || 0;
+
+    for (const pageKey of list) {
+      await warmPage(pageKey, opts.reason || 'sequence');
+      if (gap > 0) await delay(gap);
+    }
+  }
+
+  function isPageLoaded(pageKey) {
+    return !!pageLoaded[pageKey];
+  }
+
+  function isPageLoading(pageKey) {
+    return !!pagePromises[pageKey] && !pageLoaded[pageKey];
   }
 
   function getPageConfig(pageKey) {
@@ -295,13 +336,18 @@
   window.SiteResourceLoader = {
     bootCore,
     loadPage,
+    warmPage,
+    warmPagesSequential,
+    isPageLoaded,
+    isPageLoading,
     loadStyle,
     loadScript,
     loadStylesInParallel,
     loadScriptsInOrder,
     getPageConfig,
     getAllPageConfigs,
-    idle
+    idle,
+    delay
   };
 
   bootCore();
