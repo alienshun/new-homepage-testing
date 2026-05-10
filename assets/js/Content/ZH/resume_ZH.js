@@ -8,7 +8,7 @@
 
       <div class="section resume-hero" id="resume-hero">
         <div class="resume-hero-avatar">
-          <img src="./assets/images/profile.jpg" alt="Profile photo">
+          <img src="./assets/images/about/profile.jpg" alt="Profile photo">
         </div>
         <div class="resume-hero-body">
           <div class="resume-hero-name">陈璟皓</div>
@@ -53,7 +53,7 @@
         <div class="expand-row" id="exp-edu-bg-zh" aria-hidden="true" style="display:none;">
           <div class="expand-content">
             <div class="expand-item">
-              <img src="./assets/images/Education_Background.png" alt="教育背景">
+              <img src="./assets/images/about/Education_Background.png" alt="教育背景">
             </div>
           </div>
         </div>
@@ -70,7 +70,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">
-                  <img src="./assets/images/Excellent_Student_Scholarship--Silver.jpg" alt="优秀学生奖学金（银奖）">
+                  <img src="./assets/images/about/Excellent_Student_Scholarship--Silver.jpg" alt="优秀学生奖学金（银奖）">
                 </a>
               </div>
             </td>
@@ -84,7 +84,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">
-                  <img src="./assets/images/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="张宗植科技奖学金">
+                  <img src="./assets/images/about/Zhang_Zongzhi_Sci-Tech_Scholarship.jpg" alt="张宗植科技奖学金">
                 </a>
               </div>
             </td>
@@ -98,7 +98,7 @@
             <td colspan="2">
               <div class="expand-content">
                 <a class="expand-item" href="./assets/pdf/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="下载 PDF">
-                  <img src="./assets/images/Excellent_Freshman_Scholarship--Silver.jpg" alt="优秀新生奖学金（银奖）">
+                  <img src="./assets/images/about/Excellent_Freshman_Scholarship--Silver.jpg" alt="优秀新生奖学金（银奖）">
                 </a>
               </div>
             </td>
@@ -118,7 +118,7 @@
               <div class="expand-content">
                 <!-- CHANGED: 点击 MCM 图片下载 PDF -->
                 <a class="expand-item" href="./assets/pdf/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">
-                  <img src="./assets/images/Honorable_Mention.jpg" alt="MCM Honorable Mention">
+                  <img src="./assets/images/about/Honorable_Mention.jpg" alt="MCM Honorable Mention">
                 </a>
               </div>
             </td>
