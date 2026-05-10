@@ -5,7 +5,7 @@
 
       <div class="section">
         <div class="medit-contents-title">
-          <span class="medit-contents-title-text">星尘依旧<a class="medit-pdf-link" href="./assets/pdf/Stardust_Meditations.pdf" download="Stardust_Meditations.pdf" aria-label="下载 Stardust PDF">&lceil; PDF &rfloor;</a></span>
+          <span class="medit-contents-title-text">星尘依旧<a class="medit-pdf-link" href="./assets/pdf/life/meditations/Stardust_Meditations.pdf" download="Stardust_Meditations.pdf" aria-label="下载 Stardust PDF">&lceil; PDF &rfloor;</a></span>
         </div>
 
         <div class="medit-contents">
