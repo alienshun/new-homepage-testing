@@ -4,90 +4,31 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <base href="../">
+
 <script>
   document.documentElement.classList.add('route-entry');
 </script>
+
 <style>
   html.route-entry #mount-cover,
   html.route-entry #cover {
     display: none !important;
   }
 </style>
+
 <title>Joker Chen</title>
-<link rel="icon" href="./assets/images/favicon.png" type="image/jpeg">
-<link href="https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
-
-<!-- Easter Egg ( ╯▽╰): Personal Blog(optional) -->
-<!-- <script src="./assets/js/Functions/blog/Blog.js"></script> -->
-<!-- <link rel="stylesheet" href="./assets/css/blog/blog.css"> -->
-
-<!-- styles -->
-<link rel="stylesheet" href="./assets/css/main.css">
-<link rel="stylesheet" href="./assets/css/top-nav.css">
-<link rel="stylesheet" href="./assets/css/cover.css">
-<link rel="stylesheet" href="./assets/css/social/social.css">
-<link rel="stylesheet" href="./assets/css/toolkit/toolkit.css">
-<link rel="stylesheet" href="./assets/css/schedule/schedule.css">
-<link rel="stylesheet" href="./assets/css/life/meditations.css">
-
 </head>
+
 <body>
-  <!-- Mount points for page modules -->
   <div id="mount-top-nav"></div>
   <div id="mount-cover"></div>
   <div id="mount-resume"></div>
   <div id="mount-social"></div>
   <div id="mount-toolkit"></div>
   <div id="mount-schedule"></div>
-
-  <!-- [NEW] Meditations mount -->
   <div id="mount-meditations"></div>
 
-
-  <!-- Top navigation module -->
-  <script src="./assets/js/Functions/Top-nav.js"></script>
-  
-  <!-- Cover page module -->
-  <script src="./assets/js/Functions/Cover.js"></script>
-
-  <!-- Resume page module -->
-  <script src="./assets/js/Content/EN/about/resume_EN.js"></script>
-  <script src="./assets/js/Content/ZH/about/resume_ZH.js"></script>
-
-  <!-- [NEW] Meditations page module -->
-  <script src="./assets/js/Content/EN/life/meditations_EN.js"></script>
-  <script src="./assets/js/Content/ZH/life/meditations_ZH.js"></script>
-
-  <!-- Social page module -->
-  <script src="./assets/js/Content/EN/social/social_EN.js"></script>
-  <script src="./assets/js/Content/ZH/social/social_ZH.js"></script>
-  <script src="./assets/js/Functions/social/Social.js"></script>
-
-  <!-- Toolkit page module -->
-  <script src="./assets/js/Content/EN/toolkit/toolkit_EN.js"></script>
-  <script src="./assets/js/Content/ZH/toolkit/toolkit_ZH.js"></script>
-  <script src="./assets/js/Functions/toolkit/Toolkit.js"></script>
-
-  <!-- Schedule Page module -->
-  <script src="./assets/js/Content/EN/schedule/schedule_EN.js"></script>
-  <script src="./assets/js/Content/ZH/schedule/schedule_ZH.js"></script>
-  <script src="./assets/js/Functions/schedule/Schedule.js"></script>
-
-  <!-- Functions -->
-  <script src="./assets/js/Functions/Bootstrap.js"></script>
-  <script src="./assets/js/Functions/general/Clock.js"></script>
-  <script src="./assets/js/Functions/general/Theme.js"></script>
-  <script src="./assets/js/Functions/general/Translate.js"></script>
-  <script src="./assets/js/Functions/general/Expanders.js"></script>
-  <script src="./assets/js/Functions/general/Custom-cursors.js"></script>
-
-  <!-- GoatCounter analytics (tracking) -->
-  <script data-goatcounter="https://stardust.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+  <script src="./assets/js/Config/SiteResources.js"></script>
+  <script src="./assets/js/Functions/general/SiteResourceLoader.js"></script>
 </body>
 </html>
