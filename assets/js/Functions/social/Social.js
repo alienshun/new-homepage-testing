@@ -203,7 +203,11 @@
     }
   }
 
-  window.addEventListener("load", initStats, { once: true });
+  if (document.readyState === "complete") {
+    initStats();
+  } else {
+    window.addEventListener("load", initStats, { once: true });
+  }
 })();
 
 function socialIsVisible() {
@@ -239,7 +243,13 @@ function armClustrMapsLoad() {
   obs.observe(social, { attributes: true, attributeFilter: ["class", "style"] });
 }
 
-window.addEventListener("load", () => {
+function initSocialEmbedsAfterReady() {
   armClustrMapsLoad();
   setTimeout(() => window.dispatchEvent(new Event("resize")), 800);
-}, { once: true });
+}
+
+if (document.readyState === "complete") {
+  initSocialEmbedsAfterReady();
+} else {
+  window.addEventListener("load", initSocialEmbedsAfterReady, { once: true });
+}
