@@ -2,6 +2,7 @@
   "use strict";
 
   const STORAGE_KEY = "resume_expanders_open_keys_v1";
+  const ANIMATION_MS = 340;
 
   // NOTE: Keep this behavior (reset on full refresh), but don't interfere with in-page lang switches.
   try {
@@ -12,17 +13,174 @@
     return Array.prototype.slice.call((root || document).querySelectorAll(sel));
   }
 
+  function getOpenDisplay(el) {
+    if (!el) return "";
+
+    if (el.tagName && el.tagName.toLowerCase() === "tr") {
+      return "table-row";
+    }
+
+    return "block";
+  }
+
   function setDisplay(el, open) {
     if (!el) return;
-    el.style.display = open ? "" : "none";
+    el.style.display = open ? getOpenDisplay(el) : "none";
+  }
+
+  function getPanel(row) {
+    if (!row) return null;
+    return row.querySelector(".expand-content") || row;
+  }
+
+  function clearMotionTimer(row) {
+    if (!row || !row.dataset.expandTimer) return;
+
+    try {
+      clearTimeout(Number(row.dataset.expandTimer));
+    } catch (e) {}
+
+    delete row.dataset.expandTimer;
+  }
+
+  function clearPanelInlineMotion(panel) {
+    if (!panel) return;
+
+    panel.style.transition = "";
+    panel.style.maxHeight = "";
+    panel.style.opacity = "";
+    panel.style.transform = "";
+  }
+
+  function setInstantRowState(row, open) {
+    if (!row) return;
+
+    clearMotionTimer(row);
+
+    const panel = getPanel(row);
+
+    row.classList.remove("is-animating");
+    row.classList.toggle("is-open", open);
+    row.setAttribute("aria-hidden", open ? "false" : "true");
+    setDisplay(row, open);
+
+    if (panel) {
+      clearPanelInlineMotion(panel);
+
+      if (open) {
+        panel.style.maxHeight = "none";
+      }
+    }
+  }
+
+  function animateRowOpen(row) {
+    if (!row) return;
+
+    clearMotionTimer(row);
+
+    const panel = getPanel(row);
+
+    row.classList.add("is-animating");
+    row.classList.remove("is-open");
+    row.setAttribute("aria-hidden", "false");
+    setDisplay(row, true);
+
+    if (!panel) {
+      row.classList.add("is-open");
+      row.classList.remove("is-animating");
+      return;
+    }
+
+    panel.style.transition = "none";
+    panel.style.maxHeight = "0px";
+    panel.style.opacity = "0";
+    panel.style.transform = "translateY(-4px)";
+
+    // Force browser to register the collapsed state before animating.
+    panel.offsetHeight;
+
+    panel.style.transition = "";
+    row.classList.add("is-open");
+
+    requestAnimationFrame(function () {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+      panel.style.opacity = "1";
+      panel.style.transform = "translateY(0)";
+    });
+
+    const timer = window.setTimeout(function () {
+      row.classList.remove("is-animating");
+
+      if (row.classList.contains("is-open")) {
+        panel.style.maxHeight = "none";
+      }
+
+      panel.style.opacity = "";
+      panel.style.transform = "";
+      panel.style.transition = "";
+
+      delete row.dataset.expandTimer;
+    }, ANIMATION_MS + 40);
+
+    row.dataset.expandTimer = String(timer);
+  }
+
+  function animateRowClose(row) {
+    if (!row) return;
+
+    clearMotionTimer(row);
+
+    const panel = getPanel(row);
+
+    row.classList.add("is-animating");
+    row.classList.add("is-open");
+    row.setAttribute("aria-hidden", "true");
+    setDisplay(row, true);
+
+    if (!panel) {
+      row.classList.remove("is-open");
+      row.classList.remove("is-animating");
+      setDisplay(row, false);
+      return;
+    }
+
+    panel.style.transition = "none";
+    panel.style.maxHeight = panel.scrollHeight + "px";
+    panel.style.opacity = "1";
+    panel.style.transform = "translateY(0)";
+
+    // Force browser to register the expanded state before collapsing.
+    panel.offsetHeight;
+
+    panel.style.transition = "";
+    row.classList.remove("is-open");
+
+    requestAnimationFrame(function () {
+      panel.style.maxHeight = "0px";
+      panel.style.opacity = "0";
+      panel.style.transform = "translateY(-4px)";
+    });
+
+    const timer = window.setTimeout(function () {
+      row.classList.remove("is-animating");
+      setDisplay(row, false);
+      clearPanelInlineMotion(panel);
+
+      delete row.dataset.expandTimer;
+    }, ANIMATION_MS + 40);
+
+    row.dataset.expandTimer = String(timer);
   }
 
   function getBtnKey(btn) {
     if (!btn) return null;
+
     const k = btn.getAttribute("data-expand-key");
     if (k && String(k).trim()) return String(k).trim();
+
     const t = btn.getAttribute("data-expand-target");
     if (t && String(t).trim()) return String(t).trim();
+
     return null;
   }
 
@@ -32,6 +190,7 @@
       const open = qsAll('button.expander[aria-expanded="true"]', root)
         .map(getBtnKey)
         .filter(Boolean);
+
       sessionStorage.setItem(STORAGE_KEY, JSON.stringify(open));
     } catch (e) {}
   }
@@ -40,6 +199,7 @@
     try {
       const raw = sessionStorage.getItem(STORAGE_KEY);
       if (!raw) return [];
+
       const arr = JSON.parse(raw);
       return Array.isArray(arr) ? arr.map(String) : [];
     } catch (e) {
@@ -47,8 +207,11 @@
     }
   }
 
-  function setOpen(btn, open) {
+  function setOpen(btn, open, options) {
     if (!btn) return;
+
+    const opts = options || {};
+    const animate = opts.animate === true;
 
     const targetId = btn.getAttribute("data-expand-target");
     if (!targetId) return;
@@ -59,21 +222,29 @@
     btn.setAttribute("aria-expanded", open ? "true" : "false");
     btn.classList.toggle("is-open", open);
 
-    row.classList.toggle("is-open", open);
-    row.setAttribute("aria-hidden", open ? "false" : "true");
+    if (!animate) {
+      setInstantRowState(row, open);
+      return;
+    }
 
-    setDisplay(row, open);
+    if (open) {
+      animateRowOpen(row);
+    } else {
+      animateRowClose(row);
+    }
   }
 
   function toggle(btn) {
     if (!btn) return;
+
     const isOpen = btn.getAttribute("aria-expanded") === "true";
-    setOpen(btn, !isOpen);
+    setOpen(btn, !isOpen, { animate: true });
     saveState(document);
   }
 
   function bindOne(btn) {
     if (!btn || btn.dataset.bound === "1") return;
+
     btn.dataset.bound = "1";
 
     btn.addEventListener("click", function (e) {
@@ -85,11 +256,13 @@
 
   function normalizeRows(scope) {
     const root = scope || document;
+
     qsAll(".expand-row[id]", root).forEach(function (row) {
       const isOpen =
         row.classList.contains("is-open") ||
         row.getAttribute("aria-hidden") === "false";
-      setDisplay(row, isOpen);
+
+      setInstantRowState(row, isOpen);
     });
   }
 
@@ -98,11 +271,13 @@
   // - N>1 => 3-per-row, left-aligned
   function markExpandLayouts(scope) {
     const root = scope || document;
+
     qsAll(".expand-content", root).forEach(function (box) {
       const items = box.querySelectorAll(".expand-item");
       const n = items ? items.length : 0;
 
       box.classList.remove("is-single", "is-multi");
+
       if (n === 1) box.classList.add("is-single");
       if (n > 1) box.classList.add("is-multi");
     });
@@ -112,6 +287,7 @@
   function getOpenKeys(scope) {
     try {
       const root = scope || document;
+
       return qsAll('button.expander[aria-expanded="true"]', root)
         .map(getBtnKey)
         .filter(Boolean);
@@ -128,21 +304,24 @@
     const btns = qsAll('button.expander[data-expand-target]', root);
 
     const wantSet = Object.create(null);
-    wanted.forEach((k) => {
+    wanted.forEach(function (k) {
       wantSet[String(k)] = true;
     });
 
     btns.forEach(function (btn) {
       const k = getBtnKey(btn);
       const shouldOpen = !!(k && wantSet[String(k)]);
-      setOpen(btn, shouldOpen);
+
+      setOpen(btn, shouldOpen, { animate: false });
     });
   }
 
   function restoreState(scope) {
     const root = scope || document;
     const keys = loadState();
+
     if (!keys || keys.length === 0) return;
+
     applyOpenKeys(keys, root);
   }
 
@@ -169,6 +348,7 @@
   // ---------------------------------------------------------
   function setupDelegatedClickOnce() {
     if (document.documentElement.dataset.expanderDelegation === "1") return;
+
     document.documentElement.dataset.expanderDelegation = "1";
 
     // Use capture phase so it works even if inner elements stop propagation
@@ -178,6 +358,7 @@
         const btn = e.target && e.target.closest
           ? e.target.closest("button.expander[data-expand-target]")
           : null;
+
         if (!btn) return;
 
         // If the button already has a direct handler bound, that handler will run too;
@@ -196,6 +377,7 @@
   // ---------------------------------------------------------
   function setupMeditationsRowClickOnce() {
     if (document.documentElement.dataset.meditRowClick === "1") return;
+
     document.documentElement.dataset.meditRowClick = "1";
 
     // Capture phase so it works consistently with expander delegation
@@ -222,7 +404,6 @@
       true
     );
   }
-
 
   // Expose a tiny API so Translate.js can restore state synchronously
   window.ResumeExpanders = window.ResumeExpanders || {};
