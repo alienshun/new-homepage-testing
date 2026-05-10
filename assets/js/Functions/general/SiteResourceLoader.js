@@ -10,6 +10,10 @@
 
   const loadedStyles = Object.create(null);
   const loadedScripts = Object.create(null);
+  const pagePromises = Object.create(null);
+
+  let bootPromise = null;
+  let analyticsStarted = false;
 
   function toAssetObject(item, keyName) {
     if (typeof item === 'string') {
@@ -71,6 +75,28 @@
     return scripts.find((script) => {
       return script.src === abs || normalizeUrl(script.getAttribute('src')) === abs;
     });
+  }
+
+  function flatten(arrays) {
+    return arrays.reduce((acc, item) => {
+      if (Array.isArray(item)) {
+        acc.push(...item);
+      } else if (item) {
+        acc.push(item);
+      }
+      return acc;
+    }, []);
+  }
+
+  function idle(callback) {
+    if (typeof callback !== 'function') return;
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(callback, { timeout: 1600 });
+      return;
+    }
+
+    window.setTimeout(callback, 800);
   }
 
   function setSiteMeta() {
@@ -182,53 +208,101 @@
     }
   }
 
-  function flatten(arrays) {
-    return arrays.reduce((acc, item) => {
-      if (Array.isArray(item)) {
-        acc.push(...item);
-      } else if (item) {
-        acc.push(item);
-      }
-      return acc;
-    }, []);
-  }
+  function loadAnalyticsWhenIdle() {
+    if (analyticsStarted) return;
+    analyticsStarted = true;
 
-  async function boot() {
-    setSiteMeta();
+    idle(() => {
+      const analyticsScripts = flatten([
+        resources.external && resources.external.analytics
+      ]);
 
-    const allStyles = flatten([
-      resources.external && resources.external.styles,
-      resources.styles && resources.styles.core,
-      resources.styles && resources.styles.pages
-    ]);
-
-    await loadStylesInParallel(allStyles);
-
-    const allScripts = flatten([
-      resources.external && resources.external.scripts,
-      resources.scripts && resources.scripts.modules,
-      resources.scripts && resources.scripts.content,
-      resources.scripts && resources.scripts.pageFunctions,
-      resources.scripts && resources.scripts.general,
-      resources.scripts && resources.scripts.bootstrap
-    ]);
-
-    await loadScriptsInOrder(allScripts);
-
-    const analyticsScripts = flatten([
-      resources.external && resources.external.analytics
-    ]);
-
-    analyticsScripts.forEach((script) => {
-      const asset = toAssetObject(script, 'src');
-      if (!asset.src) return;
-
-      const el = document.createElement('script');
-      el.src = asset.src;
-      applyAttributes(el, asset.attrs);
-      document.body.appendChild(el);
+      analyticsScripts.forEach((script) => {
+        loadScript(script);
+      });
     });
   }
 
-  boot();
+  async function bootCore() {
+    if (bootPromise) return bootPromise;
+
+    bootPromise = (async () => {
+      setSiteMeta();
+
+      const externalStyles = flatten([
+        resources.external && resources.external.styles
+      ]);
+
+      const coreStyles = flatten([
+        resources.styles && resources.styles.core
+      ]);
+
+      loadStylesInParallel(externalStyles);
+      await loadStylesInParallel(coreStyles);
+
+      const coreScripts = flatten([
+        resources.scripts && resources.scripts.core,
+        resources.scripts && resources.scripts.bootstrap
+      ]);
+
+      await loadScriptsInOrder(coreScripts);
+
+      loadAnalyticsWhenIdle();
+    })();
+
+    return bootPromise;
+  }
+
+  async function loadPage(pageKey) {
+    const pages = resources.pages || {};
+    const page = pages[pageKey];
+
+    if (!page) {
+      console.warn('[SiteResourceLoader] Unknown page:', pageKey);
+      return null;
+    }
+
+    if (pagePromises[pageKey]) {
+      return pagePromises[pageKey];
+    }
+
+    pagePromises[pageKey] = (async () => {
+      await loadStylesInParallel(page.styles || []);
+      await loadScriptsInOrder(page.scripts || []);
+
+      try {
+        window.dispatchEvent(new CustomEvent('site:pageassetsloaded', {
+          detail: { page: pageKey, config: page }
+        }));
+      } catch (e) {}
+
+      return page;
+    })();
+
+    return pagePromises[pageKey];
+  }
+
+  function getPageConfig(pageKey) {
+    return resources.pages && resources.pages[pageKey]
+      ? resources.pages[pageKey]
+      : null;
+  }
+
+  function getAllPageConfigs() {
+    return resources.pages || {};
+  }
+
+  window.SiteResourceLoader = {
+    bootCore,
+    loadPage,
+    loadStyle,
+    loadScript,
+    loadStylesInParallel,
+    loadScriptsInOrder,
+    getPageConfig,
+    getAllPageConfigs,
+    idle
+  };
+
+  bootCore();
 })();
