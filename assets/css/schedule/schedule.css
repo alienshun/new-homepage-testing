@@ -1,0 +1,1116 @@
+.schedule-heading {
+  font-size: 2.4em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 26px;
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+  letter-spacing: 0.6px;
+}
+
+.schedule-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.schedule-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  gap: 6px;
+  margin-bottom: 18px;
+
+  border-radius: 999px;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface) 92%, var(--surface-2)),
+    color-mix(in srgb, var(--surface) 72%, var(--surface-2))
+  );
+  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+
+  flex-wrap: wrap;
+}
+
+.schedule-switch-btn {
+  padding: 10px 18px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+  box-shadow: none;
+}
+
+.schedule-switch-btn:hover {
+  background: color-mix(in srgb, var(--surface-2) 78%, transparent);
+  transform: translateY(-0.5px);
+  box-shadow: none;
+}
+
+.schedule-switch-btn:active {
+  transform: translateY(0);
+}
+
+.schedule-switch-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-xs);
+}
+
+.schedule-switch-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-xs);
+}
+
+.schedule-switch-btn.active:hover {
+  background: var(--accent-strong);
+}
+
+@media (max-width: 520px){
+  .schedule-switcher{
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .schedule-switcher::-webkit-scrollbar{ display:none; }
+  .schedule-switch-btn{ white-space: nowrap; }
+}
+.schedule-section { display: none; }
+
+.schedule-section.active {
+  display: block;
+  padding: 18px;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--surface) 70%, var(--surface-2))
+  );
+  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+}
+.ustc-local-save-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 6px auto 16px;
+  padding: 10px 14px;
+  max-width: 980px;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 14px;
+  color: var(--muted);
+  font-size: 0.95em;
+  box-shadow: var(--shadow-sm);
+}
+
+.ustc-local-save-hint i {
+  color: var(--accent);
+}
+
+#calendar-container {
+  height: 70vh;
+  margin-bottom: 20px;
+}
+
+.fc { font-family: "Georgia", serif; }
+
+.fc-toolbar-title {
+  font-family: "Georgia", serif;
+  font-size: 1.35em;
+  color: var(--accent);
+}
+
+/* FullCalendar grid polish (paper-like, understated) */
+.fc .fc-scrollgrid,
+.fc .fc-scrollgrid table,
+.fc .fc-scrollgrid-section > td,
+.fc .fc-scrollgrid-section table,
+.fc .fc-scrollgrid td,
+.fc .fc-scrollgrid th {
+  border-color: color-mix(in srgb, var(--border) 72%, transparent) !important;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  text-decoration: none;
+}
+
+.fc-daygrid-day.fc-day-sat:not(.fc-day-today),
+.fc-daygrid-day.fc-day-sun:not(.fc-day-today) {
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2)) !important;
+}
+
+.fc .fc-button,
+.fc-button {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.fc .fc-button:hover,
+.fc-button:hover {
+  background: var(--surface-2) !important;
+  box-shadow: var(--shadow) !important;
+  transform: translateY(-0.5px);
+}
+
+.fc .fc-button:active,
+.fc-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs) !important;
+}
+
+.fc .fc-button:focus-visible,
+.fc-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm) !important;
+}
+
+.fc .fc-button:disabled,
+.fc-button:disabled {
+  opacity: 0.6;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.fc .fc-button-primary.fc-button-active,
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.fc-daygrid-day-number { color: var(--accent); }
+
+.fc-daygrid-day.fc-day-today {
+  background: var(--accent-weak) !important;
+}
+
+.fc-event {
+  /* “Left bar + light fill” looks more like a polished calendar than a solid chip */
+  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface)) !important;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak)) !important;
+  color: var(--text) !important;
+  cursor: pointer;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  border-radius: 10px;
+  position: relative;
+  padding-left: 10px;
+}
+
+.fc-event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0.95;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.fc-event:hover {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border)) !important;
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-0.5px);
+}
+
+.fc-event:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.timetable-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.timetable th, .timetable td,
+#ustc-timetable th, #ustc-timetable td,
+.my-classes-table th, .my-classes-table td {
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+}
+
+.timetable th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.timetable td {
+  background-color: var(--surface);
+  height: 60px;
+  vertical-align: middle;
+  position: relative;
+  color: var(--text);
+}
+
+.timetable td.time-cell {
+  background-color: var(--surface-2);
+  font-weight: 600;
+}
+
+/* Sticky first (time/period) column for easier horizontal scrolling */
+.timetable th:first-child,
+.timetable td.time-cell,
+#ustc-timetable th:first-child,
+#ustc-timetable .period-header {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
+.timetable th:first-child,
+#ustc-timetable th:first-child {
+  z-index: 4;
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+.timetable td.time-cell,
+#ustc-timetable .period-header {
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+.timetable td.empty-cell {
+  background-color: var(--surface);
+}
+
+.timetable td.has-event {
+  background: var(--accent-weak) !important;
+  cursor: pointer;
+}
+
+.timetable td.has-event:hover {
+  background: var(--accent-weak) !important;
+}
+
+.timetable-event {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+
+  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface));
+  color: var(--text);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 0.9em;
+  padding: 2px;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+}
+
+.timetable-event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0.95;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.timetable-event:hover {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  transform: translateY(-0.5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.timetable-event:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.event-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.event-modal-content {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 92%, var(--surface-2)),
+      var(--surface)
+    );
+  color: var(--text);
+
+  padding: 34px 36px;
+  width: min(92vw, 720px);
+  max-width: 720px;
+
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--accent-weak));
+  position: relative;
+
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+.event-modal-content::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  opacity: 0.35;
+}
+
+#event-modal .event-modal-content {
+  width: min(92vw, 860px);
+  max-width: 860px;
+
+  transform: none;
+  transform-origin: center;
+
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+#general-event-modal .event-modal-content {
+  width: min(92vw, 720px);
+  max-width: 720px;
+}
+
+.event-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 1.55em;
+  cursor: pointer;
+  color: var(--muted);
+  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.event-modal-close:hover {
+  color: var(--danger);
+  transform: translateY(-0.5px);
+  background: color-mix(in srgb, var(--surface-2) 85%, transparent);
+}
+
+.event-modal-close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak);
+}
+
+.event-modal-title {
+  font-size: 1.6em;
+  margin-bottom: 22px;
+  color: var(--accent);
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+.event-form-group { margin-bottom: 20px; }
+
+.event-form-group label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.event-form-control {
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.event-form-control:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
+  background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
+}
+
+.event-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 6px;
+}
+
+.event-form-btn {
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-xs);
+}
+
+.event-form-btn:hover {
+  background: var(--surface-2);
+  transform: translateY(-0.5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.event-form-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.event-form-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-xs);
+}
+
+.event-form-btn-save {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.event-form-btn-save:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.event-form-btn-delete {
+  background-color: var(--danger);
+  border-color: var(--danger);
+  color: #ffffff;
+}
+
+.event-form-btn-delete:hover {
+  background-color: var(--danger-strong);
+  border-color: var(--danger-strong);
+}
+
+.event-form-btn-cancel {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.add-event-btn {
+  display: block;
+  padding: 12px 24px;
+  background: var(--accent);
+  color: #ffffff;
+  border: 1px solid var(--accent);
+  border-radius: 30px;
+  font-family: "Georgia", serif;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  z-index: 100;
+  margin: 18px auto 36px;
+}
+
+.add-event-btn:hover {
+  background: var(--accent-strong);
+  transform: translateY(-0.5px);
+  box-shadow: var(--shadow);
+}
+
+.add-event-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.add-event-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+}
+
+.week-navigation {
+  position: sticky;
+  top: 12px;
+  z-index: 5;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+
+  margin-bottom: 18px;
+  padding: 10px 12px;
+  border-radius: 14px;
+
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+}
+
+@media (max-width: 520px){
+  .week-navigation{
+    top: 8px;
+  }
+}
+.week-title {
+  font-size: 1.35em;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.week-nav-btn {
+  background: var(--surface);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.week-nav-btn:hover {
+  background: var(--surface-2);
+  transform: translateY(-0.5px);
+  box-shadow: var(--shadow);
+}
+
+.week-nav-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.week-nav-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+}
+
+#ustc-timetable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  font-family: "Georgia", serif;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+#ustc-timetable th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 700;
+}
+
+#ustc-timetable td {
+  background-color: var(--surface);
+  height: 50px;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+#ustc-timetable .period-header {
+  background-color: var(--surface-2);
+  font-weight: 700;
+  text-align: center;
+  vertical-align: middle;
+  width: 80px;
+}
+
+#ustc-timetable td.has-class {
+  background: var(--accent-weak) !important;
+}
+
+.ustc-event-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  background: color-mix(in srgb, var(--accent-weak) 70%, var(--surface));
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.ustc-event-overlay:hover {
+  background: color-mix(in srgb, var(--accent-weak) 86%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-0.5px);
+}
+
+.ustc-event-overlay:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.course-number {
+  font-weight: 700;
+  font-size: 0.75em;
+  margin-bottom: 2px;
+  color: var(--text);
+  letter-spacing: 0.3px;
+
+  /* Allow a small type badge to sit next to the course code */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* =========================================================
+   Course type badge (Major / Minor / Micro-minor / TA)
+   ========================================================= */
+.course-type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 2px 8px;
+  border-radius: 999px;
+
+  font-size: 0.72em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.2px;
+
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent-weak) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+}
+
+.my-classes-table .course-type-badge {
+  margin-left: 6px;
+}
+
+.course-code {
+  font-weight: 700;
+}
+
+
+.course-name {
+  font-weight: 700;
+  font-size: 0.9em;
+  margin-bottom: 2px;
+  color: var(--accent);
+}
+
+.credits-inline {
+  font-weight: 700;
+  font-size: 0.85em;
+  color: var(--text);
+  margin-left: 6px;
+  letter-spacing: 0.2px;
+}
+
+.instructor {
+  font-size: 0.8em;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.ustc-classes-container { margin-top: 30px; }
+
+.ustc-classes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.ustc-classes-table th {
+  background: var(--surface-2);
+}
+
+.my-classes-container { margin-top: 30px; }
+
+.my-classes-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 10px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.my-classes-table th {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.my-classes-table td {
+  background-color: var(--surface);
+  padding: 12px;
+  text-align: center;
+  vertical-align: middle;
+  color: var(--text);
+}
+
+.days-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.days-container label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+#schedule .container {
+  max-width: 95%;
+  width: 100%;
+  padding: 30px 15px;
+}
+
+.event-cell .time-info {
+  position: absolute;
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  z-index: 20;
+
+  background: transparent;
+  border: transparent;
+  color: var(--text);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.event-cell:hover .time-info,
+.event-cell:focus-within .time-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+.start-info { top: 2px; left: 2px; }
+.end-info { bottom: 2px; right: 2px; }
+
+.event-cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-cell:hover {
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.10);
+  transform: scale(1.01);
+}
+
+.event-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--accent);
+  transition: height 0.2s ease;
+}
+
+.event-cell:hover::before { height: 5px; }
+
+.ustc-timetable-cell {
+  position: relative;
+  height: 50px;
+}
+
+.ustc-course-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  z-index: 5;
+  background: var(--accent-weak);
+  border-radius: 6px;
+}
+
+.ustc-course-info:hover { background: var(--accent-weak); }
+
+.merged-cell {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+
+.course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.period-number {
+  background-color: var(--surface-2);
+  font-weight: 700;
+  border-right: 1px solid var(--border);
+}
+
+.overlap-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  height: 100%;
+  min-height: 100%;
+
+  position: relative;
+}
+
+.overlap-course {
+  flex: 1 1 auto;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 6px 4px;
+
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.overlap-course + .overlap-course {
+  border-top: 1px dashed var(--border);
+}
+
+.weeks-container {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.weeks-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.week-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.week-checkbox label {
+  margin-left: 5px;
+  font-size: 0.9em;
+}
+
+.week-display {
+  font-size: 0.85em;
+  color: var(--muted);
+  margin-top: 5px;
+  min-height: 20px;
+}
+
+.semester-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.semester-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+}
+
+.semester-dropdown-btn {
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.semester-dropdown-btn:hover {
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+.semester-dropdown-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.semester-dropdown-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+}
+
+.semester-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--surface);
+  width: 100%;
+  box-shadow: var(--shadow);
+  z-index: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 6px;
+  border: 1px solid var(--border);
+}
+
+.semester-dropdown-content a {
+  color: var(--accent);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.semester-dropdown-content a:hover {
+  background: var(--accent-weak);
+  color: var(--accent-strong);
+}
+
+.semester-dropdown:hover .semester-dropdown-content {
+  display: block;
+}
+
+.semester-dropdown:focus-within .semester-dropdown-content {
+  display: block;
+}
+
+.semester-dropdown:hover .semester-dropdown-btn {
+  background: var(--surface-2);
+}
+
+.semester-timetable-container {
+  display: none;
+  margin-top: 20px;
+}
+
+.semester-timetable-container.active { display: block; }
+
+.semester-title {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: var(--accent);
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+}
+
+@media (max-width: 900px) {
+  .schedule-heading { font-size: 2em; }
+  .timetable th, .timetable td,
+  #ustc-timetable th, #ustc-timetable td,
+  .my-classes-table th, .my-classes-table td { padding: 8px; }
+
+  .event-modal-content {
+    padding: 26px 20px;
+    width: min(94vw, 720px);
+  }
+  #event-modal .event-modal-content {
+    width: min(94vw, 860px);
+  }
+}
