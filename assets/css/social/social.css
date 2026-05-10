@@ -1,0 +1,285 @@
+/* Social page specific styling (academic / understated) */
+
+.social-heading {
+  font-size: 2.4em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 26px;
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+  letter-spacing: 0.6px;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 26px;
+}
+
+.social-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 25px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.social-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.social-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--accent);
+  transition: transform 0.2s ease;
+}
+
+/* Make inline SVG icons behave like font icons inside .social-icon */
+.social-icon svg {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  fill: currentColor;
+}
+
+.social-card:hover .social-icon {
+  transform: scale(1.1);
+}
+
+/* Steam icon */
+.social-card .fa-steam {
+  color: var(--accent);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.social-card:hover .fa-steam {
+  color: var(--accent-strong);
+  transform: scale(1.1);
+}
+
+.social-description {
+  color: var(--muted);
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+}
+
+.social-link {
+  display: inline-block;
+  padding: 8px 18px;
+  background: var(--surface);
+  color: var(--accent);
+  border-radius: 26px;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.social-link:hover {
+  background: var(--accent-weak);
+  color: var(--accent-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.social-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: var(--accent-weak);
+  transition: height 0.2s ease, background-color 0.2s ease;
+}
+
+.social-card:hover::before {
+  height: 6px;
+  background: var(--accent);
+}
+
+/* Social link separator */
+.social-divider {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 5px;
+  color: var(--muted);
+  font-size: 1.2em;
+  vertical-align: middle;
+}
+
+/* =========================================================
+   Website statistics section (Social page)
+   ========================================================= */
+
+.stats-container {
+  margin-top: 22px; /* separates it from the social cards container */
+}
+
+.stats-heading {
+  font-size: 2.0em;
+  text-align: center;
+  color: var(--accent);
+  margin-bottom: 18px;
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+  letter-spacing: 0.5px;
+}
+
+.stats-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 14px;
+  margin: 10px 0 22px;
+}
+
+.stats-metric {
+  background: linear-gradient(
+    180deg,
+    var(--surface),
+    color-mix(in srgb, var(--surface) 70%, var(--surface-2))
+  );
+  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-xs);
+  padding: 14px 14px;
+  text-align: center;
+}
+
+.stats-metric-label {
+  color: var(--muted);
+  font-size: 0.92rem;
+  letter-spacing: 0.2px;
+}
+
+.stats-metric-value {
+  margin-top: 8px;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1.1;
+  font-family: Arial, sans-serif;
+}
+
+.stats-block {
+  margin-top: 6px;
+}
+
+.stats-subtitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+
+  font-variant: small-caps;
+  color: var(--accent);
+  font-size: 1.25em;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-link {
+  font-variant: normal;
+  font-size: 0.92rem;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+}
+
+.stats-link:hover {
+  background: var(--accent-weak);
+  text-decoration: none;
+}
+
+.stats-embed {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.goatcounter-frame {
+  width: 100%;
+  height: 560px;
+  border: 0;
+  display: block;
+}
+
+.stats-note {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.stats-sep {
+  height: 1px;
+  background: var(--border);
+  margin: 22px 0;
+}
+
+.clustrmaps-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+
+  padding: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .goatcounter-frame { height: 680px; }
+  .stats-metric-value { font-size: 1.55rem; }
+}
+
+/* ClustrMaps: bigger + responsive */
+.clustrmaps-wrap{
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.clustrmaps-wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  padding: 10px;
+
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.clustrmaps-wrap a{
+  display: inline-block;
+}
