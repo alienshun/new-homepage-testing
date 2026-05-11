@@ -191,7 +191,7 @@
         mountId: 'mount-life',
         styles: [
           A + 'css/life/life.css',
-          A + 'css/life/activities-moments.css',
+          A + 'css/life/activities_moments.css',
           A + 'css/life/meditations.css'
         ],
         scripts: [
