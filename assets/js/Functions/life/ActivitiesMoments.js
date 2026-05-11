@@ -7,6 +7,24 @@
     dateKey: null
   };
 
+  const INLINE_EMOTES = {
+    '[旺柴]': {
+      className: 'am-emote-wangchai',
+      label: '旺柴',
+      text: '🐶'
+    },
+    '[叹气]': {
+      className: 'am-emote-sigh',
+      label: '叹气',
+      text: '😮‍💨'
+    },
+    '[苦涩]': {
+      className: 'am-emote-bitter',
+      label: '苦涩',
+      text: '🥲'
+    }
+  };
+
   function getMount() {
     return document.getElementById('mount-activities_moments');
   }
@@ -59,6 +77,30 @@
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
+  }
+
+  function renderInlineText(value) {
+    const raw = String(value == null ? '' : value);
+    const tokens = Object.keys(INLINE_EMOTES);
+
+    if (!tokens.some((token) => raw.includes(token))) {
+      return escapeHtml(raw);
+    }
+
+    const pattern = /(\[旺柴\]|\[叹气\]|\[苦涩\])/g;
+
+    return raw.split(pattern).map((part) => {
+      const emote = INLINE_EMOTES[part];
+
+      if (!emote) {
+        return escapeHtml(part);
+      }
+
+      return '<span class="am-emote ' + emote.className + '" role="img" aria-label="' +
+        escapeHtml(emote.label) + '" title="' + escapeHtml(emote.label) + '">' +
+        escapeHtml(emote.text) +
+        '</span>';
+    }).join('');
   }
 
   function normalizePath(pathname) {
@@ -156,7 +198,7 @@
     const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
     const title = escapeHtml(moment.title || '');
     const meta = escapeHtml(getMetaText(moment));
-    const summary = escapeHtml(moment.summary || '');
+    const summary = renderInlineText(moment.summary || '');
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
     const action = escapeHtml(ui.viewMoment);
 
@@ -255,7 +297,7 @@
 
     const body = Array.isArray(moment.body) ? moment.body : [];
     const bodyHtml = body
-      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .map((paragraph) => `<p>${renderInlineText(paragraph)}</p>`)
       .join('');
 
     const hero = cover
