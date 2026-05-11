@@ -1,13 +1,12 @@
 (function () {
   'use strict';
 
-  const DEFAULT_VIEW = 'activities-moments';
+  const DEFAULT_VIEW = 'activities_moments';
 
   const VIEW_ALIASES = {
-    'activities-moments': 'activities-moments',
-    activities_moments: 'activities-moments',
-    activities: 'activities-moments',
-    moments: 'activities-moments',
+    activities_moments: 'activities_moments',
+    activities: 'activities_moments',
+    moments: 'activities_moments',
     meditations: 'meditations'
   };
 
@@ -64,7 +63,7 @@
   }
 
   function renderActivitiesMoments() {
-    const mount = document.getElementById('mount-activities-moments');
+    const mount = document.getElementById('mount-activities_moments');
     if (!mount) return;
 
     if (window.ActivitiesMoments && typeof window.ActivitiesMoments.renderCurrent === 'function') {
@@ -73,7 +72,7 @@
     }
 
     if (!mount.firstElementChild) {
-      mount.innerHTML = '<div class="activities-moments is-empty"></div>';
+      mount.innerHTML = '<div class="activities_moments is-empty"></div>';
     }
   }
 
@@ -99,7 +98,7 @@
       section.toggleAttribute('hidden', !active);
     });
 
-    if (normalized === 'activities-moments') {
+    if (normalized === 'activities_moments') {
       renderActivitiesMoments();
     }
 
@@ -158,7 +157,7 @@
               <button
                 class="life-switch-btn active"
                 type="button"
-                data-view="activities-moments"
+                data-view="activities_moments"
                 role="tab"
                 aria-selected="true"
                 data-life-i18n="activities_moments"
@@ -180,11 +179,11 @@
 
             <section
               class="life-section active"
-              id="activities-moments-section"
-              data-view="activities-moments"
+              id="activities_moments-section"
+              data-view="activities_moments"
               role="tabpanel"
             >
-              <div id="mount-activities-moments"></div>
+              <div id="mount-activities_moments"></div>
             </section>
 
             <section
