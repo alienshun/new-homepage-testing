@@ -4,7 +4,7 @@
   const DEFAULT_VIEW = 'activities-moments';
 
   const VIEW_TO_SLUG = {
-    'activities-moments': 'activities-moments',
+    'activities-moments': 'activities_moments',
     meditations: 'meditations'
   };
 
