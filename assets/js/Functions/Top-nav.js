@@ -20,7 +20,7 @@
         <button class="top-nav-link" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</button>
         <button class="top-nav-link" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</button>
         <!-- <button class="top-nav-link" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</button> -->
-        <button class="top-nav-link" data-page="meditations" data-cursor="precise_select" data-cursor-fallback="pointer">Meditations</button>
+        <button class="top-nav-link" data-page="life" data-cursor="precise_select" data-cursor-fallback="pointer">Life</button>
       </div>
 
       <div class="top-nav-right">
