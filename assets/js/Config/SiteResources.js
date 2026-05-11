@@ -99,6 +99,7 @@
 
     styles: {
       core: [
+        A + 'css/fonts.css',
         A + 'css/main.css',
         A + 'css/top-nav.css',
         A + 'css/cover.css'
