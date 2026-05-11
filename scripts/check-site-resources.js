@@ -13,7 +13,7 @@ const ROUTE_ENTRY_ROUTES = [
   'about',
   'schedule',
   'social',
-  'meditations'
+  'life'
 ];
 
 const FORBIDDEN_PATH_PATTERNS = [
