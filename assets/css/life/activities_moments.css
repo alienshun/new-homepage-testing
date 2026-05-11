@@ -121,11 +121,11 @@
   top: -1px;
   z-index: 3;
 
-  padding: 11px 20px 9px 19px;
-  border-radius: calc(var(--radius, 22px) + 3px) 0 18px 0;
+  padding: 13px 24px 11px 23px;
+  border-radius: calc(var(--radius, 22px) + 3px) 0 20px 0;
 
   font-family: var(--font-activities-date);
-  font-size: 1.55rem;
+  font-size: 1.85rem;
   line-height: 1;
   letter-spacing: 0.4px;
 
@@ -566,9 +566,9 @@ body[data-lang="zh"] .am-detail-meta {
   .am-card-date {
     left: -1px;
     top: -1px;
-    padding: 10px 17px 8px 16px;
-    border-radius: calc(var(--radius, 22px) + 3px) 0 15px 0;
-    font-size: 1.35rem;
+    padding: 11px 19px 9px 18px;
+    border-radius: calc(var(--radius, 22px) + 3px) 0 16px 0;
+    font-size: 1.55rem;
   }
 
   .am-detail-content {
