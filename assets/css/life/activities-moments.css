@@ -1,0 +1,568 @@
+/* =========================================================
+   Activities & Moments
+   ========================================================= */
+
+@font-face {
+  font-family: "Beautiful ES Local";
+  src: url("../../fonts/Beautiful-ES-1.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cataneo BT Local";
+  src: url("../../fonts/Cataneo%20BT.ttf") format("truetype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HongLeiXingShu Local";
+  src: url("../../fonts/HongLeiXingShuJianTi-2.otf") format("opentype");
+  font-display: swap;
+}
+
+#mount-activities-moments {
+  width: 100%;
+}
+
+.activities-moments {
+  width: 100%;
+}
+
+.activities-moments.is-empty {
+  min-height: 220px;
+}
+
+/* =========================================================
+   Card grid
+   Two-column, row-major reading order:
+   newest at top-left, second newest at top-right, then next row.
+   ========================================================= */
+
+.am-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  align-items: stretch;
+}
+
+.am-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  overflow: hidden;
+  border-radius: calc(var(--radius, 22px) + 2px);
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--accent-weak));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 94%, var(--surface-2)),
+      color-mix(in srgb, var(--surface) 76%, var(--surface-2))
+    );
+  box-shadow: var(--shadow-sm);
+
+  cursor: pointer;
+  transform: translateY(0);
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.am-card:hover,
+.am-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
+}
+
+.am-card:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-lg);
+}
+
+.am-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+
+  background:
+    radial-gradient(
+      520px 220px at 20% -10%,
+      color-mix(in srgb, var(--accent-weak) 75%, transparent),
+      transparent 64%
+    );
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+
+.am-card:hover::before,
+.am-card:focus-visible::before {
+  opacity: 1;
+}
+
+.am-card-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--surface-2) 86%, var(--accent-weak)),
+      var(--surface)
+    );
+}
+
+.am-card-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition:
+    transform 0.48s ease,
+    filter 0.48s ease;
+}
+
+.am-card:hover .am-card-media img,
+.am-card:focus-visible .am-card-media img {
+  transform: scale(1.055);
+  filter: saturate(1.06) contrast(1.03);
+}
+
+.am-card-date {
+  position: absolute;
+  left: 18px;
+  top: 16px;
+  z-index: 3;
+
+  padding: 7px 14px;
+  border-radius: 999px;
+
+  font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: 0.4px;
+
+  color: var(--accent);
+  background: color-mix(in srgb, var(--surface) 82%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.am-card-body {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+
+  padding: 22px 24px 24px;
+}
+
+.am-card-title {
+  margin: 0;
+
+  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-size: clamp(1.65rem, 2.2vw, 2.25rem);
+  line-height: 1.08;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+
+  color: var(--accent);
+}
+
+body[data-lang="zh"] .am-card-title {
+  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-size: clamp(1.78rem, 2.35vw, 2.45rem);
+  letter-spacing: 1.2px;
+}
+
+.am-card-meta {
+  margin: 0;
+
+  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: color-mix(in srgb, var(--muted) 86%, var(--text));
+}
+
+body[data-lang="zh"] .am-card-meta {
+  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.6px;
+}
+
+.am-card-summary {
+  margin: 4px 0 0;
+
+  font-family: inherit;
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: var(--text);
+}
+
+.am-card-action {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+
+  margin-top: auto;
+  padding-top: 12px;
+
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-style: italic;
+  line-height: 1.2;
+
+  color: var(--accent);
+  opacity: 0.88;
+  transform: translateY(2px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    letter-spacing 0.2s ease;
+}
+
+.am-card:hover .am-card-action,
+.am-card:focus-visible .am-card-action {
+  opacity: 1;
+  transform: translateY(0);
+  letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   Spotlight detail view
+   ========================================================= */
+
+.am-detail {
+  animation: amFadeIn 0.26s ease both;
+}
+
+.am-detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  margin: 0 0 18px;
+  padding: 9px 15px;
+  border-radius: 999px;
+
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
+  color: var(--accent);
+
+  font-family: inherit;
+  font-style: italic;
+  font-size: 0.98rem;
+  text-decoration: none;
+
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.am-detail-back:hover,
+.am-detail-back:focus-visible {
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+  background: color-mix(in srgb, var(--surface) 74%, var(--accent-weak));
+  border-color: color-mix(in srgb, var(--border) 62%, var(--accent));
+}
+
+.am-detail-back:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+}
+
+.am-detail-card {
+  overflow: hidden;
+  border-radius: calc(var(--radius, 22px) + 4px);
+
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 94%, var(--surface-2)),
+      var(--surface)
+    );
+  box-shadow: var(--shadow-lg);
+}
+
+.am-detail-hero {
+  position: relative;
+  width: 100%;
+  min-height: min(58vh, 560px);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--surface-2) 82%, var(--accent-weak)),
+      var(--surface)
+    );
+  overflow: hidden;
+}
+
+.am-detail-hero img {
+  width: 100%;
+  height: min(58vh, 560px);
+  min-height: 360px;
+  display: block;
+  object-fit: cover;
+}
+
+.am-detail-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 48%;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      color-mix(in srgb, #000 42%, transparent)
+    );
+}
+
+.am-detail-head {
+  position: absolute;
+  left: clamp(22px, 4vw, 48px);
+  right: clamp(22px, 4vw, 48px);
+  bottom: clamp(22px, 4vw, 42px);
+  z-index: 2;
+
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.35);
+}
+
+.am-detail-date {
+  display: inline-flex;
+  margin-bottom: 10px;
+
+  font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  font-size: clamp(1.55rem, 3vw, 2.25rem);
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.am-detail-title {
+  margin: 0;
+
+  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 4.1rem);
+  line-height: 0.98;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+
+body[data-lang="zh"] .am-detail-title {
+  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  letter-spacing: 1.6px;
+}
+
+.am-detail-meta {
+  margin: 12px 0 0;
+
+  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-size: clamp(1.08rem, 2vw, 1.35rem);
+  line-height: 1.35;
+  opacity: 0.86;
+}
+
+body[data-lang="zh"] .am-detail-meta {
+  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  letter-spacing: 0.8px;
+}
+
+.am-detail-content {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: clamp(26px, 5vw, 54px);
+}
+
+.am-detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.am-detail-body p {
+  margin: 0;
+
+  font-family: inherit;
+  font-size: 1.03rem;
+  line-height: 1.88;
+  color: var(--text);
+}
+
+.am-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+
+  margin-top: 34px;
+}
+
+.am-gallery-item {
+  overflow: hidden;
+  border-radius: var(--radius-sm, 14px);
+  border: 1px solid color-mix(in srgb, var(--border) 82%, var(--accent-weak));
+  background: var(--surface-2);
+  box-shadow: var(--shadow-xs);
+  cursor: zoom-in;
+}
+
+.am-gallery-item img {
+  width: 100%;
+  height: 100%;
+  min-height: 240px;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.am-gallery-item:hover img,
+.am-gallery-item:focus-visible img {
+  transform: scale(1.045);
+  filter: saturate(1.05) contrast(1.03);
+}
+
+/* =========================================================
+   Image lightbox
+   ========================================================= */
+
+.am-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 12000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.74);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  animation: amFadeIn 0.18s ease both;
+}
+
+.am-lightbox img {
+  max-width: min(94vw, 1280px);
+  max-height: 86vh;
+  display: block;
+  object-fit: contain;
+
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+}
+
+.am-lightbox-close {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .am-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .am-detail-hero,
+  .am-detail-hero img {
+    height: auto;
+    min-height: 320px;
+  }
+
+  .am-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .am-card-body {
+    padding: 18px 18px 20px;
+  }
+
+  .am-card-date {
+    left: 14px;
+    top: 12px;
+    font-size: 1.2rem;
+  }
+
+  .am-detail-content {
+    padding: 24px 18px 30px;
+  }
+
+  .am-detail-head {
+    left: 18px;
+    right: 18px;
+    bottom: 20px;
+  }
+
+  .am-gallery-item img {
+    min-height: 210px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .am-card,
+  .am-card::before,
+  .am-card-media img,
+  .am-card-action,
+  .am-detail-back,
+  .am-gallery-item img {
+    transition: none;
+  }
+
+  .am-detail,
+  .am-lightbox {
+    animation: none;
+  }
+}
+
+@keyframes amFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
