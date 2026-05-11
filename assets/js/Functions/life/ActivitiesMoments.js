@@ -1,0 +1,516 @@
+(function () {
+  'use strict';
+
+  const STATE = {
+    initialized: false,
+    mode: 'list',
+    dateKey: null
+  };
+
+  function getMount() {
+    return document.getElementById('mount-activities-moments');
+  }
+
+  function getLang() {
+    if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
+      return window.SiteLang.getLang() === 'zh' ? 'zh' : 'en';
+    }
+
+    return document.body && document.body.dataset.lang === 'zh' ? 'zh' : 'en';
+  }
+
+  function getData(lang) {
+    const current = lang === 'zh'
+      ? window.ACTIVITIES_MOMENTS_ZH
+      : window.ACTIVITIES_MOMENTS_EN;
+
+    if (current && Array.isArray(current.moments)) {
+      return current;
+    }
+
+    return {
+      ui: {},
+      moments: []
+    };
+  }
+
+  function getFallbackData(lang) {
+    const fallbackLang = lang === 'zh' ? 'en' : 'zh';
+    return getData(fallbackLang);
+  }
+
+  function getUi() {
+    const lang = getLang();
+    const primary = getData(lang).ui || {};
+    const fallback = getFallbackData(lang).ui || {};
+
+    return Object.assign({
+      viewMoment: lang === 'zh' ? '观此一瞬' : 'View Moment',
+      backToMoments: lang === 'zh' ? '返回行迹' : 'Back to Moments',
+      close: lang === 'zh' ? '关闭' : 'Close',
+      openImage: lang === 'zh' ? '查看图片' : 'Open image'
+    }, fallback, primary);
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function normalizePath(pathname) {
+    return String(pathname || '/')
+      .replace(/index\.html$/, '')
+      .replace(/\/+$/, '') || '/';
+  }
+
+  function getLifeBaseUrl() {
+    return new URL('life/', document.baseURI);
+  }
+
+  function getListRoute() {
+    return new URL('activities-moments/', getLifeBaseUrl()).pathname;
+  }
+
+  function getDetailRoute(dateKey) {
+    return new URL('activities-moments/' + encodeURIComponent(dateKey) + '/', getLifeBaseUrl()).pathname;
+  }
+
+  function pushRoute(path, replace) {
+    if (!window.history || typeof window.history.pushState !== 'function') return;
+
+    const current = normalizePath(window.location.pathname);
+    const next = normalizePath(path);
+
+    if (current === next) return;
+
+    const method = replace ? 'replaceState' : 'pushState';
+    window.history[method]({ path }, '', path);
+  }
+
+  function resolveDateKeyFromPath(pathname) {
+    const parts = normalizePath(pathname || window.location.pathname)
+      .split('/')
+      .filter(Boolean);
+
+    const lifeIndex = parts.indexOf('life');
+    if (lifeIndex < 0) return null;
+
+    const sub = parts[lifeIndex + 1];
+    const dateKey = parts[lifeIndex + 2];
+
+    if (sub !== 'activities-moments' && sub !== 'activities_moments') return null;
+    if (!dateKey) return null;
+
+    try {
+      return decodeURIComponent(dateKey);
+    } catch (e) {
+      return dateKey;
+    }
+  }
+
+  function sortMoments(moments) {
+    return moments.slice().sort((a, b) => {
+      const da = Date.parse(a.dateISO || '');
+      const db = Date.parse(b.dateISO || '');
+
+      if (Number.isFinite(db) && Number.isFinite(da) && db !== da) {
+        return db - da;
+      }
+
+      return String(b.dateKey || '').localeCompare(String(a.dateKey || ''));
+    });
+  }
+
+  function getSortedMoments() {
+    const lang = getLang();
+    const data = getData(lang);
+    return sortMoments(Array.isArray(data.moments) ? data.moments : []);
+  }
+
+  function getMomentByKey(dateKey) {
+    const lang = getLang();
+    const primary = getData(lang).moments || [];
+    const fallback = getFallbackData(lang).moments || [];
+
+    return primary.find((item) => item && item.dateKey === dateKey)
+      || fallback.find((item) => item && item.dateKey === dateKey)
+      || null;
+  }
+
+  function getMetaText(moment) {
+    const pieces = [];
+
+    if (moment.location) pieces.push(moment.location);
+    if (moment.occasion) pieces.push(moment.occasion);
+    if (moment.subtitle && !moment.location && !moment.occasion) pieces.push(moment.subtitle);
+
+    return pieces.join(' · ');
+  }
+
+  function renderCard(moment, index, ui) {
+    const dateKey = escapeHtml(moment.dateKey || '');
+    const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
+    const title = escapeHtml(moment.title || '');
+    const meta = escapeHtml(getMetaText(moment));
+    const summary = escapeHtml(moment.summary || '');
+    const cover = moment.cover ? escapeHtml(moment.cover) : '';
+    const action = escapeHtml(ui.viewMoment);
+
+    const fetchPriority = index === 0 ? ' fetchpriority="high"' : '';
+    const loading = index === 0 ? 'eager' : 'lazy';
+
+    const media = cover
+      ? `
+        <div class="am-card-media">
+          <img
+            src="${cover}"
+            alt="${title}"
+            loading="${loading}"
+            decoding="async"${fetchPriority}
+          >
+          <div class="am-card-date">${dateLabel}</div>
+        </div>
+      `
+      : `
+        <div class="am-card-media" aria-hidden="true">
+          <div class="am-card-date">${dateLabel}</div>
+        </div>
+      `;
+
+    return `
+      <article
+        class="am-card"
+        data-date-key="${dateKey}"
+        role="button"
+        tabindex="0"
+        data-cursor="precise_select"
+        data-cursor-fallback="pointer"
+      >
+        ${media}
+        <div class="am-card-body">
+          <h3 class="am-card-title">${title}</h3>
+          ${meta ? `<p class="am-card-meta">${meta}</p>` : ''}
+          ${summary ? `<p class="am-card-summary">${summary}</p>` : ''}
+          <span class="am-card-action">${action}</span>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderListHtml() {
+    const ui = getUi();
+    const moments = getSortedMoments();
+
+    if (!moments.length) {
+      return '<div class="activities-moments is-empty"></div>';
+    }
+
+    return `
+      <div class="activities-moments" data-am-view="list">
+        <div class="am-card-grid">
+          ${moments.map((moment, index) => renderCard(moment, index, ui)).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderGallery(moment, ui) {
+    const gallery = Array.isArray(moment.gallery) ? moment.gallery : [];
+    if (!gallery.length) return '';
+
+    return `
+      <div class="am-gallery">
+        ${gallery.map((src, index) => {
+          const safeSrc = escapeHtml(src);
+          const alt = escapeHtml((moment.title || '') + ' ' + (index + 1));
+
+          return `
+            <button
+              class="am-gallery-item"
+              type="button"
+              data-am-image="${safeSrc}"
+              aria-label="${escapeHtml(ui.openImage)}"
+              data-cursor="precise_select"
+              data-cursor-fallback="zoom-in"
+            >
+              <img src="${safeSrc}" alt="${alt}" loading="lazy" decoding="async">
+            </button>
+          `;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function renderDetailHtml(moment) {
+    const ui = getUi();
+
+    const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
+    const title = escapeHtml(moment.title || '');
+    const meta = escapeHtml(getMetaText(moment));
+    const cover = moment.cover ? escapeHtml(moment.cover) : '';
+
+    const body = Array.isArray(moment.body) ? moment.body : [];
+    const bodyHtml = body
+      .map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`)
+      .join('');
+
+    const hero = cover
+      ? `<img src="${cover}" alt="${title}" loading="eager" decoding="async" fetchpriority="high">`
+      : '';
+
+    return `
+      <div class="activities-moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(moment.dateKey || '')}">
+        <a
+          class="am-detail-back"
+          href="${escapeHtml(getListRoute())}"
+          data-am-action="back"
+          data-cursor="precise_select"
+          data-cursor-fallback="pointer"
+        >${escapeHtml(ui.backToMoments)}</a>
+
+        <article class="am-detail-card">
+          <header class="am-detail-hero">
+            ${hero}
+            <div class="am-detail-head">
+              <div class="am-detail-date">${dateLabel}</div>
+              <h2 class="am-detail-title">${title}</h2>
+              ${meta ? `<p class="am-detail-meta">${meta}</p>` : ''}
+            </div>
+          </header>
+
+          <div class="am-detail-content">
+            ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
+            ${renderGallery(moment, ui)}
+          </div>
+        </article>
+      </div>
+    `;
+  }
+
+  function bindEvents() {
+    const mount = getMount();
+    if (!mount || mount.dataset.activitiesMomentsBound === '1') return;
+
+    mount.dataset.activitiesMomentsBound = '1';
+
+    mount.addEventListener('click', (event) => {
+      const back = event.target.closest('[data-am-action="back"]');
+      if (back) {
+        event.preventDefault();
+        showList({ updateHistory: true });
+        return;
+      }
+
+      const imageButton = event.target.closest('[data-am-image]');
+      if (imageButton) {
+        event.preventDefault();
+        openLightbox(imageButton.getAttribute('data-am-image'));
+        return;
+      }
+
+      const card = event.target.closest('.am-card[data-date-key]');
+      if (!card) return;
+
+      const dateKey = card.getAttribute('data-date-key');
+      if (!dateKey) return;
+
+      showDetail(dateKey, { updateHistory: true });
+    });
+
+    mount.addEventListener('keydown', (event) => {
+      const card = event.target.closest('.am-card[data-date-key]');
+      if (!card) return;
+
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+
+      event.preventDefault();
+
+      const dateKey = card.getAttribute('data-date-key');
+      if (dateKey) {
+        showDetail(dateKey, { updateHistory: true });
+      }
+    });
+  }
+
+  function showList(options) {
+    const opts = options || {};
+    const mount = getMount();
+    if (!mount) return;
+
+    STATE.mode = 'list';
+    STATE.dateKey = null;
+
+    mount.innerHTML = renderListHtml();
+    bindEvents();
+
+    if (opts.updateHistory) {
+      pushRoute(getListRoute(), opts.replaceHistory);
+    }
+
+    if (opts.scroll !== false) {
+      scrollToMount();
+    }
+  }
+
+  function showDetail(dateKey, options) {
+    const opts = options || {};
+    const mount = getMount();
+    if (!mount) return;
+
+    const moment = getMomentByKey(dateKey);
+
+    if (!moment) {
+      showList({
+        updateHistory: opts.updateHistory,
+        replaceHistory: true,
+        scroll: opts.scroll
+      });
+      return;
+    }
+
+    STATE.mode = 'detail';
+    STATE.dateKey = dateKey;
+
+    mount.innerHTML = renderDetailHtml(moment);
+    bindEvents();
+
+    if (opts.updateHistory) {
+      pushRoute(getDetailRoute(dateKey), opts.replaceHistory);
+    }
+
+    if (opts.scroll !== false) {
+      scrollToMount();
+    }
+  }
+
+  function scrollToMount() {
+    const section = document.getElementById('activities-moments-section');
+    const target = section || getMount();
+
+    if (!target) return;
+
+    try {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (e) {}
+  }
+
+  function renderCurrent(options) {
+    const opts = options || {};
+    const dateKeyFromPath = resolveDateKeyFromPath(window.location.pathname);
+
+    if (dateKeyFromPath) {
+      showDetail(dateKeyFromPath, {
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+      return;
+    }
+
+    if (STATE.mode === 'detail' && STATE.dateKey) {
+      showDetail(STATE.dateKey, {
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+      return;
+    }
+
+    showList({
+      updateHistory: false,
+      scroll: opts.scroll
+    });
+  }
+
+  function syncWithLocation(options) {
+    const opts = options || {};
+    const dateKey = resolveDateKeyFromPath(window.location.pathname);
+
+    if (dateKey) {
+      showDetail(dateKey, {
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+    } else {
+      showList({
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+    }
+  }
+
+  function openLightbox(src) {
+    if (!src) return;
+
+    closeLightbox();
+
+    const ui = getUi();
+    const box = document.createElement('div');
+    box.className = 'am-lightbox';
+    box.setAttribute('role', 'dialog');
+    box.setAttribute('aria-modal', 'true');
+
+    box.innerHTML = `
+      <button class="am-lightbox-close" type="button" aria-label="${escapeHtml(ui.close)}">×</button>
+      <img src="${escapeHtml(src)}" alt="">
+    `;
+
+    box.addEventListener('click', (event) => {
+      if (
+        event.target === box
+        || event.target.classList.contains('am-lightbox-close')
+      ) {
+        closeLightbox();
+      }
+    });
+
+    document.body.appendChild(box);
+
+    const onKey = (event) => {
+      if (event.key === 'Escape') {
+        closeLightbox();
+        document.removeEventListener('keydown', onKey);
+      }
+    };
+
+    document.addEventListener('keydown', onKey);
+  }
+
+  function closeLightbox() {
+    const existing = document.querySelector('.am-lightbox');
+    if (existing) existing.remove();
+  }
+
+  function init() {
+    if (STATE.initialized) {
+      renderCurrent({ scroll: false });
+      return;
+    }
+
+    STATE.initialized = true;
+
+    bindEvents();
+    renderCurrent({ scroll: false });
+  }
+
+  window.ActivitiesMoments = {
+    init,
+    renderCurrent,
+    showList,
+    showDetail,
+    syncWithLocation,
+    getSortedMoments,
+    getMomentByKey,
+    getListRoute,
+    getDetailRoute,
+    resolveDateKeyFromPath
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
