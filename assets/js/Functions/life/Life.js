@@ -13,16 +13,16 @@
 
   const I18N = {
     en: {
-      life_heading: 'Life',
+      life_heading: 'Part of My Life',
       activities_moments: 'Activities & Moments',
       meditations: 'Meditations',
       top_nav_life: 'Life'
     },
     zh: {
-      life_heading: '生活',
-      activities_moments: '活动与瞬间',
+      life_heading: '浮生一隅',
+      activities_moments: '岁时行迹',
       meditations: '沉思录',
-      top_nav_life: '生活'
+      top_nav_life: '人生'
     }
   };
 
