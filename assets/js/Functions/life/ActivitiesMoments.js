@@ -72,11 +72,11 @@
   }
 
   function getListRoute() {
-    return new URL('activities-moments/', getLifeBaseUrl()).pathname;
+    return new URL('activities_moments/', getLifeBaseUrl()).pathname;
   }
 
   function getDetailRoute(dateKey) {
-    return new URL('activities-moments/' + encodeURIComponent(dateKey) + '/', getLifeBaseUrl()).pathname;
+    return new URL('activities_moments/' + encodeURIComponent(dateKey) + '/', getLifeBaseUrl()).pathname;
   }
 
   function pushRoute(path, replace) {
