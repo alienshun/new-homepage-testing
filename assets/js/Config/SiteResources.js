@@ -30,11 +30,11 @@
 
     navigation: {
       defaultPage: 'resume',
-      pages: ['resume', 'schedule', 'social', 'toolkit', 'meditations'],
+      pages: ['resume', 'schedule', 'social', 'toolkit', 'life'],
 
       warmup: {
         afterCover: ['resume'],
-        afterFirstPage: ['schedule', 'social', 'meditations'],
+        afterFirstPage: ['schedule', 'social', 'life'],
         delayAfterCover: 650,
         delayAfterFirstPage: 700,
         delayBetweenPages: 850,
@@ -164,16 +164,21 @@
         ]
       },
 
-      meditations: {
-        route: 'meditations',
-        domId: 'meditations',
-        mountId: 'mount-meditations',
+      life: {
+        route: 'life',
+        domId: 'life',
+        mountId: 'mount-life',
         styles: [
+          A + 'css/life/life.css',
           A + 'css/life/meditations.css'
         ],
         scripts: [
+          A + 'js/Functions/life/Life.js',
+          A + 'js/Content/EN/life/activities_moments_EN.js',
+          A + 'js/Content/ZH/life/activities_moments_ZH.js',
           A + 'js/Content/EN/life/meditations_EN.js',
-          A + 'js/Content/ZH/life/meditations_ZH.js'
+          A + 'js/Content/ZH/life/meditations_ZH.js',
+          A + 'js/Functions/life/LifeRoutes.js'
         ]
       }
     },
