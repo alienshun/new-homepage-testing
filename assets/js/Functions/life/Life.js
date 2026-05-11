@@ -146,7 +146,7 @@
     mount.insertAdjacentHTML('beforeend', `
       <div id="life">
         <div class="life-container">
-          <div class="life-heading" data-life-i18n="life_heading">Life</div>
+          <div class="life-heading" data-life-i18n="life_heading">Part of My Life</div>
 
           <div class="life-shell">
             <div class="life-switcher" role="tablist" aria-label="Life sections">
