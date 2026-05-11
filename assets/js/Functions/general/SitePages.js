@@ -136,7 +136,7 @@
 
     register('resume', {});
     register('social', {});
-    register('meditations', {});
+    register('life', {});
   }
 
   window.SitePages = {
