@@ -63,32 +63,23 @@
     }
   }
 
-  function getActivitiesHtml() {
-    const lang = getLang();
-
-    if (lang === 'zh' && typeof window.ACTIVITIES_MOMENTS_ZH_INNER_HTML === 'string') {
-      return window.ACTIVITIES_MOMENTS_ZH_INNER_HTML;
-    }
-
-    if (typeof window.ACTIVITIES_MOMENTS_EN_INNER_HTML === 'string') {
-      return window.ACTIVITIES_MOMENTS_EN_INNER_HTML;
-    }
-
-    return '';
-  }
-
   function renderActivitiesMoments() {
     const mount = document.getElementById('mount-activities-moments');
     if (!mount) return;
 
-    const html = getActivitiesHtml();
-    mount.innerHTML = typeof html === 'string' ? html : '';
+    if (window.ActivitiesMoments && typeof window.ActivitiesMoments.renderCurrent === 'function') {
+      window.ActivitiesMoments.renderCurrent({ scroll: false });
+      return;
+    }
+
+    if (!mount.firstElementChild) {
+      mount.innerHTML = '<div class="activities-moments is-empty"></div>';
+    }
   }
 
   function setLifeView(view) {
     const normalized = normalizeView(view) || DEFAULT_VIEW;
 
-    renderActivitiesMoments();
     applyLifeI18N();
 
     document.querySelectorAll('#life .life-switch-btn').forEach((btn) => {
@@ -108,6 +99,10 @@
       section.toggleAttribute('hidden', !active);
     });
 
+    if (normalized === 'activities-moments') {
+      renderActivitiesMoments();
+    }
+
     return normalized;
   }
 
@@ -115,8 +110,13 @@
     const life = document.getElementById('life');
     if (!life) return;
 
-    renderActivitiesMoments();
     applyLifeI18N();
+
+    if (window.ActivitiesMoments && typeof window.ActivitiesMoments.init === 'function') {
+      window.ActivitiesMoments.init();
+    } else {
+      renderActivitiesMoments();
+    }
 
     const active = life.querySelector('.life-switch-btn.active');
     const initialView = active && active.dataset ? active.dataset.view : DEFAULT_VIEW;
@@ -130,8 +130,13 @@
     document.body.dataset.boundLifeLangObserver = '1';
 
     const observer = new MutationObserver(() => {
-      renderActivitiesMoments();
       applyLifeI18N();
+
+      if (window.ActivitiesMoments && typeof window.ActivitiesMoments.renderCurrent === 'function') {
+        window.ActivitiesMoments.renderCurrent({ scroll: false });
+      } else {
+        renderActivitiesMoments();
+      }
     });
 
     observer.observe(document.body, {
