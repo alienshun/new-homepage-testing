@@ -6,7 +6,7 @@
   window.ACTIVITIES_MOMENTS_ZH = {
     ui: {
       viewMoment: '观此一瞬',
-      backToMoments: '返回行迹',
+      backToMoments: '行至终章',
       close: '关闭',
       openImage: '查看图片'
     },
