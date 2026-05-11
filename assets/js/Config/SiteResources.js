@@ -16,7 +16,9 @@
     assets/js/Content/EN/life/activities_moments_2026_05_12.js
     assets/js/Content/ZH/life/activities_moments_2026_05_12.js
   */
-  const ACTIVITY_MOMENT_DATES = [];
+  const ACTIVITY_MOMENT_DATES = [
+    '2026_02_17'
+  ];
 
   function activityMomentScripts(lang) {
     return ACTIVITY_MOMENT_DATES.map((dateKey) => {
