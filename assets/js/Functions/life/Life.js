@@ -13,7 +13,7 @@
 
   const I18N = {
     en: {
-      life_heading: 'Part of My Life',
+      life_heading: 'Vignettes of a Fleeting Life',
       activities_moments: 'Activities & Moments',
       meditations: 'Meditations',
       top_nav_life: 'Life'
@@ -146,7 +146,7 @@
     mount.insertAdjacentHTML('beforeend', `
       <div id="life">
         <div class="life-container">
-          <div class="life-heading" data-life-i18n="life_heading">Part of My Life</div>
+          <div class="life-heading" data-life-i18n="life_heading">Vignettes of a Fleeting Life</div>
 
           <div class="life-shell">
             <div class="life-switcher" role="tablist" aria-label="Life sections">
