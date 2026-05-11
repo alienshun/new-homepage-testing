@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-site-resources:
+  check_site_resources:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,4 +23,4 @@ jobs:
           node-version: 20
 
       - name: Check configured site resources
-        run: node scripts/check-site-resources.js
+        run: node scripts/check_site_resources.js
