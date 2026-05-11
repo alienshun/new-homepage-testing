@@ -135,12 +135,12 @@
 
 .am-card-date {
   position: absolute;
-  left: 0;
-  top: 0;
+  left: -1px;
+  top: -1px;
   z-index: 3;
 
-  padding: 9px 17px 8px 16px;
-  border-radius: calc(var(--radius, 22px) + 2px) 0 18px 0;
+  padding: 10px 18px 8px 17px;
+  border-radius: calc(var(--radius, 22px) + 3px) 0 18px 0;
 
   font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
   font-size: 1.35rem;
@@ -148,7 +148,7 @@
   letter-spacing: 0.4px;
 
   color: var(--accent);
-  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  background: color-mix(in srgb, var(--surface) 96%, var(--surface-2));
   border-right: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
   border-bottom: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
@@ -586,10 +586,10 @@ body[data-lang="zh"] .am-detail-meta {
   }
 
   .am-card-date {
-    left: 0;
-    top: 0;
-    padding: 8px 14px 7px 13px;
-    border-radius: calc(var(--radius, 22px) + 2px) 0 15px 0;
+    left: -1px;
+    top: -1px;
+    padding: 9px 15px 7px 14px;
+    border-radius: calc(var(--radius, 22px) + 3px) 0 15px 0;
     font-size: 1.2rem;
   }
 
