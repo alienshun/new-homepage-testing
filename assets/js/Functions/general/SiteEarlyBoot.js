@@ -109,9 +109,53 @@
     img.src = url;
   }
 
+  function warmAboutProfileImage() {
+    const images = resources.images || {};
+    const about = images.about || {};
+    const url = about.profile || './assets/images/about/profile.jpg';
+
+    if (!url) return;
+
+    const existingPreload = Array.from(document.querySelectorAll('link[rel="preload"][as="image"][href]'))
+      .some((link) => {
+        return link.href === normalizeUrl(url) || normalizeUrl(link.getAttribute('href')) === normalizeUrl(url);
+      });
+
+    if (!existingPreload) {
+      const preload = document.createElement('link');
+      preload.rel = 'preload';
+      preload.as = 'image';
+      preload.href = url;
+      preload.dataset.siteEarlyBoot = 'about-profile-preload';
+
+      try {
+        preload.fetchPriority = 'high';
+      } catch (e) {}
+
+      try {
+        preload.setAttribute('fetchpriority', 'high');
+      } catch (e) {}
+
+      document.head.appendChild(preload);
+    }
+
+    const img = new Image();
+
+    try {
+      img.decoding = 'async';
+    } catch (e) {}
+
+    try {
+      img.fetchPriority = 'high';
+    } catch (e) {}
+
+    img.src = url;
+  }
+
   setSiteMeta();
   loadCoreStylesEarly();
   warmCoverImage();
+  warmAboutProfileImage();
 
   window.SiteEarlyBoot = {
     getSelectedCoverFile() {
