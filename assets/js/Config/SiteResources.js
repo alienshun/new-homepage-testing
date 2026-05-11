@@ -3,6 +3,27 @@
 
   const A = './assets/';
 
+  /*
+    Add activity dates here after creating both language files.
+
+    Example:
+    const ACTIVITY_MOMENT_DATES = [
+      '2026_05_12',
+      '2026_04_20'
+    ];
+
+    Required files for each date:
+    assets/js/Content/EN/life/activities_moments_2026_05_12.js
+    assets/js/Content/ZH/life/activities_moments_2026_05_12.js
+  */
+  const ACTIVITY_MOMENT_DATES = [];
+
+  function activityMomentScripts(lang) {
+    return ACTIVITY_MOMENT_DATES.map((dateKey) => {
+      return A + 'js/Content/' + lang + '/life/activities_moments_' + dateKey + '.js';
+    });
+  }
+
   const FULL_CALENDAR = {
     styles: [
       {
@@ -170,14 +191,22 @@
         mountId: 'mount-life',
         styles: [
           A + 'css/life/life.css',
+          A + 'css/life/activities-moments.css',
           A + 'css/life/meditations.css'
         ],
         scripts: [
           A + 'js/Functions/life/Life.js',
+
           A + 'js/Content/EN/life/activities_moments_EN.js',
           A + 'js/Content/ZH/life/activities_moments_ZH.js',
+
+          ...activityMomentScripts('EN'),
+          ...activityMomentScripts('ZH'),
+
           A + 'js/Content/EN/life/meditations_EN.js',
           A + 'js/Content/ZH/life/meditations_ZH.js',
+
+          A + 'js/Functions/life/ActivitiesMoments.js',
           A + 'js/Functions/life/LifeRoutes.js'
         ]
       }
