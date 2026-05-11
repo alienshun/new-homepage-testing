@@ -117,6 +117,12 @@ function readText(filePath) {
   return fs.readFileSync(filePath, 'utf8');
 }
 
+function stripJavaScriptComments(text) {
+  return String(text || '')
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/(^|[^:])\/\/.*$/gm, '$1');
+}
+
 function isDirectory(filePath) {
   return exists(filePath) && fs.statSync(filePath).isDirectory();
 }
@@ -163,7 +169,7 @@ function extractRegisteredDates() {
     return [];
   }
 
-  const text = readText(CONFIG_FILE);
+  const text = stripJavaScriptComments(readText(CONFIG_FILE));
 
   const match = text.match(
     /const\s+ACTIVITY_MOMENT_DATES\s*=\s*\[(.*?)\]\s*;/s
