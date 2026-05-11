@@ -8,7 +8,7 @@
   };
 
   function getMount() {
-    return document.getElementById('mount-activities-moments');
+    return document.getElementById('mount-activities_moments');
   }
 
   function getLang() {
@@ -102,7 +102,7 @@
     const sub = parts[lifeIndex + 1];
     const dateKey = parts[lifeIndex + 2];
 
-    if (sub !== 'activities-moments' && sub !== 'activities_moments') return null;
+    if (sub !== 'activities_moments') return null;
     if (!dateKey) return null;
 
     try {
@@ -206,11 +206,11 @@
     const moments = getSortedMoments();
 
     if (!moments.length) {
-      return '<div class="activities-moments is-empty"></div>';
+      return '<div class="activities_moments is-empty"></div>';
     }
 
     return `
-      <div class="activities-moments" data-am-view="list">
+      <div class="activities_moments" data-am-view="list">
         <div class="am-card-grid">
           ${moments.map((moment, index) => renderCard(moment, index, ui)).join('')}
         </div>
@@ -263,7 +263,7 @@
       : '';
 
     return `
-      <div class="activities-moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(moment.dateKey || '')}">
+      <div class="activities_moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(moment.dateKey || '')}">
         <a
           class="am-detail-back"
           href="${escapeHtml(getListRoute())}"
@@ -388,7 +388,7 @@
   }
 
   function scrollToMount() {
-    const section = document.getElementById('activities-moments-section');
+    const section = document.getElementById('activities_moments-section');
     const target = section || getMount();
 
     if (!target) return;
