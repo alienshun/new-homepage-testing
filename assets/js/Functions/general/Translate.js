@@ -328,8 +328,8 @@
 
     const l = normalizeLang(lang);
     const labels = (l === LANG.ZH)
-      ? { resume: "关于", schedule: "日程", social: "社交", toolkit: "工具", meditations: "沉思录" }
-      : { resume: "About", schedule: "Schedule", social: "Social", toolkit: "Toolkit", meditations: "Meditations" };
+      ? { resume: "关于", schedule: "日程", social: "社交", toolkit: "工具", life: "生活" }
+      : { resume: "About", schedule: "Schedule", social: "Social", toolkit: "Toolkit", life: "Life" };
 
     nav.querySelectorAll(".top-nav-link[data-page]").forEach((btn) => {
       const page = btn.getAttribute("data-page");
