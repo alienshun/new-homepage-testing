@@ -34,8 +34,6 @@
 
 /* =========================================================
    Card grid
-   Two-column, row-major reading order:
-   newest at top-left, second newest at top-right, then next row.
    ========================================================= */
 
 .am-card-grid {
@@ -238,6 +236,56 @@ body[data-lang="zh"] .am-card-meta {
   opacity: 1;
   transform: translateY(0);
   letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   Inline emotion marks
+   ========================================================= */
+
+.am-emote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 1.48em;
+  height: 1.48em;
+  margin: 0 0.12em;
+  border-radius: 999px;
+
+  font-family:
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Noto Color Emoji",
+    sans-serif;
+  font-size: 0.92em;
+  line-height: 1;
+  vertical-align: -0.22em;
+
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent-weak) 58%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--border) 72%, var(--accent-weak));
+  box-shadow: var(--shadow-xs);
+  opacity: 0.92;
+
+  transform: translateY(0);
+  transition:
+    transform 0.16s ease,
+    opacity 0.16s ease,
+    background-color 0.16s ease;
+}
+
+.am-emote:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.am-emote-sigh,
+.am-emote-bitter {
+  background: color-mix(in srgb, var(--surface-2) 74%, var(--accent-weak));
+}
+
+.am-emote-wangchai {
+  background: color-mix(in srgb, var(--accent-weak) 68%, var(--surface));
 }
 
 /* =========================================================
@@ -544,6 +592,7 @@ body[data-lang="zh"] .am-detail-meta {
   .am-card::before,
   .am-card-media img,
   .am-card-action,
+  .am-emote,
   .am-detail-back,
   .am-gallery-item img {
     transition: none;
