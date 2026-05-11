@@ -1,0 +1,69 @@
+/* =========================================================
+   Fonts
+   Centralized font-face declarations and typography tokens
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Local display fonts
+   --------------------------------------------------------- */
+
+@font-face {
+  font-family: "CygnetRound Local";
+  src: url("../fonts/CygnetRound.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Beautiful ES Local";
+  src: url("../fonts/Beautiful-ES-1.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cataneo BT Local";
+  src: url("../fonts/Cataneo%20BT.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HongLeiXingShu Local";
+  src: url("../fonts/HongLeiXingShuJianTi-2.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------
+   Font tokens
+   --------------------------------------------------------- */
+
+:root {
+  /* System families */
+  --font-serif: "Georgia", "Times New Roman", "Noto Serif", "Songti SC", STSong, "SimSun", serif;
+  --font-sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  --font-zh-serif: "Songti SC", STSong, "SimSun", serif;
+  --font-zh-kai: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
+  --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+
+  /* External decorative families loaded through SiteResources.external.styles */
+  --font-script-external: "Great Vibes", "Allura", cursive;
+  --font-display-cinzel: "Cinzel", Georgia, serif;
+  --font-display-medieval: "MedievalSharp", Georgia, serif;
+  --font-display-gothic: "UnifrakturMaguntia", Georgia, serif;
+
+  /* Cover */
+  --font-cover-name: "CygnetRound Local", "Great Vibes", cursive;
+  --font-cover-slogan: "Allura", "Great Vibes", cursive;
+  --font-cover-scroll: var(--font-display-cinzel);
+
+  /* Activities & Moments */
+  --font-activities-date: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  --font-activities-title-en: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  --font-activities-title-zh: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+}
