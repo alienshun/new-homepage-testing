@@ -135,12 +135,12 @@
 
 .am-card-date {
   position: absolute;
-  left: 18px;
-  top: 16px;
+  left: 0;
+  top: 0;
   z-index: 3;
 
-  padding: 7px 14px;
-  border-radius: 999px;
+  padding: 9px 17px 8px 16px;
+  border-radius: calc(var(--radius, 22px) + 2px) 0 18px 0;
 
   font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
   font-size: 1.35rem;
@@ -148,11 +148,30 @@
   letter-spacing: 0.4px;
 
   color: var(--accent);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  border: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
-  box-shadow: var(--shadow-xs);
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 68%, var(--accent-weak));
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0);
+  pointer-events: none;
+
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    filter 0.22s ease;
+}
+
+.am-card:hover .am-card-date,
+.am-card:focus-visible .am-card-date {
+  opacity: 0;
+  transform: translate(-4px, -4px) scale(0.96);
+  filter: blur(3px);
 }
 
 .am-card-body {
@@ -567,8 +586,10 @@ body[data-lang="zh"] .am-detail-meta {
   }
 
   .am-card-date {
-    left: 14px;
-    top: 12px;
+    left: 0;
+    top: 0;
+    padding: 8px 14px 7px 13px;
+    border-radius: calc(var(--radius, 22px) + 2px) 0 15px 0;
     font-size: 1.2rem;
   }
 
@@ -591,6 +612,7 @@ body[data-lang="zh"] .am-detail-meta {
   .am-card,
   .am-card::before,
   .am-card-media img,
+  .am-card-date,
   .am-card-action,
   .am-emote,
   .am-detail-back,
