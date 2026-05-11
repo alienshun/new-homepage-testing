@@ -20,15 +20,15 @@
   font-display: swap;
 }
 
-#mount-activities-moments {
+#mount-activities_moments {
   width: 100%;
 }
 
-.activities-moments {
+.activities_moments {
   width: 100%;
 }
 
-.activities-moments.is-empty {
+.activities_moments.is-empty {
   min-height: 220px;
 }
 
