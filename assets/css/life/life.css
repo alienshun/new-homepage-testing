@@ -139,12 +139,12 @@ body[data-lang="zh"] .life-heading {
   display: block;
 }
 
-#activities-moments-section {
+#activities_moments-section {
   min-height: 220px;
 }
 
 /* Keep the blank area really blank for now. */
-#mount-activities-moments:empty {
+#mount-activities_moments:empty {
   display: block;
   min-height: 220px;
 }
