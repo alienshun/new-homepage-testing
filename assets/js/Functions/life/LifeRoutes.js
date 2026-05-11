@@ -1,18 +1,17 @@
 (function () {
   'use strict';
 
-  const DEFAULT_VIEW = 'activities-moments';
+  const DEFAULT_VIEW = 'activities_moments';
 
   const VIEW_TO_SLUG = {
-    'activities-moments': 'activities_moments',
+    activities_moments: 'activities_moments',
     meditations: 'meditations'
   };
 
   const SLUG_TO_VIEW = {
-    activities_moments: 'activities-moments',
-    'activities-moments': 'activities-moments',
-    activities: 'activities-moments',
-    moments: 'activities-moments',
+    activities_moments: 'activities_moments',
+    activities: 'activities_moments',
+    moments: 'activities_moments',
     meditations: 'meditations'
   };
 
@@ -29,7 +28,7 @@
     const normalized = normalizeView(view) || DEFAULT_VIEW;
     const slug = VIEW_TO_SLUG[normalized] || VIEW_TO_SLUG[DEFAULT_VIEW];
 
-    if (normalized === 'activities-moments' && dateKey) {
+    if (normalized === 'activities_moments' && dateKey) {
       return new URL(slug + '/' + encodeURIComponent(dateKey) + '/', getLifeBaseUrl()).pathname;
     }
 
@@ -74,7 +73,7 @@
     const info = getLifePathParts(pathname);
     const view = normalizeView(info.slug);
 
-    if (view !== 'activities-moments') return null;
+    if (view !== 'activities_moments') return null;
     if (!info.detail) return null;
 
     try {
@@ -186,7 +185,7 @@
       setter(normalized);
     }
 
-    if (normalized === 'activities-moments') {
+    if (normalized === 'activities_moments') {
       activateActivities(opts.dateKey || null, opts);
     }
 
