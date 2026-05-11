@@ -2,24 +2,6 @@
    Activities & Moments
    ========================================================= */
 
-@font-face {
-  font-family: "Beautiful ES Local";
-  src: url("../../fonts/Beautiful-ES-1.ttf") format("truetype");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Cataneo BT Local";
-  src: url("../../fonts/Cataneo%20BT.ttf") format("truetype");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "HongLeiXingShu Local";
-  src: url("../../fonts/HongLeiXingShuJianTi-2.otf") format("opentype");
-  font-display: swap;
-}
-
 #mount-activities_moments {
   width: 100%;
 }
@@ -142,7 +124,7 @@
   padding: 11px 20px 9px 19px;
   border-radius: calc(var(--radius, 22px) + 3px) 0 18px 0;
 
-  font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  font-family: var(--font-activities-date);
   font-size: 1.55rem;
   line-height: 1;
   letter-spacing: 0.4px;
@@ -189,7 +171,7 @@
 .am-card-title {
   margin: 0;
 
-  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-family: var(--font-activities-title-en);
   font-size: clamp(1.65rem, 2.2vw, 2.25rem);
   line-height: 1.08;
   font-weight: 500;
@@ -199,7 +181,7 @@
 }
 
 body[data-lang="zh"] .am-card-title {
-  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-family: var(--font-activities-title-zh);
   font-size: clamp(1.78rem, 2.35vw, 2.45rem);
   letter-spacing: 1.2px;
 }
@@ -207,14 +189,14 @@ body[data-lang="zh"] .am-card-title {
 .am-card-meta {
   margin: 0;
 
-  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-family: var(--font-activities-title-en);
   font-size: 1.05rem;
   line-height: 1.35;
   color: color-mix(in srgb, var(--muted) 86%, var(--text));
 }
 
 body[data-lang="zh"] .am-card-meta {
-  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-family: var(--font-activities-title-zh);
   font-size: 1.15rem;
   letter-spacing: 0.6px;
 }
@@ -271,11 +253,7 @@ body[data-lang="zh"] .am-card-meta {
   margin: 0 0.12em;
   border-radius: 999px;
 
-  font-family:
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
-    "Noto Color Emoji",
-    sans-serif;
+  font-family: var(--font-emoji);
   font-size: 0.92em;
   line-height: 1;
   vertical-align: -0.22em;
@@ -420,7 +398,7 @@ body[data-lang="zh"] .am-card-meta {
   display: inline-flex;
   margin-bottom: 10px;
 
-  font-family: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  font-family: var(--font-activities-date);
   font-size: clamp(1.55rem, 3vw, 2.25rem);
   line-height: 1;
   letter-spacing: 0.5px;
@@ -429,7 +407,7 @@ body[data-lang="zh"] .am-card-meta {
 .am-detail-title {
   margin: 0;
 
-  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-family: var(--font-activities-title-en);
   font-size: clamp(2.2rem, 5vw, 4.1rem);
   line-height: 0.98;
   font-weight: 500;
@@ -437,21 +415,21 @@ body[data-lang="zh"] .am-card-meta {
 }
 
 body[data-lang="zh"] .am-detail-title {
-  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-family: var(--font-activities-title-zh);
   letter-spacing: 1.6px;
 }
 
 .am-detail-meta {
   margin: 12px 0 0;
 
-  font-family: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
+  font-family: var(--font-activities-title-en);
   font-size: clamp(1.08rem, 2vw, 1.35rem);
   line-height: 1.35;
   opacity: 0.86;
 }
 
 body[data-lang="zh"] .am-detail-meta {
-  font-family: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+  font-family: var(--font-activities-title-zh);
   letter-spacing: 0.8px;
 }
 
