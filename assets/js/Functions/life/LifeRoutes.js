@@ -4,7 +4,7 @@
   const DEFAULT_VIEW = 'activities-moments';
 
   const VIEW_TO_SLUG = {
-    'activities-moments': 'activities_moments',
+    'activities-moments': 'activities-moments',
     meditations: 'meditations'
   };
 
@@ -25,9 +25,15 @@
     return new URL('life/', document.baseURI);
   }
 
-  function getRoute(view) {
+  function getRoute(view, dateKey) {
     const normalized = normalizeView(view) || DEFAULT_VIEW;
-    return new URL(VIEW_TO_SLUG[normalized] + '/', getLifeBaseUrl()).pathname;
+    const slug = VIEW_TO_SLUG[normalized] || VIEW_TO_SLUG[DEFAULT_VIEW];
+
+    if (normalized === 'activities-moments' && dateKey) {
+      return new URL(slug + '/' + encodeURIComponent(dateKey) + '/', getLifeBaseUrl()).pathname;
+    }
+
+    return new URL(slug + '/', getLifeBaseUrl()).pathname;
   }
 
   function normalizePath(pathname) {
@@ -44,15 +50,38 @@
     return parts.includes('life');
   }
 
-  function resolveViewFromPath(pathname) {
+  function getLifePathParts(pathname) {
     const parts = normalizePath(pathname || window.location.pathname)
       .split('/')
       .filter(Boolean);
 
     const lifeIndex = parts.indexOf('life');
-    const slug = lifeIndex >= 0 ? parts[lifeIndex + 1] : '';
 
-    return normalizeView(slug);
+    return {
+      parts,
+      lifeIndex,
+      slug: lifeIndex >= 0 ? parts[lifeIndex + 1] : '',
+      detail: lifeIndex >= 0 ? parts[lifeIndex + 2] : ''
+    };
+  }
+
+  function resolveViewFromPath(pathname) {
+    const info = getLifePathParts(pathname);
+    return normalizeView(info.slug);
+  }
+
+  function resolveDetailFromPath(pathname) {
+    const info = getLifePathParts(pathname);
+    const view = normalizeView(info.slug);
+
+    if (view !== 'activities-moments') return null;
+    if (!info.detail) return null;
+
+    try {
+      return decodeURIComponent(info.detail);
+    } catch (e) {
+      return info.detail;
+    }
   }
 
   function injectRouteStyle() {
@@ -125,6 +154,27 @@
     return null;
   }
 
+  function activateActivities(dateKey, options) {
+    const opts = options || {};
+
+    if (!window.ActivitiesMoments) return;
+
+    if (dateKey && typeof window.ActivitiesMoments.showDetail === 'function') {
+      window.ActivitiesMoments.showDetail(dateKey, {
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+      return;
+    }
+
+    if (typeof window.ActivitiesMoments.showList === 'function') {
+      window.ActivitiesMoments.showList({
+        updateHistory: false,
+        scroll: opts.scroll
+      });
+    }
+  }
+
   function activateView(view, options) {
     const opts = options || {};
     const normalized = normalizeView(view) || DEFAULT_VIEW;
@@ -136,8 +186,12 @@
       setter(normalized);
     }
 
+    if (normalized === 'activities-moments') {
+      activateActivities(opts.dateKey || null, opts);
+    }
+
     if (opts.updateHistory && window.history && typeof window.history.pushState === 'function') {
-      const route = getRoute(normalized);
+      const route = getRoute(normalized, opts.dateKey || null);
       const current = normalizePath(window.location.pathname);
       const next = normalizePath(route);
 
@@ -150,7 +204,13 @@
 
   function enterFromLocation() {
     const view = resolveViewFromPath(window.location.pathname) || DEFAULT_VIEW;
-    activateView(view, { updateHistory: false });
+    const detail = resolveDetailFromPath(window.location.pathname);
+
+    activateView(view, {
+      updateHistory: false,
+      dateKey: detail,
+      scroll: false
+    });
   }
 
   function handleLifeSubnavClick(event) {
@@ -166,7 +226,10 @@
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    activateView(view, { updateHistory: true });
+    activateView(view, {
+      updateHistory: true,
+      dateKey: null
+    });
   }
 
   document.addEventListener('click', handleLifeSubnavClick, true);
@@ -184,6 +247,10 @@
       init() {
         if (window.Life && typeof window.Life.initLifePage === 'function') {
           window.Life.initLifePage();
+        }
+
+        if (window.ActivitiesMoments && typeof window.ActivitiesMoments.init === 'function') {
+          window.ActivitiesMoments.init();
         }
 
         enhanceLifeSubnav();
@@ -204,6 +271,7 @@
   window.LifeRoutes = {
     normalizeView,
     resolveViewFromPath,
+    resolveDetailFromPath,
     getRoute,
     enhanceLifeSubnav,
     activateView,
