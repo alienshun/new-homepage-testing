@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check-activities-moments:
+  check_activities_moments:
     runs-on: ubuntu-latest
 
     steps:
