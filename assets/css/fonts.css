@@ -111,7 +111,14 @@
   --font-sans: Arial, "Helvetica Neue", Helvetica, sans-serif;
   --font-zh-serif: "Songti SC", STSong, "SimSun", serif;
   --font-zh-kai: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
+  --font-zh-fangsong: "FangSong", "STFangsong", "仿宋", "KaiTi", "楷体", serif;
   --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+
+  /* Common semantic families */
+  --font-heading-serif: var(--font-serif);
+  --font-body-serif: var(--font-serif);
+  --font-body-sans: var(--font-sans);
+  --font-number-sans: var(--font-sans);
 
   /* Navigation */
   --font-nav-serif: "Palatino Linotype", Palatino, "Book Antiqua",
@@ -140,4 +147,22 @@
   --font-blog-title: var(--font-script-external);
   --font-blog-heading: var(--font-display-cinzel);
   --font-blog-body: var(--font-serif);
+
+  /* Blog easter-egg scroll */
+  --font-blog-scroll-heading: var(--font-display-cinzel);
+  --font-blog-scroll-body: var(--font-display-cinzel);
+
+  /* Social */
+  --font-social-heading: var(--font-heading-serif);
+  --font-social-number: var(--font-number-sans);
+  --font-social-action: var(--font-body-sans);
+
+  /* Meditations */
+  --font-medit-en-body: "Times New Roman", Times, serif;
+  --font-medit-en-title: var(--font-display-cinzel);
+  --font-medit-zh-body: var(--font-zh-kai);
+  --font-medit-zh-title: var(--font-zh-serif);
+  --font-medit-zh-subtitle: var(--font-zh-fangsong);
+  --font-medit-heading-en: var(--font-heading-serif);
+  --font-medit-heading-zh: var(--font-medit-zh-title);
 }
