@@ -139,7 +139,7 @@
   text-align: center;
   color: var(--blog-text);
   text-shadow: 0 8px 30px rgba(0,0,0,0.40);
-  font-family: "Great Vibes","Allura",cursive;
+  font-family: var(--font-blog-title);
   font-size: clamp(2.0rem, 3.2vw, 2.6rem);
   letter-spacing: 1.5px;
 }
@@ -156,7 +156,7 @@
 }
 
 .blog-nav-link{
-  font-family: "Cinzel", serif;
+  font-family: var(--font-blog-heading);
   color: var(--blog-text);
   text-decoration: none;
   font-size: 1.05rem;
@@ -231,7 +231,7 @@
 .blog-section-title{
   margin: 0;
   color: var(--blog-text);
-  font-family: "Cinzel", serif;
+  font-family: var(--font-blog-heading);
   letter-spacing: 0.6px;
   font-size: 1.45rem;
 }
@@ -239,7 +239,7 @@
 .blog-section-sub{
   margin: 0;
   color: var(--blog-text-dim);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-style: italic;
   font-size: 0.98rem;
 }
@@ -300,14 +300,14 @@
 .blog-card-title{
   margin:0;
   color: var(--blog-text);
-  font-family: "Cinzel", serif;
+  font-family: var(--font-blog-heading);
   font-size: 1.1rem;
   line-height: 1.25;
 }
 
 .blog-card-meta{
   color: var(--blog-text-dim);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-size: 0.92rem;
   white-space: nowrap;
   margin-top: 2px;
@@ -316,7 +316,7 @@
 .blog-card-excerpt{
   margin:0;
   color: rgba(255,255,255,0.82);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   line-height: 1.65;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -340,7 +340,7 @@
   border: 1px solid rgba(255,255,255,0.18);
   background: rgba(0,0,0,0.12);
   color: var(--blog-text);
-  font-family: "Cinzel", serif;
+  font-family: var(--font-blog-heading);
   text-decoration:none;
   transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
@@ -360,7 +360,7 @@
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(0,0,0,0.10);
   color: rgba(255,255,255,0.88);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-style: italic;
   line-height: 1.75;
   display: -webkit-box;
@@ -377,7 +377,7 @@
   font-size: 3.2rem;
   line-height: 1;
   color: rgba(255,255,255,0.18);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
 }
 
 .blog-quote::before{ top: -16px; left: 10px; }
@@ -386,7 +386,7 @@
 .blog-author{
   margin-top: 10px;
   color: rgba(255,255,255,0.70);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-size: 0.95rem;
 }
 
@@ -480,20 +480,20 @@
 
 .detail-title{
   margin: 0 0 12px 0;
-  font-family: "Cinzel", serif;
+  font-family: var(--font-blog-heading);
   color: rgba(20,24,32,0.92);
   padding-right: 54px;
 }
 
 .detail-meta{
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-style: italic;
   color: rgba(20,24,32,0.60);
   margin-bottom: 18px;
 }
 
 .detail-body{
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   line-height: 1.85;
   font-size: 1.05rem;
   color: rgba(20,24,32,0.88);
@@ -503,7 +503,7 @@
   margin-top: 20px;
   padding-top: 16px;
   border-top: 1px solid rgba(20,24,32,0.10);
-  font-family: Georgia, serif;
+  font-family: var(--font-blog-body);
   font-size: 0.92rem;
   color: rgba(20,24,32,0.55);
 }
