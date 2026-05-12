@@ -6,12 +6,12 @@
   --medit-par-indent-en: 1.6em;
   --medit-par-indent: var(--medit-par-indent-en);
 
-  --medit-en-body: "Times New Roman", Times, serif;
-  --medit-en-title: "Cinzel", "Georgia", serif;
+  --medit-en-body: var(--font-medit-en-body);
+  --medit-en-title: var(--font-medit-en-title);
 
-  --medit-zh-body: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
-  --medit-zh-title: "STSong", "Songti SC", "SimSun", serif;
-  --medit-zh-subtitle: "FangSong", "STFangsong", "仿宋", "KaiTi", "楷体", serif;
+  --medit-zh-body: var(--font-medit-zh-body);
+  --medit-zh-title: var(--font-medit-zh-title);
+  --medit-zh-subtitle: var(--font-medit-zh-subtitle);
 }
 
 body[data-lang="zh"] #meditations{
@@ -29,18 +29,18 @@ body:not([data-lang="zh"]) #meditations{
   text-align: center;
   color: var(--accent);
   margin-bottom: 26px;
-  font-family: "Georgia", serif;
+  font-family: var(--font-medit-heading-en);
   font-variant: small-caps;
   letter-spacing: 0.6px;
 }
 
 body:not([data-lang="zh"]) #meditations .resume-heading{
-  font-family: "Georgia", serif;
+  font-family: var(--font-medit-heading-en);
   font-variant: small-caps;
 }
 
 body[data-lang="zh"] #meditations .resume-heading{
-  font-family: var(--medit-zh-title);
+  font-family: var(--font-medit-heading-zh);
   font-variant: normal;
   letter-spacing: 0.6px;
 }
