@@ -10,8 +10,8 @@
 @font-face {
   font-family: "CygnetRound Local";
   src:
-    url("../fonts/CygnetRound.woff2") format("woff2"),
-    url("../fonts/CygnetRound.ttf") format("truetype");
+    url("../fonts/Local_Display/CygnetRound.woff2") format("woff2"),
+    url("../fonts/Local_Display/CygnetRound.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -20,8 +20,8 @@
 @font-face {
   font-family: "Beautiful ES Local";
   src:
-    url("../fonts/Beautiful-ES-1.woff2") format("woff2"),
-    url("../fonts/Beautiful-ES-1.ttf") format("truetype");
+    url("../fonts/Local_Display/Beautiful-ES-1.woff2") format("woff2"),
+    url("../fonts/Local_Display/Beautiful-ES-1.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -30,8 +30,8 @@
 @font-face {
   font-family: "Cataneo BT Local";
   src:
-    url("../fonts/Cataneo%20BT.woff2") format("woff2"),
-    url("../fonts/Cataneo%20BT.ttf") format("truetype");
+    url("../fonts/Local_Display/Cataneo%20BT.woff2") format("woff2"),
+    url("../fonts/Local_Display/Cataneo%20BT.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -40,8 +40,8 @@
 @font-face {
   font-family: "HongLeiXingShu Local";
   src:
-    url("../fonts/HongLeiXingShuJianTi-2.woff2") format("woff2"),
-    url("../fonts/HongLeiXingShuJianTi-2.otf") format("opentype");
+    url("../fonts/Local_Display/HongLeiXingShuJianTi-2.woff2") format("woff2"),
+    url("../fonts/Local_Display/HongLeiXingShuJianTi-2.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
