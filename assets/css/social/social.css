@@ -5,7 +5,7 @@
   text-align: center;
   color: var(--accent);
   margin-bottom: 26px;
-  font-family: "Georgia", serif;
+  font-family: var(--font-social-heading);
   font-variant: small-caps;
   letter-spacing: 0.6px;
 }
@@ -130,7 +130,7 @@
   text-align: center;
   color: var(--accent);
   margin-bottom: 18px;
-  font-family: "Georgia", serif;
+  font-family: var(--font-social-heading);
   font-variant: small-caps;
   letter-spacing: 0.5px;
 }
@@ -167,7 +167,7 @@
   font-weight: 800;
   color: var(--accent);
   line-height: 1.1;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-social-number);
 }
 
 .stats-block {
@@ -191,7 +191,7 @@
 .stats-link {
   font-variant: normal;
   font-size: 0.92rem;
-  font-family: Arial, sans-serif;
+  font-family: var(--font-social-action);
   font-weight: 700;
   padding: 6px 10px;
   border-radius: 999px;
