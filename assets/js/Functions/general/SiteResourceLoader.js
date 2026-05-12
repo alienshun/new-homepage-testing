@@ -27,7 +27,9 @@
     if (item && typeof item === 'object') {
       return {
         [keyName]: item[keyName],
-        attrs: item.attrs || {}
+        attrs: item.attrs || {},
+        fallbackHref: item.fallbackHref || '',
+        timeout: item.timeout
       };
     }
 
@@ -128,6 +130,62 @@
     document.head.appendChild(link);
   }
 
+  function loadStyleCandidate(href, attrs, timeout) {
+    if (!href) return Promise.resolve(null);
+
+    const existing = findExistingStyle(href);
+    if (existing) {
+      return Promise.resolve(existing);
+    }
+
+    return new Promise((resolve) => {
+      const link = document.createElement('link');
+      const timeoutMs = Math.max(0, Number(timeout) || 0);
+      let settled = false;
+      let timer = null;
+
+      function settle(result, shouldRemove) {
+        if (settled) return;
+        settled = true;
+
+        if (timer) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+
+        if (shouldRemove && link.parentNode) {
+          link.parentNode.removeChild(link);
+        }
+
+        resolve(result);
+      }
+
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.dataset.siteManaged = 'style';
+
+      applyAttributes(link, attrs);
+
+      link.onload = () => {
+        settle(link, false);
+      };
+
+      link.onerror = () => {
+        console.warn('[SiteResourceLoader] Failed to load stylesheet:', href);
+        settle(null, true);
+      };
+
+      if (timeoutMs > 0) {
+        timer = window.setTimeout(() => {
+          console.warn('[SiteResourceLoader] Stylesheet load timed out:', href);
+          settle(null, true);
+        }, timeoutMs);
+      }
+
+      document.head.appendChild(link);
+    });
+  }
+
   function loadStyle(item) {
     const asset = toAssetObject(item, 'href');
     const href = asset.href;
@@ -139,28 +197,20 @@
       return loadedStyles[key];
     }
 
-    const existing = findExistingStyle(href);
-    if (existing) {
-      loadedStyles[key] = Promise.resolve(existing);
-      return loadedStyles[key];
-    }
+    loadedStyles[key] = (async () => {
+      const primary = await loadStyleCandidate(href, asset.attrs, asset.timeout);
 
-    loadedStyles[key] = new Promise((resolve) => {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = href;
-      link.dataset.siteManaged = 'style';
+      if (primary) {
+        return primary;
+      }
 
-      applyAttributes(link, asset.attrs);
+      if (asset.fallbackHref) {
+        console.warn('[SiteResourceLoader] Loading fallback stylesheet:', asset.fallbackHref);
+        return loadStyle(asset.fallbackHref);
+      }
 
-      link.onload = () => resolve(link);
-      link.onerror = () => {
-        console.warn('[SiteResourceLoader] Failed to load stylesheet:', href);
-        resolve(null);
-      };
-
-      document.head.appendChild(link);
-    });
+      return null;
+    })();
 
     return loadedStyles[key];
   }
