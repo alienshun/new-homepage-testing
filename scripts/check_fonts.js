@@ -12,6 +12,8 @@ const FONTS_CSS = path.join(ROOT, 'assets/css/fonts.css');
 const SITE_FONTS_JS = path.join(ROOT, 'assets/js/Config/SiteFonts.js');
 const FONT_AWESOME_CSS = path.join(ROOT, 'assets/fonts/Font_Awesome/css/all.min.css');
 
+const SELF_FILE = path.normalize(__filename);
+
 const SCANNED_EXTENSIONS = new Set([
   '.html',
   '.css',
@@ -282,6 +284,10 @@ function walkFiles(dir, out) {
     }
 
     if (!entry.isFile()) return;
+
+    const normalized = normalizePath(abs);
+
+    if (normalized === SELF_FILE) return;
 
     const ext = path.extname(entry.name).toLowerCase();
     if (!SCANNED_EXTENSIONS.has(ext)) return;
