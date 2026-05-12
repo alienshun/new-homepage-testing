@@ -152,6 +152,18 @@
     } catch (e) {}
   }
 
+  function startCoverEnterHint() {
+    if (window.CoverEnterHint && typeof window.CoverEnterHint.start === 'function') {
+      window.CoverEnterHint.start();
+    }
+  }
+
+  function stopCoverEnterHint() {
+    if (window.CoverEnterHint && typeof window.CoverEnterHint.stop === 'function') {
+      window.CoverEnterHint.stop();
+    }
+  }
+
   function showCoverElements() {
     const cover = document.getElementById('cover');
     const avatarFrame = document.getElementById('avatar-frame');
@@ -168,6 +180,8 @@
     }
 
     function resetElements() {
+      stopCoverEnterHint();
+
       avatarFrame.classList.remove('visible');
       name.classList.remove('visible');
       slogan.classList.remove('visible');
@@ -194,7 +208,10 @@
           }, 560);
 
           setTimeout(() => {
-            if (arrow && canShow()) arrow.classList.add('visible');
+            if (arrow && canShow()) {
+              arrow.classList.add('visible');
+              startCoverEnterHint();
+            }
           }, 880);
         });
       });
@@ -463,6 +480,8 @@
   }
 
   async function showPage(page, options) {
+    stopCoverEnterHint();
+
     const opts = Object.assign({
       updateHistory: true,
       replaceHistory: false,
