@@ -13,8 +13,7 @@
 
   --topnav-side-shift: 6px;
 
-  --topnav-font: "Palatino Linotype", Palatino, "Book Antiqua",
-                 "Times New Roman", "Noto Serif", "Songti SC", STSong, "SimSun", serif;
+  --topnav-font: var(--font-nav-serif);
 
   --topnav-focus-ring: 0 0 0 3px var(--accent-weak);
 }
