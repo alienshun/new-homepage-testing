@@ -153,20 +153,84 @@
   }
 
   function showCoverElements() {
+    const cover = document.getElementById('cover');
     const avatarFrame = document.getElementById('avatar-frame');
     const name = document.getElementById('name');
     const slogan = document.getElementById('slogan');
     const arrow = document.getElementById('cover-scroll');
 
-    if (!avatarFrame || !name || !slogan) return;
+    if (!cover || !avatarFrame || !name || !slogan) return;
 
-    avatarFrame.classList.add('visible');
-    setTimeout(() => name.classList.add('visible'), 400);
-    setTimeout(() => slogan.classList.add('visible'), 800);
+    function canShow() {
+      return !coverHidden &&
+        !cover.classList.contains('hidden') &&
+        !cover.classList.contains('leaving');
+    }
+
+    function resetElements() {
+      avatarFrame.classList.remove('visible');
+      name.classList.remove('visible');
+      slogan.classList.remove('visible');
+      if (arrow) arrow.classList.remove('visible');
+    }
+
+    function runSequence() {
+      if (!canShow()) return;
+
+      resetElements();
+
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          setTimeout(() => {
+            if (canShow()) avatarFrame.classList.add('visible');
+          }, 80);
+
+          setTimeout(() => {
+            if (canShow()) name.classList.add('visible');
+          }, 340);
+
+          setTimeout(() => {
+            if (canShow()) slogan.classList.add('visible');
+          }, 560);
+
+          setTimeout(() => {
+            if (arrow && canShow()) arrow.classList.add('visible');
+          }, 880);
+        });
+      });
+    }
+
+    if (!canShow()) return;
+
+    if (cover.classList.contains('background-ready')) {
+      setTimeout(runSequence, 80);
+      return;
+    }
+
+    let started = false;
+
+    function startOnce() {
+      if (started) return;
+      started = true;
+      runSequence();
+    }
+
+    const observer = new MutationObserver(() => {
+      if (cover.classList.contains('background-ready')) {
+        observer.disconnect();
+        setTimeout(startOnce, 80);
+      }
+    });
+
+    observer.observe(cover, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
 
     setTimeout(() => {
-      if (arrow) arrow.classList.add('visible');
-    }, 1200);
+      observer.disconnect();
+      startOnce();
+    }, 760);
   }
 
   function validPages(list) {
@@ -425,7 +489,10 @@
       const target = getPageElement(page);
       if (!cover || !target) return;
 
+      cover.classList.add('hidden');
+      cover.classList.remove('visible', 'leaving');
       cover.style.display = 'none';
+
       document.body.style.overflow = 'auto';
       coverHidden = true;
       activatePage(page, opts);
@@ -440,7 +507,7 @@
       return;
     }
 
-    cover.classList.add('hidden');
+    cover.classList.add('leaving');
 
     ['avatar-frame', 'name', 'slogan', 'cover-scroll'].forEach((id) => {
       const el = document.getElementById(id);
@@ -449,7 +516,7 @@
 
     const results = await Promise.all([
       loadPromise,
-      delay(1500)
+      delay(1250)
     ]);
 
     const loaded = results[0];
@@ -458,7 +525,10 @@
     const target = getPageElement(page);
     if (!target) return;
 
+    cover.classList.add('hidden');
+    cover.classList.remove('visible', 'leaving');
     cover.style.display = 'none';
+
     document.body.style.overflow = 'auto';
     coverHidden = true;
 
@@ -489,7 +559,7 @@
     }
 
     cover.style.display = 'flex';
-    cover.classList.remove('hidden');
+    cover.classList.remove('hidden', 'leaving');
 
     hideAllPages();
 
