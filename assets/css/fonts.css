@@ -48,6 +48,60 @@
 }
 
 /* ---------------------------------------------------------
+   Local fallbacks for Google Fonts
+   --------------------------------------------------------- */
+
+@font-face {
+  font-family: "Allura Local";
+  src:
+    url("../fonts/Google_Fonts/Allura-Regular.woff2") format("woff2"),
+    url("../fonts/Google_Fonts/Allura-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Great Vibes Local";
+  src:
+    url("../fonts/Google_Fonts/GreatVibes-Regular.woff2") format("woff2"),
+    url("../fonts/Google_Fonts/GreatVibes-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cinzel Local";
+  src:
+    url("../fonts/Google_Fonts/Cinzel%5Bwght%5D.woff2") format("woff2"),
+    url("../fonts/Google_Fonts/Cinzel%5Bwght%5D.ttf") format("truetype");
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "MedievalSharp Local";
+  src:
+    url("../fonts/Google_Fonts/MedievalSharp.woff2") format("woff2"),
+    url("../fonts/Google_Fonts/MedievalSharp.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "UnifrakturMaguntia Local";
+  src:
+    url("../fonts/Google_Fonts/UnifrakturMaguntia-Book.woff2") format("woff2"),
+    url("../fonts/Google_Fonts/UnifrakturMaguntia-Book.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------------------------------------------------------
    Font tokens
    --------------------------------------------------------- */
 
@@ -59,19 +113,22 @@
   --font-zh-kai: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
   --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 
-  /* External decorative families loaded through SiteResources.external.styles */
-  --font-script-external: "Great Vibes", "Allura", cursive;
-  --font-display-cinzel: "Cinzel", Georgia, serif;
-  --font-display-medieval: "MedievalSharp", Georgia, serif;
-  --font-display-gothic: "UnifrakturMaguntia", Georgia, serif;
+  /*
+    External families are loaded through SiteFonts.js.
+    Local families are fallback copies stored under assets/fonts/Google_Fonts/.
+  */
+  --font-script-external: "Great Vibes", "Great Vibes Local", "Allura", "Allura Local", cursive;
+  --font-display-cinzel: "Cinzel", "Cinzel Local", Georgia, serif;
+  --font-display-medieval: "MedievalSharp", "MedievalSharp Local", Georgia, serif;
+  --font-display-gothic: "UnifrakturMaguntia", "UnifrakturMaguntia Local", Georgia, serif;
 
   /* Cover */
-  --font-cover-name: "CygnetRound Local", "Great Vibes", cursive;
-  --font-cover-slogan: "Allura", "Great Vibes", cursive;
+  --font-cover-name: "CygnetRound Local", "Great Vibes", "Great Vibes Local", cursive;
+  --font-cover-slogan: "Allura", "Allura Local", "Great Vibes", "Great Vibes Local", cursive;
   --font-cover-scroll: var(--font-display-cinzel);
 
   /* Activities & Moments */
-  --font-activities-date: "Beautiful ES Local", "Great Vibes", "Allura", cursive;
+  --font-activities-date: "Beautiful ES Local", "Great Vibes", "Great Vibes Local", "Allura", "Allura Local", cursive;
   --font-activities-title-en: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
   --font-activities-title-zh: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
 }
