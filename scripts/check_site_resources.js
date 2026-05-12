@@ -7,6 +7,7 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..');
+const SITE_FONTS_FILE = path.join(ROOT, 'assets/js/Config/SiteFonts.js');
 const SITE_RESOURCES_FILE = path.join(ROOT, 'assets/js/Config/SiteResources.js');
 
 const ROUTE_ENTRY_ROUTES = [
@@ -93,14 +94,33 @@ function toRepoPath(value) {
   return clean.replace(/\\/g, '/');
 }
 
-function loadSiteResources() {
-  if (!fs.existsSync(SITE_RESOURCES_FILE)) {
-    fail(`Missing SiteResources.js: ${rel(SITE_RESOURCES_FILE)}`);
-    return null;
+function evaluateConfigFile(file, sandbox, requiredGlobalName) {
+  if (!fs.existsSync(file)) {
+    fail(`Missing config file: ${rel(file)}`);
+    return false;
   }
 
-  const code = readText(SITE_RESOURCES_FILE);
+  const code = readText(file);
 
+  try {
+    vm.runInNewContext(code, sandbox, {
+      filename: file,
+      timeout: 1000
+    });
+  } catch (e) {
+    fail(`Failed to evaluate ${rel(file)}: ${e.message}`);
+    return false;
+  }
+
+  if (requiredGlobalName && !sandbox.window[requiredGlobalName]) {
+    fail(`${rel(file)} did not define window.${requiredGlobalName}.`);
+    return false;
+  }
+
+  return true;
+}
+
+function loadSiteResources() {
   const sandbox = {
     window: {},
     console: {
@@ -110,18 +130,9 @@ function loadSiteResources() {
     }
   };
 
-  try {
-    vm.runInNewContext(code, sandbox, {
-      filename: SITE_RESOURCES_FILE,
-      timeout: 1000
-    });
-  } catch (e) {
-    fail(`Failed to evaluate SiteResources.js: ${e.message}`);
-    return null;
-  }
+  evaluateConfigFile(SITE_FONTS_FILE, sandbox, 'SiteFonts');
 
-  if (!sandbox.window.SiteResources) {
-    fail('SiteResources.js did not define window.SiteResources.');
+  if (!evaluateConfigFile(SITE_RESOURCES_FILE, sandbox, 'SiteResources')) {
     return null;
   }
 
@@ -166,8 +177,12 @@ function collectAssetList(assets, value, origin, kind) {
     addAsset(assets, value.src, `${origin}.src`, kind);
   }
 
+  if (typeof value.fallbackHref === 'string') {
+    addAsset(assets, value.fallbackHref, `${origin}.fallbackHref`, 'style');
+  }
+
   Object.keys(value).forEach((key) => {
-    if (key === 'href' || key === 'src' || key === 'attrs') return;
+    if (key === 'href' || key === 'src' || key === 'fallbackHref' || key === 'attrs' || key === 'timeout') return;
 
     collectAssetList(assets, value[key], `${origin}.${key}`, kind);
   });
