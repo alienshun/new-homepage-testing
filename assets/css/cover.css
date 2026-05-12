@@ -15,14 +15,143 @@
   overscroll-behavior: none;
   touch-action: pan-y;
   opacity: 0;
+  overflow: hidden;
+  background: #06080f;
   transition: opacity 1.5s ease-in-out;
   z-index: 100;
+  isolation: isolate;
+
+  --cover-overscan: 36px;
+  --cover-bg-x: 0px;
+  --cover-bg-y: 0px;
+  --cover-fg-x: 0px;
+  --cover-fg-y: 0px;
+  --cover-cue-x: 0px;
+  --cover-cue-y: 0px;
+}
+
+/* Cover background layers
+   Loading state may be dimmed / blurred.
+   Final state must preserve the original image appearance. */
+.cover-bg {
+  position: absolute;
+  inset: calc(-1 * var(--cover-overscan));
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  pointer-events: none;
+  will-change: opacity, transform, filter, translate;
+  translate: var(--cover-bg-x) var(--cover-bg-y);
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.cover-bg-base {
+  z-index: 0;
+  opacity: 0.34;
+  transform: scale(1.065);
+  filter: blur(5px) brightness(0.72) saturate(0.92);
+  transition:
+    opacity 1.35s ease,
+    transform 3.0s ease,
+    filter 1.35s ease;
+}
+
+.cover-bg-reveal {
+  z-index: 1;
+  opacity: 0;
+  transform: scale(1.12);
+  filter: blur(7px) brightness(0.82) saturate(0.96);
+  transition:
+    opacity 1.45s ease,
+    transform 6.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.65s ease;
+}
+
+/* Final loaded cover:
+   no dimming, no blur, no saturation change, no permanent veil. */
+#cover.background-ready:not(.leaving) .cover-bg-reveal {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+}
+
+#cover.background-ready:not(.leaving) .cover-bg-base {
+  opacity: 0;
+  transform: scale(1);
+  filter: none;
+}
+
+/* Temporary loading veil.
+   It fades out completely after the same image is ready. */
+#cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0.08), rgba(0,0,0,0.30)),
+    linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.30));
+  transition: opacity 1.2s ease;
+}
+
+#cover.background-ready:not(.leaving)::before {
+  opacity: 0;
+}
+
+/* Curtain veil for cover leaving transition */
+#cover::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(18px);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 7, 12, 0.08) 0%,
+      rgba(5, 7, 12, 0.70) 58%,
+      rgba(5, 7, 12, 0.96) 100%
+    );
+  transition:
+    opacity 1.05s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover.leaving {
+  pointer-events: none;
+}
+
+#cover.leaving::before {
+  opacity: 1;
+}
+
+#cover.leaving::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#cover.leaving .cover-bg-base {
+  opacity: 0.08;
+  transform: scale(1.055);
+  filter: blur(7px) brightness(0.48) saturate(1);
+}
+
+#cover.leaving .cover-bg-reveal {
+  opacity: 1;
+  transform: scale(1.065);
+  filter: blur(2px) brightness(0.62) saturate(1.03);
 }
 
 /* Cover visibility states */
 #cover.visible {
   opacity: 1;
 }
+
 #cover.hidden {
   opacity: 0;
   pointer-events: none;
@@ -37,18 +166,19 @@
   border: none;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(100px);
-  transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+  transform: translateY(56px) scale(0.86);
+  translate: var(--cover-fg-x) var(--cover-fg-y);
+  transition:
+    opacity 0.95s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.95s ease;
   z-index: 20;
-  box-shadow:
-    inset 0 0 0.5px rgba(255,255,255,0.35),
-    0 8px 24px rgba(0,0,0,0.18),
-    0 2px 6px rgba(0,0,0,0.12);
   isolation: isolate;
 
   outline: 1px solid rgba(255,255,255,0.70);
   outline-offset: 2px;
   filter:
+    blur(12px)
     drop-shadow(0 0 0.8px rgba(255,255,255,0.85))
     drop-shadow(0 0 1.2px rgba(0,0,0,0.75))
     drop-shadow(0 6px 22px rgba(0,0,0,0.22));
@@ -108,7 +238,12 @@
 
 #avatar-frame.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+  filter:
+    blur(0)
+    drop-shadow(0 0 0.8px rgba(255,255,255,0.85))
+    drop-shadow(0 0 1.2px rgba(0,0,0,0.75))
+    drop-shadow(0 6px 22px rgba(0,0,0,0.22));
 }
 
 #avatar-frame img {
@@ -124,8 +259,14 @@
   position: relative;
   z-index: 20;
   opacity: 0;
-  transform: translateY(100px);
-  transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+  transform: translateY(42px);
+  translate: var(--cover-fg-x) var(--cover-fg-y);
+  filter: blur(12px);
+  transition:
+    opacity 0.95s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.95s ease,
+    letter-spacing 1.05s ease;
   text-align: center;
   max-width: 90vw;
   word-break: break-word;
@@ -135,12 +276,21 @@
 #slogan.visible {
   opacity: 1;
   transform: translateY(0);
+  filter: blur(0);
+}
+
+#cover.leaving #avatar-frame,
+#cover.leaving #name,
+#cover.leaving #slogan {
+  opacity: 0;
+  transform: translateY(-18px);
+  transition-duration: 0.45s;
 }
 
 #name {
   font-family: var(--font-cover-name);
   font-size: 2em;
-  letter-spacing: 1px;
+  letter-spacing: 0.12em;
 
   color: #f6f7fb;
   background: linear-gradient(180deg, #ffffff 0%, #eef2f8 55%, #e6ecf5 100%);
@@ -153,6 +303,10 @@
     0 0 0.5px rgba(255,255,255,0.8),
     0 2px 6px rgba(0,0,0,0.28),
     0 0 18px rgba(120,170,220,0.35);
+}
+
+#name.visible {
+  letter-spacing: 1px;
 }
 
 #slogan {
@@ -173,26 +327,27 @@
 }
 
 /* ------------------------------------
-   Cover bottom arrow (adaptive contrast)
+   Cover bottom natural entrance cue
 ------------------------------------- */
 #cover-scroll {
   position: absolute;
   left: 50%;
   bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  transform: translateX(-50%) translateY(18px);
+  transform: translateX(-50%) translateY(24px);
+  translate: var(--cover-cue-x) var(--cover-cue-y);
   opacity: 0;
   z-index: 40;
 
   border: none;
   outline: none;
   background: transparent;
-  padding: 10px 14px;
+  padding: 10px 18px 14px;
   cursor: pointer;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
 
   -webkit-tap-highlight-color: transparent;
   user-select: none;
@@ -200,13 +355,14 @@
   overflow: visible;
 
   transition:
-    opacity 1.6s ease,
-    transform 1.6s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.35s ease;
+    opacity 0.9s ease,
+    transform 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.45s ease;
 
-  /* Default theme vars (dark background -> light arrow) */
+  /* Default theme vars (dark background -> light entrance) */
   --arrow-stroke: rgba(245, 250, 255, 0.92);
-  --arrow-sub: rgba(245, 250, 255, 0.86);
+  --arrow-sub: rgba(245, 250, 255, 0.88);
+  --arrow-line: rgba(245, 250, 255, 0.58);
   --arrow-stroke-w: 2.6px;
 
   --arrow-ds-1: drop-shadow(0 2px 10px rgba(0,0,0,0.34));
@@ -220,19 +376,18 @@
   --sub-shadow-1: 0 1px 3px rgba(0,0,0,0.28);
   --sub-shadow-2: 0 0 14px rgba(150, 200, 255, 0.18);
 
-  /* Halo (still no “底板”，只是光晕) */
-  --halo-a: rgba(255,255,255,0.16);
-  --halo-b: rgba(170,210,255,0.10);
-  --halo-opacity: 0.78;
+  --halo-a: rgba(255,255,255,0.15);
+  --halo-b: rgba(170,210,255,0.09);
+  --halo-opacity: 0.72;
 }
 
-/* Bright background -> dark arrow + inverted glow */
+/* Bright background -> dark entrance + inverted glow */
 #cover-scroll[data-contrast="dark"] {
   --arrow-stroke: rgba(12, 18, 28, 0.92);
-  --arrow-sub: rgba(12, 18, 28, 0.82);
+  --arrow-sub: rgba(12, 18, 28, 0.84);
+  --arrow-line: rgba(12, 18, 28, 0.50);
   --arrow-stroke-w: 2.85px;
 
-  /* 双向阴影：既有暗边也有亮边，保证亮底也清晰 */
   --arrow-ds-1: drop-shadow(0 2px 12px rgba(255,255,255,0.22));
   --arrow-ds-2: drop-shadow(0 2px 10px rgba(0,0,0,0.32));
 
@@ -244,9 +399,9 @@
   --sub-shadow-1: 0 1px 3px rgba(255,255,255,0.20);
   --sub-shadow-2: 0 0 12px rgba(0,0,0,0.18);
 
-  --halo-a: rgba(0,0,0,0.12);
-  --halo-b: rgba(20,40,80,0.10);
-  --halo-opacity: 0.70;
+  --halo-a: rgba(0,0,0,0.11);
+  --halo-b: rgba(20,40,80,0.09);
+  --halo-opacity: 0.66;
 }
 
 #cover-scroll.visible {
@@ -254,11 +409,55 @@
   transform: translateX(-50%) translateY(0);
 }
 
+#cover.leaving #cover-scroll {
+  opacity: 0;
+  transform: translateX(-50%) translateY(16px);
+  transition-duration: 0.45s;
+}
+
+#cover-scroll::before {
+  content: "";
+  position: absolute;
+  inset: -10px -18px;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 70% at 50% 38%,
+      var(--halo-a) 0%,
+      var(--halo-b) 32%,
+      rgba(0,0,0,0) 72%);
+  mix-blend-mode: screen;
+  filter: blur(0.2px);
+  opacity: var(--halo-opacity);
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover-scroll:hover {
+  filter: brightness(1.08);
+}
+
+#cover-scroll:hover::before {
+  opacity: 0.92;
+  transform: scale(1.08);
+}
+
+#cover-scroll:active {
+  filter: brightness(0.98);
+}
+
 #cover-scroll svg {
   width: 54px;
   height: 54px;
   overflow: visible;
   filter: var(--arrow-ds-1) var(--arrow-ds-2);
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.35s ease;
+}
+
+#cover-scroll:hover svg {
+  transform: translateY(3px) scale(1.045);
 }
 
 #cover-scroll .chev {
@@ -286,29 +485,6 @@
   100% { stroke-dashoffset: -90; transform: translateY(-2px); }
 }
 
-#cover-scroll::before {
-  content: "";
-  position: absolute;
-  inset: -10px -16px;
-  pointer-events: none;
-  background:
-    radial-gradient(60% 70% at 50% 40%,
-      var(--halo-a) 0%,
-      var(--halo-b) 30%,
-      rgba(0,0,0,0) 70%);
-  mix-blend-mode: screen;
-  filter: blur(0.2px);
-  opacity: var(--halo-opacity);
-}
-
-#cover-scroll:hover {
-  filter: brightness(1.06);
-}
-
-#cover-scroll:active {
-  filter: brightness(0.98);
-}
-
 #cover-scroll.pulse {
   animation: arrow-pulse 0.32s ease-out;
 }
@@ -320,9 +496,10 @@
 }
 
 .cover-scroll-sub {
+  position: relative;
   font-family: var(--font-cover-scroll);
   font-size: 0.78rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--arrow-sub);
 
@@ -330,6 +507,39 @@
   text-shadow:
     var(--sub-shadow-1),
     var(--sub-shadow-2);
+
+  transition:
+    letter-spacing 0.45s ease,
+    transform 0.45s ease,
+    opacity 0.45s ease;
+}
+
+.cover-scroll-sub::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 18px;
+  height: 1px;
+  background: var(--arrow-line);
+  opacity: 0.58;
+  transform: translateX(-50%) scaleX(0.72);
+  transform-origin: center;
+  transition:
+    width 0.45s ease,
+    opacity 0.45s ease,
+    transform 0.45s ease;
+}
+
+#cover-scroll:hover .cover-scroll-sub {
+  letter-spacing: 0.30em;
+  transform: translateY(1px);
+}
+
+#cover-scroll:hover .cover-scroll-sub::after {
+  width: 36px;
+  opacity: 0.82;
+  transform: translateX(-50%) scaleX(1);
 }
 
 /* ------------------------------------
@@ -338,7 +548,7 @@
 .cover-stardust {
   position: absolute;
   left: 50%;
-  top: 42px; /* arrow below */
+  top: 42px;
   width: 3px;
   height: 3px;
   border-radius: 50%;
@@ -380,6 +590,21 @@
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
+  .cover-bg,
+  #cover::before,
+  #cover::after,
+  #avatar-frame,
+  #name,
+  #slogan,
+  #cover-scroll,
+  #cover-scroll::before,
+  #cover-scroll svg,
+  .cover-scroll-sub,
+  .cover-scroll-sub::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+
   .cover-stardust {
     animation: none !important;
     opacity: 0 !important;
@@ -388,7 +613,7 @@
 
 /* =========================================
    Cover responsiveness (mobile / short viewport)
-   Keeps arrow + “Scroll” fully visible.
+   Keeps entrance cue fully visible.
    ========================================= */
 @media (max-width: 768px), (max-height: 680px) {
   #cover { gap: 14px; }
@@ -400,6 +625,10 @@
 
   #name { font-size: 1.75em; }
   #slogan { font-size: 1.85em; }
+
+  #cover-scroll {
+    padding: 9px 16px 13px;
+  }
 
   #cover-scroll svg {
     width: 48px;
@@ -416,8 +645,16 @@
   #name { font-size: 1.65em; }
   #slogan { font-size: 1.65em; }
 
+  #cover-scroll {
+    padding: 8px 14px 12px;
+  }
+
   #cover-scroll svg {
     width: 44px;
     height: 44px;
+  }
+
+  .cover-scroll-sub {
+    font-size: 0.72rem;
   }
 }
