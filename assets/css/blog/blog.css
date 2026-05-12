@@ -28,6 +28,21 @@
 }
 
 /* =========================
+   Easter-egg scroll typography
+========================= */
+.epic-scroll-text{
+  font-family: var(--font-blog-scroll-body);
+}
+
+.epic-flame-label{
+  text-align: center;
+  margin-top: 5px;
+  font-family: var(--font-blog-scroll-heading);
+  color: #3a2c1a;
+  font-size: 0.9rem;
+}
+
+/* =========================
    Root containers
 ========================= */
 #blog-page{
