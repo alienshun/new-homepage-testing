@@ -3,6 +3,10 @@
 
   const A = './assets/';
 
+  const SITE_FONT_STYLES = window.SiteFonts && Array.isArray(window.SiteFonts.externalStyles)
+    ? window.SiteFonts.externalStyles
+    : [];
+
   /*
     Add activity dates here after creating both language files.
 
@@ -68,18 +72,7 @@
 
     external: {
       styles: [
-        {
-          href: 'https://fonts.googleapis.com/css2?family=Allura&family=Great+Vibes&display=swap'
-        },
-        {
-          href: 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap'
-        },
-        {
-          href: 'https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&display=swap'
-        },
-        {
-          href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css'
-        }
+        ...SITE_FONT_STYLES
       ],
 
       libraries: {
