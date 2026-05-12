@@ -113,6 +113,10 @@
   --font-zh-kai: "KaiTi", "Kaiti SC", "STKaiti", "楷体", serif;
   --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
 
+  /* Navigation */
+  --font-nav-serif: "Palatino Linotype", Palatino, "Book Antiqua",
+                    "Times New Roman", "Noto Serif", "Songti SC", STSong, "SimSun", serif;
+
   /*
     External families are loaded through SiteFonts.js.
     Local families are fallback copies stored under assets/fonts/Google_Fonts/.
@@ -131,4 +135,9 @@
   --font-activities-date: "Beautiful ES Local", "Great Vibes", "Great Vibes Local", "Allura", "Allura Local", cursive;
   --font-activities-title-en: "Cataneo BT Local", "Cataneo BT", Georgia, serif;
   --font-activities-title-zh: "HongLeiXingShu Local", "KaiTi", "STKaiti", serif;
+
+  /* Blog */
+  --font-blog-title: var(--font-script-external);
+  --font-blog-heading: var(--font-display-cinzel);
+  --font-blog-body: var(--font-serif);
 }
