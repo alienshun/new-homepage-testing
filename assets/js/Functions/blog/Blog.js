@@ -377,7 +377,7 @@ function showEpicScrollPage() {
     const epicText = document.createElement('div');
     epicText.id = 'epic-text';
     epicText.innerHTML = `Traveler of silent paths, by your insight and unwavering will, the ancient seal lies broken. What once dwelt beyond mortal ken now unfolds before thine eyes: a hidden realm, long shrouded in shadow.`;
-    epicText.style.fontFamily = '"Cinzel", "Times New Roman", serif';
+    epicText.className = 'epic-scroll-text';
     epicText.style.fontSize = '1.8rem';
     epicText.style.lineHeight = '1.6';
     epicText.style.color = '#3a2c1a';
@@ -422,13 +422,7 @@ function showEpicScrollPage() {
                     0 0 20px rgba(255,200,0,0.6);
             "></div>
         </div>
-        <div style="
-            text-align: center; 
-            margin-top: 5px; 
-            font-family: 'Cinzel', serif; 
-            color: '#3a2c1a'; 
-            font-size: 0.9rem;
-        ">Ignite</div>
+        <div class="epic-flame-label">Ignite</div>
     `;
     scrollContent.appendChild(flameButton);
 
