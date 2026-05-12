@@ -30,9 +30,6 @@
   --cover-cue-y: 0px;
 }
 
-/* Cover background layers
-   Loading state may be dimmed / blurred.
-   Final state must preserve the original image appearance. */
 .cover-bg {
   position: absolute;
   inset: calc(-1 * var(--cover-overscan));
@@ -68,8 +65,6 @@
     filter 1.65s ease;
 }
 
-/* Final loaded cover:
-   no dimming, no blur, no saturation change, no permanent veil. */
 #cover.background-ready:not(.leaving) .cover-bg-reveal {
   opacity: 1;
   transform: scale(1);
@@ -82,8 +77,6 @@
   filter: none;
 }
 
-/* Temporary loading veil.
-   It fades out completely after the same image is ready. */
 #cover::before {
   content: "";
   position: absolute;
@@ -101,7 +94,6 @@
   opacity: 0;
 }
 
-/* Curtain veil for cover leaving transition */
 #cover::after {
   content: "";
   position: absolute;
@@ -147,7 +139,6 @@
   filter: blur(2px) brightness(0.62) saturate(1.03);
 }
 
-/* Cover visibility states */
 #cover.visible {
   opacity: 1;
 }
@@ -157,7 +148,6 @@
   pointer-events: none;
 }
 
-/* Profile avatar styling */
 #avatar-frame {
   position: relative;
   width: 150px;
@@ -253,7 +243,6 @@
   display: block;
 }
 
-/* Text element styling */
 #name,
 #slogan {
   position: relative;
@@ -326,9 +315,6 @@
     0 0 14px rgba(0,0,0,0.12);
 }
 
-/* ------------------------------------
-   Cover bottom natural entrance cue
-------------------------------------- */
 #cover-scroll {
   position: absolute;
   left: 50%;
@@ -359,7 +345,6 @@
     transform 1.0s cubic-bezier(0.16, 1, 0.3, 1),
     filter 0.45s ease;
 
-  /* Default theme vars (dark background -> light entrance) */
   --arrow-stroke: rgba(245, 250, 255, 0.92);
   --arrow-sub: rgba(245, 250, 255, 0.88);
   --arrow-line: rgba(245, 250, 255, 0.58);
@@ -381,7 +366,6 @@
   --halo-opacity: 0.72;
 }
 
-/* Bright background -> dark entrance + inverted glow */
 #cover-scroll[data-contrast="dark"] {
   --arrow-stroke: rgba(12, 18, 28, 0.92);
   --arrow-sub: rgba(12, 18, 28, 0.84);
@@ -495,6 +479,39 @@
   100% { transform: translateX(-50%) translateY(0) scale(1); }
 }
 
+#cover-scroll.cover-hint-bounce {
+  animation: cover-enter-hint-bounce 0.92s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes cover-enter-hint-bounce {
+  0% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: brightness(1);
+  }
+  18% {
+    transform: translateX(-50%) translateY(-9px) scale(1.045);
+    filter: brightness(1.12);
+  }
+  38% {
+    transform: translateX(-50%) translateY(3px) scale(0.985);
+  }
+  58% {
+    transform: translateX(-50%) translateY(-4px) scale(1.022);
+  }
+  78% {
+    transform: translateX(-50%) translateY(1px) scale(0.998);
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) scale(1);
+    filter: brightness(1);
+  }
+}
+
+#cover.leaving #cover-scroll.cover-hint-bounce,
+#cover.hidden #cover-scroll.cover-hint-bounce {
+  animation: none !important;
+}
+
 .cover-scroll-sub {
   position: relative;
   font-family: var(--font-cover-scroll);
@@ -542,9 +559,50 @@
   transform: translateX(-50%) scaleX(1);
 }
 
-/* ------------------------------------
-   Stardust trail for cover arrow
-------------------------------------- */
+.cover-hint-particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--particle-size, 3px);
+  height: var(--particle-size, 3px);
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 44;
+  opacity: 0;
+  transform: translate3d(-100vw, -100vh, 0) scale(1);
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,var(--particle-core, 0.88)) 0%,
+      rgba(215,232,255,0.82) 36%,
+      rgba(158,198,255,0.38) 62%,
+      rgba(120,160,220,0.0) 78%
+    );
+
+  box-shadow:
+    0 0 6px rgba(205,230,255,0.64),
+    0 0 14px rgba(130,180,255,0.28);
+
+  filter: blur(0.15px);
+}
+
+.cover-hint-particle.is-tracking {
+  z-index: 46;
+  box-shadow:
+    0 0 7px rgba(245,250,255,0.78),
+    0 0 18px rgba(150,205,255,0.42),
+    0 0 30px rgba(115,165,235,0.18);
+}
+
+#cover.leaving .cover-hint-particle,
+#cover.hidden .cover-hint-particle {
+  display: none !important;
+  opacity: 0 !important;
+}
+
 .cover-stardust {
   position: absolute;
   left: 50%;
@@ -588,7 +646,6 @@
   }
 }
 
-/* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .cover-bg,
   #cover::before,
@@ -611,10 +668,6 @@
   }
 }
 
-/* =========================================
-   Cover responsiveness (mobile / short viewport)
-   Keeps entrance cue fully visible.
-   ========================================= */
 @media (max-width: 768px), (max-height: 680px) {
   #cover { gap: 14px; }
 
