@@ -61,7 +61,7 @@
       pages: ['resume', 'schedule', 'social', 'toolkit', 'life'],
 
       warmup: {
-        afterCover: ['resume'],
+        afterCover: ['resume', 'schedule', 'social', 'life'],
         afterFirstPage: ['schedule', 'social', 'life'],
         delayAfterCover: 650,
         delayAfterFirstPage: 700,
