@@ -669,3 +669,97 @@ body[data-lang="zh"] .am-detail-meta {
     transform: translateY(0);
   }
 }
+
+/* =========================================================
+   Activities & Moments Detail: Journal Paper Layer
+   Append this block to the end of activities_moments.css
+   ========================================================= */
+
+.am-detail .am-detail-content {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  max-width: 920px;
+  margin: clamp(22px, 3.4vw, 38px) auto clamp(26px, 4vw, 46px);
+  padding: clamp(30px, 5vw, 58px);
+  border-radius: calc(var(--radius, 22px) + 2px);
+
+  border: 1px solid color-mix(in srgb, var(--border) 74%, var(--accent-weak));
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 98%, var(--surface-2)),
+      color-mix(in srgb, var(--surface) 88%, var(--surface-2))
+    ),
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.018) 0,
+      rgba(255, 255, 255, 0.018) 1px,
+      transparent 1px,
+      transparent 28px
+    );
+
+  box-shadow:
+    0 20px 52px rgba(0, 0, 0, 0.10),
+    inset 0 1px 0 color-mix(in srgb, #fff 58%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--border) 38%, transparent);
+}
+
+.am-detail .am-detail-content::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      680px 280px at 0% 0%,
+      color-mix(in srgb, var(--accent-weak) 46%, transparent),
+      transparent 68%
+    ),
+    radial-gradient(
+      560px 260px at 100% 100%,
+      color-mix(in srgb, var(--surface-2) 66%, transparent),
+      transparent 72%
+    );
+
+  opacity: 0.64;
+}
+
+.am-detail .am-detail-content::after {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  z-index: -1;
+  pointer-events: none;
+
+  border-radius: calc(var(--radius, 22px) - 4px);
+  border: 1px solid color-mix(in srgb, var(--border) 52%, transparent);
+  opacity: 0.72;
+}
+
+.am-detail .am-detail-body,
+.am-detail .am-gallery,
+.am-detail .am-detail-footer {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 900px) {
+  .am-detail .am-detail-content {
+    margin: clamp(16px, 4vw, 28px) clamp(14px, 4vw, 26px) clamp(22px, 5vw, 34px);
+  }
+}
+
+@media (max-width: 560px) {
+  .am-detail .am-detail-content {
+    margin: 14px 10px 24px;
+    padding: 24px 18px 30px;
+  }
+
+  .am-detail .am-detail-content::after {
+    inset: 10px;
+  }
+}
