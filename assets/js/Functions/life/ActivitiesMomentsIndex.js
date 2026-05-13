@@ -97,41 +97,52 @@
     `;
   }
 
+  function ensureActiveVisible(index) {
+    if (!index) return;
+
+    const scroller = index.querySelector('[data-am-index-scroll]');
+    const active = index.querySelector('.am-detail-index-link.is-active');
+
+    if (!scroller || !active) return;
+
+    const padding = 14;
+    const scrollerRect = scroller.getBoundingClientRect();
+    const activeRect = active.getBoundingClientRect();
+
+    if (activeRect.top < scrollerRect.top + padding) {
+      scroller.scrollTop -= (scrollerRect.top + padding - activeRect.top);
+      return;
+    }
+
+    if (activeRect.bottom > scrollerRect.bottom - padding) {
+      scroller.scrollTop += activeRect.bottom - (scrollerRect.bottom - padding);
+    }
+  }
+
   function getRoot(root) {
     return root || document;
   }
 
   function sync(root) {
     const scope = getRoot(root);
-    const layout = scope.querySelector ? scope.querySelector('.am-detail-layout') : null;
     const content = scope.querySelector ? scope.querySelector('.am-detail-content') : null;
     const index = scope.querySelector ? scope.querySelector('[data-am-index]') : null;
-    const active = scope.querySelector ? scope.querySelector('.am-detail-index-link.is-active') : null;
 
-    if (!layout || !content || !index) return;
+    if (!content || !index) return;
 
     const isSingleColumn = window.matchMedia && window.matchMedia('(max-width: 1024px)').matches;
 
     if (isSingleColumn) {
-      index.style.removeProperty('--am-index-max-height');
+      index.style.removeProperty('--am-index-height');
     } else {
       const contentHeight = Math.ceil(content.getBoundingClientRect().height);
+
       if (contentHeight > 0) {
-        index.style.setProperty('--am-index-max-height', contentHeight + 'px');
+        index.style.setProperty('--am-index-height', contentHeight + 'px');
       }
     }
 
-    if (active && typeof active.scrollIntoView === 'function') {
-      try {
-        active.scrollIntoView({
-          block: 'nearest',
-          inline: 'nearest',
-          behavior: 'smooth'
-        });
-      } catch (e) {
-        active.scrollIntoView(false);
-      }
-    }
+    ensureActiveVisible(index);
   }
 
   function scheduleSync(root) {
@@ -144,16 +155,6 @@
         sync(scope);
       });
     });
-
-    if (scope.querySelectorAll) {
-      scope.querySelectorAll('.am-detail img').forEach((img) => {
-        if (img.dataset.amIndexSyncBound === '1') return;
-
-        img.dataset.amIndexSyncBound = '1';
-        img.addEventListener('load', () => sync(scope), { once: true });
-        img.addEventListener('error', () => sync(scope), { once: true });
-      });
-    }
   }
 
   let resizeTimer = null;
