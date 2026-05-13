@@ -90,6 +90,31 @@
       ]
     },
 
+    preload: {
+      fonts: {
+        lifeDisplay: [
+          {
+            href: A + 'fonts/Local_Display/HongLeiXingShuJianTi-2.woff2',
+            family: 'HongLeiXingShu Local',
+            type: 'font/woff2',
+            load: '1em "HongLeiXingShu Local"'
+          },
+          {
+            href: A + 'fonts/Local_Display/Beautiful-ES-1.woff2',
+            family: 'Beautiful ES Local',
+            type: 'font/woff2',
+            load: '1em "Beautiful ES Local"'
+          },
+          {
+            href: A + 'fonts/Local_Display/Cataneo%20BT.woff2',
+            family: 'Cataneo BT Local',
+            type: 'font/woff2',
+            load: '1em "Cataneo BT Local"'
+          }
+        ]
+      }
+    },
+
     styles: {
       core: [
         A + 'css/fonts.css',
@@ -113,6 +138,7 @@
         A + 'js/Functions/general/Translate.js',
         A + 'js/Functions/general/Expanders.js',
         A + 'js/Functions/general/Custom-cursors.js',
+        A + 'js/Functions/general/SitePreloader.js',
         A + 'js/Functions/general/SitePages.js'
       ],
 
