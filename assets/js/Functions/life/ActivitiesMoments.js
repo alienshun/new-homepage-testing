@@ -193,6 +193,29 @@
     return pieces.join(' · ');
   }
 
+  function renderMomentIndex(currentDateKey) {
+    if (
+      window.ActivitiesMomentsIndex
+      && typeof window.ActivitiesMomentsIndex.render === 'function'
+    ) {
+      return window.ActivitiesMomentsIndex.render(getSortedMoments(), currentDateKey);
+    }
+
+    return '';
+  }
+
+  function syncMomentIndex() {
+    const mount = getMount();
+
+    if (
+      mount
+      && window.ActivitiesMomentsIndex
+      && typeof window.ActivitiesMomentsIndex.scheduleSync === 'function'
+    ) {
+      window.ActivitiesMomentsIndex.scheduleSync(mount);
+    }
+  }
+
   function renderCard(moment, index, ui) {
     const rawDateKey = moment.dateKey || '';
     const dateKey = escapeHtml(rawDateKey);
@@ -297,6 +320,7 @@
     const meta = escapeHtml(getMetaText(moment));
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
     const backHref = escapeHtml(getListRoute());
+    const currentDateKey = moment.dateKey || '';
 
     const body = Array.isArray(moment.body) ? moment.body : [];
     const bodyHtml = body
@@ -308,7 +332,7 @@
       : '';
 
     return `
-      <div class="activities_moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(moment.dateKey || '')}">
+      <div class="activities_moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(currentDateKey)}">
         <article class="am-detail-card">
           <header class="am-detail-hero">
             ${hero}
@@ -319,18 +343,22 @@
             </div>
           </header>
 
-          <div class="am-detail-content">
-            ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
-            ${renderGallery(moment, ui)}
+          <div class="am-detail-layout">
+            ${renderMomentIndex(currentDateKey)}
 
-            <div class="am-detail-footer">
-              <a
-                class="am-detail-back"
-                href="${backHref}"
-                data-am-action="back"
-                data-cursor="precise_select"
-                data-cursor-fallback="pointer"
-              >${escapeHtml(ui.backToMoments)}</a>
+            <div class="am-detail-content">
+              ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
+              ${renderGallery(moment, ui)}
+
+              <div class="am-detail-footer">
+                <a
+                  class="am-detail-back"
+                  href="${backHref}"
+                  data-am-action="back"
+                  data-cursor="precise_select"
+                  data-cursor-fallback="pointer"
+                >${escapeHtml(ui.backToMoments)}</a>
+              </div>
             </div>
           </div>
         </article>
@@ -433,6 +461,7 @@
 
     mount.innerHTML = renderDetailHtml(moment);
     bindEvents();
+    syncMomentIndex();
 
     if (opts.updateHistory) {
       pushRoute(getDetailRoute(dateKey), opts.replaceHistory);
