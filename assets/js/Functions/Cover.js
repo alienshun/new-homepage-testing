@@ -224,6 +224,31 @@
       if (reduceMotion || coarsePointer) return;
     } catch (e) {}
 
+    const avatarFrame = document.getElementById('avatar-frame');
+    const avatarImg = avatarFrame ? avatarFrame.querySelector('img') : null;
+    const name = document.getElementById('name');
+    const slogan = document.getElementById('slogan');
+    const entranceCue = document.getElementById('cover-scroll');
+
+    const MOTION_SETTLE_DELAY = 520;
+
+    let avatarLoadFinished = !avatarImg;
+    let coverElementsReadyAt = 0;
+
+    if (avatarImg) {
+      if (avatarImg.complete) {
+        avatarLoadFinished = true;
+      } else {
+        avatarImg.addEventListener('load', () => {
+          avatarLoadFinished = true;
+        }, { once: true, passive: true });
+
+        avatarImg.addEventListener('error', () => {
+          avatarLoadFinished = true;
+        }, { once: true, passive: true });
+      }
+    }
+
     const FOLLOW_EASE = 0.12;
     const RETURN_EASE = 0.055;
 
@@ -249,10 +274,37 @@
 
     let raf = 0;
 
-    function isCoverActive() {
+    function coverStillVisible() {
       return cover.classList.contains('visible') &&
         !cover.classList.contains('hidden') &&
         !cover.classList.contains('leaving');
+    }
+
+    function coverElementsReady() {
+      return cover.classList.contains('background-ready') &&
+        (!avatarFrame || avatarFrame.classList.contains('visible')) &&
+        (!name || name.classList.contains('visible')) &&
+        (!slogan || slogan.classList.contains('visible')) &&
+        (!entranceCue || entranceCue.classList.contains('visible')) &&
+        avatarLoadFinished;
+    }
+
+    function coverMotionReady() {
+      if (!coverStillVisible() || !coverElementsReady()) {
+        coverElementsReadyAt = 0;
+        return false;
+      }
+
+      if (!coverElementsReadyAt) {
+        coverElementsReadyAt = performance.now();
+        return false;
+      }
+
+      return performance.now() - coverElementsReadyAt >= MOTION_SETTLE_DELAY;
+    }
+
+    function isCoverActive() {
+      return coverStillVisible() && coverMotionReady();
     }
 
     function setVars() {
@@ -357,9 +409,6 @@
     cover.addEventListener('pointerleave', resetTargets, { passive: true });
     window.addEventListener('blur', resetTargets);
 
-    const avatarFrame = document.getElementById('avatar-frame');
-    const entranceCue = document.getElementById('cover-scroll');
-
     if (avatarFrame) {
       avatarFrame.addEventListener('pointerenter', resetTargets, { passive: true });
       avatarFrame.addEventListener('pointermove', resetTargets, { passive: true });
@@ -371,7 +420,10 @@
     }
 
     const observer = new MutationObserver(() => {
-      if (!isCoverActive()) resetTargets();
+      if (!coverStillVisible() || !coverElementsReady()) {
+        coverElementsReadyAt = 0;
+        resetTargets();
+      }
     });
 
     observer.observe(cover, {
