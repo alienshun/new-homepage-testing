@@ -51,7 +51,7 @@
     const baseLayer = coverEl.querySelector('.cover-bg-base');
     const revealLayer = coverEl.querySelector('.cover-bg-reveal');
 
-    coverEl.classList.remove('background-ready', 'motion-ready');
+    coverEl.classList.remove('background-ready');
 
     function revealCoverWhenPainted() {
       window.requestAnimationFrame(() => {
@@ -210,118 +210,6 @@
     }, { passive: true });
   }
 
-  function initCoverMotionReadyGate() {
-    const cover = document.getElementById('cover');
-    const avatarFrame = document.getElementById('avatar-frame');
-    const avatarImg = avatarFrame ? avatarFrame.querySelector('img') : null;
-    const name = document.getElementById('name');
-    const slogan = document.getElementById('slogan');
-    const arrow = document.getElementById('cover-scroll');
-
-    if (!cover || !avatarFrame || !name || !slogan || !arrow) return;
-
-    const REVEAL_SETTLE_DELAY = 1120;
-
-    let readyTimer = 0;
-    let fontsReady = true;
-
-    if (document.fonts && document.fonts.ready) {
-      fontsReady = false;
-
-      document.fonts.ready
-        .then(() => {
-          fontsReady = true;
-          refresh();
-        })
-        .catch(() => {
-          fontsReady = true;
-          refresh();
-        });
-    }
-
-    function avatarImageReady() {
-      if (!avatarImg) return true;
-
-      return avatarImg.complete &&
-        avatarImg.naturalWidth > 0 &&
-        avatarImg.naturalHeight > 0;
-    }
-
-    function coverStillVisible() {
-      return cover.classList.contains('visible') &&
-        !cover.classList.contains('hidden') &&
-        !cover.classList.contains('leaving') &&
-        cover.style.display !== 'none';
-    }
-
-    function allCoverElementsReady() {
-      return coverStillVisible() &&
-        cover.classList.contains('background-ready') &&
-        avatarFrame.classList.contains('visible') &&
-        name.classList.contains('visible') &&
-        slogan.classList.contains('visible') &&
-        arrow.classList.contains('visible') &&
-        avatarImageReady() &&
-        fontsReady;
-    }
-
-    function clearReady() {
-      if (readyTimer) {
-        window.clearTimeout(readyTimer);
-        readyTimer = 0;
-      }
-
-      cover.classList.remove('motion-ready');
-    }
-
-    function scheduleReady() {
-      if (readyTimer) {
-        window.clearTimeout(readyTimer);
-        readyTimer = 0;
-      }
-
-      readyTimer = window.setTimeout(() => {
-        readyTimer = 0;
-
-        if (allCoverElementsReady()) {
-          cover.classList.add('motion-ready');
-        } else {
-          cover.classList.remove('motion-ready');
-        }
-      }, REVEAL_SETTLE_DELAY);
-    }
-
-    function refresh() {
-      if (allCoverElementsReady()) {
-        scheduleReady();
-      } else {
-        clearReady();
-      }
-    }
-
-    const observer = new MutationObserver(refresh);
-
-    [cover, avatarFrame, name, slogan, arrow].forEach((el) => {
-      observer.observe(el, {
-        attributes: true,
-        attributeFilter: ['class', 'style']
-      });
-    });
-
-    if (avatarImg) {
-      avatarImg.addEventListener('load', refresh, { passive: true });
-      avatarImg.addEventListener('error', refresh, { passive: true });
-
-      if (avatarImg.decode && avatarImg.complete) {
-        avatarImg.decode()
-          .then(refresh)
-          .catch(refresh);
-      }
-    }
-
-    refresh();
-  }
-
   function initCoverDepthMotion() {
     const cover = document.getElementById('cover');
     if (!cover) return;
@@ -363,7 +251,6 @@
 
     function isCoverActive() {
       return cover.classList.contains('visible') &&
-        cover.classList.contains('motion-ready') &&
         !cover.classList.contains('hidden') &&
         !cover.classList.contains('leaving');
     }
@@ -535,7 +422,6 @@
   applyArrowAdaptiveContrast(chosen);
   setupArrowContrastResizeWatcher();
 
-  initCoverMotionReadyGate();
   initCoverDepthMotion();
 
   (function initCoverEnterHint() {
