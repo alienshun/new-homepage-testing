@@ -210,6 +210,10 @@ body[data-lang="zh"] .am-card-meta {
   color: var(--text);
 }
 
+/* =========================================================
+   Embedded text actions
+   ========================================================= */
+
 .am-card-action,
 .am-detail-back {
   position: relative;
@@ -219,42 +223,67 @@ body[data-lang="zh"] .am-card-meta {
   align-self: flex-end;
 
   margin-top: auto;
-  padding: 0 0 3px;
+  padding: 2px 2px 5px;
 
   font-family: inherit;
   font-size: 0.98rem;
   font-style: italic;
+  font-weight: 500;
   line-height: 1.25;
   text-decoration: none;
 
   color: var(--accent);
-  opacity: 0.82;
+  opacity: 0.92;
   cursor: pointer;
 
+  isolation: isolate;
   transform: translateY(2px);
   transition:
     opacity 0.2s ease,
     transform 0.2s ease,
-    letter-spacing 0.2s ease;
+    letter-spacing 0.2s ease,
+    color 0.2s ease;
+}
+
+.am-card-action::before,
+.am-detail-back::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  right: -7px;
+  bottom: 2px;
+  z-index: -1;
+
+  height: 0.72em;
+  border-radius: 999px;
+
+  background: color-mix(in srgb, var(--accent-weak) 58%, transparent);
+  opacity: 0.34;
+
+  transform: scaleX(0.94);
+  transform-origin: right center;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
 .am-card-action::after,
 .am-detail-back::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: 1px;
+  right: 1px;
   bottom: 0;
 
   height: 1px;
   background: currentColor;
-  opacity: 0.56;
+  opacity: 0.46;
 
-  transform: scaleX(0);
+  transform: scaleX(1);
   transform-origin: left center;
   transition:
-    transform 0.22s ease,
-    opacity 0.22s ease;
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
 .am-card-action:hover,
@@ -267,11 +296,20 @@ body[data-lang="zh"] .am-card-meta {
   transform: translateY(0);
 }
 
+.am-card-action:hover::before,
+.am-card-action:focus-visible::before,
+.am-detail-back:hover::before,
+.am-detail-back:focus-visible::before {
+  opacity: 0.72;
+  transform: scaleX(1);
+}
+
 .am-card-action:hover::after,
 .am-card-action:focus-visible::after,
 .am-detail-back:hover::after,
 .am-detail-back:focus-visible::after {
-  transform: scaleX(1);
+  opacity: 0.9;
+  transform: scaleX(1.02);
 }
 
 .am-card-action:focus-visible,
@@ -447,6 +485,10 @@ body[data-lang="zh"] .am-detail-meta {
   margin-top: clamp(28px, 4vw, 44px);
 }
 
+.am-detail-footer .am-detail-back {
+  margin-top: 0;
+}
+
 .am-detail-body {
   display: flex;
   flex-direction: column;
@@ -600,9 +642,11 @@ body[data-lang="zh"] .am-detail-meta {
   .am-card-media img,
   .am-card-date,
   .am-card-action,
+  .am-card-action::before,
   .am-card-action::after,
   .am-emote,
   .am-detail-back,
+  .am-detail-back::before,
   .am-detail-back::after,
   .am-gallery-item img {
     transition: none;
