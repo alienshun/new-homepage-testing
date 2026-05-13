@@ -42,7 +42,7 @@
     );
   box-shadow: var(--shadow-sm);
 
-  cursor: pointer;
+  cursor: default;
   transform: translateY(0);
   transition:
     transform 0.22s ease,
@@ -52,13 +52,13 @@
 }
 
 .am-card:hover,
-.am-card:focus-visible {
+.am-card:focus-within {
   transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
   border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
 }
 
-.am-card:focus-visible {
+.am-card:focus-within {
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-lg);
 }
@@ -81,7 +81,7 @@
 }
 
 .am-card:hover::before,
-.am-card:focus-visible::before {
+.am-card:focus-within::before {
   opacity: 1;
 }
 
@@ -110,7 +110,7 @@
 }
 
 .am-card:hover .am-card-media img,
-.am-card:focus-visible .am-card-media img {
+.am-card:focus-within .am-card-media img {
   transform: scale(1.055);
   filter: saturate(1.06) contrast(1.03);
 }
@@ -150,7 +150,7 @@
 }
 
 .am-card:hover .am-card-date,
-.am-card:focus-visible .am-card-date {
+.am-card:focus-within .am-card-date {
   opacity: 0;
   transform: translate(-4px, -4px) scale(0.96);
   filter: blur(3px);
@@ -210,21 +210,27 @@ body[data-lang="zh"] .am-card-meta {
   color: var(--text);
 }
 
-.am-card-action {
+.am-card-action,
+.am-detail-back {
+  position: relative;
+
   display: inline-flex;
   align-items: center;
-  align-self: flex-start;
+  align-self: flex-end;
 
   margin-top: auto;
-  padding-top: 12px;
+  padding: 0 0 3px;
 
   font-family: inherit;
   font-size: 0.98rem;
   font-style: italic;
-  line-height: 1.2;
+  line-height: 1.25;
+  text-decoration: none;
 
   color: var(--accent);
-  opacity: 0.88;
+  opacity: 0.82;
+  cursor: pointer;
+
   transform: translateY(2px);
   transition:
     opacity 0.2s ease,
@@ -232,11 +238,46 @@ body[data-lang="zh"] .am-card-meta {
     letter-spacing 0.2s ease;
 }
 
-.am-card:hover .am-card-action,
-.am-card:focus-visible .am-card-action {
+.am-card-action::after,
+.am-detail-back::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 1px;
+  background: currentColor;
+  opacity: 0.56;
+
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition:
+    transform 0.22s ease,
+    opacity 0.22s ease;
+}
+
+.am-card-action:hover,
+.am-card-action:focus-visible,
+.am-detail-back:hover,
+.am-detail-back:focus-visible {
   opacity: 1;
+  text-decoration: none;
+  letter-spacing: 0.25px;
   transform: translateY(0);
-  letter-spacing: 0.2px;
+}
+
+.am-card-action:hover::after,
+.am-card-action:focus-visible::after,
+.am-detail-back:hover::after,
+.am-detail-back:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.am-card-action:focus-visible,
+.am-detail-back:focus-visible {
+  outline: none;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent-weak) 82%, transparent);
 }
 
 /* =========================================================
@@ -291,47 +332,6 @@ body[data-lang="zh"] .am-card-meta {
 
 .am-detail {
   animation: amFadeIn 0.26s ease both;
-}
-
-.am-detail-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-
-  margin: 0 0 18px;
-  padding: 9px 15px;
-  border-radius: 999px;
-
-  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
-  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
-  color: var(--accent);
-
-  font-family: inherit;
-  font-style: italic;
-  font-size: 0.98rem;
-  text-decoration: none;
-
-  box-shadow: var(--shadow-xs);
-  cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background-color 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.am-detail-back:hover,
-.am-detail-back:focus-visible {
-  text-decoration: none;
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-sm);
-  background: color-mix(in srgb, var(--surface) 74%, var(--accent-weak));
-  border-color: color-mix(in srgb, var(--border) 62%, var(--accent));
-}
-
-.am-detail-back:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
 }
 
 .am-detail-card {
@@ -437,6 +437,14 @@ body[data-lang="zh"] .am-detail-meta {
   max-width: 920px;
   margin: 0 auto;
   padding: clamp(26px, 5vw, 54px);
+}
+
+.am-detail-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  margin-top: clamp(28px, 4vw, 44px);
 }
 
 .am-detail-body {
@@ -592,8 +600,10 @@ body[data-lang="zh"] .am-detail-meta {
   .am-card-media img,
   .am-card-date,
   .am-card-action,
+  .am-card-action::after,
   .am-emote,
   .am-detail-back,
+  .am-detail-back::after,
   .am-gallery-item img {
     transition: none;
   }
