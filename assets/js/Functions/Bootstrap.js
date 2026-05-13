@@ -37,6 +37,7 @@
 
   let afterCoverWarmupStarted = false;
   let afterFirstPageWarmupStarted = false;
+  let lifeDisplayFontWarmupStarted = false;
 
   const intentWarmTimers = Object.create(null);
 
@@ -268,6 +269,22 @@
     return loader.warmPage(page, reason || 'bootstrap');
   }
 
+  function warmLifeDisplayFontsAfterAbout() {
+    if (lifeDisplayFontWarmupStarted) return;
+    lifeDisplayFontWarmupStarted = true;
+
+    const preloader = window.SitePreloader;
+
+    if (!preloader || typeof preloader.warmFontGroupWhenIdle !== 'function') {
+      return;
+    }
+
+    preloader.warmFontGroupWhenIdle('lifeDisplay', {
+      timeout: 3000,
+      reason: 'after-about-warmup'
+    });
+  }
+
   function scheduleWarmupSequence(pages, options) {
     const opts = options || {};
     const list = validPages(pages);
@@ -277,12 +294,25 @@
     const startDelay = Number(opts.startDelay) || 0;
     const gap = Number(opts.gap) || 0;
     const reason = opts.reason || 'sequence';
+    const afterPageWarmup = typeof opts.afterPageWarmup === 'function'
+      ? opts.afterPageWarmup
+      : null;
 
     function run() {
       window.setTimeout(async () => {
-        for (const page of list) {
+        for (let index = 0; index < list.length; index += 1) {
+          const page = list[index];
+
           if (page !== currentPage) {
             await warmPage(page, reason);
+          }
+
+          if (afterPageWarmup) {
+            try {
+              afterPageWarmup(page, index, list);
+            } catch (e) {
+              console.warn('[Bootstrap] afterPageWarmup failed:', page, e);
+            }
           }
 
           if (gap > 0) {
@@ -306,7 +336,12 @@
     scheduleWarmupSequence(warmupConfig.afterCover || [defaultPage], {
       startDelay: warmupConfig.delayAfterCover || 650,
       gap: warmupConfig.delayBetweenPages || 850,
-      reason: 'after-cover'
+      reason: 'after-cover',
+      afterPageWarmup(page) {
+        if (page === 'resume') {
+          warmLifeDisplayFontsAfterAbout();
+        }
+      }
     });
   }
 
