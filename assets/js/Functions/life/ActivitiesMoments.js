@@ -194,13 +194,15 @@
   }
 
   function renderCard(moment, index, ui) {
-    const dateKey = escapeHtml(moment.dateKey || '');
+    const rawDateKey = moment.dateKey || '';
+    const dateKey = escapeHtml(rawDateKey);
     const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
     const title = escapeHtml(moment.title || '');
     const meta = escapeHtml(getMetaText(moment));
     const summary = renderInlineText(moment.summary || '');
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
     const action = escapeHtml(ui.viewMoment);
+    const detailHref = escapeHtml(getDetailRoute(rawDateKey));
 
     const fetchPriority = index === 0 ? ' fetchpriority="high"' : '';
     const loading = index === 0 ? 'eager' : 'lazy';
@@ -224,20 +226,20 @@
       `;
 
     return `
-      <article
-        class="am-card"
-        data-date-key="${dateKey}"
-        role="button"
-        tabindex="0"
-        data-cursor="precise_select"
-        data-cursor-fallback="pointer"
-      >
+      <article class="am-card" data-date-key="${dateKey}">
         ${media}
         <div class="am-card-body">
           <h3 class="am-card-title">${title}</h3>
           ${meta ? `<p class="am-card-meta">${meta}</p>` : ''}
           ${summary ? `<p class="am-card-summary">${summary}</p>` : ''}
-          <span class="am-card-action">${action}</span>
+          <a
+            class="am-card-action"
+            href="${detailHref}"
+            data-am-action="view"
+            data-date-key="${dateKey}"
+            data-cursor="precise_select"
+            data-cursor-fallback="pointer"
+          >${action}</a>
         </div>
       </article>
     `;
@@ -294,6 +296,7 @@
     const title = escapeHtml(moment.title || '');
     const meta = escapeHtml(getMetaText(moment));
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
+    const backHref = escapeHtml(getListRoute());
 
     const body = Array.isArray(moment.body) ? moment.body : [];
     const bodyHtml = body
@@ -306,14 +309,6 @@
 
     return `
       <div class="activities_moments am-detail" data-am-view="detail" data-date-key="${escapeHtml(moment.dateKey || '')}">
-        <a
-          class="am-detail-back"
-          href="${escapeHtml(getListRoute())}"
-          data-am-action="back"
-          data-cursor="precise_select"
-          data-cursor-fallback="pointer"
-        >${escapeHtml(ui.backToMoments)}</a>
-
         <article class="am-detail-card">
           <header class="am-detail-hero">
             ${hero}
@@ -327,6 +322,16 @@
           <div class="am-detail-content">
             ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
             ${renderGallery(moment, ui)}
+
+            <div class="am-detail-footer">
+              <a
+                class="am-detail-back"
+                href="${backHref}"
+                data-am-action="back"
+                data-cursor="precise_select"
+                data-cursor-fallback="pointer"
+              >${escapeHtml(ui.backToMoments)}</a>
+            </div>
           </div>
         </article>
       </div>
@@ -347,33 +352,42 @@
         return;
       }
 
+      const view = event.target.closest('[data-am-action="view"][data-date-key]');
+      if (view) {
+        event.preventDefault();
+
+        const dateKey = view.getAttribute('data-date-key');
+        if (dateKey) {
+          showDetail(dateKey, { updateHistory: true });
+        }
+        return;
+      }
+
       const imageButton = event.target.closest('[data-am-image]');
       if (imageButton) {
         event.preventDefault();
         openLightbox(imageButton.getAttribute('data-am-image'));
-        return;
       }
-
-      const card = event.target.closest('.am-card[data-date-key]');
-      if (!card) return;
-
-      const dateKey = card.getAttribute('data-date-key');
-      if (!dateKey) return;
-
-      showDetail(dateKey, { updateHistory: true });
     });
 
     mount.addEventListener('keydown', (event) => {
-      const card = event.target.closest('.am-card[data-date-key]');
-      if (!card) return;
+      if (event.key !== ' ' && event.key !== 'Spacebar') return;
 
-      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const back = event.target.closest('[data-am-action="back"]');
+      if (back) {
+        event.preventDefault();
+        showList({ updateHistory: true });
+        return;
+      }
 
-      event.preventDefault();
+      const view = event.target.closest('[data-am-action="view"][data-date-key]');
+      if (view) {
+        event.preventDefault();
 
-      const dateKey = card.getAttribute('data-date-key');
-      if (dateKey) {
-        showDetail(dateKey, { updateHistory: true });
+        const dateKey = view.getAttribute('data-date-key');
+        if (dateKey) {
+          showDetail(dateKey, { updateHistory: true });
+        }
       }
     });
   }
