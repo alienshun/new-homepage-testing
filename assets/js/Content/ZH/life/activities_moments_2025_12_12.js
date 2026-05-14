@@ -16,7 +16,7 @@
     dateLabel: '2025.12.12',
 
     title: '一碗绝世美味的牛肉面',
-    location: '中国科学技术大学 · 高新区',
+    location: '中国科学技术大学·高新区',
 
     cover: './assets/images/life/activities_moments/2025_12_12/cover.jpg',
 
