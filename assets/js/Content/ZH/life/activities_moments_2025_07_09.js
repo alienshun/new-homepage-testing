@@ -15,8 +15,8 @@
     dateISO: '2025-07-09',
     dateLabel: '2025.07.09',
 
-    title: '旧志难归',
-    location: '中国 · 广东省 · 深圳',
+    title: '旧志难酬',
+    location: '中国·广东省·深圳',
 
     cover: './assets/images/life/activities_moments/2025_07_09/cover.jpg',
 
