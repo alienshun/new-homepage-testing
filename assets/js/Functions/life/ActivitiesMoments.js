@@ -13,14 +13,29 @@
       label: '旺柴',
       text: '🐶'
     },
+    '[doge]': {
+      className: 'am-emote-wangchai',
+      label: 'doge',
+      text: '🐶'
+    },
     '[叹气]': {
       className: 'am-emote-sigh',
       label: '叹气',
       text: '😮‍💨'
     },
+    '[sigh]': {
+      className: 'am-emote-sigh',
+      label: 'sigh',
+      text: '😮‍💨'
+    },
     '[苦涩]': {
       className: 'am-emote-bitter',
       label: '苦涩',
+      text: '🥲'
+    },
+    '[bitter]': {
+      className: 'am-emote-bitter',
+      label: 'bitter',
       text: '🥲'
     },
     '[流泪]': {
@@ -97,7 +112,7 @@
       return escapeHtml(raw);
     }
 
-    const pattern = /(\[旺柴\]|\[叹气\]|\[苦涩\]|\[流泪\]|\[crying\])/g;
+    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\])/g;
 
     return raw.split(pattern).map((part) => {
       const emote = INLINE_EMOTES[part];
