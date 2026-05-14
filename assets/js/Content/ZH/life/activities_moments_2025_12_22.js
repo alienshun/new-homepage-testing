@@ -16,7 +16,7 @@
     dateLabel: '2025.12.22',
 
     title: '《中国纸墨笔砚》',
-    location: '中国科学技术大学 · 南校区',
+    location: '中国科学技术大学·南校区',
 
     cover: './assets/images/life/activities_moments/2025_12_22/cover.jpg',
 
