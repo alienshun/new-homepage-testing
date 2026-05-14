@@ -16,7 +16,7 @@
     dateLabel: '2025.06.26',
 
     title: '志愿科普',
-    location: '中国 · 安徽省 · 合肥市 · 合肥高新技术产业开发区城西桥社区服务中心',
+    location: '中国·安徽省·合肥市·合肥高新技术产业开发区城西桥社区服务中心',
 
     cover: './assets/images/life/activities_moments/2025_06_26/cover.jpg',
 
