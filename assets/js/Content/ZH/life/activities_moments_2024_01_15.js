@@ -1,0 +1,31 @@
+(function () {
+  'use strict';
+
+  const target = window.ACTIVITIES_MOMENTS_ZH || {
+    ui: {},
+    moments: []
+  };
+
+  if (!Array.isArray(target.moments)) {
+    target.moments = [];
+  }
+
+  target.moments.push({
+    dateKey: '2024_01_15',
+    dateISO: '2024-01-15',
+    dateLabel: '2024.01.15',
+
+    title: '科大的第一笔奖学金',
+    location: '中国科学技术大学东区老北门',
+
+    cover: './assets/images/life/activities_moments/2024_01_15/cover.jpg',
+
+    summary: '',
+
+    body: [],
+
+    gallery: []
+  });
+
+  window.ACTIVITIES_MOMENTS_ZH = target;
+})();
