@@ -16,7 +16,7 @@
     dateLabel: '2026.03.20',
 
     title: 'Third Scholarship at USTC',
-    location: 'Old North Gate, East Campus, University of Science and Technology of China',
+    location: 'East Campus, University of Science and Technology of China',
 
     cover: './assets/images/life/activities_moments/2026_03_20/cover.jpg',
 
