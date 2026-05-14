@@ -22,7 +22,8 @@
   */
   const ACTIVITY_MOMENT_DATES = [
     '2026_03_09',
-    '2026_02_17'
+    '2026_02_17',
+    '2024_01_15'
   ];
 
   function activityMomentScripts(lang) {
