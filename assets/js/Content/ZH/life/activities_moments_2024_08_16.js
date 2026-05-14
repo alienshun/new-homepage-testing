@@ -16,7 +16,7 @@
     dateLabel: '2024.08.16',
 
     title: '志愿科普',
-    location: '中国 · 安徽省 · 合肥市 · 高新区长宁中心党群服务中心',
+    location: '中国·安徽省·合肥市·高新区长宁中心党群服务中心',
 
     cover: './assets/images/life/activities_moments/2024_08_16/cover.jpg',
 
