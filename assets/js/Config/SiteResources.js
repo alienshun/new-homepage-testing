@@ -21,6 +21,7 @@
     assets/js/Content/ZH/life/activities_moments_2026_05_12.js
   */
   const ACTIVITY_MOMENT_DATES = [
+    '2026_03_20',
     '2026_03_09',
     '2026_02_17',
     '2025_12_22',
