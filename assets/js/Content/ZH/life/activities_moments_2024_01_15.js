@@ -16,7 +16,7 @@
     dateLabel: '2024.01.15',
 
     title: '科大的第一笔奖学金',
-    location: '中国科学技术大学东区老北门',
+    location: '中国科学技术大学 · 东区 · 老北门',
 
     cover: './assets/images/life/activities_moments/2024_01_15/cover.jpg',
 
