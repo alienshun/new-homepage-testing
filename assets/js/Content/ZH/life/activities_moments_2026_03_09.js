@@ -16,7 +16,7 @@
     dateLabel: '2026.03.09',
 
     title: '春晚参演',
-    location: '中国科学技术大学东区老北门',
+    location: '中国科学技术大学·东区·老北门',
 
     cover: './assets/images/life/activities_moments/2026_03_09/cover.jpg',
 
