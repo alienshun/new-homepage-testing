@@ -16,7 +16,7 @@
     dateLabel: '2025.09.12',
 
     title: '第一次助教随堂',
-    location: '中国科学技术大学 · 东区 · 第五教学楼 5104',
+    location: '中国科学技术大学·东区·第五教学楼 5104',
 
     cover: './assets/images/life/activities_moments/2025_09_12/cover.jpg',
 
