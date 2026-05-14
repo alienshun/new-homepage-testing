@@ -56,6 +56,49 @@
     });
   }
 
+  function resetDefaultSubroute(pageKey) {
+    if (pageKey === 'schedule' &&
+        window.ScheduleRoutes &&
+        typeof window.ScheduleRoutes.activateView === 'function') {
+      window.ScheduleRoutes.activateView('my-timetable', {
+        updateHistory: false,
+        scroll: false
+      });
+      return;
+    }
+
+    if (pageKey === 'life' &&
+        window.LifeRoutes &&
+        typeof window.LifeRoutes.activateView === 'function') {
+      window.LifeRoutes.activateView('activities_moments', {
+        updateHistory: false,
+        dateKey: null,
+        scroll: false
+      });
+    }
+  }
+
+  function navigateToTopLevelPage(target, onNavigate) {
+    if (!target || !onNavigate) return;
+
+    let result;
+
+    try {
+      result = onNavigate(target);
+    } catch (e) {
+      console.error('[TopNav] Navigation failed:', target, e);
+      return;
+    }
+
+    Promise.resolve(result)
+      .then(() => {
+        resetDefaultSubroute(target);
+      })
+      .catch((e) => {
+        console.error('[TopNav] Navigation promise failed:', target, e);
+      });
+  }
+
   function initTopNav(onNavigate, onBackToCover, onWarmup) {
     const topNav = document.getElementById('top-nav');
     if (!topNav) return;
@@ -74,8 +117,7 @@
 
         btn.addEventListener('click', () => {
           const target = btn.dataset.page;
-          if (!target || !onNavigate) return;
-          onNavigate(target);
+          navigateToTopLevelPage(target, onNavigate);
         });
       }
 
