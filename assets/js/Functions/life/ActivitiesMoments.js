@@ -47,6 +47,16 @@
       className: 'am-emote-crying',
       label: 'crying',
       text: '😭'
+    },
+    '[捂脸]': {
+      className: 'am-emote-bitter',
+      label: '捂脸',
+      text: '🤦'
+    },
+    '[facepalm]': {
+      className: 'am-emote-bitter',
+      label: 'facepalm',
+      text: '🤦'
     }
   };
 
@@ -112,7 +122,7 @@
       return escapeHtml(raw);
     }
 
-    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\])/g;
+    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\]|\[捂脸\]|\[facepalm\])/g;
 
     return raw.split(pattern).map((part) => {
       const emote = INLINE_EMOTES[part];
