@@ -97,6 +97,36 @@
       className: 'am-emote-delicious',
       label: 'delicious',
       text: '😋'
+    },
+    '[庆祝]': {
+      className: 'am-emote-celebrate',
+      label: '庆祝',
+      text: '🎉'
+    },
+    '[celebrate]': {
+      className: 'am-emote-celebrate',
+      label: 'celebrate',
+      text: '🎉'
+    },
+    '[玫瑰]': {
+      className: 'am-emote-rose',
+      label: '玫瑰',
+      text: '🌹'
+    },
+    '[rose]': {
+      className: 'am-emote-rose',
+      label: 'rose',
+      text: '🌹'
+    },
+    '[呲牙]': {
+      className: 'am-emote-grin',
+      label: '呲牙',
+      text: '😁'
+    },
+    '[grin]': {
+      className: 'am-emote-grin',
+      label: 'grin',
+      text: '😁'
     }
   };
 
@@ -162,7 +192,7 @@
       return escapeHtml(raw);
     }
 
-    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\]|\[捂脸\]|\[facepalm\]|\[机智\]|\[witty\]|\[憨笑\]|\[smile\]|\[皱眉\]|\[frown\]|\[好吃\]|\[delicious\])/g;
+    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\]|\[捂脸\]|\[facepalm\]|\[机智\]|\[witty\]|\[憨笑\]|\[smile\]|\[皱眉\]|\[frown\]|\[好吃\]|\[delicious\]|\[庆祝\]|\[celebrate\]|\[玫瑰\]|\[rose\]|\[呲牙\]|\[grin\])/g;
 
     return raw.split(pattern).map((part) => {
       const emote = INLINE_EMOTES[part];
