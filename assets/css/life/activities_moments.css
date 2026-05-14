@@ -356,7 +356,8 @@ body[data-lang="zh"] .am-card-meta {
 }
 
 .am-emote-sigh,
-.am-emote-bitter {
+.am-emote-bitter,
+.am-emote-crying {
   background: color-mix(in srgb, var(--surface-2) 74%, var(--accent-weak));
 }
 
