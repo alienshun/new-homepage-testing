@@ -16,7 +16,7 @@
     dateLabel: '2024.10.26',
 
     title: '书院团体拔河赛',
-    location: '中国科学技术大学 · 中校区 · 体育馆',
+    location: '中国科学技术大学·中校区·体育馆',
 
     cover: './assets/images/life/activities_moments/2024_10_26/cover.jpg',
 
