@@ -16,7 +16,7 @@
     dateLabel: '2026.03.20',
 
     title: '科大的第三笔奖学金',
-    location: '中国科学技术大学 · 东区 · 老北门',
+    location: '中国科学技术大学·东区',
 
     cover: './assets/images/life/activities_moments/2026_03_20/cover.jpg',
 
