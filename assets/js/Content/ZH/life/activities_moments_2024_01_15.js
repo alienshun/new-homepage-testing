@@ -24,7 +24,10 @@
 
     body: [],
 
-    gallery: []
+    gallery: [
+      './assets/images/life/activities_moments/2024_01_15/01.jpg',
+      './assets/images/life/activities_moments/2024_01_15/02.jpg'
+    ]
   });
 
   window.ACTIVITIES_MOMENTS_ZH = target;
