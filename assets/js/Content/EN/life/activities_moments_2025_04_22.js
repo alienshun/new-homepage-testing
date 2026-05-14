@@ -16,7 +16,7 @@
     dateLabel: '2025.04.22',
 
     title: 'Second Scholarship at USTC',
-    location: 'Old North Gate, East Campus, University of Science and Technology of China',
+    location: 'East Campus, University of Science and Technology of China',
 
     cover: './assets/images/life/activities_moments/2025_04_22/cover.jpg',
 
