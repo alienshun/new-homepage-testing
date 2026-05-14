@@ -138,6 +138,24 @@
     }).join('');
   }
 
+  function renderTitle(moment) {
+    const parts = Array.isArray(moment && moment.titleParts) ? moment.titleParts : null;
+
+    if (!parts || !parts.length) {
+      return escapeHtml(moment && moment.title ? moment.title : '');
+    }
+
+    return parts.map((part) => {
+      const text = escapeHtml(part && part.text ? part.text : '');
+
+      if (part && part.italic) {
+        return '<em>' + text + '</em>';
+      }
+
+      return text;
+    }).join('');
+  }
+
   function normalizePath(pathname) {
     return String(pathname || '/')
       .replace(/index\.html$/, '')
@@ -255,7 +273,8 @@
     const rawDateKey = moment.dateKey || '';
     const dateKey = escapeHtml(rawDateKey);
     const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
-    const title = escapeHtml(moment.title || '');
+    const plainTitle = escapeHtml(moment.title || '');
+    const title = renderTitle(moment);
     const meta = escapeHtml(getMetaText(moment));
     const summary = renderInlineText(moment.summary || '');
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
@@ -270,7 +289,7 @@
         <div class="am-card-media">
           <img
             src="${cover}"
-            alt="${title}"
+            alt="${plainTitle}"
             loading="${loading}"
             decoding="async"${fetchPriority}
           >
@@ -351,7 +370,8 @@
     const ui = getUi();
 
     const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
-    const title = escapeHtml(moment.title || '');
+    const plainTitle = escapeHtml(moment.title || '');
+    const title = renderTitle(moment);
     const meta = escapeHtml(getMetaText(moment));
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
     const backHref = escapeHtml(getListRoute());
@@ -363,7 +383,7 @@
       .join('');
 
     const hero = cover
-      ? `<img src="${cover}" alt="${title}" loading="eager" decoding="async" fetchpriority="high">`
+      ? `<img src="${cover}" alt="${plainTitle}" loading="eager" decoding="async" fetchpriority="high">`
       : '';
 
     return `
