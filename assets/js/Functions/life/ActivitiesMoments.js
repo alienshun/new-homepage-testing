@@ -87,6 +87,16 @@
       className: 'am-emote-frown',
       label: 'frown',
       text: '😟'
+    },
+    '[好吃]': {
+      className: 'am-emote-delicious',
+      label: '好吃',
+      text: '😋'
+    },
+    '[delicious]': {
+      className: 'am-emote-delicious',
+      label: 'delicious',
+      text: '😋'
     }
   };
 
@@ -152,7 +162,7 @@
       return escapeHtml(raw);
     }
 
-    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\]|\[捂脸\]|\[facepalm\]|\[机智\]|\[witty\]|\[憨笑\]|\[smile\]|\[皱眉\]|\[frown\])/g;
+    const pattern = /(\[旺柴\]|\[doge\]|\[叹气\]|\[sigh\]|\[苦涩\]|\[bitter\]|\[流泪\]|\[crying\]|\[捂脸\]|\[facepalm\]|\[机智\]|\[witty\]|\[憨笑\]|\[smile\]|\[皱眉\]|\[frown\]|\[好吃\]|\[delicious\])/g;
 
     return raw.split(pattern).map((part) => {
       const emote = INLINE_EMOTES[part];
