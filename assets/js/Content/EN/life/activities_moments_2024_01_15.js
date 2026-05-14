@@ -16,7 +16,7 @@
     dateLabel: '2024.01.15',
 
     title: 'First Scholarship at USTC',
-    location: 'Old North Gate, East Campus, University of Science and Technology of China',
+    location: 'East Campus, University of Science and Technology of China',
 
     cover: './assets/images/life/activities_moments/2024_01_15/cover.jpg',
 
