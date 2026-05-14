@@ -16,7 +16,7 @@
     dateLabel: '2025.04.22',
 
     title: '科大的第二笔奖学金',
-    location: '中国科学技术大学东区老北门',
+    location: '中国科学技术大学 · 东区 · 老北门',
 
     cover: './assets/images/life/activities_moments/2025_04_22/cover.jpg',
 
