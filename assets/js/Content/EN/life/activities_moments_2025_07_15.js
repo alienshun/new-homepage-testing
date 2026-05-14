@@ -16,6 +16,10 @@
     dateLabel: '2025.07.15',
 
     title: 'Autographed Copy of Battle Through the Heavens',
+    titleParts: [
+      { text: 'Autographed Copy of ' },
+      { text: 'Battle Through the Heavens', italic: true }
+    ],
     location: '',
 
     cover: './assets/images/life/activities_moments/2025_07_15/cover.jpg',
