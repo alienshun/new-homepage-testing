@@ -255,6 +255,7 @@ body[data-lang="zh"] .top-nav-lang-btn .lang-right{
   font-size: 1.10em;
   font-variant: small-caps;
   letter-spacing: 0.45px;
+  text-decoration: none;
 
   cursor: pointer;
   -webkit-appearance: none;
@@ -269,6 +270,11 @@ body[data-lang="zh"] .top-nav-lang-btn .lang-right{
     color 0.18s ease,
     transform 0.12s ease,
     box-shadow 0.12s ease;
+}
+
+.top-nav-link:visited{
+  color: var(--text);
+  text-decoration: none;
 }
 
 .top-nav-link::after{
@@ -289,6 +295,7 @@ body[data-lang="zh"] .top-nav-lang-btn .lang-right{
   background: var(--surface-2);
   border-color: var(--border);
   color: var(--accent-strong);
+  text-decoration: none;
 }
 
 .top-nav-link:hover::after{
