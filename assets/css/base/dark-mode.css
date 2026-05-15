@@ -1,0 +1,85 @@
+/* =========================================================
+   Dark Mode Overrides
+   - Dark theme tokens
+   - Shared dark-mode component fixes
+   ========================================================= */
+
+/* Theme tokens (dark) */
+body.dark-mode {
+  /* Let the browser render native controls (inputs, scrollbars) in dark style */
+  color-scheme: dark;
+
+  /* Surfaces (neutral, not overly blue) */
+  --bg: #0f1217;
+  --page-overlay: rgba(15, 18, 23, 0.92);
+  --surface: rgba(23, 28, 36, 0.96);
+  --surface-2: rgba(30, 36, 46, 0.94);
+  --surface-3: rgba(18, 22, 30, 0.96);
+
+  /* Navigation (separate layer) */
+  --nav-surface: rgba(18, 22, 30, 0.90);
+  --nav-border: rgba(211, 219, 232, 0.14);
+  --nav-shadow: 0 14px 40px rgba(0, 0, 0, 0.60);
+
+  /* Typography */
+  --text: rgba(232, 237, 244, 0.96);
+  --muted: rgba(165, 174, 188, 0.92);
+
+  /* Lines / accents (same hue family as light mode: muted academic navy) */
+  --border: rgba(211, 219, 232, 0.18);
+  --accent: #8fb3d6;
+  --accent-strong: #b4d2ec;
+  --accent-weak: rgba(143, 179, 214, 0.16);
+
+  /* Status */
+  --danger: #e46a5e;
+  --danger-strong: #ff7c6f;
+
+  /* Shadows (slightly stronger than light mode, but still soft) */
+  --shadow-xs: 0 2px 10px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 3px 14px rgba(0, 0, 0, 0.35);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 18px 55px rgba(0,  0, 0, 0.60);
+
+  /* Texture is usually too noisy in dark mode */
+  --paper-texture: none;
+
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Dark-mode tweaks for specific components */
+
+/* FullCalendar (prevents default bright/bluish panel in dark mode) */
+body.dark-mode .fc {
+  --fc-page-bg-color: var(--surface);
+  --fc-neutral-bg-color: var(--surface-2);
+  --fc-neutral-text-color: var(--text);
+  --fc-border-color: var(--border);
+
+  --fc-button-text-color: var(--text);
+  --fc-button-bg-color: var(--surface);
+  --fc-button-border-color: var(--border);
+  --fc-button-hover-bg-color: var(--surface-2);
+  --fc-button-hover-border-color: var(--border);
+  --fc-button-active-bg-color: var(--accent);
+  --fc-button-active-border-color: var(--accent);
+
+  --fc-event-bg-color: var(--accent-weak);
+  --fc-event-border-color: var(--border);
+  --fc-event-text-color: var(--text);
+
+  --fc-today-bg-color: var(--accent-weak);
+}
+
+/* Slightly tone down very colorful toolkit icon blocks in dark mode */
+body.dark-mode .toolkit-icon {
+  filter: saturate(0.55) contrast(0.95) brightness(0.90);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Hover underline color in dark mode */
+body.dark-mode a:hover {
+  text-decoration-color: rgba(180, 210, 236, 0.55);
+}
