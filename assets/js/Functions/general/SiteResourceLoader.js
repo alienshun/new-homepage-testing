@@ -13,6 +13,9 @@
   const pagePromises = Object.create(null);
   const pageLoaded = Object.create(null);
 
+  const pageWarmupPromises = Object.create(null);
+  const pageWarmupLoaded = Object.create(null);
+
   let bootPromise = null;
   let analyticsStarted = false;
 
@@ -265,6 +268,61 @@
     }
   }
 
+  function hasWarmupAssets(page) {
+    return !!(
+      page &&
+      (
+        (Array.isArray(page.warmupStyles) && page.warmupStyles.length) ||
+        (Array.isArray(page.warmupScripts) && page.warmupScripts.length)
+      )
+    );
+  }
+
+  function warmPageExtras(pageKey, reason) {
+    const pages = resources.pages || {};
+    const page = pages[pageKey];
+
+    if (!page || !hasWarmupAssets(page)) {
+      return Promise.resolve(null);
+    }
+
+    if (pageWarmupPromises[pageKey]) {
+      return pageWarmupPromises[pageKey];
+    }
+
+    pageWarmupPromises[pageKey] = (async () => {
+      await loadStylesInParallel(page.warmupStyles || []);
+      await loadScriptsInOrder(page.warmupScripts || []);
+
+      pageWarmupLoaded[pageKey] = true;
+
+      try {
+        window.dispatchEvent(new CustomEvent('site:pagewarmuploaded', {
+          detail: { page: pageKey, config: page, reason: reason || '' }
+        }));
+      } catch (e) {}
+
+      return page;
+    })().catch((err) => {
+      console.warn('[SiteResourceLoader] Page extra warm-up failed:', pageKey, reason || '', err);
+      return null;
+    });
+
+    return pageWarmupPromises[pageKey];
+  }
+
+  function startPageExtrasWarmup(pageKey, reason) {
+    const pages = resources.pages || {};
+    const page = pages[pageKey];
+
+    if (!page || !hasWarmupAssets(page)) return;
+    if (pageWarmupPromises[pageKey] || pageWarmupLoaded[pageKey]) return;
+
+    window.setTimeout(() => {
+      warmPageExtras(pageKey, reason || 'post-critical-load');
+    }, 0);
+  }
+
   function loadAnalyticsWhenIdle() {
     if (analyticsStarted) return;
     analyticsStarted = true;
@@ -335,6 +393,8 @@
         }));
       } catch (e) {}
 
+      startPageExtrasWarmup(pageKey, 'post-critical-load');
+
       return page;
     })();
 
@@ -346,7 +406,11 @@
     const page = pages[pageKey];
 
     if (!page) return Promise.resolve(null);
-    if (pageLoaded[pageKey]) return Promise.resolve(page);
+
+    if (pageLoaded[pageKey]) {
+      startPageExtrasWarmup(pageKey, reason || 'warm-page-loaded');
+      return Promise.resolve(page);
+    }
 
     return loadPage(pageKey).catch((err) => {
       console.warn('[SiteResourceLoader] Warm-up failed:', pageKey, reason || '', err);
@@ -373,6 +437,14 @@
     return !!pagePromises[pageKey] && !pageLoaded[pageKey];
   }
 
+  function isPageWarmupLoaded(pageKey) {
+    return !!pageWarmupLoaded[pageKey];
+  }
+
+  function isPageWarmupLoading(pageKey) {
+    return !!pageWarmupPromises[pageKey] && !pageWarmupLoaded[pageKey];
+  }
+
   function getPageConfig(pageKey) {
     return resources.pages && resources.pages[pageKey]
       ? resources.pages[pageKey]
@@ -387,9 +459,12 @@
     bootCore,
     loadPage,
     warmPage,
+    warmPageExtras,
     warmPagesSequential,
     isPageLoaded,
     isPageLoading,
+    isPageWarmupLoaded,
+    isPageWarmupLoading,
     loadStyle,
     loadScript,
     loadStylesInParallel,
