@@ -42,7 +42,7 @@
     );
   box-shadow: var(--shadow-sm);
 
-  cursor: default;
+  cursor: inherit;
   transform: translateY(0);
   transition:
     transform 0.22s ease,
