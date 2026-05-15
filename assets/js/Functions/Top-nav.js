@@ -16,11 +16,11 @@
       </div>
 
       <div class="top-nav-center" role="navigation" aria-label="Pages">
-        <button class="top-nav-link" data-page="resume" data-cursor="precise_select" data-cursor-fallback="pointer">About</button>
-        <button class="top-nav-link" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</button>
-        <button class="top-nav-link" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</button>
-        <!-- <button class="top-nav-link" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</button> -->
-        <button class="top-nav-link" data-page="life" data-cursor="precise_select" data-cursor-fallback="pointer">Life</button>
+        <a class="top-nav-link" href="./about/" data-page="resume" data-cursor="precise_select" data-cursor-fallback="pointer">About</a>
+        <a class="top-nav-link" href="./schedule/" data-page="schedule" data-cursor="precise_select" data-cursor-fallback="pointer">Schedule</a>
+        <a class="top-nav-link" href="./social/" data-page="social" data-cursor="precise_select" data-cursor-fallback="pointer">Social</a>
+        <!-- <a class="top-nav-link" href="./toolkit/" data-page="toolkit" data-cursor="precise_select" data-cursor-fallback="pointer">Toolkit</a> -->
+        <a class="top-nav-link" href="./life/" data-page="life" data-cursor="precise_select" data-cursor-fallback="pointer">Life</a>
       </div>
 
       <div class="top-nav-right">
@@ -51,8 +51,8 @@
 
   function setTopNavActive(pageKey) {
     const links = document.querySelectorAll('.top-nav-link');
-    links.forEach((btn) => {
-      btn.classList.toggle('active', btn.dataset.page === pageKey);
+    links.forEach((link) => {
+      link.classList.toggle('active', link.dataset.page === pageKey);
     });
   }
 
@@ -76,6 +76,16 @@
         scroll: false
       });
     }
+  }
+
+  function isPlainLeftClick(event) {
+    return event &&
+      event.button === 0 &&
+      !event.metaKey &&
+      !event.ctrlKey &&
+      !event.shiftKey &&
+      !event.altKey &&
+      !event.defaultPrevented;
   }
 
   function navigateToTopLevelPage(target, onNavigate) {
@@ -111,18 +121,24 @@
 
     const links = topNav.querySelectorAll('.top-nav-link');
 
-    links.forEach((btn) => {
-      if (btn.dataset.boundNav !== '1') {
-        btn.dataset.boundNav = '1';
+    links.forEach((link) => {
+      if (link.dataset.boundNav !== '1') {
+        link.dataset.boundNav = '1';
 
-        btn.addEventListener('click', () => {
-          const target = btn.dataset.page;
+        link.addEventListener('click', (event) => {
+          const target = link.dataset.page;
+
+          if (!target || !onNavigate || !isPlainLeftClick(event)) {
+            return;
+          }
+
+          event.preventDefault();
           navigateToTopLevelPage(target, onNavigate);
         });
       }
 
-      if (onWarmup && btn.dataset.boundWarmup !== '1') {
-        btn.dataset.boundWarmup = '1';
+      if (onWarmup && link.dataset.boundWarmup !== '1') {
+        link.dataset.boundWarmup = '1';
 
         let warmed = false;
 
@@ -130,15 +146,15 @@
           if (warmed) return;
           warmed = true;
 
-          const target = btn.dataset.page;
+          const target = link.dataset.page;
           if (!target) return;
 
           onWarmup(target);
         }
 
-        btn.addEventListener('pointerenter', warm, { passive: true });
-        btn.addEventListener('focus', warm);
-        btn.addEventListener('touchstart', warm, { passive: true });
+        link.addEventListener('pointerenter', warm, { passive: true });
+        link.addEventListener('focus', warm);
+        link.addEventListener('touchstart', warm, { passive: true });
       }
     });
 
