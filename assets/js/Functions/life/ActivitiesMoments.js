@@ -7,6 +7,10 @@
     dateKey: null
   };
 
+  const DETAIL_PROMISES = Object.create(null);
+
+  let detailRenderToken = 0;
+
   const INLINE_EMOTES = {
     '[旺柴]': {
       className: 'am-emote-wangchai',
@@ -142,17 +146,24 @@
     return document.body && document.body.dataset.lang === 'zh' ? 'zh' : 'en';
   }
 
+  function toResourceLang(lang) {
+    return lang === 'zh' ? 'ZH' : 'EN';
+  }
+
   function getData(lang) {
     const current = lang === 'zh'
       ? window.ACTIVITIES_MOMENTS_ZH
       : window.ACTIVITIES_MOMENTS_EN;
 
-    if (current && Array.isArray(current.moments)) {
+    if (current) {
+      if (!Array.isArray(current.items)) current.items = [];
+      if (!Array.isArray(current.moments)) current.moments = [];
       return current;
     }
 
     return {
       ui: {},
+      items: [],
       moments: []
     };
   }
@@ -171,8 +182,136 @@
       viewMoment: lang === 'zh' ? '观此一瞬' : 'View Moment',
       backToMoments: lang === 'zh' ? '返回行迹' : 'Back to Moments',
       close: lang === 'zh' ? '关闭' : 'Close',
-      openImage: lang === 'zh' ? '查看图片' : 'Open image'
+      openImage: lang === 'zh' ? '查看图片' : 'Open image',
+      loadingMoment: lang === 'zh' ? '正在加载这一瞬的完整内容……' : 'Loading this moment...'
     }, fallback, primary);
+  }
+
+  function getActivitiesConfig() {
+    return window.SiteResources && window.SiteResources.activitiesMoments
+      ? window.SiteResources.activitiesMoments
+      : null;
+  }
+
+  function getDetailScript(lang, dateKey) {
+    const config = getActivitiesConfig();
+    const resourceLang = toResourceLang(lang);
+
+    if (
+      config &&
+      typeof config.detailScript === 'function'
+    ) {
+      return config.detailScript(resourceLang, dateKey);
+    }
+
+    return './assets/js/Content/' + resourceLang + '/life/activities_moments_' + dateKey + '.js';
+  }
+
+  function getCatalogItems(lang) {
+    const data = getData(lang);
+
+    if (Array.isArray(data.items) && data.items.length) {
+      return data.items;
+    }
+
+    if (Array.isArray(data.catalog) && data.catalog.length) {
+      return data.catalog;
+    }
+
+    if (Array.isArray(data.moments)) {
+      return data.moments;
+    }
+
+    return [];
+  }
+
+  function getDetailItems(lang) {
+    const data = getData(lang);
+    return Array.isArray(data.moments) ? data.moments : [];
+  }
+
+  function findByDateKey(items, dateKey) {
+    return (Array.isArray(items) ? items : []).find((item) => {
+      return item && item.dateKey === dateKey;
+    }) || null;
+  }
+
+  function getCatalogMomentInLang(lang, dateKey) {
+    return findByDateKey(getCatalogItems(lang), dateKey);
+  }
+
+  function getDetailMomentInLang(lang, dateKey) {
+    return findByDateKey(getDetailItems(lang), dateKey);
+  }
+
+  function hasDetailInLang(lang, dateKey) {
+    return !!getDetailMomentInLang(lang, dateKey);
+  }
+
+  function mergeMoment(catalog, detail) {
+    if (!catalog && !detail) return null;
+    return Object.assign({}, catalog || {}, detail || {});
+  }
+
+  function getMomentInLang(lang, dateKey) {
+    return mergeMoment(
+      getCatalogMomentInLang(lang, dateKey),
+      getDetailMomentInLang(lang, dateKey)
+    );
+  }
+
+  function ensureDetailLoaded(dateKey, lang) {
+    const currentLang = lang === 'zh' ? 'zh' : 'en';
+
+    if (!dateKey) return Promise.resolve(false);
+
+    if (hasDetailInLang(currentLang, dateKey)) {
+      return Promise.resolve(true);
+    }
+
+    const key = currentLang + ':' + dateKey;
+
+    if (DETAIL_PROMISES[key]) {
+      return DETAIL_PROMISES[key];
+    }
+
+    const src = getDetailScript(currentLang, dateKey);
+
+    if (
+      !src ||
+      !window.SiteResourceLoader ||
+      typeof window.SiteResourceLoader.loadScript !== 'function'
+    ) {
+      return Promise.resolve(false);
+    }
+
+    DETAIL_PROMISES[key] = window.SiteResourceLoader.loadScript(src)
+      .then(() => hasDetailInLang(currentLang, dateKey))
+      .catch((err) => {
+        console.warn('[ActivitiesMoments] Failed to load detail:', dateKey, currentLang, err);
+        return false;
+      });
+
+    return DETAIL_PROMISES[key];
+  }
+
+  async function ensureMomentDetail(dateKey) {
+    const lang = getLang();
+
+    if (hasDetailInLang(lang, dateKey)) {
+      return true;
+    }
+
+    const loaded = await ensureDetailLoaded(dateKey, lang);
+    if (loaded) return true;
+
+    const fallbackLang = lang === 'zh' ? 'en' : 'zh';
+
+    if (hasDetailInLang(fallbackLang, dateKey)) {
+      return true;
+    }
+
+    return ensureDetailLoaded(dateKey, fallbackLang);
   }
 
   function escapeHtml(value) {
@@ -292,17 +431,18 @@
 
   function getSortedMoments() {
     const lang = getLang();
-    const data = getData(lang);
-    return sortMoments(Array.isArray(data.moments) ? data.moments : []);
+    const primary = getCatalogItems(lang);
+    const fallback = getCatalogItems(lang === 'zh' ? 'en' : 'zh');
+
+    return sortMoments(primary.length ? primary : fallback);
   }
 
   function getMomentByKey(dateKey) {
     const lang = getLang();
-    const primary = getData(lang).moments || [];
-    const fallback = getFallbackData(lang).moments || [];
+    const fallbackLang = lang === 'zh' ? 'en' : 'zh';
 
-    return primary.find((item) => item && item.dateKey === dateKey)
-      || fallback.find((item) => item && item.dateKey === dateKey)
+    return getMomentInLang(lang, dateKey)
+      || getMomentInLang(fallbackLang, dateKey)
       || null;
   }
 
@@ -436,21 +576,13 @@
     `;
   }
 
-  function renderDetailHtml(moment) {
-    const ui = getUi();
-
+  function renderDetailShell(moment, innerHtml) {
     const dateLabel = escapeHtml(moment.dateLabel || moment.dateISO || moment.dateKey || '');
     const plainTitle = escapeHtml(moment.title || '');
     const title = renderTitle(moment);
     const meta = escapeHtml(getMetaText(moment));
     const cover = moment.cover ? escapeHtml(moment.cover) : '';
-    const backHref = escapeHtml(getListRoute());
     const currentDateKey = moment.dateKey || '';
-
-    const body = Array.isArray(moment.body) ? moment.body : [];
-    const bodyHtml = body
-      .map((paragraph) => `<p>${renderInlineText(paragraph)}</p>`)
-      .join('');
 
     const hero = cover
       ? `<img src="${cover}" alt="${plainTitle}" loading="eager" decoding="async" fetchpriority="high">`
@@ -472,23 +604,47 @@
             ${renderMomentIndex(currentDateKey)}
 
             <div class="am-detail-content">
-              ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
-              ${renderGallery(moment, ui)}
-
-              <div class="am-detail-footer">
-                <a
-                  class="am-detail-back"
-                  href="${backHref}"
-                  data-am-action="back"
-                  data-cursor="precise_select"
-                  data-cursor-fallback="pointer"
-                >${escapeHtml(ui.backToMoments)}</a>
-              </div>
+              ${innerHtml}
             </div>
           </div>
         </article>
       </div>
     `;
+  }
+
+  function renderDetailLoadingHtml(moment) {
+    const ui = getUi();
+
+    return renderDetailShell(moment, `
+      <div class="am-detail-body">
+        <p>${escapeHtml(ui.loadingMoment)}</p>
+      </div>
+    `);
+  }
+
+  function renderDetailHtml(moment) {
+    const ui = getUi();
+
+    const backHref = escapeHtml(getListRoute());
+    const body = Array.isArray(moment.body) ? moment.body : [];
+    const bodyHtml = body
+      .map((paragraph) => `<p>${renderInlineText(paragraph)}</p>`)
+      .join('');
+
+    return renderDetailShell(moment, `
+      ${bodyHtml ? `<div class="am-detail-body">${bodyHtml}</div>` : ''}
+      ${renderGallery(moment, ui)}
+
+      <div class="am-detail-footer">
+        <a
+          class="am-detail-back"
+          href="${backHref}"
+          data-am-action="back"
+          data-cursor="precise_select"
+          data-cursor-fallback="pointer"
+        >${escapeHtml(ui.backToMoments)}</a>
+      </div>
+    `);
   }
 
   function bindEvents() {
@@ -550,6 +706,8 @@
     const mount = getMount();
     if (!mount) return;
 
+    detailRenderToken += 1;
+
     STATE.mode = 'list';
     STATE.dateKey = null;
 
@@ -565,14 +723,16 @@
     }
   }
 
-  function showDetail(dateKey, options) {
+  async function showDetail(dateKey, options) {
     const opts = options || {};
     const mount = getMount();
     if (!mount) return;
 
-    const moment = getMomentByKey(dateKey);
+    const token = ++detailRenderToken;
+    const lang = getLang();
+    const initialMoment = getMomentByKey(dateKey);
 
-    if (!moment) {
+    if (!initialMoment) {
       showList({
         updateHistory: opts.updateHistory,
         replaceHistory: true,
@@ -584,15 +744,49 @@
     STATE.mode = 'detail';
     STATE.dateKey = dateKey;
 
-    mount.innerHTML = renderDetailHtml(moment);
-    bindEvents();
-    syncMomentIndex();
-
     if (opts.updateHistory) {
       pushRoute(getDetailRoute(dateKey), opts.replaceHistory);
     }
 
-    if (opts.scroll !== false) {
+    let didScroll = false;
+
+    if (!hasDetailInLang(lang, dateKey)) {
+      mount.innerHTML = renderDetailLoadingHtml(initialMoment);
+      bindEvents();
+      syncMomentIndex();
+
+      if (opts.scroll !== false) {
+        scrollToMount();
+        didScroll = true;
+      }
+
+      await ensureMomentDetail(dateKey);
+
+      if (
+        token !== detailRenderToken ||
+        STATE.mode !== 'detail' ||
+        STATE.dateKey !== dateKey
+      ) {
+        return;
+      }
+    }
+
+    const moment = getMomentByKey(dateKey);
+
+    if (!moment) {
+      showList({
+        updateHistory: false,
+        replaceHistory: true,
+        scroll: opts.scroll
+      });
+      return;
+    }
+
+    mount.innerHTML = renderDetailHtml(moment);
+    bindEvents();
+    syncMomentIndex();
+
+    if (opts.scroll !== false && !didScroll) {
       scrollToMount();
     }
   }
@@ -715,7 +909,8 @@
     getMomentByKey,
     getListRoute,
     getDetailRoute,
-    resolveDateKeyFromPath
+    resolveDateKeyFromPath,
+    ensureMomentDetail
   };
 
   if (document.readyState === 'loading') {
