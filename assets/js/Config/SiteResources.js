@@ -8,17 +8,19 @@
     : [];
 
   /*
-    Add activity dates here after creating both language files.
+    Add activity dates here after creating both language detail files.
 
-    Example:
-    const ACTIVITY_MOMENT_DATES = [
-      '2026_05_12',
-      '2026_04_20'
-    ];
+    The list/index data is stored in:
+    assets/js/Content/EN/life/activities_moments_EN.js
+    assets/js/Content/ZH/life/activities_moments_ZH.js
 
-    Required files for each date:
+    The detail data is stored in:
     assets/js/Content/EN/life/activities_moments_2026_05_12.js
     assets/js/Content/ZH/life/activities_moments_2026_05_12.js
+
+    Loading strategy:
+    1. List/index files are critical Life resources.
+    2. Detail files are warm-up resources loaded after the critical Life resources finish.
   */
   const ACTIVITY_MOMENT_DATES = [
     '2026_03_20',
@@ -38,11 +40,17 @@
     '2024_01_15'
   ];
 
-  function activityMomentScripts(lang) {
-    return ACTIVITY_MOMENT_DATES.map((dateKey) => {
+  const ACTIVITIES_MOMENTS = {
+    dates: ACTIVITY_MOMENT_DATES.slice(),
+
+    detailScript(lang, dateKey) {
       return A + 'js/Content/' + lang + '/life/activities_moments_' + dateKey + '.js';
-    });
-  }
+    },
+
+    detailScripts(lang) {
+      return this.dates.map((dateKey) => this.detailScript(lang, dateKey));
+    }
+  };
 
   const FULL_CALENDAR = {
     styles: [
@@ -68,6 +76,8 @@
         type: 'image/png'
       }
     },
+
+    activitiesMoments: ACTIVITIES_MOMENTS,
 
     navigation: {
       defaultPage: 'resume',
@@ -236,15 +246,16 @@
           A + 'js/Content/EN/life/activities_moments_EN.js',
           A + 'js/Content/ZH/life/activities_moments_ZH.js',
 
-          ...activityMomentScripts('EN'),
-          ...activityMomentScripts('ZH'),
-
           A + 'js/Content/EN/life/meditations_EN.js',
           A + 'js/Content/ZH/life/meditations_ZH.js',
 
           A + 'js/Functions/life/ActivitiesMomentsIndex.js',
           A + 'js/Functions/life/ActivitiesMoments.js',
           A + 'js/Functions/life/LifeRoutes.js'
+        ],
+        warmupScripts: [
+          ...ACTIVITIES_MOMENTS.detailScripts('EN'),
+          ...ACTIVITIES_MOMENTS.detailScripts('ZH')
         ]
       }
     },
