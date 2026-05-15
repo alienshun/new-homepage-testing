@@ -141,7 +141,14 @@
     styles: {
       core: [
         A + 'css/fonts.css',
-        A + 'css/main.css',
+
+        A + 'css/base/core.css',
+        A + 'css/layout/page-shell.css',
+        A + 'css/components/legacy-controls.css',
+        A + 'css/about/about.css',
+        A + 'css/components/expanders.css',
+        A + 'css/base/dark-mode.css',
+
         A + 'css/top-nav.css',
         A + 'css/cover.css'
       ],
