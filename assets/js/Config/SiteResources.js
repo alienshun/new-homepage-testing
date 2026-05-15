@@ -65,7 +65,7 @@
       title: 'Joker Chen',
       favicon: {
         href: A + 'images/favicon.png',
-        type: 'image/jpeg'
+        type: 'image/png'
       }
     },
 
