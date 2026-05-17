@@ -663,31 +663,67 @@
   function bindCoverArrowAndScroll() {
     const cover = document.getElementById('cover');
     const arrow = document.getElementById('cover-scroll');
+    const avatarFrame = document.getElementById('avatar-frame');
+
     if (!cover) return;
+
+    function warmDefaultPage(reason) {
+      warmPage(defaultPage, reason || 'cover-intent');
+    }
+
+    function enterDefaultPage(triggerEl) {
+      if (coverHidden) return;
+
+      if (triggerEl && triggerEl.classList) {
+        triggerEl.classList.add('pulse');
+        setTimeout(() => triggerEl.classList.remove('pulse'), 320);
+      }
+
+      showPage(defaultPage);
+    }
 
     if (arrow && arrow.dataset.boundCoverArrow !== '1') {
       arrow.dataset.boundCoverArrow = '1';
 
       arrow.addEventListener('pointerenter', () => {
-        warmPage(defaultPage, 'cover-arrow-intent');
+        warmDefaultPage('cover-arrow-intent');
       }, { passive: true });
 
       arrow.addEventListener('focus', () => {
-        warmPage(defaultPage, 'cover-arrow-focus');
+        warmDefaultPage('cover-arrow-focus');
       });
 
       arrow.addEventListener('touchstart', () => {
-        warmPage(defaultPage, 'cover-arrow-touch');
+        warmDefaultPage('cover-arrow-touch');
       }, { passive: true });
 
       arrow.addEventListener('click', () => {
-        if (coverHidden) return;
-
-        arrow.classList.add('pulse');
-        setTimeout(() => arrow.classList.remove('pulse'), 320);
-
-        showPage(defaultPage);
+        enterDefaultPage(arrow);
       });
+    }
+
+    if (avatarFrame && avatarFrame.dataset.boundCoverAvatarEnter !== '1') {
+      avatarFrame.dataset.boundCoverAvatarEnter = '1';
+
+      avatarFrame.addEventListener('pointerenter', () => {
+        warmDefaultPage('cover-avatar-intent');
+      }, { passive: true });
+
+      avatarFrame.addEventListener('touchstart', () => {
+        warmDefaultPage('cover-avatar-touch');
+      }, { passive: true });
+
+      /*
+        Use capture + stopImmediatePropagation so that, if the old Blog.js
+        avatar click listener is still loaded somewhere, the avatar will now
+        enter the About page instead of triggering the blog easter egg.
+      */
+      avatarFrame.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        enterDefaultPage(avatarFrame);
+      }, true);
     }
 
     if (cover.dataset.boundCoverScroll === '1') return;
