@@ -26,8 +26,16 @@
   --cover-bg-y: 0px;
   --cover-fg-x: 0px;
   --cover-fg-y: 0px;
+  --cover-avatar-x: var(--cover-fg-x);
+  --cover-avatar-y: var(--cover-fg-y);
+  --cover-name-x: var(--cover-fg-x);
+  --cover-name-y: var(--cover-fg-y);
+  --cover-slogan-x: var(--cover-fg-x);
+  --cover-slogan-y: var(--cover-fg-y);
   --cover-cue-x: 0px;
   --cover-cue-y: 0px;
+  --cover-light-x: 50%;
+  --cover-light-y: 44%;
 }
 
 .cover-bg {
@@ -65,10 +73,31 @@
     filter 1.65s ease;
 }
 
+.cover-bg-reveal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at var(--cover-light-x) var(--cover-light-y),
+      rgba(255,255,255,0.105) 0%,
+      rgba(210,225,255,0.055) 24%,
+      rgba(0,0,0,0.0) 52%
+    );
+  mix-blend-mode: screen;
+  transition: opacity 1.15s ease;
+}
+
 #cover.background-ready:not(.leaving) .cover-bg-reveal {
   opacity: 1;
   transform: scale(1);
   filter: none;
+}
+
+#cover.background-ready:not(.leaving) .cover-bg-reveal::after {
+  opacity: 0.72;
 }
 
 #cover.background-ready:not(.leaving) .cover-bg-base {
@@ -157,7 +186,7 @@
   overflow: hidden;
   opacity: 0;
   transform: translateY(56px) scale(0.86);
-  translate: var(--cover-fg-x) var(--cover-fg-y);
+  translate: var(--cover-avatar-x, var(--cover-fg-x)) var(--cover-avatar-y, var(--cover-fg-y));
   transition:
     opacity 0.95s ease,
     transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
@@ -280,6 +309,7 @@
   font-family: var(--font-cover-name);
   font-size: 2em;
   letter-spacing: 0.12em;
+  translate: var(--cover-name-x, var(--cover-fg-x)) var(--cover-name-y, var(--cover-fg-y));
 
   color: #f6f7fb;
   background: linear-gradient(180deg, #ffffff 0%, #eef2f8 55%, #e6ecf5 100%);
@@ -301,6 +331,7 @@
 #slogan {
   font-family: var(--font-cover-slogan);
   font-size: 2.5em;
+  translate: var(--cover-slogan-x, var(--cover-fg-x)) var(--cover-slogan-y, var(--cover-fg-y));
 
   color: #f4f6fb;
   background: linear-gradient(180deg, #ffffff 0%, #f1f4fa 60%, #e8edf6 100%);
