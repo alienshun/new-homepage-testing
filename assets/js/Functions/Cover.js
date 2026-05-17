@@ -249,30 +249,39 @@
       }
     }
 
-    const FOLLOW_EASE = 0.12;
-    const RETURN_EASE = 0.055;
-
-    let currentEase = FOLLOW_EASE;
-
-    const state = {
-      bgX: 0,
-      bgY: 0,
-      fgX: 0,
-      fgY: 0,
-      cueX: 0,
-      cueY: 0
+    const SPRING = {
+      follow: {
+        stiffness: 0.064,
+        damping: 0.775
+      },
+      return: {
+        stiffness: 0.044,
+        damping: 0.83
+      }
     };
 
-    const target = {
-      bgX: 0,
-      bgY: 0,
-      fgX: 0,
-      fgY: 0,
-      cueX: 0,
-      cueY: 0
-    };
+    const MOTION_KEYS = [
+      'bgX', 'bgY',
+      'avatarX', 'avatarY',
+      'nameX', 'nameY',
+      'sloganX', 'sloganY',
+      'cueX', 'cueY',
+      'lightX', 'lightY'
+    ];
+
+    const state = {};
+    const target = {};
+    const velocity = {};
+
+    MOTION_KEYS.forEach((key) => {
+      state[key] = 0;
+      target[key] = 0;
+      velocity[key] = 0;
+    });
 
     let raf = 0;
+    let lastTickTime = 0;
+    let motionMode = 'follow';
 
     function coverStillVisible() {
       return cover.classList.contains('visible') &&
@@ -307,55 +316,99 @@
       return coverStillVisible() && coverMotionReady();
     }
 
+    function px(value) {
+      return `${value.toFixed(2)}px`;
+    }
+
+    function pct(value) {
+      return `${value.toFixed(2)}%`;
+    }
+
     function setVars() {
-      cover.style.setProperty('--cover-bg-x', `${state.bgX.toFixed(2)}px`);
-      cover.style.setProperty('--cover-bg-y', `${state.bgY.toFixed(2)}px`);
-      cover.style.setProperty('--cover-fg-x', `${state.fgX.toFixed(2)}px`);
-      cover.style.setProperty('--cover-fg-y', `${state.fgY.toFixed(2)}px`);
-      cover.style.setProperty('--cover-cue-x', `${state.cueX.toFixed(2)}px`);
-      cover.style.setProperty('--cover-cue-y', `${state.cueY.toFixed(2)}px`);
+      cover.style.setProperty('--cover-bg-x', px(state.bgX));
+      cover.style.setProperty('--cover-bg-y', px(state.bgY));
+
+      cover.style.setProperty('--cover-fg-x', px(state.nameX));
+      cover.style.setProperty('--cover-fg-y', px(state.nameY));
+
+      cover.style.setProperty('--cover-avatar-x', px(state.avatarX));
+      cover.style.setProperty('--cover-avatar-y', px(state.avatarY));
+
+      cover.style.setProperty('--cover-name-x', px(state.nameX));
+      cover.style.setProperty('--cover-name-y', px(state.nameY));
+
+      cover.style.setProperty('--cover-slogan-x', px(state.sloganX));
+      cover.style.setProperty('--cover-slogan-y', px(state.sloganY));
+
+      cover.style.setProperty('--cover-cue-x', px(state.cueX));
+      cover.style.setProperty('--cover-cue-y', px(state.cueY));
+
+      cover.style.setProperty('--cover-light-x', pct(50 + state.lightX));
+      cover.style.setProperty('--cover-light-y', pct(44 + state.lightY));
     }
 
     function resetTargets() {
-      currentEase = RETURN_EASE;
+      motionMode = 'return';
 
-      target.bgX = 0;
-      target.bgY = 0;
-      target.fgX = 0;
-      target.fgY = 0;
-      target.cueX = 0;
-      target.cueY = 0;
+      MOTION_KEYS.forEach((key) => {
+        target[key] = 0;
+      });
 
       startMotionLoop();
+    }
+
+    function springStep(key, params, dtScale) {
+      velocity[key] += (target[key] - state[key]) * params.stiffness * dtScale;
+      velocity[key] *= Math.pow(params.damping, dtScale);
+      state[key] += velocity[key] * dtScale;
+    }
+
+    function isStillMoving() {
+      return MOTION_KEYS.some((key) => (
+        Math.abs(target[key] - state[key]) > 0.018 ||
+        Math.abs(velocity[key]) > 0.018
+      ));
+    }
+
+    function settleTinyValues() {
+      MOTION_KEYS.forEach((key) => {
+        if (
+          Math.abs(target[key] - state[key]) <= 0.018 &&
+          Math.abs(velocity[key]) <= 0.018
+        ) {
+          state[key] = target[key];
+          velocity[key] = 0;
+        }
+      });
     }
 
     function startMotionLoop() {
       if (raf) return;
 
-      function tick() {
+      lastTickTime = 0;
+
+      function tick(now) {
         raf = 0;
 
-        const ease = currentEase;
+        const dtScale = lastTickTime
+          ? Math.min(2.35, Math.max(0.55, (now - lastTickTime) / 16.667))
+          : 1;
 
-        state.bgX += (target.bgX - state.bgX) * ease;
-        state.bgY += (target.bgY - state.bgY) * ease;
-        state.fgX += (target.fgX - state.fgX) * ease;
-        state.fgY += (target.fgY - state.fgY) * ease;
-        state.cueX += (target.cueX - state.cueX) * ease;
-        state.cueY += (target.cueY - state.cueY) * ease;
+        lastTickTime = now;
 
+        const params = SPRING[motionMode] || SPRING.follow;
+
+        MOTION_KEYS.forEach((key) => {
+          springStep(key, params, dtScale);
+        });
+
+        settleTinyValues();
         setVars();
 
-        const stillMoving =
-          Math.abs(target.bgX - state.bgX) > 0.035 ||
-          Math.abs(target.bgY - state.bgY) > 0.035 ||
-          Math.abs(target.fgX - state.fgX) > 0.035 ||
-          Math.abs(target.fgY - state.fgY) > 0.035 ||
-          Math.abs(target.cueX - state.cueX) > 0.035 ||
-          Math.abs(target.cueY - state.cueY) > 0.035;
-
-        if (stillMoving) {
+        if (coverStillVisible() && isStillMoving()) {
           raf = requestAnimationFrame(tick);
+        } else {
+          lastTickTime = 0;
         }
       }
 
@@ -389,19 +442,31 @@
       const rect = cover.getBoundingClientRect();
       if (!rect.width || !rect.height) return;
 
-      const nx = clamp01((event.clientX - rect.left) / rect.width) * 2 - 1;
-      const ny = clamp01((event.clientY - rect.top) / rect.height) * 2 - 1;
+      const nxRaw = clamp01((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const nyRaw = clamp01((event.clientY - rect.top) / rect.height) * 2 - 1;
 
-      currentEase = FOLLOW_EASE;
+      const nx = Math.sign(nxRaw) * Math.pow(Math.abs(nxRaw), 0.92);
+      const ny = Math.sign(nyRaw) * Math.pow(Math.abs(nyRaw), 0.92);
 
-      target.bgX = -nx * 5.8;
-      target.bgY = -ny * 4.6;
+      motionMode = 'follow';
 
-      target.fgX = nx * 2.8;
-      target.fgY = ny * 2.2;
+      target.bgX = -nx * 5.2;
+      target.bgY = -ny * 3.9;
 
-      target.cueX = nx * 3.6;
-      target.cueY = ny * 2.8;
+      target.avatarX = nx * 2.75;
+      target.avatarY = ny * 2.05;
+
+      target.nameX = nx * 1.55;
+      target.nameY = ny * 1.12;
+
+      target.sloganX = nx * 1.10;
+      target.sloganY = ny * 0.82;
+
+      target.cueX = nx * 2.35;
+      target.cueY = ny * 1.82;
+
+      target.lightX = nx * 5.8;
+      target.lightY = ny * 4.3;
 
       startMotionLoop();
     }, { passive: true });
