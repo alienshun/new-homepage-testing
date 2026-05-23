@@ -18,21 +18,9 @@
 
       CHECK_UNUSED_MAPPINGS=1 node scripts/check_schedule_translations.js
 
-  Optional canonical reference:
-
-      scripts/schedule_translation_canonical.json
-
-  Example canonical entry:
-
-      {
-        "011174.01": {
-          "en": "Operating System",
-          "zh": "操作系统原理与设计",
-          "aliases": ["Operating Systems"]
-        }
-      }
-
-  This script has no third-party dependencies.
+  This script checks internal consistency only.
+  It does not fetch or compare against external official catalog data.
+  It has no third-party dependencies.
 */
 
 const fs = require('fs');
@@ -51,21 +39,8 @@ const ZH_SCHEDULE_FILE = path.join(
   'assets/js/Content/ZH/schedule/schedule_ZH.js'
 );
 
-const CANONICAL_FILE = path.join(
-  ROOT,
-  'scripts/schedule_translation_canonical.json'
-);
-
 const STRICT_WARNINGS = String(process.env.STRICT_WARNINGS || '').trim() === '1';
-const STRICT_CANONICAL = String(process.env.STRICT_CANONICAL || '').trim() === '1';
 const CHECK_UNUSED_MAPPINGS = String(process.env.CHECK_UNUSED_MAPPINGS || '').trim() === '1';
-
-const IGNORE_CANONICAL_KEYS = new Set([
-  '__note',
-  '__comment',
-  '_note',
-  '_comment'
-]);
 
 let errors = [];
 let warnings = [];
@@ -104,6 +79,7 @@ function escapeForAnnotation(message) {
 
 function printGithubAnnotation(level, message) {
   const safe = escapeForAnnotation(message);
+
   if (level === 'error') {
     console.error(`::error title=Schedule translation check::${safe}`);
   } else if (level === 'warning') {
@@ -130,12 +106,10 @@ function normalizeSpaces(s) {
 }
 
 function normalizeCourseCode(raw) {
-  let s = stripTags(raw);
-  s = normalizeSpaces(s);
+  const s = normalizeSpaces(stripTags(raw));
   if (!s) return '';
 
-  const token = s.split(/\s+/)[0].trim();
-  return token || '';
+  return s.split(/\s+/)[0].trim();
 }
 
 function normalizeCourseName(raw) {
@@ -215,6 +189,7 @@ function extractObjectLiteral(source, constName) {
       depth++;
     } else if (ch === '}') {
       depth--;
+
       if (depth === 0) {
         return source.slice(start, i + 1);
       }
@@ -423,53 +398,6 @@ function parseEnglishCourses(enText) {
   });
 }
 
-function loadCanonical() {
-  if (!fs.existsSync(CANONICAL_FILE)) {
-    info(`Optional canonical reference not found: ${rel(CANONICAL_FILE)}. Skipping official-reference checks.`);
-    return {};
-  }
-
-  try {
-    const raw = fs.readFileSync(CANONICAL_FILE, 'utf8').trim();
-
-    if (!raw) return {};
-
-    const data = JSON.parse(raw);
-
-    if (!data || typeof data !== 'object' || Array.isArray(data)) {
-      warn(`Canonical reference is not a JSON object: ${rel(CANONICAL_FILE)}`);
-      return {};
-    }
-
-    return data;
-  } catch (e) {
-    fail(`Failed to read canonical reference ${rel(CANONICAL_FILE)}: ${e.message}`);
-    return {};
-  }
-}
-
-function canonicalEntryToObject(key, value) {
-  if (IGNORE_CANONICAL_KEYS.has(key)) return null;
-
-  if (typeof value === 'string') {
-    return { zh: value };
-  }
-
-  if (value && typeof value === 'object' && !Array.isArray(value)) {
-    return value;
-  }
-
-  warn(`Invalid canonical entry for ${key}; expected string or object.`);
-  return null;
-}
-
-function getEffectiveZh(record, byCode, byText) {
-  const codeZh = byCode[record.code];
-  const textZh = byText[record.enName];
-
-  return codeZh || textZh || '';
-}
-
 function checkMissingAndFallbacks(records, byCode, byText) {
   for (const r of records) {
     const hasCodeMap = Object.prototype.hasOwnProperty.call(byCode, r.code);
@@ -522,6 +450,7 @@ function checkCodeNameConflicts(records) {
     }
 
     const normalized = normalizeNameForConflict(r.enName);
+
     if (!codeToNames.get(r.code).has(normalized)) {
       codeToNames.get(r.code).set(normalized, new Set());
     }
@@ -533,8 +462,11 @@ function checkCodeNameConflicts(records) {
     if (normalizedNameMap.size <= 1) continue;
 
     const names = [];
+
     for (const variants of normalizedNameMap.values()) {
-      for (const item of variants) names.push(item);
+      for (const item of variants) {
+        names.push(item);
+      }
     }
 
     warn([
@@ -567,82 +499,6 @@ function checkUnusedMappings(records, byCode, byText) {
   });
 }
 
-function checkCanonical(records, byCode, byText, canonicalRaw) {
-  const canonicalKeys = Object.keys(canonicalRaw).filter(
-    key => !IGNORE_CANONICAL_KEYS.has(key)
-  );
-
-  if (canonicalKeys.length === 0) {
-    info('Canonical reference is empty or not configured. Skipping official-reference checks.');
-    return;
-  }
-
-  const canonical = new Map();
-
-  for (const key of canonicalKeys) {
-    const entry = canonicalEntryToObject(key, canonicalRaw[key]);
-    if (entry) canonical.set(key, entry);
-  }
-
-  for (const r of records) {
-    if (!canonical.has(r.code)) continue;
-
-    const entry = canonical.get(r.code);
-
-    const expectedZh = normalizeSpaces(
-      entry.zh || entry.zhName || entry.chinese || ''
-    );
-
-    const expectedEn = normalizeSpaces(
-      entry.en || entry.enName || entry.english || ''
-    );
-
-    const aliases = Array.isArray(entry.aliases)
-      ? entry.aliases.map(normalizeSpaces).filter(Boolean)
-      : [];
-
-    if (
-      expectedEn &&
-      !sameText(expectedEn, r.enName) &&
-      !aliases.some(alias => sameText(alias, r.enName))
-    ) {
-      warn([
-        `English course name differs from canonical reference.`,
-        `  code: ${r.code}`,
-        `  schedule EN: ${r.enName}`,
-        `  canonical EN: ${expectedEn}`,
-        aliases.length ? `  aliases: ${aliases.join(' | ')}` : null
-      ].filter(Boolean).join('\n'));
-    }
-
-    if (expectedZh) {
-      const effectiveZh = normalizeSpaces(getEffectiveZh(r, byCode, byText));
-
-      if (effectiveZh && !sameText(effectiveZh, expectedZh)) {
-        const message = [
-          `Chinese course name differs from canonical reference.`,
-          `  code: ${r.code}`,
-          `  EN: ${r.enName}`,
-          `  effective ZH: ${effectiveZh}`,
-          `  canonical ZH: ${expectedZh}`
-        ].join('\n');
-
-        if (STRICT_CANONICAL) {
-          fail(message);
-        } else {
-          warn(message);
-        }
-      }
-    }
-  }
-
-  for (const key of canonical.keys()) {
-    if (!records.some(r => r.code === key)) {
-      warn(`Canonical reference entry is not used by current schedule: ${key}`);
-    }
-  }
-}
-
 function printSection(title, items, level) {
   console.log(`\n${title}`);
   console.log('-'.repeat(title.length));
@@ -663,24 +519,19 @@ function printSection(title, items, level) {
   });
 }
 
-function printSummary(records, byCode, byText, canonicalRaw) {
+function printSummary(records, byCode, byText) {
   const uniqueCodes = new Set(records.map(r => r.code));
   const uniquePairs = new Set(records.map(r => `${r.code}\u0000${r.enName}`));
-  const canonicalCount = Object.keys(canonicalRaw).filter(
-    key => !IGNORE_CANONICAL_KEYS.has(key)
-  ).length;
 
   console.log('\nSchedule translation check summary');
   console.log('==================================');
   console.log(`English source: ${rel(EN_SCHEDULE_FILE)}`);
   console.log(`Chinese mapping source: ${rel(ZH_SCHEDULE_FILE)}`);
-  console.log(`Canonical source: ${fs.existsSync(CANONICAL_FILE) ? rel(CANONICAL_FILE) : '(not found)'}`);
   console.log(`Course records found: ${records.length}`);
   console.log(`Unique code/name pairs: ${uniquePairs.size}`);
   console.log(`Unique course codes: ${uniqueCodes.size}`);
   console.log(`ZH mappings by code: ${Object.keys(byCode).length}`);
   console.log(`ZH mappings by English text: ${Object.keys(byText).length}`);
-  console.log(`Canonical entries: ${canonicalCount}`);
 }
 
 function main() {
@@ -693,7 +544,6 @@ function main() {
   }
 
   const { byCode, byText } = parseZhMappings(zhText);
-  const canonicalRaw = loadCanonical();
   const records = parseEnglishCourses(enText);
 
   if (records.length === 0) {
@@ -703,9 +553,8 @@ function main() {
   checkMissingAndFallbacks(records, byCode, byText);
   checkCodeNameConflicts(records);
   checkUnusedMappings(records, byCode, byText);
-  checkCanonical(records, byCode, byText, canonicalRaw);
 
-  printSummary(records, byCode, byText, canonicalRaw);
+  printSummary(records, byCode, byText);
   printSection('Errors', errors, 'error');
   printSection('Warnings', warnings, 'warning');
 
