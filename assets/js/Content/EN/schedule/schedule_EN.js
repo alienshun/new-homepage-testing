@@ -16,7 +16,9 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
   "junior-second|011145.02": "Minor",
   "junior-second|011174.01": "Minor",
   "junior-second|CS2002.03": "Minor",
+  "junior-second|CS4017.01": "Minor",
   "junior-first|Null": "Micro-minor",
+  "junior-second|Null": "Micro-minor",
   "junior-second|EE3502.01": "TA",
   "junior-first|STAT2002.06": "TA",
 };
@@ -2586,21 +2588,12 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                     <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">7:50</div>
                       <div class="time-info end-info">9:25</div>
-                      <div class="overlap-container">
-                        <div class="overlap-course">
-                          <div class="course-number">001362.01 [3]</div>
-                          <div class="course-name">Wavelet Analysis</div>
-                          <div class="instructor">Xin Li</div>
-                          <div class="location">1201</div>
-                          <div class="weeks">1-15 week(s)</div>
-                        </div>
-                        <div class="overlap-course">
-                          <div class="course-number">011174.01 [4]</div>
-                          <div class="course-name">Operating System</div>
-                          <div class="instructor">Xianglan Chen</div>
-                          <div class="location">3C304</div>
-                          <div class="weeks">1-15 week(s)</div>
-                        </div>
+                      <div class="course-container">
+                        <div class="course-number">011174.01 [4]</div>
+                        <div class="course-name">Operating System</div>
+                        <div class="instructor">Xianglan Chen</div>
+                        <div class="location">3C304</div>
+                        <div class="weeks">1-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2636,7 +2629,7 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Operating System</div>
                         <div class="instructor">Xianglan Chen</div>
                         <div class="location">3C304</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">1-5, 7-9, 11-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2647,7 +2640,7 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Mathematical Logic</div>
                         <div class="instructor">Yi Zhou</div>
                         <div class="location">3B202</div>
-                        <div class="weeks">1-14 week(s)</div>
+                        <div class="weeks">1-9, 11-14 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2680,15 +2673,24 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Stochastic Processes B</div>
                         <div class="instructor">Weiwei Zhuang</div>
                         <div class="location">3C204</div>
-                        <div class="weeks">1-16 week(s)</div>
+                        <div class="weeks">1-8, 10-16 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">9:45</div>
+                      <div class="time-info end-info">11:20</div>
+                      <div class="course-container">
+                        <div class="course-number">011174.01 [4]</div>
+                        <div class="course-name">Operating System</div>
+                        <div class="instructor">Xianglan Chen</div>
+                        <div class="location">3C304</div>
+                        <div class="weeks">10 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">4</td>
-                    <td></td>
                     <td></td>
                   </tr>
                   <tr>
@@ -2719,9 +2721,9 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                       <div class="course-container">
                         <div class="course-number">011145.02 [4]</div>
                         <div class="course-name">Computer Organization</div>
-                        <div class="instructor">Jianliang Lu</div>
+                        <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
                         <div class="location">3C202</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">1-5, 7-9, 11-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2732,7 +2734,7 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Algebraic Structure</div>
                         <div class="instructor">Hongli Xu</div>
                         <div class="location">3C202</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="weeks">1-9, 12-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="2">
@@ -2741,24 +2743,24 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                       <div class="course-container">
                         <div class="course-number">011145.02 [4]</div>
                         <div class="course-name">Computer Organization</div>
-                        <div class="instructor">Jianliang Lu</div>
+                        <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
                         <div class="location">3C202</div>
                         <div class="weeks">1-15 week(s)</div>
                       </div>
                     </td>
                     <td></td>
+                    <td></td>
                     <td class="has-class event-cell" rowspan="2">
                       <div class="time-info start-info">14:00</div>
                       <div class="time-info end-info">15:35</div>
                       <div class="course-container">
-                        <div class="course-number">001362.01 [3]</div>
-                        <div class="course-name">Wavelet Analysis</div>
-                        <div class="instructor">Xin Li</div>
-                        <div class="location">1201</div>
-                        <div class="weeks">1-15 week(s)</div>
+                        <div class="course-number">011145.02 [4]</div>
+                        <div class="course-name">Computer Organization</div>
+                        <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">10 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
                     <td></td>
                   </tr>
                   <tr>
@@ -2774,11 +2776,11 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                       <div class="time-info end-info">17:30</div>
                       <div class="overlap-container">
                         <div class="overlap-course">
-                          <div class="course-number">AI3003.01 [3]</div>
-                          <div class="course-name">Foundation of Deep Learning</div>
-                          <div class="instructor">Wenjie Wang, Fuli Feng</div>
-                          <div class="location">3C203</div>
-                          <div class="weeks">1-14 week(s)</div>
+                          <div class="course-number">CS4017.01 [2]</div>
+                          <div class="course-name">Introduction to Optimization</div>
+                          <div class="instructor">Nick</div>
+                          <div class="location">GT-B102</div>
+                          <div class="weeks">1-5, 7-9, 11-14 week(s)</div>
                         </div>
                         <div class="overlap-course">
                           <div class="course-number">EE3502.01 [3]</div>
@@ -2797,7 +2799,7 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Numerical Analysis</div>
                         <div class="instructor">Yan Xu, Yinhua Xia</div>
                         <div class="location">1201</div>
-                        <div class="weeks">1-12 week(s)</div>
+                        <div class="weeks">1-9, 11-12 week(s)</div>
                       </div>
                     </td>
                     <td></td>
@@ -2812,15 +2814,42 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="weeks">1-16 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">18:20</div>
+                      <div class="course-container">
+                        <div class="course-number">BIO1509G.02 [2]</div>
+                        <div class="course-name">Life Science: Human Microbiota and Health</div>
+                        <div class="instructor">Guorong Zhang, Shu Zhu</div>
+                        <div class="location">3A109</div>
+                        <div class="weeks">2-8, 10-13 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">18:20</div>
+                      <div class="course-container">
+                        <div class="course-number">CS4017.01 [2]</div>
+                        <div class="course-name">Introduction to Optimization</div>
+                        <div class="instructor">Nick</div>
+                        <div class="location">GT-B102</div>
+                        <div class="weeks">10 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">15:55</div>
+                      <div class="time-info end-info">17:30</div>
+                      <div class="course-container">
+                        <div class="course-number">011103.02 [3]</div>
+                        <div class="course-name">Algebraic Structure</div>
+                        <div class="instructor">Hongli Xu</div>
+                        <div class="location">3C202</div>
+                        <div class="weeks">5 week(s)</div>
+                      </div>
+                    </td>
                   </tr>
                   <tr>
                     <td class="period-number">9</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                   </tr>
                   <tr>
@@ -2829,15 +2858,13 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                       <div class="time-info start-info">17:35</div>
                       <div class="time-info end-info">18:20</div>
                       <div class="course-container">
-                        <div class="course-number">AI3003.01 [3]</div>
-                        <div class="course-name">Foundation of Deep Learning</div>
-                        <div class="instructor">Wenjie Wang, Fuli Feng</div>
-                        <div class="location">3C203</div>
-                        <div class="weeks">1-14 week(s)</div>
+                        <div class="course-number">CS4017.01 [2]</div>
+                        <div class="course-name">Introduction to Optimization</div>
+                        <div class="instructor">Nick</div>
+                        <div class="location">GT-B102</div>
+                        <div class="weeks">1-5, 7-9, 11-14 week(s)</div>
                       </div>
                     </td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2851,21 +2878,12 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                     <td class="has-class event-cell" rowspan="3">
                       <div class="time-info start-info">19:30</div>
                       <div class="time-info end-info">21:55</div>
-                      <div class="overlap-container">
-                        <div class="overlap-course">
-                          <div class="course-number">AI3003.01 [3]</div>
-                          <div class="course-name">Foundation of Deep Learning</div>
-                          <div class="instructor">Wenjie Wang, Fuli Feng</div>
-                          <div class="location">West Campus Electrical Building (1F) Computer Lab (Hall 1)</div>
-                          <div class="weeks">3-14 week(s)</div>
-                        </div>
-                        <div class="overlap-course">
-                          <div class="course-number">011145.02 [4]</div>
-                          <div class="course-name">Computer Organization</div>
-                          <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
-                          <div class="location">West Campus Electrical Building (3F) 406, 408</div>
-                          <div class="weeks">1-15 week(s)</div>
-                        </div>
+                      <div class="course-container">
+                        <div class="course-number">011145.02 [4]</div>
+                        <div class="course-name">Computer Organization</div>
+                        <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
+                        <div class="location">West Campus Electrical Building (3F) 406, 408</div>
+                        <div class="weeks">1-5, 7-9, 11-15 week(s)</div>
                       </div>
                     </td>
                     <td class="has-class event-cell" rowspan="3">
@@ -2876,27 +2894,52 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                         <div class="course-name">Operating System</div>
                         <div class="instructor">Xianglan Chen</div>
                         <div class="location">West Campus Electrical Building (3F) 406</div>
-                        <div class="weeks">3-12 week(s)</div>
+                        <div class="weeks">3-9, 11-12 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">HS1648.01 [2]</div>
+                        <div class="course-name">Public Affairs in Life</div>
+                        <div class="instructor">Shanyong Wang, Shuping Shang, Liang Wan</div>
+                        <div class="location">5103</div>
+                        <div class="weeks">2-14 week(s)</div>
+                      </div>
+                    </td>
+                    <td class="has-class event-cell" rowspan="2">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:05</div>
+                      <div class="course-container">
+                        <div class="course-number">HS1524.01 [1]</div>
+                        <div class="course-name">History of Mind in Physics</div>
+                        <div class="instructor">Ming Gong</div>
+                        <div class="location">5202</div>
+                        <div class="weeks">5, 7-15 week(s)</div>
                       </div>
                     </td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="has-class event-cell" rowspan="3">
+                      <div class="time-info start-info">19:30</div>
+                      <div class="time-info end-info">21:55</div>
+                      <div class="course-container">
+                        <div class="course-number">011145.02 [4]</div>
+                        <div class="course-name">Computer Organization</div>
+                        <div class="instructor">Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</div>
+                        <div class="location">West Campus Electrical Building (3F) 406, 408</div>
+                        <div class="weeks">10 week(s)</div>
+                      </div>
+                    </td>
                     <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">12</td>
                     <td></td>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                   </tr>
                   <tr>
                     <td class="period-number">13</td>
-                    <td></td>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -2920,52 +2963,66 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                 </thead>
                 <tbody>
                   <tr>
+                    <td>HS1524.01</td>
+                    <td>History of Mind in Physics</td>
+                    <td>Ming Gong</td>
+                    <td>4(11-12), 5, 7-15 week(s)</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>BIO1509G.02</td>
+                    <td>Life Science: Human Microbiota and Health</td>
+                    <td>Guorong Zhang, Shu Zhu</td>
+                    <td>5(8-10), 2-8, 10-13 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>CS4017.01</td>
+                    <td>Introduction to Optimization</td>
+                    <td>Nick</td>
+                    <td>1(8-10), 1-5, 7-9, 11-14 week(s);<br> 6(8-10), 10 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
                     <td>011103.02</td>
                     <td>Algebraic Structure</td>
                     <td>Hongli Xu</td>
-                    <td>2(6-7), 1-15 week(s);<br> 4(1-2), 1-15 week(s)</td>
+                    <td>2(6-7), 1-9, 12-15 week(s);<br> 4(1-2), 1-15 week(s);<br> 7(8-9), 5 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
                     <td>011145.02</td>
                     <td>Computer Organization</td>
                     <td>Jianliang Lu, Junxia Zhang, Yanen Fan, Yanan Zhao</td>
-                    <td>1(6-7), 1-15 week(s);<br> 3(6-7), 1-15 week(s);<br> 1(11-13), 1-15 week(s)</td>
+                    <td>1(6-7), 1-5, 7-9, 11-15 week(s);<br> 3(6-7), 1-15 week(s);<br> 1(11-13), 1-5, 7-9, 11-15 week(s);<br> 6(11-13), 10 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
                     <td>011174.01</td>
                     <td>Operating System</td>
                     <td>Xianglan Chen</td>
-                    <td>1(3-4), 1-15 week(s);<br> 3(1-2), 1-15 week(s);<br> 2(11-13), 3-12 week(s)</td>
+                    <td>1(3-4), 1-5, 7-9, 11-15 week(s);<br> 3(1-2), 1-15 week(s);<br> 2(11-13), 3-9, 11-12 week(s)</td>
                     <td>4</td>
                   </tr>
                   <tr>
                     <td>CS2002.03</td>
                     <td>Mathematical Logic</td>
                     <td>Yi Zhou</td>
-                    <td>2(3-5), 1-14 week(s)</td>
+                    <td>2(3-5), 1-9, 11-14 week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>017144.07</td>
                     <td>Stochastic Processes B</td>
                     <td>Weiwei Zhuang</td>
-                    <td>5(3-4), 1-16 week(s);<br> 5(5), 2-16 (even) week(s)</td>
+                    <td>5(3-4), 1-8, 10-16 week(s);<br> 5(5), 2-16 (even) week(s)</td>
                     <td>2</td>
                   </tr>
                   <tr>
                     <td>001046.01</td>
                     <td>Numerical Analysis</td>
                     <td>Yan Xu, Yinhua Xia</td>
-                    <td>2(8-9), 1-12 week(s);<br> 4(3-5), 1-12 week(s)</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>001362.01</td>
-                    <td>Wavelet Analysis</td>
-                    <td>Xin Li</td>
-                    <td>3(1-2), 1-15 week(s);<br> 5(6-7), 1-15 week(s)</td>
+                    <td>2(8-9), 1-9, 11-12 week(s);<br> 4(3-5), 1-12 week(s)</td>
                     <td>3</td>
                   </tr>
                   <tr>
@@ -2976,18 +3033,53 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                     <td>3</td>
                   </tr>
                   <tr>
-                    <td>AI3003.01</td>
-                    <td>Foundation of Deep Learning</td>
-                    <td>Fuli Feng, Wenjie Wang</td>
-                    <td>1(8-10), 1-14 week(s);<br> 1(11-13), 3-14 week(s)</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
                     <td>EE3502.01</td>
                     <td>Machine Learning B</td>
                     <td>Li Xiao</td>
                     <td>1(8-9), 1-16 week(s);<br> 4(8-9), 1-16 week(s)</td>
                     <td>3</td>
+                  </tr>
+                  <tr>
+                    <td>HS1648.01</td>
+                    <td>Public Affairs in Life</td>
+                    <td>Shanyong Wang, Huping Shang, Liang Wan</td>
+                    <td>3(11-13), 2-14 week(s)</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>HS1003.10</td>
+                    <td>Art Practice</td>
+                    <td>Yi Xie</td>
+                    <td>Null</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
+                    <td>Artificial Intelligence and Scientific Computing (AI+X Micro-minor Core Course)</td>
+                    <td>Ying Wei</td>
+                    <td>……</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
+                    <td>Natural Language Processing (AI+X Micro-minor Core Course)</td>
+                    <td>Siliang Tang</td>
+                    <td>……</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
+                    <td>Game Artificial Intelligence Practice (AI+X Micro-minor Practical Course)</td>
+                    <td>Runze Wu</td>
+                    <td>……</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td>Null</td>
+                    <td>Large Model Architecture and Practical Application of Multi-modal Technologies (AI+X Micro-minor Practical Course)</td>
+                    <td>Liucheng Duan</td>
+                    <td>……</td>
+                    <td>1</td>
                   </tr>
                 </tbody>
               </table>
