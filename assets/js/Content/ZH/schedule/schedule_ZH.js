@@ -439,21 +439,38 @@
   function transformWeeksToZh(enWeeksText) {
     let s = String(enWeeksText || "").trim();
     if (!s) return s;
-    // e.g. "2-4, 6-18 week(s)" -> "第2-4、6-18周"
+
+    // e.g. "2-4, 6-18 week(s)" -> "第2-4、6-18周";
+    //      "2-16 (even) week(s)" -> "第2-16（双）周";
+    //      "1-15 (odd) week(s)" -> "第1-15（单）周"
+    s = s.replace(/\(\s*odd\s*\)/gi, "（单）");
+    s = s.replace(/\(\s*even\s*\)/gi, "（双）");
+    s = s.replace(/\bodd\b/gi, "单");
+    s = s.replace(/\beven\b/gi, "双");
     s = s.replace(/week\(s\)/gi, "");
     s = s.replace(/\s+/g, " ");
     s = s.replace(/\s*,\s*/g, "、");
     s = s.replace(/\s*;\s*/g, "；");
+    s = s.replace(/\s*（/g, "（").replace(/）\s*/g, "）");
+
     return `第${s}周`;
   }
 
   function transformTimeHtmlToZh(enHtml) {
     let s = String(enHtml || "");
+
+    // e.g. "5(5), 2-16 (even) week(s)" -> "5(5), 2-16（双）周"
     s = s.replace(/Null/gi, "无");
+    s = s.replace(/\(\s*odd\s*\)/gi, "（单）");
+    s = s.replace(/\(\s*even\s*\)/gi, "（双）");
+    s = s.replace(/\bodd\b/gi, "单");
+    s = s.replace(/\beven\b/gi, "双");
     s = s.replace(/week\(s\)/gi, "周");
     s = s.replace(/weeks\b/gi, "周");
     s = s.replace(/week\b/gi, "周");
     s = s.replace(/;\s*/g, "；");
+    s = s.replace(/\s*（/g, "（").replace(/）\s*/g, "）");
+
     return s;
   }
 
