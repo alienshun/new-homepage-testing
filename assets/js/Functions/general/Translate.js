@@ -380,11 +380,32 @@
     } catch (e) {}
   }
 
+  function dispatchSiteLangChange(lang, openKeys) {
+    try {
+      window.dispatchEvent(new CustomEvent("site:langchange", {
+        detail: {
+          lang: lang,
+          openKeys: Array.isArray(openKeys) ? openKeys : []
+        }
+      }));
+    } catch (e) {
+      try {
+        const evt = document.createEvent("CustomEvent");
+        evt.initCustomEvent("site:langchange", false, false, {
+          lang: lang,
+          openKeys: Array.isArray(openKeys) ? openKeys : []
+        });
+        window.dispatchEvent(evt);
+      } catch (err) {}
+    }
+  }
+
   function smoothSwapResume(lang, openKeys) {
     const resume = document.getElementById("resume");
+
     if (!resume) {
       applyResumeLanguage(lang);
-      return;
+      return false;
     }
 
     const prevH = resume.getBoundingClientRect().height;
@@ -401,11 +422,7 @@
         window.CustomCursorAPI.refresh(resume);
       }
 
-      try {
-        window.dispatchEvent(new CustomEvent("site:langchange", {
-          detail: { lang: lang, openKeys: openKeys }
-        }));
-      } catch (e) {}
+      dispatchSiteLangChange(lang, openKeys);
 
       requestAnimationFrame(() => {
         resume.style.opacity = "1";
@@ -419,6 +436,8 @@
         setTimeout(cleanup, 250);
       });
     });
+
+    return true;
   }
 
   function restoreMeditationsOpenKeys(keys) {
@@ -472,12 +491,16 @@
 
     const openKeys = getResumeOpenKeys();
 
-    smoothSwapResume(l, openKeys);
+    const resumeWillDispatch = smoothSwapResume(l, openKeys);
     smoothSwapMeditations(l, openKeys);
 
     applyToolkitI18N(l);
     applySocialI18N(l);
     applyTopNavI18N(l);
+
+    if (!resumeWillDispatch) {
+      dispatchSiteLangChange(l, openKeys);
+    }
   }
 
   window.SiteLang.applyLanguage = applyLanguage;
