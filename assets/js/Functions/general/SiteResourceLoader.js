@@ -16,6 +16,8 @@
   const pageWarmupPromises = Object.create(null);
   const pageWarmupLoaded = Object.create(null);
 
+  const DEFAULT_EXISTING_STYLE_TIMEOUT = 5000;
+
   let bootPromise = null;
   let analyticsStarted = false;
 
@@ -72,6 +74,100 @@
     return links.find((link) => {
       return link.href === abs || normalizeUrl(link.getAttribute('href')) === abs;
     });
+  }
+
+  function isStylesheetLoaded(link) {
+    if (!link) return false;
+
+    if (link.dataset.siteStyleLoaded === '1') {
+      return true;
+    }
+
+    if (link.dataset.siteStyleFailed === '1') {
+      return false;
+    }
+
+    try {
+      return !!link.sheet;
+    } catch (e) {
+      return true;
+    }
+  }
+
+  function waitForExistingStyle(link, href, timeout) {
+    if (!link) return Promise.resolve(null);
+
+    if (link.dataset.siteStyleFailed === '1') {
+      return Promise.resolve(null);
+    }
+
+    if (isStylesheetLoaded(link)) {
+      link.dataset.siteStyleLoaded = '1';
+      return Promise.resolve(link);
+    }
+
+    if (link.__siteStylePromise) {
+      return link.__siteStylePromise;
+    }
+
+    link.__siteStylePromise = new Promise((resolve) => {
+      const timeoutMs = Math.max(
+        0,
+        Number(timeout) || DEFAULT_EXISTING_STYLE_TIMEOUT
+      );
+
+      let settled = false;
+      let timer = null;
+
+      function cleanup() {
+        link.removeEventListener('load', handleLoad);
+        link.removeEventListener('error', handleError);
+
+        if (timer) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+      }
+
+      function settle(result) {
+        if (settled) return;
+        settled = true;
+        cleanup();
+        resolve(result);
+      }
+
+      function handleLoad() {
+        link.dataset.siteStyleLoaded = '1';
+        link.dataset.siteStyleFailed = '0';
+        settle(link);
+      }
+
+      function handleError() {
+        link.dataset.siteStyleFailed = '1';
+        link.dataset.siteStyleLoaded = '0';
+        console.warn('[SiteResourceLoader] Existing stylesheet failed to load:', href);
+        settle(null);
+      }
+
+      link.addEventListener('load', handleLoad);
+      link.addEventListener('error', handleError);
+
+      if (timeoutMs > 0) {
+        timer = window.setTimeout(() => {
+          if (isStylesheetLoaded(link)) {
+            link.dataset.siteStyleLoaded = '1';
+            link.dataset.siteStyleFailed = '0';
+            settle(link);
+            return;
+          }
+
+          console.warn('[SiteResourceLoader] Existing stylesheet load wait timed out:', href);
+          settle(link);
+        }, timeoutMs);
+      }
+    });
+
+    return link.__siteStylePromise;
   }
 
   function findExistingScript(src) {
@@ -138,7 +234,7 @@
 
     const existing = findExistingStyle(href);
     if (existing) {
-      return Promise.resolve(existing);
+      return waitForExistingStyle(existing, href, timeout);
     }
 
     return new Promise((resolve) => {
@@ -170,16 +266,22 @@
       applyAttributes(link, attrs);
 
       link.onload = () => {
+        link.dataset.siteStyleLoaded = '1';
+        link.dataset.siteStyleFailed = '0';
         settle(link, false);
       };
 
       link.onerror = () => {
+        link.dataset.siteStyleFailed = '1';
+        link.dataset.siteStyleLoaded = '0';
         console.warn('[SiteResourceLoader] Failed to load stylesheet:', href);
         settle(null, true);
       };
 
       if (timeoutMs > 0) {
         timer = window.setTimeout(() => {
+          link.dataset.siteStyleFailed = '1';
+          link.dataset.siteStyleLoaded = '0';
           console.warn('[SiteResourceLoader] Stylesheet load timed out:', href);
           settle(null, true);
         }, timeoutMs);
