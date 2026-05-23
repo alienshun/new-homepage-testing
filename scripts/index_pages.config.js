@@ -15,7 +15,7 @@ module.exports = {
     1. { route: '' }
        生成根目录 index.html
 
-    2. { sitePage: 'about' }
+    2. { sitePage: 'resume' }
        从 SiteResources.pages.resume.route 读取路径，例如 about/
 
     3. { route: 'schedule/my_timetable/' }
@@ -28,7 +28,7 @@ module.exports = {
     },
 
     {
-      sitePage: 'about',
+      sitePage: 'resume',
       routeEntry: true
     },
     {
