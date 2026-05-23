@@ -257,6 +257,7 @@
     if (window.TOOLKIT_EN_I18N && typeof window.TOOLKIT_EN_I18N === "object") {
       return window.TOOLKIT_EN_I18N;
     }
+
     return {
       toolkit_heading: "Academic Toolkit",
       search_placeholder: "Search tools by name.",
@@ -269,6 +270,7 @@
     if (lang === LANG.ZH && window.TOOLKIT_ZH_I18N && typeof window.TOOLKIT_ZH_I18N === "object") {
       return window.TOOLKIT_ZH_I18N;
     }
+
     return getToolkitEnDict();
   }
 
@@ -299,8 +301,10 @@
   function getSocialDict(lang) {
     const zh = window.SOCIAL_ZH_I18N;
     const en = window.SOCIAL_EN_I18N;
+
     if (lang === LANG.ZH && zh && typeof zh === "object") return zh;
     if (en && typeof en === "object") return en;
+
     return null;
   }
 
@@ -334,6 +338,7 @@
     nav.querySelectorAll(".top-nav-link[data-page]").forEach((btn) => {
       const page = btn.getAttribute("data-page");
       if (!page) return;
+
       const text = labels[page];
       if (typeof text === "string") btn.textContent = text;
     });
@@ -367,6 +372,7 @@
         return api.getOpenKeys(document);
       }
     } catch (e) {}
+
     return getFallbackOpenKeys(document);
   }
 
@@ -374,10 +380,32 @@
     try {
       const api = window.ResumeExpanders;
       const resume = document.getElementById("resume");
+
       if (api && typeof api.init === "function") {
         api.init(resume || document, { openKeys: Array.isArray(keys) ? keys : [] });
       }
     } catch (e) {}
+  }
+
+  function restoreMeditationsOpenKeys(keys) {
+    try {
+      const api = window.ResumeExpanders;
+      const m = document.getElementById("meditations");
+
+      if (api && typeof api.init === "function") {
+        api.init(m || document, { openKeys: Array.isArray(keys) ? keys : [], skipSave: true });
+      }
+    } catch (e) {}
+  }
+
+  function isActuallyVisible(el) {
+    if (!el) return false;
+
+    try {
+      return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+    } catch (e) {
+      return false;
+    }
   }
 
   function dispatchSiteLangChange(lang, openKeys) {
@@ -405,7 +433,7 @@
 
     if (!resume) {
       applyResumeLanguage(lang);
-      return false;
+      return;
     }
 
     const prevH = resume.getBoundingClientRect().height;
@@ -418,11 +446,9 @@
       applyResumeLanguage(lang);
       restoreResumeOpenKeys(openKeys);
 
-      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === 'function') {
+      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === "function") {
         window.CustomCursorAPI.refresh(resume);
       }
-
-      dispatchSiteLangChange(lang, openKeys);
 
       requestAnimationFrame(() => {
         resume.style.opacity = "1";
@@ -436,22 +462,11 @@
         setTimeout(cleanup, 250);
       });
     });
-
-    return true;
-  }
-
-  function restoreMeditationsOpenKeys(keys) {
-    try {
-      const api = window.ResumeExpanders;
-      const m = document.getElementById("meditations");
-      if (api && typeof api.init === "function") {
-        api.init(m || document, { openKeys: Array.isArray(keys) ? keys : [], skipSave: true });
-      }
-    } catch (e) {}
   }
 
   function smoothSwapMeditations(lang, openKeys) {
     const m = document.getElementById("meditations");
+
     if (!m) {
       applyMeditationsLanguage(lang);
       return;
@@ -467,7 +482,7 @@
       applyMeditationsLanguage(lang);
       restoreMeditationsOpenKeys(openKeys);
 
-      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === 'function') {
+      if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === "function") {
         window.CustomCursorAPI.refresh(m);
       }
 
@@ -485,20 +500,34 @@
     });
   }
 
-  function applyLanguage(lang) {
+  function applyLanguage(lang, options) {
+    const opts = options || {};
+    const shouldEmitLangChange = opts.emitLangChange === true;
+
     const l = setLang(lang);
     updateLangButton(l);
 
-    const openKeys = getResumeOpenKeys();
+    const openKeys = shouldEmitLangChange ? getResumeOpenKeys() : [];
 
-    const resumeWillDispatch = smoothSwapResume(l, openKeys);
-    smoothSwapMeditations(l, openKeys);
+    const resume = document.getElementById("resume");
+    if (resume && isActuallyVisible(resume)) {
+      smoothSwapResume(l, openKeys);
+    } else {
+      applyResumeLanguage(l);
+    }
+
+    const meditations = document.getElementById("meditations");
+    if (meditations && isActuallyVisible(meditations)) {
+      smoothSwapMeditations(l, openKeys);
+    } else {
+      applyMeditationsLanguage(l);
+    }
 
     applyToolkitI18N(l);
     applySocialI18N(l);
     applyTopNavI18N(l);
 
-    if (!resumeWillDispatch) {
+    if (shouldEmitLangChange) {
       dispatchSiteLangChange(l, openKeys);
     }
   }
@@ -510,15 +539,22 @@
     if (!btn || btn.dataset.bound === "1") return;
 
     btn.dataset.bound = "1";
+
     btn.addEventListener("click", function () {
       const cur = getLang();
       const next = (cur === LANG.EN) ? LANG.ZH : LANG.EN;
-      applyLanguage(next);
+
+      applyLanguage(next, {
+        emitLangChange: true
+      });
     });
   }
 
   function init() {
-    applyLanguage(LANG.EN);
+    applyLanguage(LANG.EN, {
+      emitLangChange: false
+    });
+
     bindLangToggle();
 
     let retry = 0;
