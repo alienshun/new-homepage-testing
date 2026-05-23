@@ -14,11 +14,15 @@
 
       STRICT_WARNINGS=1 node scripts/check_schedule_translations.js
 
+  Optional unused-mapping check:
+
+      CHECK_UNUSED_MAPPINGS=1 node scripts/check_schedule_translations.js
+
   Optional canonical reference:
 
       scripts/schedule_translation_canonical.json
 
-  The canonical JSON may contain entries such as:
+  Example canonical entry:
 
       {
         "011174.01": {
@@ -36,15 +40,32 @@ const path = require('path');
 const vm = require('vm');
 
 const ROOT = path.resolve(__dirname, '..');
-const EN_SCHEDULE_FILE = path.join(ROOT, 'assets/js/Content/EN/schedule/schedule_EN.js');
-const ZH_SCHEDULE_FILE = path.join(ROOT, 'assets/js/Content/ZH/schedule/schedule_ZH.js');
-const CANONICAL_FILE = path.join(ROOT, 'scripts/schedule_translation_canonical.json');
+
+const EN_SCHEDULE_FILE = path.join(
+  ROOT,
+  'assets/js/Content/EN/schedule/schedule_EN.js'
+);
+
+const ZH_SCHEDULE_FILE = path.join(
+  ROOT,
+  'assets/js/Content/ZH/schedule/schedule_ZH.js'
+);
+
+const CANONICAL_FILE = path.join(
+  ROOT,
+  'scripts/schedule_translation_canonical.json'
+);
 
 const STRICT_WARNINGS = String(process.env.STRICT_WARNINGS || '').trim() === '1';
 const STRICT_CANONICAL = String(process.env.STRICT_CANONICAL || '').trim() === '1';
+const CHECK_UNUSED_MAPPINGS = String(process.env.CHECK_UNUSED_MAPPINGS || '').trim() === '1';
 
-const COURSE_CODE_RE = /^(?:Null|[A-Za-z]{0,12}\d[A-Za-z0-9_.-]*|[A-Za-z]+\d[A-Za-z0-9_.-]*)$/;
-const IGNORE_CANONICAL_KEYS = new Set(['__note', '__comment', '_note', '_comment']);
+const IGNORE_CANONICAL_KEYS = new Set([
+  '__note',
+  '__comment',
+  '_note',
+  '_comment'
+]);
 
 let errors = [];
 let warnings = [];
@@ -78,8 +99,7 @@ function escapeForAnnotation(message) {
   return String(message)
     .replace(/%/g, '%25')
     .replace(/\r/g, '%0D')
-    .replace(/\n/g, '%0A')
-    .replace(/:/g, '%3A');
+    .replace(/\n/g, '%0A');
 }
 
 function printGithubAnnotation(level, message) {
@@ -122,15 +142,36 @@ function normalizeCourseName(raw) {
   return normalizeSpaces(stripTags(raw));
 }
 
-function isCourseCodeLike(code) {
+function looksLikeCourseCode(code) {
   const s = String(code || '').trim();
   if (!s) return false;
+  if (s === 'Null') return true;
   if (s.length > 40) return false;
-  return COURSE_CODE_RE.test(s);
+
+  return (
+    /^[A-Z]{1,12}\d[A-Za-z0-9_.-]*$/.test(s) ||
+    /^\d{3,}[A-Za-z0-9_.-]*$/.test(s)
+  );
+}
+
+function looksLikeCourseNumberText(text) {
+  const s = normalizeSpaces(stripTags(text));
+  if (!s) return false;
+
+  return (
+    /^[A-Z]{1,12}\d[A-Za-z0-9_.-]*(?:\s*\[[^\]]+\])?$/.test(s) ||
+    /^\d{3,}[A-Za-z0-9_.-]*(?:\s*\[[^\]]+\])?$/.test(s)
+  );
 }
 
 function sameText(a, b) {
   return normalizeSpaces(a) === normalizeSpaces(b);
+}
+
+function normalizeNameForConflict(name) {
+  return normalizeSpaces(name)
+    .replace(/\s*\(TA\)\s*$/i, '')
+    .replace(/\s+/g, ' ');
 }
 
 function escapeRegex(s) {
@@ -140,6 +181,7 @@ function escapeRegex(s) {
 function extractObjectLiteral(source, constName) {
   const re = new RegExp(`const\\s+${escapeRegex(constName)}\\s*=\\s*\\{`, 'm');
   const m = re.exec(source);
+
   if (!m) {
     fail(`Cannot find object literal: ${constName} in ${rel(ZH_SCHEDULE_FILE)}`);
     return null;
@@ -169,8 +211,9 @@ function extractObjectLiteral(source, constName) {
       continue;
     }
 
-    if (ch === '{') depth++;
-    if (ch === '}') {
+    if (ch === '{') {
+      depth++;
+    } else if (ch === '}') {
       depth--;
       if (depth === 0) {
         return source.slice(start, i + 1);
@@ -184,15 +227,18 @@ function extractObjectLiteral(source, constName) {
 
 function evaluateObjectLiteral(objectLiteral, label) {
   if (!objectLiteral) return {};
+
   try {
     const value = vm.runInNewContext(`(${objectLiteral})`, Object.create(null), {
       filename: `${label}.vm.js`,
       timeout: 1000
     });
+
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       fail(`${label} is not an object.`);
       return {};
     }
+
     return value;
   } catch (e) {
     fail(`Failed to evaluate ${label}: ${e.message}`);
@@ -205,6 +251,7 @@ function parseZhMappings(zhText) {
     extractObjectLiteral(zhText, 'COURSE_NAME_ZH_BY_CODE'),
     'COURSE_NAME_ZH_BY_CODE'
   );
+
   const byText = evaluateObjectLiteral(
     extractObjectLiteral(zhText, 'COURSE_NAME_ZH_BY_TEXT'),
     'COURSE_NAME_ZH_BY_TEXT'
@@ -216,16 +263,22 @@ function parseZhMappings(zhText) {
 function collectSemesterMarkers(enText) {
   const markers = [];
   const re = /<div\s+class=["']semester-timetable-container[^"']*["']\s+id=["']([^"']+)["'][^>]*>/g;
+
   let m;
   while ((m = re.exec(enText)) !== null) {
-    markers.push({ id: m[1], index: m.index });
+    markers.push({
+      id: m[1],
+      index: m.index
+    });
   }
+
   markers.sort((a, b) => a.index - b.index);
   return markers;
 }
 
 function getSemesterAt(markers, index) {
   let result = 'unknown';
+
   for (const marker of markers) {
     if (marker.index <= index) {
       result = marker.id;
@@ -233,6 +286,7 @@ function getSemesterAt(markers, index) {
       break;
     }
   }
+
   return result;
 }
 
@@ -240,30 +294,43 @@ function makeRecordKey(semester, code, enName) {
   return `${semester}\u0000${code}\u0000${enName}`;
 }
 
-function addCourseRecord(map, semester, code, enName, sourceKind, index) {
-  const c = normalizeCourseCode(code);
-  const n = normalizeCourseName(enName);
+function addCourseRecord(map, semester, codeRaw, enNameRaw, sourceKind, index) {
+  const code = normalizeCourseCode(codeRaw);
+  const enName = normalizeCourseName(enNameRaw);
 
-  if (!isCourseCodeLike(c) || !n) return;
-  if (['Course Name', 'Course Number', 'Period', 'Time'].includes(n)) return;
+  if (!looksLikeCourseCode(code)) return;
+  if (!enName) return;
 
-  const key = makeRecordKey(semester, c, n);
+  if (
+    enName === 'Course Name' ||
+    enName === 'Course Number' ||
+    enName === 'Period' ||
+    enName === 'Time'
+  ) {
+    return;
+  }
+
+  const key = makeRecordKey(semester, code, enName);
+
   if (!map.has(key)) {
     map.set(key, {
       semester,
-      code: c,
-      enName: n,
+      code,
+      enName,
       occurrences: []
     });
   }
-  map.get(key).occurrences.push({ sourceKind, index });
+
+  map.get(key).occurrences.push({
+    sourceKind,
+    index
+  });
 }
 
-function parseEnglishCourses(enText) {
-  const records = new Map();
-  const markers = collectSemesterMarkers(enText);
+function parseTimetableCourseBlocks(enText, records, markers) {
+  const blockRe =
+    /<div\s+class=["']course-number["'][^>]*>([\s\S]*?)<\/div>\s*<div\s+class=["']course-name["'][^>]*>([\s\S]*?)<\/div>/g;
 
-  const blockRe = /<div\s+class=["']course-number["'][^>]*>([\s\S]*?)<\/div>\s*<div\s+class=["']course-name["'][^>]*>([\s\S]*?)<\/div>/g;
   let m;
   while ((m = blockRe.exec(enText)) !== null) {
     addCourseRecord(
@@ -275,18 +342,79 @@ function parseEnglishCourses(enText) {
       m.index
     );
   }
+}
 
-  const rowRe = /<tr>\s*<td[^>]*>([\s\S]*?)<\/td>\s*<td[^>]*>([\s\S]*?)<\/td>/g;
-  while ((m = rowRe.exec(enText)) !== null) {
+function parseRecoveredCourseBlocks(enText, records, markers) {
+  const brokenBlockRe =
+    /<div\s+class=["']course-name["'][^>]*>([\s\S]*?)<\/div>\s*<div\s+class=["']course-name["'][^>]*>([\s\S]*?)<\/div>/g;
+
+  let m;
+  while ((m = brokenBlockRe.exec(enText)) !== null) {
+    if (!looksLikeCourseNumberText(m[1])) continue;
+
+    const code = normalizeCourseCode(m[1]);
+    const enName = normalizeCourseName(m[2]);
+
+    fail([
+      `Probable HTML class typo in ${rel(EN_SCHEDULE_FILE)}.`,
+      `  semester: ${getSemesterAt(markers, m.index)}`,
+      `  found: <div class="course-name">${normalizeSpaces(stripTags(m[1]))}</div>`,
+      `  next course name: ${enName}`,
+      `  suggestion: change the first class from "course-name" to "course-number".`
+    ].join('\n'));
+
     addCourseRecord(
       records,
       getSemesterAt(markers, m.index),
-      m[1],
-      m[2],
-      'my-classes-table',
+      code,
+      enName,
+      'recovered-broken-course-block',
       m.index
     );
   }
+}
+
+function parseMyClassesTables(enText, records, markers) {
+  const tableRe =
+    /<table\s+class=["'][^"']*\bmy-classes-table\b[^"']*["'][^>]*>([\s\S]*?)<\/table>/gi;
+
+  let tableMatch;
+  while ((tableMatch = tableRe.exec(enText)) !== null) {
+    const semester = getSemesterAt(markers, tableMatch.index);
+    const tableHtml = tableMatch[1];
+
+    const rowRe = /<tr\b[^>]*>([\s\S]*?)<\/tr>/gi;
+    let rowMatch;
+
+    while ((rowMatch = rowRe.exec(tableHtml)) !== null) {
+      const rowHtml = rowMatch[1];
+
+      if (/<th\b/i.test(rowHtml)) continue;
+
+      const cells = Array.from(rowHtml.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi))
+        .map(cell => cell[1]);
+
+      if (cells.length < 2) continue;
+
+      addCourseRecord(
+        records,
+        semester,
+        cells[0],
+        cells[1],
+        'my-classes-table',
+        tableMatch.index + rowMatch.index
+      );
+    }
+  }
+}
+
+function parseEnglishCourses(enText) {
+  const records = new Map();
+  const markers = collectSemesterMarkers(enText);
+
+  parseTimetableCourseBlocks(enText, records, markers);
+  parseRecoveredCourseBlocks(enText, records, markers);
+  parseMyClassesTables(enText, records, markers);
 
   return Array.from(records.values()).sort((a, b) => {
     if (a.semester !== b.semester) return a.semester.localeCompare(b.semester);
@@ -303,12 +431,16 @@ function loadCanonical() {
 
   try {
     const raw = fs.readFileSync(CANONICAL_FILE, 'utf8').trim();
+
     if (!raw) return {};
+
     const data = JSON.parse(raw);
+
     if (!data || typeof data !== 'object' || Array.isArray(data)) {
       warn(`Canonical reference is not a JSON object: ${rel(CANONICAL_FILE)}`);
       return {};
     }
+
     return data;
   } catch (e) {
     fail(`Failed to read canonical reference ${rel(CANONICAL_FILE)}: ${e.message}`);
@@ -318,12 +450,15 @@ function loadCanonical() {
 
 function canonicalEntryToObject(key, value) {
   if (IGNORE_CANONICAL_KEYS.has(key)) return null;
+
   if (typeof value === 'string') {
     return { zh: value };
   }
+
   if (value && typeof value === 'object' && !Array.isArray(value)) {
     return value;
   }
+
   warn(`Invalid canonical entry for ${key}; expected string or object.`);
   return null;
 }
@@ -331,17 +466,8 @@ function canonicalEntryToObject(key, value) {
 function getEffectiveZh(record, byCode, byText) {
   const codeZh = byCode[record.code];
   const textZh = byText[record.enName];
-  return codeZh || textZh || '';
-}
 
-function buildCodeToNames(records) {
-  const map = new Map();
-  for (const r of records) {
-    if (r.code === 'Null') continue;
-    if (!map.has(r.code)) map.set(r.code, new Set());
-    map.get(r.code).add(r.enName);
-  }
-  return map;
+  return codeZh || textZh || '';
 }
 
 function checkMissingAndFallbacks(records, byCode, byText) {
@@ -386,23 +512,49 @@ function checkMissingAndFallbacks(records, byCode, byText) {
 }
 
 function checkCodeNameConflicts(records) {
-  const codeToNames = buildCodeToNames(records);
-  for (const [code, names] of codeToNames.entries()) {
-    if (names.size <= 1) continue;
+  const codeToNames = new Map();
+
+  for (const r of records) {
+    if (r.code === 'Null') continue;
+
+    if (!codeToNames.has(r.code)) {
+      codeToNames.set(r.code, new Map());
+    }
+
+    const normalized = normalizeNameForConflict(r.enName);
+    if (!codeToNames.get(r.code).has(normalized)) {
+      codeToNames.get(r.code).set(normalized, new Set());
+    }
+
+    codeToNames.get(r.code).get(normalized).add(r.enName);
+  }
+
+  for (const [code, normalizedNameMap] of codeToNames.entries()) {
+    if (normalizedNameMap.size <= 1) continue;
+
+    const names = [];
+    for (const variants of normalizedNameMap.values()) {
+      for (const item of variants) names.push(item);
+    }
+
     warn([
       `Same course code appears with multiple English names.`,
       `  code: ${code}`,
-      ...Array.from(names).sort().map(name => `  - ${name}`)
+      ...names.sort().map(name => `  - ${name}`)
     ].join('\n'));
   }
 }
 
 function checkUnusedMappings(records, byCode, byText) {
+  if (!CHECK_UNUSED_MAPPINGS) {
+    info('Unused mapping check is disabled. Set CHECK_UNUSED_MAPPINGS=1 to enable it.');
+    return;
+  }
+
   const usedCodes = new Set(records.map(r => r.code));
   const usedNames = new Set(records.map(r => r.enName));
 
   Object.keys(byCode).sort().forEach(code => {
-    if (code === '……') return;
     if (!usedCodes.has(code)) {
       warn(`Unused COURSE_NAME_ZH_BY_CODE entry: ${code} -> ${byCode[code]}`);
     }
@@ -416,13 +568,17 @@ function checkUnusedMappings(records, byCode, byText) {
 }
 
 function checkCanonical(records, byCode, byText, canonicalRaw) {
-  const canonicalKeys = Object.keys(canonicalRaw).filter(k => !IGNORE_CANONICAL_KEYS.has(k));
+  const canonicalKeys = Object.keys(canonicalRaw).filter(
+    key => !IGNORE_CANONICAL_KEYS.has(key)
+  );
+
   if (canonicalKeys.length === 0) {
-    info(`Canonical reference is empty or not configured. Skipping official-reference checks.`);
+    info('Canonical reference is empty or not configured. Skipping official-reference checks.');
     return;
   }
 
   const canonical = new Map();
+
   for (const key of canonicalKeys) {
     const entry = canonicalEntryToObject(key, canonicalRaw[key]);
     if (entry) canonical.set(key, entry);
@@ -432,13 +588,24 @@ function checkCanonical(records, byCode, byText, canonicalRaw) {
     if (!canonical.has(r.code)) continue;
 
     const entry = canonical.get(r.code);
-    const expectedZh = normalizeSpaces(entry.zh || entry.zhName || entry.chinese || '');
-    const expectedEn = normalizeSpaces(entry.en || entry.enName || entry.english || '');
+
+    const expectedZh = normalizeSpaces(
+      entry.zh || entry.zhName || entry.chinese || ''
+    );
+
+    const expectedEn = normalizeSpaces(
+      entry.en || entry.enName || entry.english || ''
+    );
+
     const aliases = Array.isArray(entry.aliases)
       ? entry.aliases.map(normalizeSpaces).filter(Boolean)
       : [];
 
-    if (expectedEn && !sameText(expectedEn, r.enName) && !aliases.some(alias => sameText(alias, r.enName))) {
+    if (
+      expectedEn &&
+      !sameText(expectedEn, r.enName) &&
+      !aliases.some(alias => sameText(alias, r.enName))
+    ) {
       warn([
         `English course name differs from canonical reference.`,
         `  code: ${r.code}`,
@@ -450,6 +617,7 @@ function checkCanonical(records, byCode, byText, canonicalRaw) {
 
     if (expectedZh) {
       const effectiveZh = normalizeSpaces(getEffectiveZh(r, byCode, byText));
+
       if (effectiveZh && !sameText(effectiveZh, expectedZh)) {
         const message = [
           `Chinese course name differs from canonical reference.`,
@@ -458,8 +626,12 @@ function checkCanonical(records, byCode, byText, canonicalRaw) {
           `  effective ZH: ${effectiveZh}`,
           `  canonical ZH: ${expectedZh}`
         ].join('\n');
-        if (STRICT_CANONICAL) fail(message);
-        else warn(message);
+
+        if (STRICT_CANONICAL) {
+          fail(message);
+        } else {
+          warn(message);
+        }
       }
     }
   }
@@ -474,21 +646,29 @@ function checkCanonical(records, byCode, byText, canonicalRaw) {
 function printSection(title, items, level) {
   console.log(`\n${title}`);
   console.log('-'.repeat(title.length));
+
   if (!items.length) {
     console.log('(none)');
     return;
   }
+
   items.forEach((item, idx) => {
     console.log(`${idx + 1}. ${item}`);
-    if (level === 'error') printGithubAnnotation('error', item);
-    if (level === 'warning') printGithubAnnotation('warning', item);
+
+    if (level === 'error') {
+      printGithubAnnotation('error', item);
+    } else if (level === 'warning') {
+      printGithubAnnotation('warning', item);
+    }
   });
 }
 
 function printSummary(records, byCode, byText, canonicalRaw) {
   const uniqueCodes = new Set(records.map(r => r.code));
   const uniquePairs = new Set(records.map(r => `${r.code}\u0000${r.enName}`));
-  const canonicalCount = Object.keys(canonicalRaw).filter(k => !IGNORE_CANONICAL_KEYS.has(k)).length;
+  const canonicalCount = Object.keys(canonicalRaw).filter(
+    key => !IGNORE_CANONICAL_KEYS.has(key)
+  ).length;
 
   console.log('\nSchedule translation check summary');
   console.log('==================================');
