@@ -41,6 +41,16 @@
 
   const intentWarmTimers = Object.create(null);
 
+  const SCROLL_STORAGE_PREFIX = 'stardust-page-scroll:';
+  let currentScrollKey = null;
+  let isRestoringScroll = false;
+
+  try {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  } catch (e) {}
+
   function delay(ms) {
     return new Promise((resolve) => {
       window.setTimeout(resolve, Math.max(0, Number(ms) || 0));
@@ -112,6 +122,86 @@
     const method = replace ? 'replaceState' : 'pushState';
     window.history[method]({ path: nextPath }, '', nextPath);
   }
+
+  function getScrollKey(pathname) {
+    return SCROLL_STORAGE_PREFIX + normalizePath(pathname || window.location.pathname);
+  }
+
+  function setCurrentScrollPath(pathname) {
+    currentScrollKey = getScrollKey(pathname || window.location.pathname);
+  }
+
+  function readSavedScrollPosition(pathname) {
+    try {
+      const raw = window.sessionStorage.getItem(getScrollKey(pathname));
+      if (!raw) return null;
+
+      const data = JSON.parse(raw);
+      const x = Number(data && data.x);
+      const y = Number(data && data.y);
+
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+
+      return {
+        x: Math.max(0, x),
+        y: Math.max(0, y)
+      };
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveCurrentScrollPosition() {
+    if (isRestoringScroll) return;
+
+    try {
+      const data = JSON.stringify({
+        x: window.scrollX || window.pageXOffset || 0,
+        y: window.scrollY || window.pageYOffset || 0,
+        ts: Date.now()
+      });
+
+      const keys = [
+        currentScrollKey,
+        getScrollKey(window.location.pathname)
+      ].filter(Boolean);
+
+      Array.from(new Set(keys)).forEach((key) => {
+        window.sessionStorage.setItem(key, data);
+      });
+    } catch (e) {}
+  }
+
+  function restoreSavedScrollPosition(pathname) {
+    const pos = readSavedScrollPosition(pathname);
+    if (!pos) return false;
+
+    isRestoringScroll = true;
+
+    const restore = () => {
+      try {
+        window.scrollTo(pos.x, pos.y);
+      } catch (e) {}
+    };
+
+    restore();
+
+    requestAnimationFrame(() => {
+      restore();
+
+      setTimeout(restore, 80);
+
+      setTimeout(() => {
+        restore();
+        isRestoringScroll = false;
+      }, 240);
+    });
+
+    return true;
+  }
+
+  window.addEventListener('pagehide', saveCurrentScrollPosition);
+  window.addEventListener('beforeunload', saveCurrentScrollPosition);
 
   let appHeightRaf = 0;
 
@@ -487,8 +577,13 @@
     if (!targetEl) return false;
 
     const previousPage = currentPage;
+    const restorePath = opts.restoreScrollPath || window.location.pathname;
+    const nextScrollPath = (opts.updateHistory && PAGE_TO_ROUTE[targetPage])
+      ? getRouteForPage(targetPage)
+      : restorePath;
 
     if (previousPage && previousPage !== targetPage) {
+      saveCurrentScrollPosition();
       runPageLeave(previousPage, targetPage);
     }
 
@@ -496,8 +591,18 @@
 
     targetEl.classList.add('visible');
     currentPage = targetPage;
+    setCurrentScrollPath(nextScrollPath);
 
-    scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
+    if (opts.restoreScroll) {
+      const restored = restoreSavedScrollPosition(restorePath);
+
+      if (!restored && opts.scrollBehavior !== 'none') {
+        scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
+      }
+    } else if (opts.scrollBehavior !== 'none') {
+      scrollTargetIntoView(PAGE_DOM_IDS[targetPage], opts.scrollBehavior);
+    }
+
     runPageEnter(targetPage, previousPage);
 
     if (window.TopNav) {
@@ -521,7 +626,9 @@
       updateHistory: true,
       replaceHistory: false,
       instant: false,
-      scrollBehavior: 'smooth'
+      scrollBehavior: 'smooth',
+      restoreScroll: false,
+      restoreScrollPath: null
     }, options || {});
 
     if (!pageConfigs[page]) return;
@@ -601,6 +708,7 @@
     if (!cover) return;
 
     if (currentPage) {
+      saveCurrentScrollPosition();
       runPageLeave(currentPage, null);
     }
 
@@ -650,7 +758,9 @@
       await showPage(page, Object.assign({
         updateHistory: false,
         instant: true,
-        scrollBehavior: 'auto'
+        scrollBehavior: 'auto',
+        restoreScroll: true,
+        restoreScrollPath: window.location.pathname
       }, options || {}));
     } else {
       backToCover(Object.assign({
@@ -824,7 +934,9 @@
       await applyRouteFromLocation({
         updateHistory: false,
         instant: true,
-        scrollBehavior: 'auto'
+        scrollBehavior: 'auto',
+        restoreScroll: true,
+        restoreScrollPath: window.location.pathname
       });
     }
   }
@@ -861,7 +973,12 @@
   }
 
   window.addEventListener('popstate', () => {
-    applyRouteFromLocation();
+    saveCurrentScrollPosition();
+
+    applyRouteFromLocation({
+      restoreScroll: true,
+      restoreScrollPath: window.location.pathname
+    });
   });
 
   window.addEventListener('load', bootOnLoad);
