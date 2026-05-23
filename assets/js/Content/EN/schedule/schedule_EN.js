@@ -2903,7 +2903,7 @@ window.SCHEDULE_COURSE_TYPE_BY_KEY = window.SCHEDULE_COURSE_TYPE_BY_KEY || {
                       <div class="course-container">
                         <div class="course-number">HS1648.01 [2]</div>
                         <div class="course-name">Public Affairs in Life</div>
-                        <div class="instructor">Shanyong Wang, Shuping Shang, Liang Wan</div>
+                        <div class="instructor">Shanyong Wang, Huping Shang, Liang Wan</div>
                         <div class="location">5103</div>
                         <div class="weeks">2-14 week(s)</div>
                       </div>
