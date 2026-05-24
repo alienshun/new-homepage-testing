@@ -561,7 +561,7 @@
   }
 
   function init() {
-    applyLanguage(getLang(), {
+    applyLanguage(LANG.EN, {
       emitLangChange: false
     });
 
@@ -570,7 +570,7 @@
     let retry = 0;
     const timer = setInterval(() => {
       bindLangToggle();
-      updateLangButton(getLang());
+      updateLangButton(LANG.EN);
       retry += 1;
 
       if (document.getElementById("top-lang-btn") && retry >= 3) clearInterval(timer);
