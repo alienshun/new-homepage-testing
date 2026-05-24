@@ -1,0 +1,83 @@
+name: One-time Cleanup Generated WebP
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/cleanup-generated-webp.yml'
+      - 'assets/**/*.webp'
+      - 'assets/generated/webp-manifest.js'
+      - 'scripts/generate_lossless_webp.js'
+      - 'scripts/cleanup_generated_webp.js'
+      - 'sw.js'
+      - '.github/workflows/generate-lossless-webp.yml'
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: one-time-cleanup-generated-webp-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cleanup-generated-webp:
+    name: Cleanup generated WebP sidecars
+    runs-on: ubuntu-latest
+
+    if: ${{ !contains(github.event.head_commit.message, '[skip webp cleanup]') }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Remove generated WebP sidecar files and WebP optimization files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Removing generated WebP sidecar files..."
+
+          find assets -type f \( \
+            -name "*.png.webp" -o \
+            -name "*.jpg.webp" -o \
+            -name "*.jpeg.webp" -o \
+            -name "*.bmp.webp" -o \
+            -name "*.tif.webp" -o \
+            -name "*.tiff.webp" \
+          \) -print -delete || true
+
+          echo "Removing WebP optimization files..."
+
+          rm -f sw.js
+          rm -f assets/generated/webp-manifest.js
+          rm -f scripts/generate_lossless_webp.js
+          rm -f scripts/cleanup_generated_webp.js
+          rm -f .github/workflows/generate-lossless-webp.yml
+
+          echo "Removing this one-time cleanup workflow..."
+          rm -f .github/workflows/cleanup-generated-webp.yml
+
+          echo "Cleanup finished."
+
+      - name: Commit cleanup changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet --exit-code && git diff --cached --quiet --exit-code; then
+            echo "No cleanup changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          git commit -m "revert: cleanup generated webp files [skip webp cleanup]"
+          git push
