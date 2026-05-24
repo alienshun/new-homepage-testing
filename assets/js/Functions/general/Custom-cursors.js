@@ -1,11 +1,8 @@
 (function () {
   'use strict';
 
-  // Base path for cursor files, resolved relative to the document base URL.
-  // This stays stable under /about/, /social/, etc. when <base> is set.
   var BASE = new URL('./assets/cursors/', document.baseURI).href;
 
-  // Map logical names to filenames
   var CURSORS = {
     normal: 'normal.cur',
     unavailable: 'unavailable.cur',
@@ -24,17 +21,67 @@
     help: 'help.cur'
   };
 
-  var pendingRoots = new Set();
-  var flushScheduled = false;
+  var STYLE_ID = 'custom-cursor-style';
 
   function cursorValue(fileName, fallback) {
-    return 'url(' + BASE + fileName + '), ' + (fallback || 'auto');
+    return 'url("' + BASE + fileName + '"), ' + (fallback || 'auto');
   }
 
-  function applyDefaultCursor() {
-    if (CURSORS.normal) {
-      document.documentElement.style.cursor = cursorValue(CURSORS.normal, 'auto');
+  function rule(selector, key, fallback) {
+    if (!CURSORS[key]) return '';
+    return selector + ' { cursor: ' + cursorValue(CURSORS[key], fallback) + '; }\n';
+  }
+
+  function buildCursorCss() {
+    var css = '';
+
+    css += rule('html, body', 'normal', 'auto');
+
+    css += rule('a[href]', 'link_select', 'pointer');
+    css += rule('button, .btn, input[type="button"], input[type="submit"], input[type="reset"], select', 'precise_select', 'pointer');
+    css += rule('input[type="text"], input[type="search"], input[type="email"], input[type="password"], input[type="number"], input[type="url"], input[type="tel"], textarea, [contenteditable="true"]', 'text_select', 'text');
+
+    css += rule('[draggable="true"], .draggable', 'move', 'move');
+    css += rule('.resize-vertical', 'vertical_resize', 'ns-resize');
+    css += rule('.resize-horizontal', 'horizontal_resize', 'ew-resize');
+    css += rule('.resize-diag1', 'diagonal1', 'nwse-resize');
+    css += rule('.resize-diag2', 'diagonal2', 'nesw-resize');
+    css += rule('.help, [data-cursor="help"]', 'help', 'help');
+    css += rule('.busy, [data-busy], [aria-busy="true"]', 'busy', 'wait');
+    css += rule('.handwriting, .scribble-area', 'handwriting', 'crosshair');
+
+    css += rule('[data-cursor="normal"]', 'normal', 'auto');
+    css += rule('[data-cursor="unavailable"]', 'unavailable', 'not-allowed');
+    css += rule('[data-cursor="vertical_resize"]', 'vertical_resize', 'ns-resize');
+    css += rule('[data-cursor="background_run"]', 'background_run', 'progress');
+    css += rule('[data-cursor="candidate"]', 'candidate', 'copy');
+    css += rule('[data-cursor="precise_select"]', 'precise_select', 'pointer');
+    css += rule('[data-cursor="link_select"]', 'link_select', 'pointer');
+    css += rule('[data-cursor="busy"]', 'busy', 'wait');
+    css += rule('[data-cursor="handwriting"]', 'handwriting', 'crosshair');
+    css += rule('[data-cursor="horizontal_resize"]', 'horizontal_resize', 'ew-resize');
+    css += rule('[data-cursor="text_select"]', 'text_select', 'text');
+    css += rule('[data-cursor="diagonal1"]', 'diagonal1', 'nwse-resize');
+    css += rule('[data-cursor="diagonal2"]', 'diagonal2', 'nesw-resize');
+    css += rule('[data-cursor="move"]', 'move', 'move');
+
+    return css;
+  }
+
+  function injectCursorStyle() {
+    var existing = document.getElementById(STYLE_ID);
+
+    if (existing) {
+      existing.textContent = buildCursorCss();
+      return existing;
     }
+
+    var style = document.createElement('style');
+    style.id = STYLE_ID;
+    style.textContent = buildCursorCss();
+
+    document.head.appendChild(style);
+    return style;
   }
 
   function applyCursorToElement(el, cursorKey, fallback) {
@@ -42,196 +89,36 @@
 
     try {
       el.style.cursor = cursorValue(CURSORS[cursorKey], fallback);
-    } catch (e) {
-      // fail silently
-    }
+    } catch (e) { }
   }
 
-  function seedStaticMappings(root) {
-    root = root || document;
-
-    root.querySelectorAll('a, a *').forEach(function (el) {
-      applyCursorToElement(el, 'link_select', 'pointer');
-    });
-
-    root.querySelectorAll('button, button *, .btn, .btn *, input[type="button"], input[type="submit"]').forEach(function (el) {
-      applyCursorToElement(el, 'precise_select', 'pointer');
-    });
-
-    root.querySelectorAll('input[type="text"], input[type="search"], textarea, [contenteditable="true"]').forEach(function (el) {
-      applyCursorToElement(el, 'text_select', 'text');
-    });
-
-    root.querySelectorAll('[draggable="true"], .draggable').forEach(function (el) {
-      applyCursorToElement(el, 'move', 'move');
-    });
-
-    root.querySelectorAll('.resize-vertical').forEach(function (el) {
-      applyCursorToElement(el, 'vertical_resize', 'ns-resize');
-    });
-
-    root.querySelectorAll('.resize-horizontal').forEach(function (el) {
-      applyCursorToElement(el, 'horizontal_resize', 'ew-resize');
-    });
-
-    root.querySelectorAll('.resize-diag1').forEach(function (el) {
-      applyCursorToElement(el, 'diagonal1', 'nwse-resize');
-    });
-
-    root.querySelectorAll('.resize-diag2').forEach(function (el) {
-      applyCursorToElement(el, 'diagonal2', 'nesw-resize');
-    });
-
-    root.querySelectorAll('.help, [title]').forEach(function (el) {
-      applyCursorToElement(el, 'help', 'help');
-    });
-
-    root.querySelectorAll('.busy, [data-busy]').forEach(function (el) {
-      applyCursorToElement(el, 'busy', 'wait');
-    });
-
-    root.querySelectorAll('.handwriting, .scribble-area').forEach(function (el) {
-      applyCursorToElement(el, 'handwriting', 'crosshair');
-    });
+  function setDefaultCursor(key, fallback) {
+    if (!CURSORS[key]) return;
 
     try {
-      if (root.matches && (root.matches('a') || root.matches('a *'))) {
-        applyCursorToElement(root, 'link_select', 'pointer');
-      }
-
-      if (
-        root.matches &&
-        (
-          root.matches('button') ||
-          root.matches('.btn') ||
-          root.matches('input[type="button"]') ||
-          root.matches('input[type="submit"]')
-        )
-      ) {
-        applyCursorToElement(root, 'precise_select', 'pointer');
-      }
-
-      if (root.matches && (root.matches('[draggable="true"]') || root.matches('.draggable'))) {
-        applyCursorToElement(root, 'move', 'move');
-      }
-    } catch (e) {
-      // ignore
-    }
+      document.documentElement.style.cursor = cursorValue(CURSORS[key], fallback || 'auto');
+    } catch (e) { }
   }
 
-  function seedDataCursorAPI(root) {
-    root = root || document;
+  function refresh() {
+    /*
+      Kept as a compatibility API.
 
-    if (root instanceof Element && root.hasAttribute && root.hasAttribute('data-cursor')) {
-      var selfKey = root.getAttribute('data-cursor');
-      var selfFallback = root.getAttribute('data-cursor-fallback') || undefined;
+      The old implementation scanned the DOM and wrote inline cursor styles.
+      That caused slow loading and slow page switching when large sections,
+      such as Schedule tables, were rendered.
 
-      if (selfKey && CURSORS[selfKey]) {
-        applyCursorToElement(root, selfKey, selfFallback);
-      }
-    }
-
-    var els = root.querySelectorAll ? root.querySelectorAll('[data-cursor]') : [];
-
-    els.forEach(function (el) {
-      var key = el.getAttribute('data-cursor');
-      var fallback = el.getAttribute('data-cursor-fallback') || undefined;
-
-      if (key && CURSORS[key]) {
-        applyCursorToElement(el, key, fallback);
-      }
-    });
-  }
-
-  function refresh(root) {
-    var scope = root || document;
-    seedStaticMappings(scope);
-    seedDataCursorAPI(scope);
-  }
-
-  function isContainedByAnotherRoot(root, roots) {
-    for (var i = 0; i < roots.length; i += 1) {
-      var other = roots[i];
-
-      if (other !== root && other.contains && other.contains(root)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  function flushPendingRoots() {
-    flushScheduled = false;
-
-    var roots = Array.from(pendingRoots).filter(function (root) {
-      return root && root.isConnected;
-    });
-
-    pendingRoots.clear();
-
-    roots = roots.filter(function (root) {
-      return !isContainedByAnotherRoot(root, roots);
-    });
-
-    roots.forEach(function (root) {
-      refresh(root);
-    });
-  }
-
-  function scheduleRefresh(root) {
-    if (!root || !(root instanceof Element)) return;
-
-    pendingRoots.add(root);
-
-    if (flushScheduled) return;
-
-    flushScheduled = true;
-
-    if (typeof window.requestAnimationFrame === 'function') {
-      window.requestAnimationFrame(flushPendingRoots);
-    } else {
-      window.setTimeout(flushPendingRoots, 0);
-    }
-  }
-
-  function observeMutations() {
-    if (typeof MutationObserver !== 'function') return;
-
-    var target = document.documentElement || document.body;
-    if (!target) return;
-
-    var observer = new MutationObserver(function (mutations) {
-      mutations.forEach(function (m) {
-        if (!m.addedNodes || !m.addedNodes.length) return;
-
-        m.addedNodes.forEach(function (node) {
-          if (!(node instanceof Element)) return;
-          scheduleRefresh(node);
-        });
-      });
-    });
-
-    observer.observe(target, {
-      childList: true,
-      subtree: true
-    });
+      Cursor rules are now handled by one stylesheet, so no DOM scan is needed.
+    */
+    injectCursorStyle();
   }
 
   function init() {
-    applyDefaultCursor();
-    refresh(document);
-    observeMutations();
+    injectCursorStyle();
 
     window.CustomCursorAPI = {
-      setDefault: function (key, fallback) {
-        if (CURSORS[key]) {
-          document.documentElement.style.cursor = cursorValue(CURSORS[key], fallback || 'auto');
-        }
-      },
-      apply: function (el, key, fallback) {
-        applyCursorToElement(el, key, fallback);
-      },
+      setDefault: setDefaultCursor,
+      apply: applyCursorToElement,
       refresh: refresh
     };
   }
