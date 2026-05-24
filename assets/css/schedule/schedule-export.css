@@ -109,11 +109,16 @@ body.dark-mode .schedule-export-control select {
 }
 
 .schedule-print-export.schedule-print-export-en {
-  font-family: "Georgia", "Times New Roman", Times, serif;
+  font-family: "Georgia", "Times New Roman", Times, serif !important;
 }
 
 .schedule-print-export.schedule-print-export-zh {
-  font-family: "KaiTi", "STKaiti", "Songti SC", "SimSun", "Noto Serif CJK SC", serif;
+  font-family: "KaiTi", "STKaiti", "Songti SC", "SimSun", "Noto Serif CJK SC", serif !important;
+}
+
+.schedule-print-export,
+.schedule-print-export * {
+  font-family: inherit !important;
 }
 
 body.schedule-export-print-mode .schedule-print-export {
@@ -259,6 +264,7 @@ body.schedule-export-print-mode .schedule-print-export {
   isolation: isolate;
 }
 
+/* All table cells remain rectangular by default. */
 #schedule .timetable th,
 #schedule .timetable td,
 #schedule #ustc-timetable th,
@@ -267,64 +273,101 @@ body.schedule-export-print-mode .schedule-print-export {
 #schedule .my-classes-table td,
 #schedule .ustc-classes-table th,
 #schedule .ustc-classes-table td {
+  border-radius: 0 !important;
   background-clip: padding-box;
 }
 
-/* My Timetable and USTC Timetable: top corners */
+/* Outer top-left corner: Period. */
 #schedule .timetable > thead > tr:first-child > th:first-child,
 #schedule #ustc-timetable > thead > tr:first-child > th:first-child {
-  border-top-left-radius: var(--radius);
+  border-top-left-radius: var(--radius) !important;
 }
 
+/* Outer top-right corner: Sunday. */
 #schedule .timetable > thead > tr:first-child > th:last-child,
 #schedule #ustc-timetable > thead > tr:first-child > th:last-child {
-  border-top-right-radius: var(--radius);
-}
-
-/* My Timetable: bottom corners */
-#schedule .timetable > tbody > tr:last-child > td:first-child {
-  border-bottom-left-radius: var(--radius);
-}
-
-#schedule .timetable > tbody > tr:last-child > td:last-child {
-  border-bottom-right-radius: var(--radius);
+  border-top-right-radius: var(--radius) !important;
 }
 
 /*
-  USTC Timetable: the visual left-bottom corner belongs to the row-spanned
-  "Evening" cell, not to the period number "13".
+  My Timetable and USTC Timetable:
+  the visual bottom-left corner belongs to the row-spanned Evening cell,
+  not to period number 13.
 */
+#schedule .timetable > tbody > tr:nth-last-child(3) > .period-header,
 #schedule #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
-  border-bottom-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius) !important;
 }
 
+#schedule .timetable > tbody > tr:last-child > .period-number,
 #schedule #ustc-timetable > tbody > tr:last-child > .period-number {
-  border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0 !important;
 }
 
+/* Outer bottom-right corner: last visible timetable cell. */
+#schedule .timetable > tbody > tr:last-child > td:last-child,
 #schedule #ustc-timetable > tbody > tr:last-child > td:last-child {
-  border-bottom-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius) !important;
 }
 
-/* My Classes and USTC Classes: four corners */
+/* My Classes and USTC Classes: only the outer four corners are rounded. */
 #schedule .my-classes-table > thead > tr:first-child > :first-child,
 #schedule .ustc-classes-table > thead > tr:first-child > :first-child {
-  border-top-left-radius: var(--radius);
+  border-top-left-radius: var(--radius) !important;
 }
 
 #schedule .my-classes-table > thead > tr:first-child > :last-child,
 #schedule .ustc-classes-table > thead > tr:first-child > :last-child {
-  border-top-right-radius: var(--radius);
+  border-top-right-radius: var(--radius) !important;
 }
 
 #schedule .my-classes-table > tbody > tr:last-child > :first-child,
 #schedule .ustc-classes-table > tbody > tr:last-child > :first-child {
-  border-bottom-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius) !important;
 }
 
 #schedule .my-classes-table > tbody > tr:last-child > :last-child,
 #schedule .ustc-classes-table > tbody > tr:last-child > :last-child {
-  border-bottom-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius) !important;
+}
+
+/*
+  Keep timetable grid cells rectangular.
+  Only the inner course card may be rounded.
+*/
+#my-timetable-section .semester-timetable-container .timetable td.event-cell {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  background: var(--surface) !important;
+  padding: 4px;
+  overflow: hidden;
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  background: var(--surface) !important;
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell::before {
+  display: none !important;
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell > .course-container,
+#my-timetable-section .semester-timetable-container .timetable td.event-cell .overlap-course {
+  box-sizing: border-box;
+  min-height: 100%;
+  padding: 4px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover > .course-container,
+#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover .overlap-course {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
 }
 
 /* Prevent hover scaling from creating page jitter or a temporary right scrollbar. */
@@ -334,16 +377,28 @@ body.schedule-export-print-mode .schedule-print-export {
   transform: none !important;
 }
 
-/* Rounded table corner fix for PDF export */
+/* PDF export: keep grid cells rectangular and rely on the wrapper for the outer rounded border. */
 
 .schedule-print-export table {
   border-radius: 0;
+}
+
+.schedule-print-export th,
+.schedule-print-export td,
+.schedule-print-export .event-cell {
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .schedule-print-export .schedule-print-table-wrap {
   border-radius: 10px;
   overflow: hidden;
   clip-path: inset(0 round 10px);
+}
+
+.schedule-print-export .schedule-print-header h1,
+.schedule-print-export .schedule-print-section h2 {
+  font-family: inherit !important;
 }
 
 @media (max-width: 900px) {
