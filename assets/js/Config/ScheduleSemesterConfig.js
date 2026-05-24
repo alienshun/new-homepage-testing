@@ -19,7 +19,7 @@
       'freshman-first': {
         id: 'freshman-first',
         labelEN: 'Freshman Year - First Semester',
-        labelZH: '大一秋季学期',
+        labelZH: '大一上（23秋）',
         termEN: '2023 Fall',
         termZH: '2023 年秋季学期',
         week1Monday: '2023-09-04',
@@ -32,7 +32,7 @@
       'freshman-second': {
         id: 'freshman-second',
         labelEN: 'Freshman Year - Second Semester',
-        labelZH: '大一春季学期',
+        labelZH: '大一下（24春）',
         termEN: '2024 Spring',
         termZH: '2024 年春季学期',
         week1Monday: '2024-02-26',
@@ -44,7 +44,7 @@
       'sophomore-first': {
         id: 'sophomore-first',
         labelEN: 'Sophomore Year - First Semester',
-        labelZH: '大二秋季学期',
+        labelZH: '大二上（24秋）',
         termEN: '2024 Fall',
         termZH: '2024 年秋季学期',
         week1Monday: '2024-09-02',
@@ -56,7 +56,7 @@
       'sophomore-second': {
         id: 'sophomore-second',
         labelEN: 'Sophomore Year - Second Semester',
-        labelZH: '大二春季学期',
+        labelZH: '大二下（25春）',
         termEN: '2025 Spring',
         termZH: '2025 年春季学期',
         week1Monday: '2025-02-24',
@@ -68,7 +68,7 @@
       'junior-first': {
         id: 'junior-first',
         labelEN: 'Junior Year - First Semester',
-        labelZH: '大三秋季学期',
+        labelZH: '大三上（25秋）',
         termEN: '2025 Fall',
         termZH: '2025 年秋季学期',
         week1Monday: '2025-09-08',
@@ -80,7 +80,7 @@
       'junior-second': {
         id: 'junior-second',
         labelEN: 'Junior Year - Second Semester',
-        labelZH: '大三春季学期',
+        labelZH: '大三下（26春）',
         termEN: '2026 Spring',
         termZH: '2026 年春季学期',
         week1Monday: '2026-03-02',
@@ -92,7 +92,7 @@
       'senior-first': {
         id: 'senior-first',
         labelEN: 'Senior Year - First Semester',
-        labelZH: '大四秋季学期',
+        labelZH: '大四上（26秋）',
         termEN: '2026 Fall',
         termZH: '2026 年秋季学期',
         week1Monday: '2026-08-31',
@@ -105,7 +105,7 @@
       'senior-second': {
         id: 'senior-second',
         labelEN: 'Senior Year - Second Semester',
-        labelZH: '大四春季学期',
+        labelZH: '大四下（27春）',
         termEN: '2027 Spring',
         termZH: '2027 年春季学期',
         week1Monday: '2027-02-22',
