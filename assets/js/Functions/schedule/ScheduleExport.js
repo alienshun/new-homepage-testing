@@ -22,11 +22,6 @@
     zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
   };
 
-  const DAY_NAMES_SHORT = {
-    en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
-  };
-
   const UI_TEXT = {
     en: {
       format: 'Format',
@@ -39,6 +34,7 @@
       english: 'EN',
       chinese: '中文',
       title: 'Timetable',
+      source: 'Source',
       sourceMy: 'My Timetable',
       sourceUstc: 'USTC Timetable',
       generatedAt: 'Exported at',
@@ -75,6 +71,7 @@
       english: 'EN',
       chinese: '中文',
       title: '课程表',
+      source: '来源',
       sourceMy: '我的课程表',
       sourceUstc: 'USTC 课程表',
       generatedAt: '导出时间',
@@ -101,6 +98,15 @@
     }
   };
 
+  function delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  function normalizeLang(lang) {
+    const value = String(lang || '').toLowerCase();
+    return (value === 'zh' || value.startsWith('zh')) ? 'zh' : 'en';
+  }
+
   function getCurrentLang() {
     if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
       return normalizeLang(window.SiteLang.getLang());
@@ -110,9 +116,50 @@
     return normalizeLang(lang);
   }
 
-  function normalizeLang(lang) {
-    const value = String(lang || '').toLowerCase();
-    return (value === 'zh' || value.startsWith('zh')) ? 'zh' : 'en';
+  function dispatchLangChange(lang) {
+    const normalized = normalizeLang(lang);
+
+    if (document.body && document.body.dataset) {
+      document.body.dataset.lang = normalized;
+    }
+
+    try {
+      if (typeof CustomEvent === 'function') {
+        window.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: normalized } }));
+      } else {
+        const evt = document.createEvent('CustomEvent');
+        evt.initCustomEvent('site:langchange', false, false, { lang: normalized });
+        window.dispatchEvent(evt);
+      }
+    } catch (e) { }
+  }
+
+  async function prepareExportLanguage(targetLang) {
+    const target = normalizeLang(targetLang);
+    const originalLang = getCurrentLang();
+    const originalBodyLang = document.body && document.body.dataset
+      ? document.body.dataset.lang
+      : undefined;
+
+    if (target === originalLang) {
+      return async function noopRestore() { };
+    }
+
+    dispatchLangChange(target);
+    await delay(180);
+
+    return async function restoreExportLanguage() {
+      if (document.body && document.body.dataset) {
+        if (originalBodyLang == null) {
+          delete document.body.dataset.lang;
+        } else {
+          document.body.dataset.lang = originalBodyLang;
+        }
+      }
+
+      dispatchLangChange(originalLang);
+      await delay(120);
+    };
   }
 
   function textFor(lang) {
@@ -192,8 +239,16 @@
 
   function cleanText(value) {
     return String(value || '')
-      .replace(/\s+/g, ' ')
       .replace(/\u00a0/g, ' ')
+      .replace(/[ \t]+/g, ' ')
+      .replace(/\s*\n\s*/g, '\n')
+      .trim();
+  }
+
+  function cleanInlineText(value) {
+    return String(value || '')
+      .replace(/\u00a0/g, ' ')
+      .replace(/\s+/g, ' ')
       .trim();
   }
 
@@ -228,11 +283,9 @@
       if (Number.isFinite(week)) weeks.add(week);
     }
 
-    const arr = Array.from(weeks)
+    return Array.from(weeks)
       .filter((week) => week >= 1 && week <= (fallbackMaxWeeks || 30))
       .sort((a, b) => a - b);
-
-    return arr;
   }
 
   function formatWeeks(weeks, lang) {
@@ -284,12 +337,6 @@
   function getDayName(day, lang) {
     const dayNumber = parseInt(day, 10);
     const names = DAY_NAMES[normalizeLang(lang)] || DAY_NAMES.en;
-    return names[dayNumber] || '';
-  }
-
-  function getDayShortName(day, lang) {
-    const dayNumber = parseInt(day, 10);
-    const names = DAY_NAMES_SHORT[normalizeLang(lang)] || DAY_NAMES_SHORT.en;
     return names[dayNumber] || '';
   }
 
@@ -370,12 +417,6 @@
     return document.querySelector('#my-timetable-section .semester-timetable-container.active');
   }
 
-  function getSourceSection(type) {
-    return type === 'ustc'
-      ? document.getElementById('ustc-timetable-section')
-      : getActiveMyContainer();
-  }
-
   function getTimetableTable(type) {
     if (type === 'ustc') return document.getElementById('ustc-timetable');
 
@@ -397,7 +438,7 @@
     const actionIndexes = [];
 
     headerCells.forEach((th, index) => {
-      const text = cleanText(th.textContent).toLowerCase();
+      const text = cleanInlineText(th.textContent).toLowerCase();
       if (text === 'actions' || text === 'action' || text === '操作') {
         actionIndexes.push(index);
       }
@@ -405,8 +446,7 @@
 
     if (!actionIndexes.length) return;
 
-    const rows = table.querySelectorAll('tr');
-    rows.forEach((row) => {
+    table.querySelectorAll('tr').forEach((row) => {
       const cells = Array.from(row.children);
       actionIndexes
         .slice()
@@ -425,15 +465,17 @@
       node.remove();
     });
 
-    clone.querySelectorAll('[style]').forEach((node) => {
-      const style = node.getAttribute('style') || '';
-      if (/display\s*:\s*none/i.test(style)) {
-        node.removeAttribute('style');
-      }
-    });
-
     clone.querySelectorAll('table').forEach(removeActionColumns);
     return clone;
+  }
+
+  function escapeHtml(value) {
+    return String(value == null ? '' : value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
   function buildPrintExportRoot(context) {
@@ -454,11 +496,11 @@
     const meta = document.createElement('div');
     meta.className = 'schedule-print-meta';
     meta.innerHTML = `
-      <div><strong>${context.text.semester}:</strong> ${escapeHtml(getSemesterLabel(context.semesterId, context.lang))}</div>
-      <div><strong>${context.text.language}:</strong> ${context.lang === 'zh' ? context.text.chinese : context.text.english}</div>
-      <div><strong>${context.text.format}:</strong> PDF</div>
-      <div><strong>${context.text.generatedAt}:</strong> ${escapeHtml(new Date().toLocaleString())}</div>
-      <div><strong>Source:</strong> ${escapeHtml(sourceLabel)}</div>
+      <div><strong>${escapeHtml(context.text.semester)}:</strong> ${escapeHtml(getSemesterLabel(context.semesterId, context.lang))}</div>
+      <div><strong>${escapeHtml(context.text.language)}:</strong> ${context.lang === 'zh' ? context.text.chinese : context.text.english}</div>
+      <div><strong>${escapeHtml(context.text.format)}:</strong> PDF</div>
+      <div><strong>${escapeHtml(context.text.generatedAt)}:</strong> ${escapeHtml(new Date().toLocaleString())}</div>
+      <div><strong>${escapeHtml(context.text.source)}:</strong> ${escapeHtml(sourceLabel)}</div>
     `;
 
     header.appendChild(title);
@@ -511,7 +553,7 @@
     return root;
   }
 
-  function exportPDF(context) {
+  function exportPDF(context, restoreLang) {
     const root = buildPrintExportRoot(context);
     const filename = buildFileName(context.semesterId, context.lang, 'pdf');
     const oldTitle = document.title;
@@ -520,108 +562,178 @@
     document.body.classList.add('schedule-export-print-mode');
     document.title = filename.replace(/\.pdf$/i, '');
 
+    let cleaned = false;
+
     const cleanup = () => {
+      if (cleaned) return;
+      cleaned = true;
+
       document.body.classList.remove('schedule-export-print-mode');
       document.title = oldTitle;
       root.remove();
       window.removeEventListener('afterprint', cleanup);
+
+      if (typeof restoreLang === 'function') {
+        restoreLang();
+      }
     };
 
     window.addEventListener('afterprint', cleanup);
 
     setTimeout(() => {
-      window.print();
+      try {
+        window.print();
+      } catch (e) {
+        cleanup();
+        return;
+      }
 
-      /*
-        Some browsers do not reliably fire afterprint when the print dialog is cancelled.
-        This fallback avoids leaving the page in print mode.
-      */
       setTimeout(() => {
         if (document.body.classList.contains('schedule-export-print-mode')) {
           cleanup();
         }
-      }, 1500);
-    }, 60);
+      }, 4000);
+    }, 80);
   }
 
-  function tableToRows(table) {
-    if (!table) return [];
+  function isHiddenCell(cell) {
+    if (!cell) return true;
+    if (cell.hidden) return true;
+    if (cell.style && cell.style.display === 'none') return true;
+    return false;
+  }
 
-    const rows = [];
-    table.querySelectorAll('tr').forEach((tr) => {
-      const cells = Array.from(tr.children);
-      rows.push(cells.map((cell) => cleanText(cell.textContent)));
+  function getBlockText(block) {
+    if (!block) return '';
+
+    const parts = [];
+
+    const selectors = [
+      '.course-number',
+      '.course-name',
+      '.instructor',
+      '.location',
+      '.weeks'
+    ];
+
+    selectors.forEach((selector) => {
+      const el = block.querySelector(selector);
+      const text = cleanInlineText(el ? el.textContent : '');
+      if (text) parts.push(text);
     });
 
-    return rows;
+    if (parts.length) return parts.join('\n');
+
+    const clone = block.cloneNode(true);
+    clone.querySelectorAll('button, input, select, textarea, .time-info').forEach((node) => node.remove());
+    return cleanText(clone.textContent);
   }
 
-  function filterActionColumn(rows) {
-    if (!rows || !rows.length) return rows;
+  function getCellExportText(cell) {
+    if (!cell) return '';
 
-    const header = rows[0] || [];
+    const courseBlocks = cell.querySelectorAll('.course-container, .overlap-course');
+    if (courseBlocks.length) {
+      return Array.from(courseBlocks)
+        .map(getBlockText)
+        .filter(Boolean)
+        .join('\n---\n');
+    }
+
+    const clone = cell.cloneNode(true);
+    clone.querySelectorAll('button, input, select, textarea, .time-info').forEach((node) => node.remove());
+    return cleanText(clone.textContent);
+  }
+
+  function tableToCsvMatrix(table) {
+    if (!table) return [];
+
+    const rows = Array.from(table.querySelectorAll('tr'));
+    const matrix = [];
+
+    rows.forEach((tr, rowIndex) => {
+      if (!matrix[rowIndex]) matrix[rowIndex] = [];
+
+      let colIndex = 0;
+
+      Array.from(tr.children).forEach((cell) => {
+        if (isHiddenCell(cell)) return;
+
+        while (matrix[rowIndex][colIndex] !== undefined) {
+          colIndex += 1;
+        }
+
+        const rowSpan = parseInt(cell.getAttribute('rowspan') || cell.rowSpan || 1, 10) || 1;
+        const colSpan = parseInt(cell.getAttribute('colspan') || cell.colSpan || 1, 10) || 1;
+        const text = getCellExportText(cell);
+
+        for (let r = 0; r < rowSpan; r++) {
+          const targetRow = rowIndex + r;
+          if (!matrix[targetRow]) matrix[targetRow] = [];
+
+          for (let c = 0; c < colSpan; c++) {
+            const targetCol = colIndex + c;
+            matrix[targetRow][targetCol] = (r === 0 && c === 0) ? text : '';
+          }
+        }
+
+        colIndex += colSpan;
+      });
+    });
+
+    const maxCols = matrix.reduce((max, row) => Math.max(max, row.length), 0);
+    return matrix.map((row) => {
+      const normalized = [];
+      for (let i = 0; i < maxCols; i++) {
+        normalized.push(row[i] == null ? '' : row[i]);
+      }
+      return normalized;
+    });
+  }
+
+  function removeActionColumnsFromMatrix(matrix) {
+    if (!matrix || !matrix.length) return matrix;
+
+    const headerIndex = matrix.findIndex((row) => row.some((cell) => cleanInlineText(cell)));
+    if (headerIndex < 0) return matrix;
+
+    const header = matrix[headerIndex];
     const actionIndexes = [];
 
     header.forEach((value, index) => {
-      const text = String(value || '').toLowerCase();
+      const text = cleanInlineText(value).toLowerCase();
       if (text === 'actions' || text === 'action' || text === '操作') {
         actionIndexes.push(index);
       }
     });
 
-    if (!actionIndexes.length) return rows;
+    if (!actionIndexes.length) return matrix;
 
-    return rows.map((row) => row.filter((_, index) => !actionIndexes.includes(index)));
-  }
-
-  function getClassesRows(type) {
-    const container = getClassesContainer(type);
-    if (!container) return [];
-
-    const table = container.querySelector('table');
-    return filterActionColumn(tableToRows(table));
+    return matrix.map((row) => row.filter((_, index) => !actionIndexes.includes(index)));
   }
 
   function exportCSV(context) {
-    const events = getTimetableEvents(context.type, context.semesterId, context.lang);
+    const timetableTable = getTimetableTable(context.type);
+    const classesContainer = getClassesContainer(context.type);
+    const classesTable = classesContainer ? classesContainer.querySelector('table') : null;
+
+    const timetableMatrix = tableToCsvMatrix(timetableTable);
+    const classesMatrix = removeActionColumnsFromMatrix(tableToCsvMatrix(classesTable));
+
     const rows = [];
-    const h = context.text.headers;
-
     rows.push([context.text.csvTimetableMarker]);
-    rows.push([
-      h.courseNumber,
-      h.courseName,
-      h.instructor,
-      h.day,
-      h.periodRange,
-      h.startTime,
-      h.endTime,
-      h.weeks,
-      h.location,
-      h.credits
-    ]);
 
-    events.forEach((event) => {
-      rows.push([
-        event.courseNumber || '',
-        event.courseName || '',
-        event.instructor || '',
-        getDayName(event.day, context.lang),
-        getPeriodRange(event.periodStart, event.periodEnd),
-        getStartTime(event.periodStart),
-        getEndTime(event.periodEnd),
-        formatWeeks(event.weeks, context.lang),
-        event.location || '',
-        event.credits || ''
-      ]);
-    });
+    if (timetableMatrix.length) {
+      timetableMatrix.forEach((row) => rows.push(row));
+    } else {
+      rows.push([context.text.noTimetableAlert]);
+    }
 
     rows.push([]);
     rows.push([context.text.csvClassesMarker]);
 
-    const classRows = getClassesRows(context.type);
-    if (classRows.length) {
-      classRows.forEach((row) => rows.push(row));
+    if (classesMatrix.length) {
+      classesMatrix.forEach((row) => rows.push(row));
     } else {
       rows.push([context.text.noClasses]);
     }
@@ -657,11 +769,222 @@
     return parts.join('\r\n');
   }
 
+  function extractCourseFromElement(element) {
+    const courseNumber = cleanInlineText((element.querySelector('.course-number') || {}).textContent || '');
+    const courseNameRaw = cleanInlineText((element.querySelector('.course-name') || {}).textContent || '');
+    const instructor = cleanInlineText((element.querySelector('.instructor') || {}).textContent || '');
+    const location = cleanInlineText((element.querySelector('.location') || {}).textContent || '');
+    const weeksText = cleanInlineText((element.querySelector('.weeks') || {}).textContent || '');
+
+    let courseName = courseNameRaw;
+    let credits = '';
+
+    const creditMatch = courseNameRaw.match(/\[([^\]]+)\]\s*$/);
+    if (creditMatch) {
+      credits = creditMatch[1].trim();
+      courseName = cleanInlineText(courseNameRaw.replace(/\[([^\]]+)\]\s*$/, ''));
+    }
+
+    if (!credits) {
+      const numberCreditMatch = courseNumber.match(/\[([^\]]+)\]\s*$/);
+      if (numberCreditMatch) credits = numberCreditMatch[1].trim();
+    }
+
+    return {
+      courseNumber,
+      courseName,
+      instructor,
+      location,
+      weeksText,
+      credits
+    };
+  }
+
+  function shouldReadAsCourseCell(cell) {
+    if (!cell || cell.tagName !== 'TD') return false;
+
+    return (
+      cell.classList.contains('event-cell') ||
+      cell.classList.contains('has-class') ||
+      !!cell.querySelector('.course-container, .overlap-course')
+    );
+  }
+
+  function getDayFromColumn(cell, colIndex) {
+    if (cell && cell.dataset && cell.dataset.day != null && cell.dataset.day !== '') {
+      const day = parseInt(cell.dataset.day, 10);
+      if (Number.isFinite(day)) return day;
+    }
+
+    if (colIndex >= 2 && colIndex <= 8) {
+      return colIndex === 8 ? 0 : colIndex - 1;
+    }
+
+    return null;
+  }
+
+  function flattenTimetableEventsFromDOM(table, semesterId) {
+    if (!table) return [];
+
+    const semester = getSemester(semesterId);
+    const maxWeeks = semester ? semester.teachingWeeks : 20;
+    const rows = Array.from(table.querySelectorAll('tbody tr'));
+    const grid = [];
+    const events = [];
+
+    rows.forEach((tr, rowIndex) => {
+      if (!grid[rowIndex]) grid[rowIndex] = [];
+
+      let colIndex = 0;
+
+      Array.from(tr.children).forEach((cell) => {
+        if (isHiddenCell(cell)) return;
+
+        while (grid[rowIndex][colIndex]) colIndex += 1;
+
+        const rowSpan = parseInt(cell.getAttribute('rowspan') || cell.rowSpan || 1, 10) || 1;
+        const colSpan = parseInt(cell.getAttribute('colspan') || cell.colSpan || 1, 10) || 1;
+
+        for (let r = 0; r < rowSpan; r++) {
+          const targetRow = rowIndex + r;
+          if (!grid[targetRow]) grid[targetRow] = [];
+
+          for (let c = 0; c < colSpan; c++) {
+            grid[targetRow][colIndex + c] = {
+              cell,
+              anchor: r === 0 && c === 0,
+              colIndex: colIndex + c,
+              rowIndex
+            };
+          }
+        }
+
+        if (shouldReadAsCourseCell(cell)) {
+          const periodCell = tr.querySelector('.period-number');
+          const periodStart = parseNumber(cell.dataset && cell.dataset.period ? cell.dataset.period : (periodCell && periodCell.textContent));
+          const periodEnd = periodStart ? periodStart + rowSpan - 1 : null;
+          const day = getDayFromColumn(cell, colIndex);
+
+          if (periodStart && periodEnd && day !== null) {
+            const courseElements = cell.querySelectorAll('.overlap-course').length
+              ? Array.from(cell.querySelectorAll('.overlap-course'))
+              : Array.from(cell.querySelectorAll('.course-container'));
+
+            const targets = courseElements.length ? courseElements : [cell];
+
+            targets.forEach((target) => {
+              const info = extractCourseFromElement(target);
+              const weeks = parseWeeksFromText(info.weeksText, maxWeeks);
+
+              if (info.courseName || info.courseNumber) {
+                events.push({
+                  courseNumber: info.courseNumber,
+                  courseName: info.courseName,
+                  instructor: info.instructor,
+                  location: info.location,
+                  credits: info.credits,
+                  weeks,
+                  day,
+                  periodStart,
+                  periodEnd
+                });
+              }
+            });
+          }
+        }
+
+        colIndex += colSpan;
+      });
+    });
+
+    return dedupeEvents(events);
+  }
+
+  function getUstcClassesFromStorage() {
+    try {
+      const data = JSON.parse(localStorage.getItem('ustcClasses') || '[]');
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      return [];
+    }
+  }
+
+  function getUstcEventsFromStorage() {
+    const classes = getUstcClassesFromStorage();
+    const events = [];
+
+    classes.forEach((cls) => {
+      const days = Array.isArray(cls.days) ? cls.days : [];
+      days.forEach((day) => {
+        events.push({
+          courseNumber: '',
+          courseName: cleanInlineText(cls.courseName),
+          instructor: cleanInlineText(cls.instructor),
+          location: cleanInlineText(cls.location),
+          credits: cleanInlineText(cls.credits),
+          weeks: Array.isArray(cls.weeks) ? cls.weeks.map((week) => parseInt(week, 10)).filter(Number.isFinite) : [],
+          day: parseInt(day, 10),
+          periodStart: parseInt(cls.periodStart, 10),
+          periodEnd: parseInt(cls.periodEnd, 10)
+        });
+      });
+    });
+
+    return dedupeEvents(events);
+  }
+
+  function eventKey(event) {
+    return [
+      event.courseNumber || '',
+      event.courseName || '',
+      event.instructor || '',
+      event.location || '',
+      event.credits || '',
+      event.day,
+      event.periodStart,
+      event.periodEnd,
+      (event.weeks || []).join('-')
+    ].join('|');
+  }
+
+  function dedupeEvents(events) {
+    const seen = new Set();
+    const result = [];
+
+    events.forEach((event) => {
+      const key = eventKey(event);
+      if (!seen.has(key)) {
+        seen.add(key);
+        result.push(event);
+      }
+    });
+
+    return result.sort((a, b) => {
+      if (a.day !== b.day) {
+        const order = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 0: 7 };
+        return (order[a.day] || 9) - (order[b.day] || 9);
+      }
+      return (a.periodStart || 0) - (b.periodStart || 0);
+    });
+  }
+
+  function getTimetableEvents(type, semesterId) {
+    const table = getTimetableTable(type);
+    const fromDom = flattenTimetableEventsFromDOM(table, semesterId);
+    if (fromDom.length) return fromDom;
+
+    if (type === 'ustc') {
+      return getUstcEventsFromStorage();
+    }
+
+    return [];
+  }
+
   function buildICS(context) {
     const semester = getSemester(context.semesterId);
     if (!semester || !semester.week1Monday) return '';
 
-    const events = getTimetableEvents(context.type, context.semesterId, context.lang);
+    const events = getTimetableEvents(context.type, context.semesterId);
     if (!events.length) return '';
 
     const now = new Date();
@@ -751,224 +1074,6 @@
     downloadTextFile(filename, ics, 'text/calendar;charset=utf-8');
   }
 
-  function extractCourseFromElement(element) {
-    const courseNumber = cleanText((element.querySelector('.course-number') || {}).textContent || '');
-    const courseNameRaw = cleanText((element.querySelector('.course-name') || {}).textContent || '');
-    const instructor = cleanText((element.querySelector('.instructor') || {}).textContent || '');
-    const location = cleanText((element.querySelector('.location') || {}).textContent || '');
-    const weeksText = cleanText((element.querySelector('.weeks') || {}).textContent || '');
-
-    let courseName = courseNameRaw;
-    let credits = '';
-
-    const creditMatch = courseNameRaw.match(/\[([^\]]+)\]\s*$/);
-    if (creditMatch) {
-      credits = creditMatch[1].trim();
-      courseName = cleanText(courseNameRaw.replace(/\[([^\]]+)\]\s*$/, ''));
-    }
-
-    if (!credits) {
-      const numberCreditMatch = courseNumber.match(/\[([^\]]+)\]\s*$/);
-      if (numberCreditMatch) credits = numberCreditMatch[1].trim();
-    }
-
-    return {
-      courseNumber,
-      courseName,
-      instructor,
-      location,
-      weeksText,
-      credits
-    };
-  }
-
-  function shouldReadAsCourseCell(cell) {
-    if (!cell || cell.tagName !== 'TD') return false;
-
-    return (
-      cell.classList.contains('event-cell') ||
-      cell.classList.contains('has-class') ||
-      !!cell.querySelector('.course-container, .overlap-course')
-    );
-  }
-
-  function getDayFromColumn(cell, colIndex) {
-    if (cell && cell.dataset && cell.dataset.day != null && cell.dataset.day !== '') {
-      const day = parseInt(cell.dataset.day, 10);
-      if (Number.isFinite(day)) return day;
-    }
-
-    if (colIndex >= 2 && colIndex <= 8) {
-      return colIndex === 8 ? 0 : colIndex - 1;
-    }
-
-    return null;
-  }
-
-  function flattenTimetableEventsFromDOM(table, semesterId) {
-    if (!table) return [];
-
-    const semester = getSemester(semesterId);
-    const maxWeeks = semester ? semester.teachingWeeks : 20;
-    const rows = Array.from(table.querySelectorAll('tbody tr'));
-    const grid = [];
-    const events = [];
-
-    rows.forEach((tr, rowIndex) => {
-      if (!grid[rowIndex]) grid[rowIndex] = [];
-
-      let colIndex = 0;
-
-      while (grid[rowIndex][colIndex]) colIndex++;
-
-      Array.from(tr.children).forEach((cell) => {
-        while (grid[rowIndex][colIndex]) colIndex++;
-
-        const rowSpan = parseInt(cell.getAttribute('rowspan') || cell.rowSpan || 1, 10) || 1;
-        const colSpan = parseInt(cell.getAttribute('colspan') || cell.colSpan || 1, 10) || 1;
-
-        for (let r = 0; r < rowSpan; r++) {
-          const targetRow = rowIndex + r;
-          if (!grid[targetRow]) grid[targetRow] = [];
-
-          for (let c = 0; c < colSpan; c++) {
-            grid[targetRow][colIndex + c] = {
-              cell,
-              anchor: r === 0 && c === 0,
-              colIndex: colIndex + c,
-              rowIndex
-            };
-          }
-        }
-
-        if (shouldReadAsCourseCell(cell)) {
-          const periodCell = tr.querySelector('.period-number');
-          const periodStart = parseNumber(cell.dataset && cell.dataset.period ? cell.dataset.period : (periodCell && periodCell.textContent));
-          const periodEnd = periodStart ? periodStart + rowSpan - 1 : null;
-          const day = getDayFromColumn(cell, colIndex);
-
-          if (periodStart && periodEnd && day !== null) {
-            const courseElements = cell.querySelectorAll('.overlap-course').length
-              ? Array.from(cell.querySelectorAll('.overlap-course'))
-              : Array.from(cell.querySelectorAll('.course-container'));
-
-            const targets = courseElements.length ? courseElements : [cell];
-
-            targets.forEach((target) => {
-              const info = extractCourseFromElement(target);
-              const weeks = parseWeeksFromText(info.weeksText, maxWeeks);
-
-              if (info.courseName || info.courseNumber) {
-                events.push({
-                  courseNumber: info.courseNumber,
-                  courseName: info.courseName,
-                  instructor: info.instructor,
-                  location: info.location,
-                  credits: info.credits,
-                  weeks,
-                  day,
-                  periodStart,
-                  periodEnd
-                });
-              }
-            });
-          }
-        }
-
-        colIndex += colSpan;
-      });
-    });
-
-    return dedupeEvents(events);
-  }
-
-  function getUstcClassesFromStorage() {
-    try {
-      const data = JSON.parse(localStorage.getItem('ustcClasses') || '[]');
-      return Array.isArray(data) ? data : [];
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function getUstcEventsFromStorage() {
-    const classes = getUstcClassesFromStorage();
-    const events = [];
-
-    classes.forEach((cls) => {
-      const days = Array.isArray(cls.days) ? cls.days : [];
-      days.forEach((day) => {
-        events.push({
-          courseNumber: '',
-          courseName: cleanText(cls.courseName),
-          instructor: cleanText(cls.instructor),
-          location: cleanText(cls.location),
-          credits: cleanText(cls.credits),
-          weeks: Array.isArray(cls.weeks) ? cls.weeks.map((week) => parseInt(week, 10)).filter(Number.isFinite) : [],
-          day: parseInt(day, 10),
-          periodStart: parseInt(cls.periodStart, 10),
-          periodEnd: parseInt(cls.periodEnd, 10)
-        });
-      });
-    });
-
-    return dedupeEvents(events);
-  }
-
-  function eventKey(event) {
-    return [
-      event.courseNumber || '',
-      event.courseName || '',
-      event.instructor || '',
-      event.location || '',
-      event.credits || '',
-      event.day,
-      event.periodStart,
-      event.periodEnd,
-      (event.weeks || []).join('-')
-    ].join('|');
-  }
-
-  function dedupeEvents(events) {
-    const seen = new Set();
-    const result = [];
-
-    events.forEach((event) => {
-      const key = eventKey(event);
-      if (!seen.has(key)) {
-        seen.add(key);
-        result.push(event);
-      }
-    });
-
-    return result.sort((a, b) => {
-      if (a.day !== b.day) {
-        const order = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 0: 7 };
-        return (order[a.day] || 9) - (order[b.day] || 9);
-      }
-      return (a.periodStart || 0) - (b.periodStart || 0);
-    });
-  }
-
-  function getTimetableEvents(type, semesterId, lang) {
-    if (type === 'ustc') {
-      const fromStorage = getUstcEventsFromStorage();
-      if (fromStorage.length) return fromStorage;
-    }
-
-    const table = getTimetableTable(type);
-    return flattenTimetableEventsFromDOM(table, semesterId, lang);
-  }
-
-  function escapeHtml(value) {
-    return String(value == null ? '' : value)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
   function createSemesterOptions(selectedId) {
     const semesters = getSemesterConfig();
     return Object.keys(semesters).map((id) => {
@@ -1019,15 +1124,25 @@
       </button>
     `;
 
-    toolbar.querySelector('[data-schedule-export-submit]').addEventListener('click', () => {
+    toolbar.querySelector('[data-schedule-export-submit]').addEventListener('click', async () => {
       const context = getExportContext(toolbar);
+      const restoreLang = await prepareExportLanguage(context.lang);
 
       if (context.format === 'pdf') {
-        exportPDF(context);
-      } else if (context.format === 'csv') {
-        exportCSV(context);
-      } else if (context.format === 'ics') {
-        exportICS(context);
+        exportPDF(context, restoreLang);
+        return;
+      }
+
+      try {
+        if (context.format === 'csv') {
+          exportCSV(context);
+        } else if (context.format === 'ics') {
+          exportICS(context);
+        }
+      } finally {
+        if (typeof restoreLang === 'function') {
+          await restoreLang();
+        }
       }
     });
 
