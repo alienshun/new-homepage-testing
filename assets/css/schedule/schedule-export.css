@@ -481,3 +481,229 @@ body.schedule-export-print-mode .schedule-print-export {
     font-size: 6.5px;
   }
 }
+
+/* =========================================================
+   PDF export refinement:
+   1. Restore reliable outer rounded corners in exported PDF.
+   2. Keep timetable contents vertically centered like the web view.
+   3. Avoid relying on print-time clip-path for table corners.
+   ========================================================= */
+
+.schedule-print-export,
+.schedule-print-export * {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* Use the wrapper as a stable outer rounded frame. */
+.schedule-print-export .schedule-print-table-wrap {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  clip-path: none !important;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+}
+
+/* Keep the table itself rectangular internally, while the wrapper and outer cells provide the visible rounded outline. */
+.schedule-print-export .schedule-print-table-wrap > table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  background: #ffffff;
+}
+
+.schedule-print-export th,
+.schedule-print-export td {
+  vertical-align: middle !important;
+  background-clip: padding-box !important;
+}
+
+/* Reset all inner cells to straight grid lines first. */
+.schedule-print-export .timetable th,
+.schedule-print-export .timetable td,
+.schedule-print-export #ustc-timetable th,
+.schedule-print-export #ustc-timetable td,
+.schedule-print-export .my-classes-table th,
+.schedule-print-export .my-classes-table td,
+.schedule-print-export .ustc-classes-table th,
+.schedule-print-export .ustc-classes-table td {
+  border-radius: 0 !important;
+}
+
+/* Timetable / USTC Timetable: top-left corner = Period. */
+.schedule-print-export .timetable > thead > tr:first-child > th:first-child,
+.schedule-print-export #ustc-timetable > thead > tr:first-child > th:first-child {
+  border-top-left-radius: 12px !important;
+}
+
+/* Timetable / USTC Timetable: top-right corner = Sunday. */
+.schedule-print-export .timetable > thead > tr:first-child > th:last-child,
+.schedule-print-export #ustc-timetable > thead > tr:first-child > th:last-child {
+  border-top-right-radius: 12px !important;
+}
+
+/*
+  Timetable / USTC Timetable:
+  the bottom-left visual corner belongs to the row-spanned Evening cell,
+  not to period number 13.
+*/
+.schedule-print-export .timetable > tbody > tr:nth-last-child(3) > .time-cell,
+.schedule-print-export .timetable > tbody > tr:nth-last-child(3) > .period-header,
+.schedule-print-export #ustc-timetable > tbody > tr:nth-last-child(3) > .time-cell,
+.schedule-print-export #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
+  border-bottom-left-radius: 12px !important;
+}
+
+.schedule-print-export .timetable > tbody > tr:last-child > .period-number,
+.schedule-print-export #ustc-timetable > tbody > tr:last-child > .period-number {
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Timetable / USTC Timetable: bottom-right corner = last visible timetable cell. */
+.schedule-print-export .timetable > tbody > tr:last-child > td:last-child,
+.schedule-print-export #ustc-timetable > tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: 12px !important;
+}
+
+/* My Classes / USTC Classes: outer four corners only. */
+.schedule-print-export .my-classes-table > thead > tr:first-child > :first-child,
+.schedule-print-export .ustc-classes-table > thead > tr:first-child > :first-child {
+  border-top-left-radius: 12px !important;
+}
+
+.schedule-print-export .my-classes-table > thead > tr:first-child > :last-child,
+.schedule-print-export .ustc-classes-table > thead > tr:first-child > :last-child {
+  border-top-right-radius: 12px !important;
+}
+
+.schedule-print-export .my-classes-table > tbody > tr:last-child > :first-child,
+.schedule-print-export .ustc-classes-table > tbody > tr:last-child > :first-child {
+  border-bottom-left-radius: 12px !important;
+}
+
+.schedule-print-export .my-classes-table > tbody > tr:last-child > :last-child,
+.schedule-print-export .ustc-classes-table > tbody > tr:last-child > :last-child {
+  border-bottom-right-radius: 12px !important;
+}
+
+/* Make exported timetable cells closer to the web layout. */
+.schedule-print-export .timetable td,
+.schedule-print-export #ustc-timetable td {
+  position: relative;
+  vertical-align: middle !important;
+}
+
+/* Restore the original flex-based vertical centering for course content. */
+.schedule-print-export .course-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+
+  text-align: center !important;
+}
+
+/* Overlapping courses should be evenly distributed from top to bottom. */
+.schedule-print-export .overlap-container {
+  display: flex !important;
+  flex-direction: column !important;
+
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.schedule-print-export .overlap-course {
+  flex: 1 1 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+  padding: 3px 2px !important;
+}
+
+/* Keep the separation line between overlapping courses, matching the web view. */
+.schedule-print-export .overlap-course + .overlap-course {
+  border-top: 1px dashed #cbd5e1 !important;
+}
+
+/* USTC timetable overlays should also be centered and stable in print. */
+.schedule-print-export .ustc-event-overlay,
+.schedule-print-export .ustc-course-info {
+  position: static !important;
+  inset: auto !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: 100% !important;
+  box-sizing: border-box !important;
+
+  padding: 3px 2px !important;
+  text-align: center !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Keep the visual hierarchy of course texts closer to the web page. */
+.schedule-print-export .course-number {
+  font-weight: 700 !important;
+  margin: 1px 0 !important;
+  line-height: 1.16 !important;
+}
+
+.schedule-print-export .course-name {
+  font-weight: 700 !important;
+  margin: 1px 0 !important;
+  line-height: 1.16 !important;
+}
+
+.schedule-print-export .instructor,
+.schedule-print-export .location,
+.schedule-print-export .weeks {
+  margin: 1px 0 !important;
+  line-height: 1.15 !important;
+}
+
+/* Print-specific compression without breaking vertical centering. */
+@media print {
+  .schedule-print-export .schedule-print-table-wrap {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    clip-path: none !important;
+  }
+
+  .schedule-print-export .timetable td,
+  .schedule-print-export #ustc-timetable td {
+    height: 36px;
+  }
+
+  .schedule-print-export th,
+  .schedule-print-export td {
+    vertical-align: middle !important;
+  }
+
+  .schedule-print-export .course-container,
+  .schedule-print-export .overlap-container,
+  .schedule-print-export .overlap-course {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+}
