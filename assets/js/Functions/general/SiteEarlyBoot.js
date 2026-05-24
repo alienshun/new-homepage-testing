@@ -152,14 +152,6 @@
     img.src = url;
   }
 
-  function isLocalDevelopmentHost() {
-    return (
-      window.location.hostname === 'localhost' ||
-      window.location.hostname === '127.0.0.1' ||
-      window.location.hostname === '[::1]'
-    );
-  }
-
   function scheduleIdle(callback, delay, timeout) {
     if (typeof callback !== 'function') return;
 
@@ -177,64 +169,75 @@
     }, wait);
   }
 
-  function registerWebpServiceWorker() {
+  function cleanupStaleWebpServiceWorker() {
     const optimization = resources.optimization || {};
     const webpConfig = optimization.webp || {};
 
-    if (webpConfig.enabled === false) return;
-
-    if (!('serviceWorker' in navigator)) return;
-
-    if (window.location.protocol === 'file:') return;
-
-    if (!window.isSecureContext && !isLocalDevelopmentHost()) return;
-
-    const serviceWorkerPath = webpConfig.serviceWorker || '/sw.js';
-    const scopePath = webpConfig.scope || '/';
-
-    function registerNow() {
-      const options = {
-        scope: scopePath
-      };
-
-      if (webpConfig.updateViaCache) {
-        options.updateViaCache = webpConfig.updateViaCache;
-      }
-
-      navigator.serviceWorker.register(serviceWorkerPath, options)
-        .then((registration) => {
-          if (registration && typeof registration.update === 'function') {
-            window.setTimeout(() => {
-              registration.update().catch(() => {});
-            }, 2500);
-          }
-        })
-        .catch((err) => {
-          console.warn('[SiteEarlyBoot] WebP service worker registration failed:', err);
-        });
-    }
-
-    function scheduleRegister() {
-      scheduleIdle(
-        registerNow,
-        webpConfig.registerDelay,
-        webpConfig.registerTimeout
-      );
-    }
-
-    if (document.readyState === 'complete') {
-      scheduleRegister();
+    if (!webpConfig.cleanupStaleServiceWorker && webpConfig.enabled !== false) {
       return;
     }
 
-    window.addEventListener('load', scheduleRegister, { once: true });
+    if (!('serviceWorker' in navigator)) return;
+
+    const targetScriptUrl = normalizeUrl(webpConfig.serviceWorker || '/sw.js');
+    const cachePrefix = webpConfig.cachePrefix || 'stardust-lossless-webp-';
+
+    function isTargetRegistration(registration) {
+      const workers = [
+        registration.active,
+        registration.waiting,
+        registration.installing
+      ].filter(Boolean);
+
+      return workers.some((worker) => {
+        return worker.scriptURL === targetScriptUrl || /\/sw\.js(?:$|\?)/.test(worker.scriptURL);
+      });
+    }
+
+    function clearWebpCaches() {
+      if (!('caches' in window)) return Promise.resolve();
+
+      return caches.keys()
+        .then((keys) => {
+          return Promise.all(
+            keys
+              .filter((key) => key.indexOf(cachePrefix) === 0)
+              .map((key) => caches.delete(key))
+          );
+        })
+        .catch(() => {});
+    }
+
+    function unregisterNow() {
+      navigator.serviceWorker.getRegistrations()
+        .then((registrations) => {
+          const targets = registrations.filter(isTargetRegistration);
+
+          return Promise.all(
+            targets.map((registration) => registration.unregister().catch(() => false))
+          );
+        })
+        .then(clearWebpCaches)
+        .catch((err) => {
+          console.warn('[SiteEarlyBoot] Stale WebP service worker cleanup failed:', err);
+        });
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleIdle(unregisterNow, 300, 1200);
+      return;
+    }
+
+    window.addEventListener('load', () => {
+      scheduleIdle(unregisterNow, 300, 1200);
+    }, { once: true });
   }
 
   setSiteMeta();
   loadCoreStylesEarly();
   warmCoverImage();
   warmAboutProfileImage();
-  registerWebpServiceWorker();
+  cleanupStaleWebpServiceWorker();
 
   window.SiteEarlyBoot = {
     getSelectedCoverFile() {
