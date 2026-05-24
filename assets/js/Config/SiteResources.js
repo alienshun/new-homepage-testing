@@ -227,7 +227,8 @@
           A + 'js/Config/ScheduleSemesterConfig.js',
           A + 'js/Functions/schedule/Schedule.js',
           A + 'js/Functions/schedule/ScheduleRoutes.js',
-          A + 'js/Functions/schedule/ScheduleExport.js'
+          A + 'js/Functions/schedule/ScheduleExport.js',
+          A + 'js/Functions/schedule/ScheduleWeekSelector.js'
         ]
       },
 
