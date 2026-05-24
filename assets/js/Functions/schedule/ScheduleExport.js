@@ -17,6 +17,8 @@
     13: { start: '21:10', end: '21:55' }
   };
 
+  const PRINT_TIMETABLE_ROW_HEIGHT = 36;
+
   const DAY_NAMES = {
     en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
@@ -479,15 +481,155 @@
     });
   }
 
-  function cloneForExport(element) {
+  function getTablesFromClone(clone) {
+    if (!clone) return [];
+
+    const tables = [];
+
+    if (clone.matches && clone.matches('table')) {
+      tables.push(clone);
+    }
+
+    clone.querySelectorAll('table').forEach((table) => {
+      if (!tables.includes(table)) tables.push(table);
+    });
+
+    return tables;
+  }
+
+  function markPrintTableGeometry(table) {
+    if (!table) return;
+
+    const classesToRemove = [
+      'schedule-print-source-table',
+      'schedule-print-timetable-table',
+      'schedule-print-classes-table',
+      'print-edge-top',
+      'print-edge-left',
+      'print-edge-right',
+      'print-edge-bottom',
+      'print-corner-tl',
+      'print-corner-tr',
+      'print-corner-bl',
+      'print-corner-br'
+    ];
+
+    table.querySelectorAll('th, td').forEach((cell) => {
+      classesToRemove.forEach((className) => cell.classList.remove(className));
+    });
+
+    const grid = [];
+    const cellInfo = new Map();
+
+    let maxRow = -1;
+    let maxCol = -1;
+
+    Array.from(table.rows || []).forEach((row, rowIndex) => {
+      if (!grid[rowIndex]) grid[rowIndex] = [];
+
+      let colIndex = 0;
+
+      Array.from(row.children).forEach((cell) => {
+        if (isHiddenCell(cell)) return;
+
+        while (grid[rowIndex][colIndex]) {
+          colIndex += 1;
+        }
+
+        const rowSpan = parseInt(cell.getAttribute('rowspan') || cell.rowSpan || 1, 10) || 1;
+        const colSpan = parseInt(cell.getAttribute('colspan') || cell.colSpan || 1, 10) || 1;
+
+        if (!cellInfo.has(cell)) {
+          cellInfo.set(cell, {
+            minRow: Infinity,
+            maxRow: -Infinity,
+            minCol: Infinity,
+            maxCol: -Infinity
+          });
+        }
+
+        const info = cellInfo.get(cell);
+
+        for (let r = 0; r < rowSpan; r++) {
+          const targetRow = rowIndex + r;
+          if (!grid[targetRow]) grid[targetRow] = [];
+
+          for (let c = 0; c < colSpan; c++) {
+            const targetCol = colIndex + c;
+            grid[targetRow][targetCol] = cell;
+
+            info.minRow = Math.min(info.minRow, targetRow);
+            info.maxRow = Math.max(info.maxRow, targetRow);
+            info.minCol = Math.min(info.minCol, targetCol);
+            info.maxCol = Math.max(info.maxCol, targetCol);
+
+            maxRow = Math.max(maxRow, targetRow);
+            maxCol = Math.max(maxCol, targetCol);
+          }
+        }
+
+        colIndex += colSpan;
+      });
+    });
+
+    table.classList.add('schedule-print-source-table');
+
+    cellInfo.forEach((info, cell) => {
+      if (info.minRow === 0) cell.classList.add('print-edge-top');
+      if (info.minCol === 0) cell.classList.add('print-edge-left');
+      if (info.maxCol === maxCol) cell.classList.add('print-edge-right');
+      if (info.maxRow === maxRow) cell.classList.add('print-edge-bottom');
+
+      if (info.minRow === 0 && info.minCol === 0) cell.classList.add('print-corner-tl');
+      if (info.minRow === 0 && info.maxCol === maxCol) cell.classList.add('print-corner-tr');
+      if (info.maxRow === maxRow && info.minCol === 0) cell.classList.add('print-corner-bl');
+      if (info.maxRow === maxRow && info.maxCol === maxCol) cell.classList.add('print-corner-br');
+    });
+  }
+
+  function normalizePrintTimetableCells(table) {
+    if (!table) return;
+
+    table.querySelectorAll('td.event-cell, td.has-class').forEach((cell) => {
+      const rowSpan = parseInt(cell.getAttribute('rowspan') || cell.rowSpan || 1, 10) || 1;
+      const minHeight = Math.max(PRINT_TIMETABLE_ROW_HEIGHT, rowSpan * PRINT_TIMETABLE_ROW_HEIGHT - 2);
+
+      cell.style.setProperty('--schedule-print-event-min-height', `${minHeight}px`);
+    });
+  }
+
+  function normalizePrintClone(clone, printType) {
+    const tables = getTablesFromClone(clone);
+
+    tables.forEach((table) => {
+      table.classList.add('schedule-print-source-table');
+
+      if (printType === 'timetable') {
+        table.classList.add('schedule-print-timetable-table');
+        normalizePrintTimetableCells(table);
+      }
+
+      if (printType === 'classes') {
+        table.classList.add('schedule-print-classes-table');
+      }
+
+      markPrintTableGeometry(table);
+    });
+  }
+
+  function cloneForExport(element, options) {
     if (!element) return null;
+
+    const opts = options || {};
     const clone = element.cloneNode(true);
 
     clone.querySelectorAll('button, input, select, textarea, .schedule-export-toolbar').forEach((node) => {
       node.remove();
     });
 
-    clone.querySelectorAll('table').forEach(removeActionColumns);
+    getTablesFromClone(clone).forEach(removeActionColumns);
+    normalizePrintClone(clone, opts.printType || '');
+
     return clone;
   }
 
@@ -544,13 +686,16 @@
     const classesContainer = getClassesContainer(context.type);
 
     const timetableBlock = document.createElement('section');
-    timetableBlock.className = 'schedule-print-section';
+    timetableBlock.className = 'schedule-print-section schedule-print-timetable-section';
     timetableBlock.innerHTML = `<h2>${escapeHtml(context.text.timetableSection)}</h2>`;
 
-    const timetableClone = cloneForExport(timetableTable);
+    const timetableClone = cloneForExport(timetableTable, {
+      printType: 'timetable'
+    });
+
     if (timetableClone) {
       const tableWrap = document.createElement('div');
-      tableWrap.className = 'schedule-print-table-wrap';
+      tableWrap.className = 'schedule-print-table-wrap schedule-print-timetable-wrap';
       tableWrap.appendChild(timetableClone);
       timetableBlock.appendChild(tableWrap);
     } else {
@@ -566,14 +711,27 @@
     classesBlock.className = 'schedule-print-section schedule-print-classes-section';
     classesBlock.innerHTML = `<h2>${escapeHtml(context.text.classesSection)}</h2>`;
 
-    const classesClone = cloneForExport(classesContainer);
+    const classesClone = cloneForExport(classesContainer, {
+      printType: 'classes'
+    });
+
     if (classesClone) {
-      const existingTitle = classesClone.querySelector('h3');
-      if (existingTitle) existingTitle.remove();
+      const classesTable = classesClone.matches && classesClone.matches('table')
+        ? classesClone
+        : classesClone.querySelector('table');
 
       const classesTableWrap = document.createElement('div');
-      classesTableWrap.className = 'schedule-print-table-wrap';
-      classesTableWrap.appendChild(classesClone);
+      classesTableWrap.className = 'schedule-print-table-wrap schedule-print-classes-wrap';
+
+      if (classesTable) {
+        classesTableWrap.appendChild(classesTable);
+      } else {
+        const existingTitle = classesClone.querySelector('h3');
+        if (existingTitle) existingTitle.remove();
+
+        classesTableWrap.appendChild(classesClone);
+      }
+
       classesBlock.appendChild(classesTableWrap);
     } else {
       const empty = document.createElement('p');
