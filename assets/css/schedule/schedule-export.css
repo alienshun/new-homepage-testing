@@ -164,81 +164,6 @@ body.schedule-export-print-mode .schedule-print-export {
   color: #111827;
 }
 
-.schedule-print-table-wrap {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 10px;
-  clip-path: inset(0 round 10px);
-}
-
-.schedule-print-export table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  table-layout: fixed;
-  margin: 0;
-  border-radius: 0;
-  overflow: visible;
-  background: #ffffff;
-  color: #111827;
-}
-
-.schedule-print-export th,
-.schedule-print-export td {
-  border: 1px solid #cbd5e1;
-  padding: 3px 4px;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 8.2px;
-  line-height: 1.18;
-  color: #111827;
-  background: #ffffff;
-  background-clip: padding-box;
-}
-
-.schedule-print-export th {
-  font-weight: 700;
-  background: #f3f4f6;
-}
-
-.schedule-print-export .period-header,
-.schedule-print-export .period-number,
-.schedule-print-export .time-cell {
-  font-weight: 700;
-  background: #f8fafc;
-}
-
-.schedule-print-export .has-class,
-.schedule-print-export .event-cell {
-  background: #f8fafc;
-}
-
-.schedule-print-export .course-container,
-.schedule-print-export .overlap-container,
-.schedule-print-export .overlap-course {
-  display: block;
-  width: 100%;
-}
-
-.schedule-print-export .course-number,
-.schedule-print-export .course-name {
-  font-weight: 700;
-}
-
-.schedule-print-export .course-number,
-.schedule-print-export .course-name,
-.schedule-print-export .instructor,
-.schedule-print-export .location,
-.schedule-print-export .weeks {
-  margin: 1px 0;
-  word-break: break-word;
-}
-
-.schedule-print-export .time-info {
-  font-size: 7px;
-  color: #4b5563;
-}
-
 .schedule-print-empty {
   margin: 6px 0 0;
   color: #6b7280;
@@ -362,23 +287,227 @@ body.schedule-export-print-mode .schedule-print-export {
   transform: none !important;
 }
 
-/* PDF export: keep grid cells rectangular and rely on the wrapper for the outer rounded border. */
+/* PDF export: table fidelity and reliable print geometry */
 
-.schedule-print-export table {
-  border-radius: 0;
-}
-
-.schedule-print-export th,
-.schedule-print-export td,
-.schedule-print-export .event-cell {
-  border-radius: 0 !important;
-  box-shadow: none !important;
+.schedule-print-export,
+.schedule-print-export * {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
 }
 
 .schedule-print-export .schedule-print-table-wrap {
-  border-radius: 10px;
-  overflow: hidden;
-  clip-path: inset(0 round 10px);
+  width: 100%;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+}
+
+.schedule-print-export .schedule-print-source-table {
+  width: 100% !important;
+  margin: 0 !important;
+  table-layout: fixed !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+.schedule-print-export .schedule-print-source-table th,
+.schedule-print-export .schedule-print-source-table td {
+  border: 0 !important;
+  border-right: 1px solid #cbd5e1 !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+
+  padding: 3px 4px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+
+  font-size: 8.2px !important;
+  line-height: 1.18 !important;
+
+  color: #111827 !important;
+  background: #ffffff !important;
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-edge-top {
+  border-top: 1px solid #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-edge-left {
+  border-left: 1px solid #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-tl {
+  border-top-left-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-tr {
+  border-top-right-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-bl {
+  border-bottom-left-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-br {
+  border-bottom-right-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table th {
+  font-weight: 700 !important;
+  background: #f3f4f6 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .period-header,
+.schedule-print-export .schedule-print-source-table .period-number,
+.schedule-print-export .schedule-print-source-table .time-cell {
+  font-weight: 700 !important;
+  background: #f8fafc !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td {
+  height: 36px !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td.event-cell,
+.schedule-print-export .schedule-print-timetable-table td.has-class {
+  position: relative !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td.event-cell::before {
+  display: none !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .course-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-container {
+  display: flex !important;
+  flex-direction: column !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-course {
+  flex: 1 1 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: 0 !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-course + .overlap-course {
+  border-top: 1px dashed #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .ustc-timetable-cell {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .ustc-event-overlay,
+.schedule-print-export .schedule-print-timetable-table .ustc-course-info {
+  position: static !important;
+  inset: auto !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.schedule-print-export .schedule-print-source-table .course-number {
+  display: block !important;
+  font-weight: 700 !important;
+  font-size: 7.4px !important;
+  line-height: 1.18 !important;
+  margin: 0.5px 0 !important;
+  color: #111827 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .course-name {
+  display: block !important;
+  font-weight: 700 !important;
+  font-size: 7.8px !important;
+  line-height: 1.18 !important;
+  margin: 0.5px 0 !important;
+  color: #111827 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .instructor,
+.schedule-print-export .schedule-print-source-table .location,
+.schedule-print-export .schedule-print-source-table .weeks {
+  display: block !important;
+  font-size: 6.8px !important;
+  line-height: 1.15 !important;
+  margin: 0.5px 0 !important;
+  color: #374151 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .time-info {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+.schedule-print-export .schedule-print-classes-table th,
+.schedule-print-export .schedule-print-classes-table td {
+  padding: 4px 5px !important;
+  font-size: 7.8px !important;
+  line-height: 1.18 !important;
 }
 
 .schedule-print-export .schedule-print-header h1,
@@ -448,262 +577,18 @@ body.schedule-export-print-mode .schedule-print-export {
     margin-bottom: 5px;
   }
 
-  .schedule-print-export table {
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
-    overflow: visible !important;
+  .schedule-print-export .schedule-print-table-wrap {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .schedule-print-export .schedule-print-source-table {
+    break-inside: auto;
     page-break-inside: auto;
   }
 
-  .schedule-print-export tr {
+  .schedule-print-export .schedule-print-source-table tr {
+    break-inside: avoid;
     page-break-inside: avoid;
-    page-break-after: auto;
-  }
-
-  .schedule-print-export th,
-  .schedule-print-export td {
-    font-size: 7.6px;
-    padding: 2.6px 3.2px;
-    line-height: 1.12;
-  }
-
-  .schedule-print-export .course-number,
-  .schedule-print-export .course-name,
-  .schedule-print-export .instructor,
-  .schedule-print-export .location,
-  .schedule-print-export .weeks {
-    margin: 0.5px 0;
-  }
-
-  .schedule-print-export .time-info {
-    font-size: 6.5px;
-  }
-}
-
-/* =========================================================
-   PDF export refinement:
-   1. Restore reliable outer rounded corners in exported PDF.
-   2. Keep timetable contents vertically centered like the web view.
-   3. Avoid relying on print-time clip-path for table corners.
-   ========================================================= */
-
-.schedule-print-export,
-.schedule-print-export * {
-  -webkit-print-color-adjust: exact !important;
-  print-color-adjust: exact !important;
-}
-
-/* Use the wrapper as a stable outer rounded frame. */
-.schedule-print-export .schedule-print-table-wrap {
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  clip-path: none !important;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-}
-
-/* Keep the table itself rectangular internally, while the wrapper and outer cells provide the visible rounded outline. */
-.schedule-print-export .schedule-print-table-wrap > table {
-  border-collapse: separate !important;
-  border-spacing: 0 !important;
-  border-radius: 12px !important;
-  overflow: hidden !important;
-  margin: 0 !important;
-  background: #ffffff;
-}
-
-.schedule-print-export th,
-.schedule-print-export td {
-  vertical-align: middle !important;
-  background-clip: padding-box !important;
-}
-
-/* Reset all inner cells to straight grid lines first. */
-.schedule-print-export .timetable th,
-.schedule-print-export .timetable td,
-.schedule-print-export #ustc-timetable th,
-.schedule-print-export #ustc-timetable td,
-.schedule-print-export .my-classes-table th,
-.schedule-print-export .my-classes-table td,
-.schedule-print-export .ustc-classes-table th,
-.schedule-print-export .ustc-classes-table td {
-  border-radius: 0 !important;
-}
-
-/* Timetable / USTC Timetable: top-left corner = Period. */
-.schedule-print-export .timetable > thead > tr:first-child > th:first-child,
-.schedule-print-export #ustc-timetable > thead > tr:first-child > th:first-child {
-  border-top-left-radius: 12px !important;
-}
-
-/* Timetable / USTC Timetable: top-right corner = Sunday. */
-.schedule-print-export .timetable > thead > tr:first-child > th:last-child,
-.schedule-print-export #ustc-timetable > thead > tr:first-child > th:last-child {
-  border-top-right-radius: 12px !important;
-}
-
-/*
-  Timetable / USTC Timetable:
-  the bottom-left visual corner belongs to the row-spanned Evening cell,
-  not to period number 13.
-*/
-.schedule-print-export .timetable > tbody > tr:nth-last-child(3) > .time-cell,
-.schedule-print-export .timetable > tbody > tr:nth-last-child(3) > .period-header,
-.schedule-print-export #ustc-timetable > tbody > tr:nth-last-child(3) > .time-cell,
-.schedule-print-export #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
-  border-bottom-left-radius: 12px !important;
-}
-
-.schedule-print-export .timetable > tbody > tr:last-child > .period-number,
-.schedule-print-export #ustc-timetable > tbody > tr:last-child > .period-number {
-  border-bottom-left-radius: 0 !important;
-}
-
-/* Timetable / USTC Timetable: bottom-right corner = last visible timetable cell. */
-.schedule-print-export .timetable > tbody > tr:last-child > td:last-child,
-.schedule-print-export #ustc-timetable > tbody > tr:last-child > td:last-child {
-  border-bottom-right-radius: 12px !important;
-}
-
-/* My Classes / USTC Classes: outer four corners only. */
-.schedule-print-export .my-classes-table > thead > tr:first-child > :first-child,
-.schedule-print-export .ustc-classes-table > thead > tr:first-child > :first-child {
-  border-top-left-radius: 12px !important;
-}
-
-.schedule-print-export .my-classes-table > thead > tr:first-child > :last-child,
-.schedule-print-export .ustc-classes-table > thead > tr:first-child > :last-child {
-  border-top-right-radius: 12px !important;
-}
-
-.schedule-print-export .my-classes-table > tbody > tr:last-child > :first-child,
-.schedule-print-export .ustc-classes-table > tbody > tr:last-child > :first-child {
-  border-bottom-left-radius: 12px !important;
-}
-
-.schedule-print-export .my-classes-table > tbody > tr:last-child > :last-child,
-.schedule-print-export .ustc-classes-table > tbody > tr:last-child > :last-child {
-  border-bottom-right-radius: 12px !important;
-}
-
-/* Make exported timetable cells closer to the web layout. */
-.schedule-print-export .timetable td,
-.schedule-print-export #ustc-timetable td {
-  position: relative;
-  vertical-align: middle !important;
-}
-
-/* Restore the original flex-based vertical centering for course content. */
-.schedule-print-export .course-container {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-
-  text-align: center !important;
-}
-
-/* Overlapping courses should be evenly distributed from top to bottom. */
-.schedule-print-export .overlap-container {
-  display: flex !important;
-  flex-direction: column !important;
-
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-}
-
-.schedule-print-export .overlap-course {
-  flex: 1 1 0 !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-
-  width: 100% !important;
-  box-sizing: border-box !important;
-  text-align: center !important;
-  padding: 3px 2px !important;
-}
-
-/* Keep the separation line between overlapping courses, matching the web view. */
-.schedule-print-export .overlap-course + .overlap-course {
-  border-top: 1px dashed #cbd5e1 !important;
-}
-
-/* USTC timetable overlays should also be centered and stable in print. */
-.schedule-print-export .ustc-event-overlay,
-.schedule-print-export .ustc-course-info {
-  position: static !important;
-  inset: auto !important;
-
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
-
-  width: 100% !important;
-  min-height: 100% !important;
-  box-sizing: border-box !important;
-
-  padding: 3px 2px !important;
-  text-align: center !important;
-
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-}
-
-/* Keep the visual hierarchy of course texts closer to the web page. */
-.schedule-print-export .course-number {
-  font-weight: 700 !important;
-  margin: 1px 0 !important;
-  line-height: 1.16 !important;
-}
-
-.schedule-print-export .course-name {
-  font-weight: 700 !important;
-  margin: 1px 0 !important;
-  line-height: 1.16 !important;
-}
-
-.schedule-print-export .instructor,
-.schedule-print-export .location,
-.schedule-print-export .weeks {
-  margin: 1px 0 !important;
-  line-height: 1.15 !important;
-}
-
-/* Print-specific compression without breaking vertical centering. */
-@media print {
-  .schedule-print-export .schedule-print-table-wrap {
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    clip-path: none !important;
-  }
-
-  .schedule-print-export .timetable td,
-  .schedule-print-export #ustc-timetable td {
-    height: 36px;
-  }
-
-  .schedule-print-export th,
-  .schedule-print-export td {
-    vertical-align: middle !important;
-  }
-
-  .schedule-print-export .course-container,
-  .schedule-print-export .overlap-container,
-  .schedule-print-export .overlap-course {
-    justify-content: center !important;
-    align-items: center !important;
   }
 }
