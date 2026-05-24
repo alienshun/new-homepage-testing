@@ -348,6 +348,24 @@
     return weeks.indexOf(week) !== -1;
   }
 
+  function renderUstcTimetableWithoutClassesListRefresh() {
+    if (
+      typeof renderUstcClassesList !== 'function' ||
+      typeof originalRenderUstcTimetable !== 'function'
+    ) {
+      return originalRenderUstcTimetable();
+    }
+
+    const realRenderUstcClassesList = renderUstcClassesList;
+
+    try {
+      renderUstcClassesList = function () {};
+      return originalRenderUstcTimetable();
+    } finally {
+      renderUstcClassesList = realRenderUstcClassesList;
+    }
+  }
+
   function patchUstcRender() {
     if (originalRenderUstcTimetable) return;
     if (typeof renderUstcTimetable !== 'function') return;
@@ -361,14 +379,12 @@
 
       const selected = state.ustc || 'all';
 
-      if (selected === 'all' || typeof ustcClasses === 'undefined' || !Array.isArray(ustcClasses)) {
-        const result = originalRenderUstcTimetable();
-
-        if (typeof renderUstcClassesList === 'function') {
-          renderUstcClassesList();
-        }
-
-        return result;
+      if (
+        selected === 'all' ||
+        typeof ustcClasses === 'undefined' ||
+        !Array.isArray(ustcClasses)
+      ) {
+        return originalRenderUstcTimetable();
       }
 
       const fullClasses = ustcClasses;
@@ -379,7 +395,7 @@
       try {
         isRenderingUstc = true;
         ustcClasses = filteredClasses;
-        originalRenderUstcTimetable();
+        renderUstcTimetableWithoutClassesListRefresh();
       } finally {
         ustcClasses = fullClasses;
         isRenderingUstc = false;
