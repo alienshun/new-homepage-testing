@@ -219,10 +219,16 @@
       .replace(/_+/g, '_');
   }
 
-  function buildFileName(semesterId, lang, format) {
-    const semesterPart = sanitizeFileNamePart(getFileSemesterLabel(semesterId));
-    const langPart = normalizeLang(lang) === 'zh' ? 'ZH' : 'EN';
-    return `Timetable_${semesterPart}_${langPart}.${String(format || '').toLowerCase()}`;
+  function buildFileName(context, format) {
+    const langPart = normalizeLang(context && context.lang) === 'zh' ? 'ZH' : 'EN';
+    const ext = String(format || '').toLowerCase();
+
+    if (context && context.type === 'ustc') {
+      return `Timetable_USTC_Timetable_${langPart}.${ext}`;
+    }
+
+    const semesterPart = sanitizeFileNamePart(getFileSemesterLabel(context && context.semesterId));
+    return `Timetable_${semesterPart}_${langPart}.${ext}`;
   }
 
   function downloadTextFile(filename, content, mimeType) {
@@ -500,8 +506,9 @@
       : context.text.sourceMy;
 
     const root = document.createElement('div');
-    root.className = 'schedule-print-export';
+    root.className = `schedule-print-export schedule-print-export-${normalizeLang(context.lang)}`;
     root.setAttribute('aria-hidden', 'true');
+    root.setAttribute('lang', normalizeLang(context.lang) === 'zh' ? 'zh-CN' : 'en');
 
     const header = document.createElement('div');
     header.className = 'schedule-print-header';
@@ -511,13 +518,23 @@
 
     const meta = document.createElement('div');
     meta.className = 'schedule-print-meta';
-    meta.innerHTML = `
-      <div><strong>${escapeHtml(context.text.semester)}:</strong> ${escapeHtml(getSemesterLabel(context.semesterId, context.lang))}</div>
-      <div><strong>${escapeHtml(context.text.language)}:</strong> ${context.lang === 'zh' ? context.text.chinese : context.text.english}</div>
-      <div><strong>${escapeHtml(context.text.format)}:</strong> PDF</div>
-      <div><strong>${escapeHtml(context.text.generatedAt)}:</strong> ${escapeHtml(new Date().toLocaleString())}</div>
-      <div><strong>${escapeHtml(context.text.source)}:</strong> ${escapeHtml(sourceLabel)}</div>
-    `;
+
+    const metaRows = [];
+
+    if (context.type !== 'ustc') {
+      metaRows.push(
+        `<div><strong>${escapeHtml(context.text.semester)}:</strong> ${escapeHtml(getSemesterLabel(context.semesterId, context.lang))}</div>`
+      );
+    }
+
+    metaRows.push(
+      `<div><strong>${escapeHtml(context.text.language)}:</strong> ${context.lang === 'zh' ? context.text.chinese : context.text.english}</div>`,
+      `<div><strong>${escapeHtml(context.text.format)}:</strong> PDF</div>`,
+      `<div><strong>${escapeHtml(context.text.generatedAt)}:</strong> ${escapeHtml(new Date().toLocaleString())}</div>`,
+      `<div><strong>${escapeHtml(context.text.source)}:</strong> ${escapeHtml(sourceLabel)}</div>`
+    );
+
+    meta.innerHTML = metaRows.join('');
 
     header.appendChild(title);
     header.appendChild(meta);
@@ -571,7 +588,7 @@
 
   function exportPDF(context, restoreLang) {
     const root = buildPrintExportRoot(context);
-    const filename = buildFileName(context.semesterId, context.lang, 'pdf');
+    const filename = buildFileName(context, 'pdf');
     const oldTitle = document.title;
 
     document.body.appendChild(root);
@@ -759,7 +776,7 @@
     }
 
     const csv = '\ufeff' + rows.map(toCsvLine).join('\r\n');
-    const filename = buildFileName(context.semesterId, context.lang, 'csv');
+    const filename = buildFileName(context, 'csv');
 
     downloadTextFile(filename, csv, 'text/csv;charset=utf-8');
   }
@@ -1009,13 +1026,18 @@
 
     const now = new Date();
     const stamp = now.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+
+    const calendarName = context.type === 'ustc'
+      ? `${context.text.title} - ${context.text.sourceUstc}`
+      : `${context.text.title} - ${getSemesterLabel(context.semesterId, context.lang)}`;
+
     const lines = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//Stardust Math//Schedule Export//EN',
       'CALSCALE:GREGORIAN',
       'METHOD:PUBLISH',
-      `X-WR-CALNAME:${escapeICS(context.text.title + ' - ' + getSemesterLabel(context.semesterId, context.lang))}`,
+      `X-WR-CALNAME:${escapeICS(calendarName)}`,
       `X-WR-TIMEZONE:${semester.timezone || 'Asia/Shanghai'}`
     ];
 
@@ -1049,12 +1071,17 @@
 
         const summary = titleParts.length ? titleParts.join(' ') : context.text.title;
 
-        const descriptionParts = [
-          `${context.text.semester}: ${getSemesterLabel(context.semesterId, context.lang)}`,
+        const descriptionParts = [];
+
+        if (context.type !== 'ustc') {
+          descriptionParts.push(`${context.text.semester}: ${getSemesterLabel(context.semesterId, context.lang)}`);
+        }
+
+        descriptionParts.push(
           `${context.text.headers.day}: ${getDayName(event.day, context.lang)}`,
           `${context.text.headers.periodRange}: ${getPeriodRange(event.periodStart, event.periodEnd)}`,
           `${context.text.headers.weeks}: ${formatWeeks([week], context.lang)}`
-        ];
+        );
 
         if (event.instructor) descriptionParts.push(`${context.text.headers.instructor}: ${event.instructor}`);
         if (event.location) descriptionParts.push(`${context.text.headers.location}: ${event.location}`);
@@ -1090,22 +1117,13 @@
       return;
     }
 
-    const filename = buildFileName(context.semesterId, context.lang, 'ics');
+    const filename = buildFileName(context, 'ics');
     downloadTextFile(filename, ics, 'text/calendar;charset=utf-8');
-  }
-
-  function createSemesterOptions(selectedId) {
-    const semesters = getSemesterConfig();
-    return Object.keys(semesters).map((id) => {
-      const selected = id === selectedId ? ' selected' : '';
-      return `<option value="${escapeHtml(id)}"${selected}>${escapeHtml(semesters[id].labelEN || id)}</option>`;
-    }).join('');
   }
 
   function createToolbar(type) {
     const currentLang = getCurrentLang();
     const text = textFor(currentLang);
-    const defaultSemester = type === 'ustc' ? getDefaultSemesterId() : '';
 
     const toolbar = document.createElement('div');
     toolbar.className = 'schedule-export-toolbar';
@@ -1128,15 +1146,6 @@
           <option value="zh"${currentLang === 'zh' ? ' selected' : ''}>${escapeHtml(text.chinese)}</option>
         </select>
       </div>
-
-      ${type === 'ustc' ? `
-        <div class="schedule-export-control schedule-export-semester-control">
-          <label>${escapeHtml(text.semester)}</label>
-          <select data-schedule-export-semester aria-label="${escapeHtml(text.semester)}">
-            ${createSemesterOptions(defaultSemester)}
-          </select>
-        </div>
-      ` : ''}
 
       <button type="button" class="schedule-export-btn" data-schedule-export-submit>
         <i class="fas fa-download" aria-hidden="true"></i>
@@ -1178,9 +1187,6 @@
     const controls = toolbar.querySelectorAll('.schedule-export-control');
     if (controls[0]) controls[0].querySelector('label').textContent = text.format;
     if (controls[1]) controls[1].querySelector('label').textContent = text.language;
-    if (controls[2] && toolbar.dataset.exportType === 'ustc') {
-      controls[2].querySelector('label').textContent = text.semester;
-    }
 
     const formatSelect = toolbar.querySelector('[data-schedule-export-format]');
     if (formatSelect) {
