@@ -72,6 +72,15 @@
   background: var(--surface) !important;
   box-shadow: none !important;
   transform: none !important;
+  cursor: default !important;
+}
+
+#schedule td[data-week-selector-empty="true"] > .time-info,
+.schedule-print-export td[data-week-selector-empty="true"] > .time-info {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 #schedule [data-schedule-week-hidden="true"] {
