@@ -77,16 +77,6 @@
       }
     },
 
-    optimization: {
-      webp: {
-        enabled: false,
-        cleanupStaleServiceWorker: true,
-        serviceWorker: '/sw.js',
-        scope: '/',
-        cachePrefix: 'stardust-lossless-webp-'
-      }
-    },
-
     activitiesMoments: ACTIVITIES_MOMENTS,
 
     navigation: {
