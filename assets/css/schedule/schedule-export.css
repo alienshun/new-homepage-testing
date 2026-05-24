@@ -498,6 +498,36 @@ body.schedule-export-print-mode .schedule-print-export {
   color: #111827 !important;
 }
 
+/* Make course type labels plain and print-friendly in exported PDF. */
+.schedule-print-export .course-type-badge {
+  display: inline !important;
+  position: static !important;
+
+  margin: 0 0 0 3px !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+
+  color: #6b7280 !important;
+  font-size: 0.86em !important;
+  font-weight: 600 !important;
+  line-height: inherit !important;
+  letter-spacing: 0 !important;
+  vertical-align: baseline !important;
+}
+
+/* In My Classes, keep the label even quieter so it matches the white table style. */
+.schedule-print-export .schedule-print-classes-table .course-type-badge {
+  margin-left: 4px !important;
+  color: #6b7280 !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+
 .schedule-print-export .schedule-print-source-table .course-name {
   display: block !important;
   font-weight: 700 !important;
