@@ -568,6 +568,10 @@
     }, 200);
 
     window.addEventListener("site:langchange", function (e) {
+      if (e && e.detail && e.detail.scheduleExportOnly === true) {
+        return;
+      }
+
       const l = normalizeLang(e && e.detail ? e.detail.lang : getLang());
 
       applyToolkitI18N(l);
