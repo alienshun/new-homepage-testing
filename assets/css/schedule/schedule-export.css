@@ -264,7 +264,7 @@ body.schedule-export-print-mode .schedule-print-export {
   isolation: isolate;
 }
 
-/* All table cells remain rectangular by default. */
+/* Keep all inner table grid cells rectangular by default. */
 #schedule .timetable th,
 #schedule .timetable td,
 #schedule #ustc-timetable th,
@@ -275,6 +275,30 @@ body.schedule-export-print-mode .schedule-print-export {
 #schedule .ustc-classes-table td {
   border-radius: 0 !important;
   background-clip: padding-box;
+}
+
+/*
+  My Timetable course cells:
+  keep the original event-cell visual system, but do not create an extra inner card.
+  The course cell itself should stay attached to the occupied timetable grid cell.
+*/
+#my-timetable-section .semester-timetable-container .timetable td.event-cell {
+  padding: 12px;
+  overflow: hidden;
+  border-radius: 0 !important;
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover {
+  transform: none !important;
+}
+
+#my-timetable-section .semester-timetable-container .timetable td.event-cell > .course-container,
+#my-timetable-section .semester-timetable-container .timetable td.event-cell .overlap-container,
+#my-timetable-section .semester-timetable-container .timetable td.event-cell .overlap-course {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 /* Outer top-left corner: Period. */
@@ -329,45 +353,6 @@ body.schedule-export-print-mode .schedule-print-export {
 #schedule .my-classes-table > tbody > tr:last-child > :last-child,
 #schedule .ustc-classes-table > tbody > tr:last-child > :last-child {
   border-bottom-right-radius: var(--radius) !important;
-}
-
-/*
-  Keep timetable grid cells rectangular.
-  Only the inner course card may be rounded.
-*/
-#my-timetable-section .semester-timetable-container .timetable td.event-cell {
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-  background: var(--surface) !important;
-  padding: 4px;
-  overflow: hidden;
-}
-
-#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover {
-  transform: none !important;
-  box-shadow: none !important;
-  background: var(--surface) !important;
-}
-
-#my-timetable-section .semester-timetable-container .timetable td.event-cell::before {
-  display: none !important;
-}
-
-#my-timetable-section .semester-timetable-container .timetable td.event-cell > .course-container,
-#my-timetable-section .semester-timetable-container .timetable td.event-cell .overlap-course {
-  box-sizing: border-box;
-  min-height: 100%;
-  padding: 4px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface));
-  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
-}
-
-#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover > .course-container,
-#my-timetable-section .semester-timetable-container .timetable td.event-cell:hover .overlap-course {
-  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
 }
 
 /* Prevent hover scaling from creating page jitter or a temporary right scrollbar. */
