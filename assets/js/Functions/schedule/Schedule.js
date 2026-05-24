@@ -24,11 +24,10 @@ let timetableEvents = JSON.parse(localStorage.getItem('timetableEvents')) || [];
 
 // ============ i18n hooks (delegated to Translate.js) ============
 function getCurrentLang() {
-  // Prefer centralized store
   if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
     return window.SiteLang.getLang();
   }
-  // Fallback
+
   const s = String((document.body && document.body.dataset && document.body.dataset.lang) || 'en').toLowerCase();
   return (s === 'zh' || s.startsWith('zh')) ? 'zh' : 'en';
 }
@@ -37,6 +36,7 @@ function getFullCalendarLocale(lang) {
   if (window.SiteLang && typeof window.SiteLang.getFullCalendarLocale === 'function') {
     return window.SiteLang.getFullCalendarLocale(lang);
   }
+
   const l = String(lang || '').toLowerCase();
   return (l === 'zh' || l.startsWith('zh')) ? 'zh-cn' : 'en';
 }
@@ -45,21 +45,21 @@ function t(key) {
   if (window.SiteI18N && typeof window.SiteI18N.t === 'function') {
     return window.SiteI18N.t('schedule', key);
   }
+
   return key;
 }
 // ===============================================================
 
-
-// Preserve initial timetable HTML (guarded in case the table is not mounted yet)
+// Preserve initial timetable HTML
 const timetableTbody = document.querySelector('#ustc-timetable tbody');
 const timetableTbodyInitialHTML = timetableTbody ? timetableTbody.innerHTML : '';
 
 // Schedule state
-let calendar; // FullCalendar instance
+let calendar;
 let calendarRendered = false;
 let calendarPendingView = null;
 let calendarRefreshPending = false;
-let currentWeek = new Date(); // Timetable current week
+let currentWeek = new Date();
 
 function dispatchScheduleViewChange(view) {
   try {
@@ -84,12 +84,10 @@ function setScheduleView(view) {
   const ustcTimetableSection = document.getElementById('ustc-timetable-section');
   const myTimetableSection = document.getElementById('my-timetable-section');
 
-  // Update switcher active state
   viewSwitchers.forEach(btn => {
     btn.classList.toggle('active', btn.dataset.view === targetView);
   });
 
-  // Update section visibility
   [calendarSection, timetableSection, ustcTimetableSection, myTimetableSection].forEach(sec => {
     if (sec) sec.classList.remove('active');
   });
@@ -111,14 +109,11 @@ function setScheduleView(view) {
 }
 
 function initSchedulePage() {
-  // Initialize calendar and timetable
   initCalendar();
   initTimetable();
 
-  // View switching functionality
   const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
 
-  // Default: show My Timetable when entering Schedule
   setScheduleView('my-timetable');
 
   viewSwitchers.forEach(btn => {
@@ -128,34 +123,28 @@ function initSchedulePage() {
     });
   });
 
-  // Event modal functionality
   const eventModal = document.getElementById('event-modal');
   const eventModalClose = document.getElementById('event-modal-close');
   const eventCancelBtn = document.getElementById('event-cancel-btn');
   const eventForm = document.getElementById('event-form');
 
-  // General event modal
   const generalEventModal = document.getElementById('general-event-modal');
   const generalEventModalClose = document.getElementById('general-event-modal-close');
   const generalEventCancelBtn = document.getElementById('general-event-cancel-btn');
   const generalEventForm = document.getElementById('general-event-form');
 
-  // Open modal for new calendar event
   document.getElementById('add-calendar-event').addEventListener('click', () => {
     openGeneralEventModal('calendar');
   });
 
-  // Open modal for new timetable event
   document.getElementById('add-timetable-event').addEventListener('click', () => {
     openGeneralEventModal('timetable');
   });
 
-  // Open modal for new USTC class
   document.getElementById('add-ustc-event').addEventListener('click', () => {
     openUstcClassModal();
   });
 
-  // Close modals
   eventModalClose.addEventListener('click', () => {
     eventModal.style.display = 'none';
   });
@@ -172,39 +161,34 @@ function initSchedulePage() {
     generalEventModal.style.display = 'none';
   });
 
-  // Close modals when clicking outside
   window.addEventListener('click', (e) => {
     if (e.target === eventModal) {
       eventModal.style.display = 'none';
     }
+
     if (e.target === generalEventModal) {
       generalEventModal.style.display = 'none';
     }
   });
 
-  // Handle USTC class form submission
   eventForm.addEventListener('submit', (e) => {
     e.preventDefault();
     saveUstcClass();
   });
 
-  // Handle general event form submission
   generalEventForm.addEventListener('submit', (e) => {
     e.preventDefault();
     saveGeneralEvent();
   });
 
-  // Delete USTC class
   document.getElementById('event-delete-btn').addEventListener('click', () => {
     deleteUstcClass();
   });
 
-  // Delete general event
   document.getElementById('general-event-delete-btn').addEventListener('click', () => {
     deleteGeneralEvent();
   });
 
-  // Week navigation for timetable
   document.getElementById('prev-week-btn').addEventListener('click', () => {
     currentWeek.setDate(currentWeek.getDate() - 7);
     updateTimetable();
@@ -223,18 +207,16 @@ function initSemesterSelection() {
   semesterLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       e.preventDefault();
+
       const semester = link.dataset.semester;
 
-      // Update dropdown button text
       const dropdownBtn = document.querySelector('.semester-dropdown-btn');
       dropdownBtn.innerHTML = `${link.textContent} <i class="fas fa-caret-down"></i>`;
 
-      // Hide all semester timetables
       document.querySelectorAll('.semester-timetable-container').forEach(container => {
         container.classList.remove('active');
       });
 
-      // Show selected semester timetable
       document.getElementById(semester).classList.add('active');
     });
   });
@@ -245,6 +227,7 @@ function isCalendarVisible() {
   const schedulePage = document.getElementById('schedule');
   const calendarSection = document.getElementById('calendar-section');
   const container = document.getElementById('calendar-container');
+
   return !!(
     schedulePage &&
     schedulePage.classList.contains('visible') &&
@@ -268,7 +251,6 @@ function ensureCalendarRendered(forceView) {
   }
 
   if (!calendarRendered) {
-    // First render
     calendar.render();
     calendarRendered = true;
   } else if (calendarRefreshPending) {
@@ -278,8 +260,9 @@ function ensureCalendarRendered(forceView) {
       calendar.render();
       calendarRendered = true;
     } catch (e) {
-      // Fallback: at least try a size update
-      try { calendar.updateSize(); } catch (err) { }
+      try {
+        calendar.updateSize();
+      } catch (err) { }
     }
   }
 
@@ -291,7 +274,9 @@ function ensureCalendarRendered(forceView) {
   calendarRefreshPending = false;
 
   setTimeout(() => {
-    try { calendar.updateSize(); } catch (e) { }
+    try {
+      calendar.updateSize();
+    } catch (e) { }
   }, 0);
 }
 
@@ -309,8 +294,7 @@ function initCalendar() {
     events: calendarEvents,
     eventClick: function (info) {
       openGeneralEventModal('calendar', info.event);
-    },
-    // Visual styling is handled by CSS tokens (including dark mode).
+    }
   });
 
   updateCalendarTheme();
@@ -363,6 +347,7 @@ function updateTimetable() {
   weekEnd.setDate(weekEnd.getDate() + 6);
 
   const lang = getCurrentLang();
+
   if (lang === 'zh') {
     const optionsZh = { weekday: 'short', month: 'numeric', day: 'numeric' };
     const left = weekStart.toLocaleDateString('zh-CN', optionsZh);
@@ -394,6 +379,7 @@ function updateTimetable() {
     const hour = eventDate.getHours();
 
     const cell = document.querySelector(`#timetable-body td[data-day="${day}"][data-hour="${hour}"]`);
+
     if (cell) {
       cell.className = 'has-event';
 
@@ -403,6 +389,7 @@ function updateTimetable() {
         <strong>${event.title}</strong>
         ${event.description ? `<small>${event.description}</small>` : ''}
       `;
+
       eventElement.addEventListener('click', (e) => {
         e.stopPropagation();
         openGeneralEventModal('timetable', event);
@@ -460,6 +447,7 @@ function initWeeksSelection() {
 
 function updateWeekDisplay() {
   const weekDisplay = document.getElementById('week-display');
+
   const selectedWeeks = Array.from(document.querySelectorAll('input[name="ustc-week"]:checked'))
     .map(checkbox => parseInt(checkbox.value))
     .sort((a, b) => a - b);
@@ -482,6 +470,7 @@ function updateWeekDisplay() {
       end = start;
     }
   }
+
   ranges.push(start === end ? start : `${start}-${end}`);
 
   weekDisplay.textContent = (getCurrentLang() === 'zh')
@@ -507,6 +496,7 @@ function formatWeeks(weeks) {
       end = start;
     }
   }
+
   ranges.push(start === end ? start : `${start}-${end}`);
 
   return (getCurrentLang() === 'zh')
@@ -518,10 +508,10 @@ function formatWeeks(weeks) {
 function renderUstcTimetable() {
   const timetable = document.getElementById('ustc-timetable');
   const tbody = timetable.querySelector('tbody');
+
   tbody.innerHTML = timetableTbodyInitialHTML;
 
   const cells = Array.from(tbody.querySelectorAll('td[data-period][data-day]'));
-
   const occupied = Array(14).fill().map(() => Array(7).fill(false));
 
   cells.forEach(cell => {
@@ -568,6 +558,7 @@ function renderUstcTimetable() {
       if (occupied[period][day]) continue;
 
       let maxPeriod = period;
+
       for (let p = period; p <= 13; p++) {
         const allExist = courses.every(course =>
           cellCourses[p][day].some(c => c.id === course.id)
@@ -608,8 +599,10 @@ function renderUstcTimetable() {
       courses.forEach(course => {
         const courseDiv = document.createElement('div');
         courseDiv.className = 'overlap-course';
+
         const credit = (course.credits ?? '').toString().trim();
         const creditHtml = credit ? ` <span class="credits-inline">[${credit}]</span>` : '';
+
         courseDiv.innerHTML = `
           <div class="course-name">${course.courseName}${creditHtml}</div>
           <div class="instructor">${course.instructor}</div>
@@ -619,6 +612,7 @@ function renderUstcTimetable() {
 
         courseDiv.addEventListener('click', (e) => {
           e.stopPropagation();
+
           const cls = ustcClasses.find(c => c.id === course.id);
           if (cls) {
             openUstcClassModal(cls);
@@ -632,6 +626,7 @@ function renderUstcTimetable() {
 
       for (let p = period + 1; p <= maxPeriod; p++) {
         const nextCell = tbody.querySelector(`td[data-period="${p}"][data-day="${day}"]`);
+
         if (nextCell) {
           nextCell.style.display = 'none';
         }
@@ -656,6 +651,7 @@ function renderUstcClassesList() {
 
   ustcClasses.forEach(cls => {
     const row = document.createElement('tr');
+
     row.innerHTML = `
       <td>${cls.periodStart} - ${cls.periodEnd}</td>
       <td>${cls.courseName}</td>
@@ -669,6 +665,7 @@ function renderUstcClassesList() {
         <button class="delete-ustc-class" data-id="${cls.id}">${t('del')}</button>
       </td>
     `;
+
     tbody.appendChild(row);
   });
 
@@ -676,6 +673,7 @@ function renderUstcClassesList() {
     btn.addEventListener('click', () => {
       const id = btn.dataset.id;
       const cls = ustcClasses.find(c => c.id === id);
+
       if (cls) {
         openUstcClassModal(cls);
       }
@@ -692,9 +690,11 @@ function renderUstcClassesList() {
 
 function getDaysString(days) {
   const lang = getCurrentLang();
+
   const dayNames = (lang === 'zh')
     ? ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
     : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
   return (lang === 'zh')
     ? days.map(day => dayNames[day]).join('，')
     : days.map(day => dayNames[day]).join(', ');
@@ -739,10 +739,8 @@ function openUstcClassModal(cls = null, periodStart = null, periodEnd = null, da
   } else {
     document.getElementById('event-modal-title').textContent = t('addNewClass');
     document.getElementById('event-id').value = '';
-
     document.getElementById('ustc-period-start').value = periodStart !== null ? periodStart : '1';
     document.getElementById('ustc-period-end').value = periodEnd !== null ? periodEnd : '1';
-
     document.getElementById('ustc-course-name').value = '';
     document.getElementById('ustc-instructor').value = '';
     document.getElementById('ustc-location').value = '';
@@ -804,6 +802,7 @@ function saveUstcClass() {
 
   if (id) {
     const index = ustcClasses.findIndex(c => c.id === id);
+
     if (index !== -1) {
       ustcClasses[index] = {
         id,
@@ -829,6 +828,7 @@ function saveUstcClass() {
       days,
       weeks
     };
+
     ustcClasses.push(newClass);
   }
 
@@ -915,6 +915,7 @@ function saveGeneralEvent() {
   };
 
   let events;
+
   if (type === 'calendar') {
     events = calendarEvents;
   } else {
@@ -955,6 +956,7 @@ function deleteGeneralEvent() {
   if (!confirm(t('confirmDeleteEvent'))) return;
 
   let events;
+
   if (type === 'calendar') {
     events = calendarEvents;
   } else {
@@ -984,7 +986,11 @@ function deleteGeneralEvent() {
 
 // ===== Respond to global language switch (Translate.js dispatches 'site:langchange') =====
 window.addEventListener('site:langchange', function (e) {
-  const lang = (window.SiteLang && window.SiteLang.normalizeLang)
+  if (e && e.detail && e.detail.scheduleExportOnly === true) {
+    return;
+  }
+
+  const lang = (window.SiteLang && typeof window.SiteLang.normalizeLang === 'function')
     ? window.SiteLang.normalizeLang(e && e.detail && e.detail.lang)
     : getCurrentLang();
 
@@ -999,7 +1005,7 @@ window.addEventListener('site:langchange', function (e) {
   try { renderUstcClassesList(); } catch (err) { }
 });
 
-// Expose a minimal API for the site controller (App.js)
+// Expose a minimal API for the site controller
 window.Schedule = window.Schedule || {};
 window.Schedule.setScheduleView = setScheduleView;
 window.Schedule.initSchedulePage = initSchedulePage;
