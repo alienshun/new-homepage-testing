@@ -61,7 +61,23 @@ let calendarPendingView = null;
 let calendarRefreshPending = false;
 let currentWeek = new Date(); // Timetable current week
 
+function dispatchScheduleViewChange(view) {
+  try {
+    if (typeof CustomEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('schedule:viewchange', {
+        detail: { view }
+      }));
+    } else {
+      const evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent('schedule:viewchange', false, false, { view });
+      window.dispatchEvent(evt);
+    }
+  } catch (e) { }
+}
+
 function setScheduleView(view) {
+  const targetView = view || 'my-timetable';
+
   const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
   const calendarSection = document.getElementById('calendar-section');
   const timetableSection = document.getElementById('timetable-section');
@@ -70,7 +86,7 @@ function setScheduleView(view) {
 
   // Update switcher active state
   viewSwitchers.forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.view === view);
+    btn.classList.toggle('active', btn.dataset.view === targetView);
   });
 
   // Update section visibility
@@ -78,29 +94,20 @@ function setScheduleView(view) {
     if (sec) sec.classList.remove('active');
   });
 
-  if (view === 'calendar') {
+  if (targetView === 'calendar') {
     if (calendarSection) calendarSection.classList.add('active');
     setTimeout(() => ensureCalendarRendered('dayGridMonth'), 0);
-  } else if (view === 'timetable') {
+  } else if (targetView === 'timetable') {
     if (timetableSection) timetableSection.classList.add('active');
     updateTimetable();
-  } else if (view === 'ustc-timetable') {
+  } else if (targetView === 'ustc-timetable') {
     if (ustcTimetableSection) ustcTimetableSection.classList.add('active');
     renderUstcTimetable();
-
-    try {
-      const currentLang = getCurrentLang();
-      if (typeof CustomEvent === 'function') {
-        window.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: currentLang } }));
-      } else {
-        const evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent('site:langchange', false, false, { lang: currentLang });
-        window.dispatchEvent(evt);
-      }
-    } catch (e) { }
   } else {
     if (myTimetableSection) myTimetableSection.classList.add('active');
   }
+
+  dispatchScheduleViewChange(targetView);
 }
 
 function initSchedulePage() {
@@ -999,4 +1006,3 @@ window.Schedule.initSchedulePage = initSchedulePage;
 window.Schedule.initWeeksSelection = (typeof initWeeksSelection === 'function') ? initWeeksSelection : undefined;
 window.Schedule.initSemesterSelection = (typeof initSemesterSelection === 'function') ? initSemesterSelection : undefined;
 window.Schedule.updateCalendarTheme = updateCalendarTheme;
-
