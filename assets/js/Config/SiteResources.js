@@ -218,7 +218,8 @@
         styles: [
           ...FULL_CALENDAR.styles,
           A + 'css/schedule/schedule.css',
-          A + 'css/schedule/schedule-export.css'
+          A + 'css/schedule/schedule-export.css',
+          A + 'css/schedule/schedule-week-selector.css'
         ],
         scripts: [
           ...FULL_CALENDAR.scripts,
