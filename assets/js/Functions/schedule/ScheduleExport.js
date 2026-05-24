@@ -116,19 +116,23 @@
     return normalizeLang(lang);
   }
 
-  function dispatchLangChange(lang) {
+  function dispatchScheduleExportLangChange(lang) {
     const normalized = normalizeLang(lang);
-
-    if (document.body && document.body.dataset) {
-      document.body.dataset.lang = normalized;
-    }
 
     try {
       if (typeof CustomEvent === 'function') {
-        window.dispatchEvent(new CustomEvent('site:langchange', { detail: { lang: normalized } }));
+        window.dispatchEvent(new CustomEvent('site:langchange', {
+          detail: {
+            lang: normalized,
+            scheduleExportOnly: true
+          }
+        }));
       } else {
         const evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent('site:langchange', false, false, { lang: normalized });
+        evt.initCustomEvent('site:langchange', false, false, {
+          lang: normalized,
+          scheduleExportOnly: true
+        });
         window.dispatchEvent(evt);
       }
     } catch (e) { }
@@ -137,28 +141,17 @@
   async function prepareExportLanguage(targetLang) {
     const target = normalizeLang(targetLang);
     const originalLang = getCurrentLang();
-    const originalBodyLang = document.body && document.body.dataset
-      ? document.body.dataset.lang
-      : undefined;
 
     if (target === originalLang) {
       return async function noopRestore() { };
     }
 
-    dispatchLangChange(target);
-    await delay(180);
+    dispatchScheduleExportLangChange(target);
+    await delay(220);
 
     return async function restoreExportLanguage() {
-      if (document.body && document.body.dataset) {
-        if (originalBodyLang == null) {
-          delete document.body.dataset.lang;
-        } else {
-          document.body.dataset.lang = originalBodyLang;
-        }
-      }
-
-      dispatchLangChange(originalLang);
-      await delay(120);
+      dispatchScheduleExportLangChange(originalLang);
+      await delay(220);
     };
   }
 
@@ -1262,7 +1255,13 @@
     initWithRetry();
   }
 
-  window.addEventListener('site:langchange', refreshToolbarLanguage);
+  window.addEventListener('site:langchange', function (e) {
+    if (e && e.detail && e.detail.scheduleExportOnly === true) {
+      return;
+    }
+
+    refreshToolbarLanguage();
+  });
 
   window.ScheduleExport = window.ScheduleExport || {};
   window.ScheduleExport.init = init;
