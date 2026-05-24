@@ -251,7 +251,7 @@
 
   function escapeCsv(value) {
     const str = String(value == null ? '' : value);
-    if (/[",\n\r]/.test(str)) {
+    if (/["\n\r]/.test(str)) {
       return `"${str.replace(/"/g, '""')}"`;
     }
     return str;
@@ -1367,10 +1367,19 @@
     if (submit) submit.textContent = text.export;
   }
 
+  function hasAllClasses(element, classNameString) {
+    if (!element || !element.classList) return false;
+
+    return String(classNameString || '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .every((className) => element.classList.contains(className));
+  }
+
   function ensureInlineRow(referenceNode, rowClassName) {
     if (!referenceNode) return null;
 
-    if (referenceNode.parentElement && referenceNode.parentElement.classList.contains(rowClassName)) {
+    if (hasAllClasses(referenceNode.parentElement, rowClassName)) {
       return referenceNode.parentElement;
     }
 
@@ -1384,66 +1393,92 @@
   }
 
   function mountMyToolbar() {
-    if (document.querySelector('[data-schedule-export-mounted="my"]')) return;
+    if (document.querySelector('[data-schedule-export-mounted="my"]')) return true;
 
     const selector = document.querySelector('#my-timetable-section > .semester-selector');
-    if (!selector) return;
+    if (!selector) return false;
 
     const row = ensureInlineRow(selector, 'schedule-export-inline-row schedule-export-my-row');
-    if (!row) return;
+    if (!row) return false;
 
     const toolbar = createToolbar('my');
     toolbar.dataset.scheduleExportMounted = 'my';
     row.appendChild(toolbar);
+
+    return true;
   }
 
   function mountUstcToolbar() {
-    if (document.querySelector('[data-schedule-export-mounted="ustc"]')) return;
+    if (document.querySelector('[data-schedule-export-mounted="ustc"]')) return true;
 
     const hint = document.querySelector('#ustc-timetable-section > .ustc-local-save-hint');
-    if (!hint) return;
+    if (!hint) return false;
 
     const row = ensureInlineRow(hint, 'schedule-export-inline-row schedule-export-ustc-row');
-    if (!row) return;
+    if (!row) return false;
 
     const toolbar = createToolbar('ustc');
     toolbar.dataset.scheduleExportMounted = 'ustc';
     row.appendChild(toolbar);
+
+    return true;
   }
 
   function refreshToolbarLanguage() {
     document.querySelectorAll('.schedule-export-toolbar').forEach(updateToolbarLanguage);
   }
 
-  function init() {
-    mountMyToolbar();
-    mountUstcToolbar();
-    refreshToolbarLanguage();
+  function areExportToolbarsMounted() {
+    return !!document.querySelector('[data-schedule-export-mounted="my"]') &&
+      !!document.querySelector('[data-schedule-export-mounted="ustc"]');
   }
 
-  function initWithRetry() {
-    let attempts = 0;
-    const maxAttempts = 40;
+  function init() {
+    const myMounted = mountMyToolbar();
+    const ustcMounted = mountUstcToolbar();
 
-    const tick = () => {
-      attempts += 1;
+    refreshToolbarLanguage();
+
+    return myMounted && ustcMounted;
+  }
+
+  let initScheduled = false;
+
+  function scheduleInit() {
+    if (initScheduled) return;
+
+    initScheduled = true;
+
+    const run = function () {
+      initScheduled = false;
       init();
-
-      const myMounted = !!document.querySelector('[data-schedule-export-mounted="my"]');
-      const ustcMounted = !!document.querySelector('[data-schedule-export-mounted="ustc"]');
-
-      if ((!myMounted || !ustcMounted) && attempts < maxAttempts) {
-        setTimeout(tick, 100);
-      }
     };
 
-    tick();
+    if (typeof window.requestAnimationFrame === 'function') {
+      window.requestAnimationFrame(run);
+    } else {
+      setTimeout(run, 0);
+    }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWithRetry);
-  } else {
-    initWithRetry();
+  function scheduleFallbackInit(delayMs) {
+    setTimeout(function () {
+      if (!areExportToolbarsMounted()) {
+        scheduleInit();
+      }
+    }, delayMs);
+  }
+
+  function bootExportToolbar() {
+    scheduleInit();
+
+    /*
+      Lightweight fallback checks only.
+      This replaces the old 40 × 100ms retry loop and avoids long-running polling.
+    */
+    scheduleFallbackInit(300);
+    scheduleFallbackInit(1000);
+    scheduleFallbackInit(2500);
   }
 
   window.addEventListener('site:langchange', function (e) {
@@ -1459,4 +1494,10 @@
   window.ScheduleExport.exportPDF = exportPDF;
   window.ScheduleExport.exportCSV = exportCSV;
   window.ScheduleExport.exportICS = exportICS;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootExportToolbar, { once: true });
+  } else {
+    bootExportToolbar();
+  }
 })();
