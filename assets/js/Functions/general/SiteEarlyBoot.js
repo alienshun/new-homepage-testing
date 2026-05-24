@@ -160,10 +160,16 @@
     );
   }
 
+  function wait(ms) {
+    return new Promise((resolve) => {
+      window.setTimeout(resolve, Math.max(0, Number(ms) || 0));
+    });
+  }
+
   function scheduleIdle(callback, delay, timeout) {
     if (typeof callback !== 'function') return;
 
-    const wait = Math.max(0, Number(delay) || 0);
+    const waitMs = Math.max(0, Number(delay) || 0);
 
     window.setTimeout(() => {
       if ('requestIdleCallback' in window) {
@@ -174,7 +180,99 @@
       }
 
       window.setTimeout(callback, 0);
-    }, wait);
+    }, waitMs);
+  }
+
+  function waitForFontsIfNeeded(offlineConfig) {
+    if (!offlineConfig.waitForFonts) {
+      return Promise.resolve();
+    }
+
+    if (!document.fonts || !document.fonts.ready) {
+      return Promise.resolve();
+    }
+
+    const timeout = Math.max(0, Number(offlineConfig.fontWaitTimeout) || 3000);
+
+    return Promise.race([
+      document.fonts.ready.catch(() => {}),
+      wait(timeout)
+    ]).then(() => {});
+  }
+
+  function waitForResourceQuiet(offlineConfig) {
+    const quietWindow = Math.max(0, Number(offlineConfig.resourceQuietWindow) || 2200);
+    const maxDelay = Math.max(quietWindow, Number(offlineConfig.maxRegisterDelay) || 12000);
+
+    if (!quietWindow) {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      let resolved = false;
+      let quietTimer = null;
+      let maxTimer = null;
+      let observer = null;
+
+      function cleanup() {
+        if (quietTimer) {
+          window.clearTimeout(quietTimer);
+          quietTimer = null;
+        }
+
+        if (maxTimer) {
+          window.clearTimeout(maxTimer);
+          maxTimer = null;
+        }
+
+        if (observer) {
+          try {
+            observer.disconnect();
+          } catch (e) {}
+
+          observer = null;
+        }
+      }
+
+      function done() {
+        if (resolved) return;
+
+        resolved = true;
+        cleanup();
+        resolve();
+      }
+
+      function markActivity() {
+        if (resolved) return;
+
+        if (quietTimer) {
+          window.clearTimeout(quietTimer);
+        }
+
+        quietTimer = window.setTimeout(done, quietWindow);
+      }
+
+      if ('PerformanceObserver' in window) {
+        try {
+          observer = new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+
+            if (entries && entries.length) {
+              markActivity();
+            }
+          });
+
+          observer.observe({
+            entryTypes: ['resource']
+          });
+        } catch (e) {
+          observer = null;
+        }
+      }
+
+      markActivity();
+      maxTimer = window.setTimeout(done, maxDelay);
+    });
   }
 
   function registerOfflineFallbackServiceWorker() {
@@ -201,24 +299,30 @@
       }
 
       navigator.serviceWorker.register(serviceWorkerPath, options)
-        .then((registration) => {
-          if (registration && typeof registration.update === 'function') {
-            window.setTimeout(() => {
-              registration.update().catch(() => {});
-            }, 3000);
-          }
-        })
         .catch((err) => {
           console.warn('[SiteEarlyBoot] Offline fallback service worker registration failed:', err);
         });
     }
 
     function scheduleRegister() {
-      scheduleIdle(
-        registerNow,
-        offlineConfig.registerDelay,
-        offlineConfig.registerTimeout
-      );
+      Promise.resolve()
+        .then(() => wait(Math.max(0, Number(offlineConfig.registerDelay) || 0)))
+        .then(() => waitForFontsIfNeeded(offlineConfig))
+        .then(() => waitForResourceQuiet(offlineConfig))
+        .then(() => {
+          scheduleIdle(
+            registerNow,
+            0,
+            offlineConfig.registerTimeout
+          );
+        })
+        .catch(() => {
+          scheduleIdle(
+            registerNow,
+            0,
+            offlineConfig.registerTimeout
+          );
+        });
     }
 
     if (document.readyState === 'complete') {
