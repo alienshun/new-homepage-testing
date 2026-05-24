@@ -162,8 +162,11 @@ body.schedule-export-print-mode .schedule-print-export {
 
 .schedule-print-export table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   table-layout: fixed;
+  border-radius: 10px;
+  overflow: visible;
   background: #ffffff;
   color: #111827;
 }
@@ -178,6 +181,7 @@ body.schedule-export-print-mode .schedule-print-export {
   line-height: 1.18;
   color: #111827;
   background: #ffffff;
+  background-clip: padding-box;
 }
 
 .schedule-print-export th {
@@ -227,6 +231,84 @@ body.schedule-export-print-mode .schedule-print-export {
   margin: 6px 0 0;
   color: #6b7280;
   font-size: 11px;
+}
+
+/* Rounded table corner fix for Schedule page */
+
+#schedule .timetable,
+#schedule #ustc-timetable,
+#schedule .my-classes-table,
+#schedule .ustc-classes-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: visible;
+  border-radius: var(--radius);
+}
+
+#schedule .timetable th,
+#schedule .timetable td,
+#schedule #ustc-timetable th,
+#schedule #ustc-timetable td,
+#schedule .my-classes-table th,
+#schedule .my-classes-table td,
+#schedule .ustc-classes-table th,
+#schedule .ustc-classes-table td {
+  background-clip: padding-box;
+}
+
+#schedule .timetable > thead > tr:first-child > :first-child,
+#schedule #ustc-timetable > thead > tr:first-child > :first-child,
+#schedule .my-classes-table > thead > tr:first-child > :first-child,
+#schedule .ustc-classes-table > thead > tr:first-child > :first-child {
+  border-top-left-radius: var(--radius);
+}
+
+#schedule .timetable > thead > tr:first-child > :last-child,
+#schedule #ustc-timetable > thead > tr:first-child > :last-child,
+#schedule .my-classes-table > thead > tr:first-child > :last-child,
+#schedule .ustc-classes-table > thead > tr:first-child > :last-child {
+  border-top-right-radius: var(--radius);
+}
+
+#schedule .timetable > tbody > tr:last-child > :first-child,
+#schedule .my-classes-table > tbody > tr:last-child > :first-child,
+#schedule .ustc-classes-table > tbody > tr:last-child > :first-child {
+  border-bottom-left-radius: var(--radius);
+}
+
+#schedule .timetable > tbody > tr:last-child > :last-child,
+#schedule #ustc-timetable > tbody > tr:last-child > :last-child,
+#schedule .my-classes-table > tbody > tr:last-child > :last-child,
+#schedule .ustc-classes-table > tbody > tr:last-child > :last-child {
+  border-bottom-right-radius: var(--radius);
+}
+
+#schedule #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
+  border-bottom-left-radius: var(--radius);
+}
+
+/* Rounded table corner fix for PDF export */
+
+.schedule-print-export table > thead > tr:first-child > :first-child,
+.schedule-print-export table > tbody:first-child > tr:first-child > :first-child {
+  border-top-left-radius: 10px;
+}
+
+.schedule-print-export table > thead > tr:first-child > :last-child,
+.schedule-print-export table > tbody:first-child > tr:first-child > :last-child {
+  border-top-right-radius: 10px;
+}
+
+.schedule-print-export table > tbody > tr:last-child > :first-child {
+  border-bottom-left-radius: 10px;
+}
+
+.schedule-print-export table > tbody > tr:last-child > :last-child {
+  border-bottom-right-radius: 10px;
+}
+
+.schedule-print-export #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
+  border-bottom-left-radius: 10px;
 }
 
 @media (max-width: 900px) {
@@ -301,6 +383,10 @@ body.schedule-export-print-mode .schedule-print-export {
   }
 
   .schedule-print-export table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    border-radius: 10px !important;
+    overflow: visible !important;
     page-break-inside: auto;
   }
 
