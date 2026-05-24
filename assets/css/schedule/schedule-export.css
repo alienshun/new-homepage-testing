@@ -133,28 +133,48 @@ body.schedule-export-print-mode .schedule-print-export {
 }
 
 .schedule-print-header {
-  margin-bottom: 10px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #d1d5db;
+  min-height: calc(100vh - 28px);
+  margin: 0;
+  padding: 18px 24px;
+  border-bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .schedule-print-header h1 {
-  margin: 0 0 6px;
-  font-size: 21px;
+  margin: 0 0 14px;
+  font-size: 24px;
   line-height: 1.2;
   color: #111827;
 }
 
 .schedule-print-meta {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 3px 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  max-width: 760px;
+  gap: 6px 18px;
+
   font-size: 10.5px;
+  line-height: 1.45;
   color: #374151;
+  text-align: center;
+}
+
+.schedule-print-meta > div {
+  white-space: nowrap;
 }
 
 .schedule-print-section {
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .schedule-print-section h2 {
@@ -553,28 +573,65 @@ body.schedule-export-print-mode .schedule-print-export {
   }
 
   .schedule-print-header {
-    margin-bottom: 8px;
-    padding-bottom: 6px;
+    height: 190mm !important;
+    min-height: 190mm !important;
+    margin: 0 !important;
+    padding: 0 18mm !important;
+    border-bottom: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    text-align: center !important;
+    box-sizing: border-box !important;
+
+    break-after: page !important;
+    page-break-after: always !important;
   }
 
   .schedule-print-header h1 {
-    font-size: 19px;
-    margin-bottom: 4px;
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 12px !important;
   }
 
   .schedule-print-meta {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    font-size: 9px;
-    gap: 2px 10px;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+
+    max-width: 190mm !important;
+    gap: 5px 18px !important;
+
+    font-size: 10.5px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+  }
+
+  .schedule-print-meta > div {
+    white-space: nowrap !important;
   }
 
   .schedule-print-section {
-    margin-top: 8px;
+    margin-top: 0 !important;
+  }
+
+  .schedule-print-timetable-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  .schedule-print-classes-section {
+    break-before: page !important;
+    page-break-before: always !important;
   }
 
   .schedule-print-section h2 {
-    font-size: 12.5px;
-    margin-bottom: 5px;
+    font-size: 12.5px !important;
+    margin: 0 0 5px !important;
   }
 
   .schedule-print-export .schedule-print-table-wrap {
