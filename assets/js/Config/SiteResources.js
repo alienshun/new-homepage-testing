@@ -81,8 +81,17 @@
       enabled: true,
       serviceWorker: '/sw.js',
       scope: '/',
-      registerDelay: 1200,
-      registerTimeout: 1800,
+
+      /*
+        Register the offline fallback service worker only after the page has become quiet.
+        This keeps sw.js from competing with first-load resources and page warm-up scripts.
+      */
+      registerDelay: 2000,
+      registerTimeout: 2000,
+      resourceQuietWindow: 2200,
+      maxRegisterDelay: 12000,
+      waitForFonts: true,
+      fontWaitTimeout: 3000,
       updateViaCache: 'none'
     },
 
