@@ -55,10 +55,6 @@
   cursor: pointer;
 }
 
-.schedule-export-semester-control select {
-  min-width: 210px;
-}
-
 .schedule-export-control select:focus {
   border-color: var(--accent, #7c3aed);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #7c3aed) 18%, transparent);
@@ -110,6 +106,14 @@ body.dark-mode .schedule-export-control select {
 
 .schedule-print-export {
   display: none;
+}
+
+.schedule-print-export.schedule-print-export-en {
+  font-family: "Georgia", "Times New Roman", Times, serif;
+}
+
+.schedule-print-export.schedule-print-export-zh {
+  font-family: "KaiTi", "STKaiti", "Songti SC", "SimSun", "Noto Serif CJK SC", serif;
 }
 
 body.schedule-export-print-mode .schedule-print-export {
@@ -167,6 +171,7 @@ body.schedule-export-print-mode .schedule-print-export {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
+  margin: 0;
   border-radius: 0;
   overflow: visible;
   background: #ffffff;
@@ -241,7 +246,6 @@ body.schedule-export-print-mode .schedule-print-export {
   border-radius: var(--radius);
   overflow-x: auto;
   overflow-y: hidden;
-  clip-path: inset(0 round var(--radius));
 }
 
 #schedule .timetable,
@@ -252,6 +256,7 @@ body.schedule-export-print-mode .schedule-print-export {
   border-spacing: 0;
   border-radius: var(--radius);
   overflow: hidden;
+  isolation: isolate;
 }
 
 #schedule .timetable th,
@@ -265,6 +270,43 @@ body.schedule-export-print-mode .schedule-print-export {
   background-clip: padding-box;
 }
 
+/* My Timetable and USTC Timetable: top corners */
+#schedule .timetable > thead > tr:first-child > th:first-child,
+#schedule #ustc-timetable > thead > tr:first-child > th:first-child {
+  border-top-left-radius: var(--radius);
+}
+
+#schedule .timetable > thead > tr:first-child > th:last-child,
+#schedule #ustc-timetable > thead > tr:first-child > th:last-child {
+  border-top-right-radius: var(--radius);
+}
+
+/* My Timetable: bottom corners */
+#schedule .timetable > tbody > tr:last-child > td:first-child {
+  border-bottom-left-radius: var(--radius);
+}
+
+#schedule .timetable > tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: var(--radius);
+}
+
+/*
+  USTC Timetable: the visual left-bottom corner belongs to the row-spanned
+  "Evening" cell, not to the period number "13".
+*/
+#schedule #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
+  border-bottom-left-radius: var(--radius);
+}
+
+#schedule #ustc-timetable > tbody > tr:last-child > .period-number {
+  border-bottom-left-radius: 0;
+}
+
+#schedule #ustc-timetable > tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: var(--radius);
+}
+
+/* My Classes and USTC Classes: four corners */
 #schedule .my-classes-table > thead > tr:first-child > :first-child,
 #schedule .ustc-classes-table > thead > tr:first-child > :first-child {
   border-top-left-radius: var(--radius);
@@ -283,11 +325,6 @@ body.schedule-export-print-mode .schedule-print-export {
 #schedule .my-classes-table > tbody > tr:last-child > :last-child,
 #schedule .ustc-classes-table > tbody > tr:last-child > :last-child {
   border-bottom-right-radius: var(--radius);
-}
-
-#schedule .timetable > tbody > tr:last-child > .period-number,
-#schedule #ustc-timetable > tbody > tr:last-child > .period-number {
-  border-bottom-left-radius: 0;
 }
 
 /* Prevent hover scaling from creating page jitter or a temporary right scrollbar. */
@@ -318,15 +355,6 @@ body.schedule-export-print-mode .schedule-print-export {
   .schedule-export-toolbar {
     justify-content: flex-start;
     border-radius: 18px;
-  }
-
-  .schedule-export-semester-control {
-    width: 100%;
-  }
-
-  .schedule-export-semester-control select {
-    width: 100%;
-    min-width: 0;
   }
 }
 
@@ -383,6 +411,7 @@ body.schedule-export-print-mode .schedule-print-export {
   .schedule-print-export table {
     border-collapse: separate !important;
     border-spacing: 0 !important;
+    margin: 0 !important;
     border-radius: 0 !important;
     overflow: visible !important;
     page-break-inside: auto;
