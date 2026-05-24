@@ -3,7 +3,6 @@
 
   const MIN_WEEK = 1;
   const MAX_WEEK = 18;
-  const SELECTOR_CLASS = 'schedule-week-selector-control';
 
   const state = {
     my: 'all',
@@ -25,12 +24,13 @@
     }
   };
 
+  let initialized = false;
   let originalRenderUstcTimetable = null;
   let isRenderingUstc = false;
 
   function normalizeLang(lang) {
     const value = String(lang || '').toLowerCase();
-    return (value === 'zh' || value.startsWith('zh')) ? 'zh' : 'en';
+    return value === 'zh' || value.startsWith('zh') ? 'zh' : 'en';
   }
 
   function getCurrentLangForWeekSelector() {
@@ -41,11 +41,13 @@
     const bodyLang = document.body && document.body.dataset
       ? document.body.dataset.lang
       : '';
+
     if (bodyLang) return normalizeLang(bodyLang);
 
     const htmlLang = document.documentElement
       ? document.documentElement.getAttribute('lang')
       : '';
+
     if (htmlLang) return normalizeLang(htmlLang);
 
     return 'en';
@@ -136,48 +138,57 @@
       .replace(/\s+/g, ' ')
       .trim();
 
-    const parts = text.split(',')
+    text.split(',')
       .map(function (part) { return part.trim(); })
-      .filter(Boolean);
+      .filter(Boolean)
+      .forEach(function (part) {
+        const oddOnly = /\bodd\b/i.test(part);
+        const evenOnly = /\beven\b/i.test(part);
 
-    parts.forEach(function (part) {
-      const lower = part.toLowerCase();
-      const oddOnly = /\bodd\b/i.test(lower);
-      const evenOnly = /\beven\b/i.test(lower);
+        const cleaned = part
+          .replace(/\bodd\b/gi, '')
+          .replace(/\beven\b/gi, '')
+          .replace(/[()（）]/g, '')
+          .trim();
 
-      const cleaned = part
-        .replace(/\bodd\b/gi, '')
-        .replace(/\beven\b/gi, '')
-        .replace(/[()（）]/g, '')
-        .trim();
+        const rangeMatch = cleaned.match(/(\d+)\s*-\s*(\d+)/);
 
-      const rangeMatch = cleaned.match(/(\d+)\s*-\s*(\d+)/);
-      if (rangeMatch) {
-        const start = parseInt(rangeMatch[1], 10);
-        const end = parseInt(rangeMatch[2], 10);
-        const left = Math.min(start, end);
-        const right = Math.max(start, end);
+        if (rangeMatch) {
+          const start = parseInt(rangeMatch[1], 10);
+          const end = parseInt(rangeMatch[2], 10);
+          const left = Math.min(start, end);
+          const right = Math.max(start, end);
 
-        for (let week = left; week <= right; week += 1) {
-          if (week < MIN_WEEK || week > MAX_WEEK) continue;
-          if (oddOnly && week % 2 === 0) continue;
-          if (evenOnly && week % 2 !== 0) continue;
-          result.add(week);
+          for (let week = left; week <= right; week += 1) {
+            if (week < MIN_WEEK || week > MAX_WEEK) continue;
+            if (oddOnly && week % 2 === 0) continue;
+            if (evenOnly && week % 2 !== 0) continue;
+            result.add(week);
+          }
+
+          return;
         }
-        return;
-      }
 
-      const numbers = cleaned.match(/\d+/g) || [];
-      numbers.forEach(function (numText) {
-        const week = parseInt(numText, 10);
-        if (week < MIN_WEEK || week > MAX_WEEK) return;
-        if (oddOnly && week % 2 === 0) return;
-        if (evenOnly && week % 2 !== 0) return;
-        result.add(week);
+        const numbers = cleaned.match(/\d+/g) || [];
+
+        numbers.forEach(function (numText) {
+          const week = parseInt(numText, 10);
+          if (week < MIN_WEEK || week > MAX_WEEK) return;
+          if (oddOnly && week % 2 === 0) return;
+          if (evenOnly && week % 2 !== 0) return;
+          result.add(week);
+        });
       });
-    });
 
     return result;
+  }
+
+  function setTextIfChanged(element, text) {
+    const next = String(text == null ? '' : text);
+
+    if (element && element.textContent !== next) {
+      element.textContent = next;
+    }
   }
 
   function storeOriginalWeekText(weeksEl) {
@@ -206,13 +217,6 @@
       .filter(function (value) { return Number.isFinite(value); });
   }
 
-  function setTextIfChanged(element, text) {
-    const next = String(text == null ? '' : text);
-    if (element && element.textContent !== next) {
-      element.textContent = next;
-    }
-  }
-
   function courseBlockMatchesWeek(block, selectedWeek) {
     if (selectedWeek === 'all') return true;
 
@@ -231,16 +235,10 @@
 
   function getMyCourseBlocks() {
     const activeSemester = document.querySelector('#my-timetable-section .semester-timetable-container.active');
+    if (!activeSemester) return [];
 
-    if (activeSemester) {
-      return Array.from(activeSemester.querySelectorAll(
-        '.timetable .course-container, .timetable .overlap-course'
-      ));
-    }
-
-    return Array.from(document.querySelectorAll(
-      '#my-timetable-section .semester-timetable-container .timetable .course-container, ' +
-      '#my-timetable-section .semester-timetable-container .timetable .overlap-course'
+    return Array.from(activeSemester.querySelectorAll(
+      '.timetable .course-container, .timetable .overlap-course'
     ));
   }
 
@@ -292,21 +290,23 @@
   }
 
   function applyMyWeekSelection() {
-    const lang = getCurrentLangForWeekSelector();
     const selected = state.my || 'all';
+    const lang = getCurrentLangForWeekSelector();
     const blocks = getMyCourseBlocks();
+
+    if (!blocks.length) return;
 
     blocks.forEach(function (block) {
       const matched = courseBlockMatchesWeek(block, selected);
       const weeksEl = block.querySelector('.weeks');
 
-      block.dataset.scheduleWeekHidden = matched ? 'false' : 'true';
+      if (block.dataset.scheduleWeekHidden !== String(!matched)) {
+        block.dataset.scheduleWeekHidden = matched ? 'false' : 'true';
+      }
 
-      if (!weeksEl) return;
+      if (!weeksEl || !matched) return;
 
       storeOriginalWeekText(weeksEl);
-
-      if (!matched) return;
 
       if (selected === 'all') {
         const original = weeksEl.dataset.weekSelectorOriginalText || weeksEl.dataset.enText || weeksEl.textContent || '';
@@ -320,6 +320,7 @@
     });
 
     const cells = new Set();
+
     blocks.forEach(function (block) {
       const cell = block.closest('td');
       if (cell) cells.add(cell);
@@ -361,7 +362,13 @@
       const selected = state.ustc || 'all';
 
       if (selected === 'all' || typeof ustcClasses === 'undefined' || !Array.isArray(ustcClasses)) {
-        return originalRenderUstcTimetable();
+        const result = originalRenderUstcTimetable();
+
+        if (typeof renderUstcClassesList === 'function') {
+          renderUstcClassesList();
+        }
+
+        return result;
       }
 
       const fullClasses = ustcClasses;
@@ -381,6 +388,10 @@
       if (typeof renderUstcClassesList === 'function') {
         renderUstcClassesList();
       }
+
+      applyUstcWeekText();
+
+      return undefined;
     };
   }
 
@@ -390,6 +401,7 @@
 
     const lang = getCurrentLangForWeekSelector();
     const week = parseInt(selected, 10);
+
     if (!Number.isFinite(week)) return;
 
     document.querySelectorAll('#ustc-timetable .weeks').forEach(function (weeksEl) {
@@ -421,7 +433,7 @@
     const text = textFor(lang);
 
     const control = document.createElement('div');
-    control.className = 'schedule-week-panel ' + SELECTOR_CLASS;
+    control.className = 'schedule-week-panel schedule-week-selector-control';
     control.dataset.weekSelectorType = type;
 
     const label = document.createElement('label');
@@ -469,30 +481,38 @@
     const label = control.querySelector('label');
     const select = control.querySelector('select');
 
-    if (label) setTextIfChanged(label, text.selectWeek);
-
-    if (select) {
-      const selectedValue = select.value || state[type] || 'all';
-      select.setAttribute('aria-label', text.selectWeek);
-
-      const allOption = select.querySelector('option[value="all"]');
-      if (allOption) setTextIfChanged(allOption, text.allWeeks);
-
-      for (let week = MIN_WEEK; week <= MAX_WEEK; week += 1) {
-        const option = select.querySelector('option[value="' + week + '"]');
-        if (option) setTextIfChanged(option, text.weekOption(week));
-      }
-
-      select.value = selectedValue;
+    if (label) {
+      setTextIfChanged(label, text.selectWeek);
     }
+
+    if (!select) return;
+
+    const selectedValue = select.value || state[type] || 'all';
+
+    select.setAttribute('aria-label', text.selectWeek);
+
+    const allOption = select.querySelector('option[value="all"]');
+    if (allOption) {
+      setTextIfChanged(allOption, text.allWeeks);
+    }
+
+    for (let week = MIN_WEEK; week <= MAX_WEEK; week += 1) {
+      const option = select.querySelector('option[value="' + week + '"]');
+      if (option) {
+        setTextIfChanged(option, text.weekOption(week));
+      }
+    }
+
+    select.value = selectedValue;
   }
 
   function mountMyWeekSelector() {
-    if (document.querySelector('[data-week-selector-mounted="my"]')) return;
+    if (document.querySelector('[data-week-selector-mounted="my"]')) return true;
 
     const row = document.querySelector('#my-timetable-section .schedule-export-my-row');
     const toolbar = document.querySelector('#my-timetable-section [data-schedule-export-mounted="my"]');
-    if (!row || !toolbar) return;
+
+    if (!row || !toolbar) return false;
 
     row.classList.add('schedule-control-row', 'schedule-control-row-my');
 
@@ -506,20 +526,21 @@
 
     row.insertBefore(control, toolbar);
 
-    applyMyWeekSelection();
+    return true;
   }
 
   function mountUstcWeekSelector() {
-    if (document.querySelector('[data-week-selector-mounted="ustc"]')) return;
+    if (document.querySelector('[data-week-selector-mounted="ustc"]')) return true;
 
     const row = document.querySelector('#ustc-timetable-section .schedule-export-ustc-row');
     const toolbar = document.querySelector('#ustc-timetable-section [data-schedule-export-mounted="ustc"]');
-    if (!row || !toolbar) return;
+
+    if (!row || !toolbar) return false;
 
     row.classList.add('schedule-control-row', 'schedule-control-row-ustc');
 
     const hint = row.querySelector('.ustc-local-save-hint');
-    if (hint) {
+    if (hint && row.parentNode) {
       hint.classList.add('schedule-control-hint-below');
       row.parentNode.insertBefore(hint, row.nextSibling);
     }
@@ -529,75 +550,46 @@
 
     row.insertBefore(control, toolbar);
 
-    applyUstcWeekSelection();
+    return true;
   }
 
   function mountWeekSelectors() {
-    mountMyWeekSelector();
-    mountUstcWeekSelector();
+    if (window.ScheduleExport && typeof window.ScheduleExport.init === 'function') {
+      window.ScheduleExport.init();
+    }
+
+    const myMounted = mountMyWeekSelector();
+    const ustcMounted = mountUstcWeekSelector();
+
+    return myMounted && ustcMounted;
   }
 
   function refreshControlLanguage() {
-    document.querySelectorAll('.' + SELECTOR_CLASS).forEach(updateWeekControlLanguage);
+    document.querySelectorAll('.schedule-week-selector-control').forEach(updateWeekControlLanguage);
   }
 
   function init() {
     patchUstcRender();
-    mountWeekSelectors();
+
+    const mounted = mountWeekSelectors();
+
     refreshControlLanguage();
     applyMyWeekSelection();
     applyUstcWeekText();
+
+    initialized = initialized || mounted;
+
+    return mounted;
   }
 
-  function initWithRetry() {
-    let attempts = 0;
-    const maxAttempts = 50;
-
-    const tick = function () {
-      attempts += 1;
-      init();
-
-      const myMounted = !!document.querySelector('[data-week-selector-mounted="my"]');
-      const ustcMounted = !!document.querySelector('[data-week-selector-mounted="ustc"]');
-
-      if ((!myMounted || !ustcMounted) && attempts < maxAttempts) {
-        setTimeout(tick, 100);
-      }
-    };
-
-    tick();
-  }
-
-  let observerPending = false;
-
-  function scheduleObservedRefresh() {
-    if (observerPending) return;
-    observerPending = true;
-
-    const run = function () {
-      observerPending = false;
-      mountWeekSelectors();
-      refreshControlLanguage();
-      applyMyWeekSelection();
-      applyUstcWeekText();
-    };
-
-    if (typeof window.requestAnimationFrame === 'function') {
-      window.requestAnimationFrame(run);
+  function scheduleInit() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function () {
+        window.requestAnimationFrame(init);
+      }, { once: true });
     } else {
-      setTimeout(run, 0);
+      window.requestAnimationFrame(init);
     }
-  }
-
-  function observeScheduleMutations() {
-    const root = document.getElementById('schedule');
-    if (!root || typeof MutationObserver !== 'function') return;
-
-    const observer = new MutationObserver(scheduleObservedRefresh);
-    observer.observe(root, {
-      childList: true,
-      subtree: true
-    });
   }
 
   window.addEventListener('site:langchange', function () {
@@ -610,17 +602,12 @@
     applyMyWeekSelection();
   });
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      initWithRetry();
-      observeScheduleMutations();
-    });
-  } else {
-    initWithRetry();
-    observeScheduleMutations();
-  }
-
   window.ScheduleWeekSelector = window.ScheduleWeekSelector || {};
   window.ScheduleWeekSelector.init = init;
   window.ScheduleWeekSelector.applyWeekSelection = applyWeekSelection;
+
+  window.Schedule = window.Schedule || {};
+  window.Schedule.initWeekSelectionControl = init;
+
+  scheduleInit();
 })();
