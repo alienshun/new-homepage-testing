@@ -158,37 +158,47 @@
       return window.__SITE_ROOT__;
     }
 
+    function rootFromAssetUrl(url) {
+      if (!url) return null;
+
+      try {
+        const absoluteUrl = new URL(url, window.location.href).href;
+        const idx = absoluteUrl.indexOf("/assets/");
+
+        if (idx >= 0) {
+          return absoluteUrl.slice(0, idx + 1);
+        }
+      } catch (e) {}
+
+      return null;
+    }
+
+    const currentScriptRoot = document.currentScript && document.currentScript.src
+      ? rootFromAssetUrl(document.currentScript.src)
+      : null;
+
+    if (currentScriptRoot) return currentScriptRoot;
+
     const scripts = Array.from(document.scripts || []);
     const matchedScript = scripts.find((s) => {
-      return typeof s.src === "string" && /assets\/js\/Functions\/Translate\.js(?:\?|#|$)/.test(s.src);
+      return typeof s.src === "string" &&
+        /\/assets\/js\/Functions\/(?:general\/)?Translate\.js(?:\?|#|$)/.test(s.src);
     });
 
-    if (matchedScript && matchedScript.src) {
-      try {
-        return new URL("../../../", matchedScript.src).href;
-      } catch (e) {}
-    }
+    const matchedScriptRoot = matchedScript && matchedScript.src
+      ? rootFromAssetUrl(matchedScript.src)
+      : null;
 
-    if (document.currentScript && document.currentScript.src) {
-      try {
-        return new URL("../../../", document.currentScript.src).href;
-      } catch (e) {}
-    }
+    if (matchedScriptRoot) return matchedScriptRoot;
 
     const anyAssetEl = document.querySelector(
-      'script[src*="assets/"], link[href*="assets/"], img[src*="assets/"]'
+      'script[src*="/assets/"], script[src*="assets/"], link[href*="/assets/"], link[href*="assets/"], img[src*="/assets/"], img[src*="assets/"]'
     );
 
     if (anyAssetEl) {
       const url = anyAssetEl.src || anyAssetEl.href;
-      if (url) {
-        try {
-          const idx = url.indexOf("/assets/");
-          if (idx >= 0) {
-            return url.slice(0, idx + 1);
-          }
-        } catch (e) {}
-      }
+      const assetRoot = rootFromAssetUrl(url);
+      if (assetRoot) return assetRoot;
     }
 
     try {
@@ -551,7 +561,7 @@
   }
 
   function init() {
-    applyLanguage(LANG.EN, {
+    applyLanguage(getLang(), {
       emitLangChange: false
     });
 
