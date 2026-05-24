@@ -108,12 +108,27 @@
   }
 
   function getCurrentLang() {
+    const bodyLang = document.body && document.body.dataset
+      ? document.body.dataset.lang
+      : '';
+
+    if (bodyLang) {
+      return normalizeLang(bodyLang);
+    }
+
+    const htmlLang = document.documentElement
+      ? document.documentElement.getAttribute('lang')
+      : '';
+
+    if (htmlLang) {
+      return normalizeLang(htmlLang);
+    }
+
     if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
       return normalizeLang(window.SiteLang.getLang());
     }
 
-    const lang = String((document.body && document.body.dataset && document.body.dataset.lang) || 'en').toLowerCase();
-    return normalizeLang(lang);
+    return 'en';
   }
 
   function dispatchScheduleExportLangChange(lang) {
@@ -147,11 +162,19 @@
     }
 
     dispatchScheduleExportLangChange(target);
-    await delay(220);
+    await delay(260);
+
+    let restored = false;
 
     return async function restoreExportLanguage() {
+      if (restored) return;
+      restored = true;
+
       dispatchScheduleExportLangChange(originalLang);
-      await delay(220);
+      await delay(120);
+
+      dispatchScheduleExportLangChange(originalLang);
+      await delay(180);
     };
   }
 
@@ -567,7 +590,11 @@
       window.removeEventListener('afterprint', cleanup);
 
       if (typeof restoreLang === 'function') {
-        restoreLang();
+        Promise.resolve(restoreLang()).then(() => {
+          if (window.CustomCursorAPI && typeof window.CustomCursorAPI.refresh === 'function') {
+            window.CustomCursorAPI.refresh(document.getElementById('schedule') || document);
+          }
+        });
       }
     };
 
