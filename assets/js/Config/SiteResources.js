@@ -199,14 +199,17 @@
         mountId: 'mount-schedule',
         styles: [
           ...FULL_CALENDAR.styles,
-          A + 'css/schedule/schedule.css'
+          A + 'css/schedule/schedule.css',
+          A + 'css/schedule/schedule-export.css'
         ],
         scripts: [
           ...FULL_CALENDAR.scripts,
           A + 'js/Content/EN/schedule/schedule_EN.js',
           A + 'js/Content/ZH/schedule/schedule_ZH.js',
+          A + 'js/Config/ScheduleSemesterConfig.js',
           A + 'js/Functions/schedule/Schedule.js',
-          A + 'js/Functions/schedule/ScheduleRoutes.js'
+          A + 'js/Functions/schedule/ScheduleRoutes.js',
+          A + 'js/Functions/schedule/ScheduleExport.js'
         ]
       },
 
