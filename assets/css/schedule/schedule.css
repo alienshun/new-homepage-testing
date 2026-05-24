@@ -1111,11 +1111,11 @@
 }
 
 #schedule .schedule-control-row-my {
-  grid-template-columns: minmax(240px, 1fr) minmax(220px, 1fr) minmax(340px, 1.35fr);
+  grid-template-columns: minmax(300px, 1.12fr) minmax(220px, 0.88fr) minmax(340px, 1.25fr);
 }
 
 #schedule .schedule-control-row-ustc {
-  grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.4fr);
+  grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.35fr);
 }
 
 #schedule .schedule-control-row > .semester-selector,
@@ -1127,12 +1127,16 @@
 }
 
 #schedule .schedule-semester-panel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
+  width: 100%;
   min-height: 56px;
   box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin: 0;
   padding: 10px 14px;
 
   border: 1px solid var(--border);
@@ -1153,33 +1157,41 @@
   box-shadow: var(--shadow);
 }
 
-#schedule .schedule-semester-panel .semester-dropdown {
+#schedule .schedule-semester-panel label {
+  flex: 0 0 auto;
+  margin: 0;
+
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#schedule .schedule-semester-select-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#schedule .schedule-semester-select {
   width: 100%;
-  max-width: none;
+  height: 34px;
+  min-width: 0;
+  padding: 0 28px 0 10px;
+
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
+  color: var(--text);
+
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
 }
 
-#schedule .schedule-semester-panel .semester-dropdown-btn {
-  min-height: 34px;
-  padding: 0;
-
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-
-  font-family: inherit;
-  font-size: 0.95rem;
-}
-
-#schedule .schedule-semester-panel .semester-dropdown-btn:hover {
-  background: transparent;
-  box-shadow: none;
-}
-
-#schedule .schedule-semester-panel .semester-dropdown-content {
-  width: 100%;
-  min-width: 220px;
-  z-index: 30;
+#schedule .schedule-semester-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
 }
 
 #schedule .schedule-control-hint-below {
@@ -1196,17 +1208,10 @@
   }
 }
 
-@media (max-width: 900px) {
-  .schedule-heading { font-size: 2em; }
-  .timetable th, .timetable td,
-  #ustc-timetable th, #ustc-timetable td,
-  .my-classes-table th, .my-classes-table td { padding: 8px; }
-
-  .event-modal-content {
-    padding: 26px 20px;
-    width: min(94vw, 720px);
-  }
-  #event-modal .event-modal-content {
-    width: min(94vw, 860px);
+@media (max-width: 560px) {
+  #schedule .schedule-semester-panel {
+    border-radius: 22px;
+    align-items: stretch;
+    flex-direction: column;
   }
 }
