@@ -230,6 +230,14 @@
   }
 
   function getMyCourseBlocks() {
+    const activeSemester = document.querySelector('#my-timetable-section .semester-timetable-container.active');
+
+    if (activeSemester) {
+      return Array.from(activeSemester.querySelectorAll(
+        '.timetable .course-container, .timetable .overlap-course'
+      ));
+    }
+
     return Array.from(document.querySelectorAll(
       '#my-timetable-section .semester-timetable-container .timetable .course-container, ' +
       '#my-timetable-section .semester-timetable-container .timetable .overlap-course'
@@ -488,7 +496,7 @@
 
     row.classList.add('schedule-control-row', 'schedule-control-row-my');
 
-    const selector = row.querySelector('.semester-selector');
+    const selector = document.querySelector('#my-timetable-section .semester-selector');
     if (selector) {
       selector.classList.add('schedule-semester-panel');
     }
@@ -596,6 +604,10 @@
     refreshControlLanguage();
     applyMyWeekSelection();
     applyUstcWeekText();
+  });
+
+  window.addEventListener('schedule:semesterchange', function () {
+    applyMyWeekSelection();
   });
 
   if (document.readyState === 'loading') {
