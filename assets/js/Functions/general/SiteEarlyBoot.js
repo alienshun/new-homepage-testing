@@ -152,10 +152,88 @@
     img.src = url;
   }
 
+  function isLocalDevelopmentHost() {
+    return (
+      window.location.hostname === 'localhost' ||
+      window.location.hostname === '127.0.0.1' ||
+      window.location.hostname === '[::1]'
+    );
+  }
+
+  function scheduleIdle(callback, delay, timeout) {
+    if (typeof callback !== 'function') return;
+
+    const wait = Math.max(0, Number(delay) || 0);
+
+    window.setTimeout(() => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(callback, {
+          timeout: Math.max(0, Number(timeout) || 1600)
+        });
+        return;
+      }
+
+      window.setTimeout(callback, 0);
+    }, wait);
+  }
+
+  function registerOfflineFallbackServiceWorker() {
+    const offlineConfig = resources.offline || {};
+
+    if (offlineConfig.enabled === false) return;
+
+    if (!('serviceWorker' in navigator)) return;
+
+    if (window.location.protocol === 'file:') return;
+
+    if (!window.isSecureContext && !isLocalDevelopmentHost()) return;
+
+    const serviceWorkerPath = offlineConfig.serviceWorker || '/sw.js';
+    const scopePath = offlineConfig.scope || '/';
+
+    function registerNow() {
+      const options = {
+        scope: scopePath
+      };
+
+      if (offlineConfig.updateViaCache) {
+        options.updateViaCache = offlineConfig.updateViaCache;
+      }
+
+      navigator.serviceWorker.register(serviceWorkerPath, options)
+        .then((registration) => {
+          if (registration && typeof registration.update === 'function') {
+            window.setTimeout(() => {
+              registration.update().catch(() => {});
+            }, 3000);
+          }
+        })
+        .catch((err) => {
+          console.warn('[SiteEarlyBoot] Offline fallback service worker registration failed:', err);
+        });
+    }
+
+    function scheduleRegister() {
+      scheduleIdle(
+        registerNow,
+        offlineConfig.registerDelay,
+        offlineConfig.registerTimeout
+      );
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleRegister();
+      return;
+    }
+
+    window.addEventListener('load', scheduleRegister, { once: true });
+  }
+
   setSiteMeta();
   loadCoreStylesEarly();
   warmCoverImage();
   warmAboutProfileImage();
+  registerOfflineFallbackServiceWorker();
 
   window.SiteEarlyBoot = {
     getSelectedCoverFile() {
