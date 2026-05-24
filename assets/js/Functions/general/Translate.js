@@ -11,14 +11,31 @@
   }
 
   function getLang() {
-    return normalizeLang(localStorage.getItem(STORAGE_KEY) || LANG.EN);
+    const bodyLang = document.body && document.body.dataset
+      ? document.body.dataset.lang
+      : "";
+
+    if (bodyLang) return normalizeLang(bodyLang);
+
+    const htmlLang = document.documentElement.getAttribute("lang");
+    if (htmlLang) return normalizeLang(htmlLang);
+
+    return LANG.EN;
   }
 
   function setLang(lang) {
     const l = normalizeLang(lang);
-    localStorage.setItem(STORAGE_KEY, l);
+
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch (e) {}
+
     document.documentElement.setAttribute("lang", l === LANG.ZH ? "zh-CN" : "en");
-    document.body.dataset.lang = l;
+
+    if (document.body && document.body.dataset) {
+      document.body.dataset.lang = l;
+    }
+
     return l;
   }
 
@@ -232,15 +249,31 @@
 
     captureResumeEnglishTemplate();
 
+    const currentRenderedLang = resume.dataset.renderedLang || LANG.EN;
+
     if (lang === LANG.ZH) {
       if (typeof window.RESUME_ZH_INNER_HTML === "string" && window.RESUME_ZH_INNER_HTML.trim()) {
-        resume.innerHTML = absolutizeAssetPaths(window.RESUME_ZH_INNER_HTML);
+        const nextHTML = absolutizeAssetPaths(window.RESUME_ZH_INNER_HTML);
+
+        if (currentRenderedLang !== LANG.ZH || resume.innerHTML !== nextHTML) {
+          resume.innerHTML = nextHTML;
+        }
+
+        resume.dataset.renderedLang = LANG.ZH;
       }
-    } else {
-      if (typeof resumeEnInnerHTML === "string") {
-        resume.innerHTML = absolutizeAssetPaths(resumeEnInnerHTML);
+
+      return;
+    }
+
+    if (currentRenderedLang === LANG.ZH && typeof resumeEnInnerHTML === "string") {
+      const nextHTML = absolutizeAssetPaths(resumeEnInnerHTML);
+
+      if (resume.innerHTML !== nextHTML) {
+        resume.innerHTML = nextHTML;
       }
     }
+
+    resume.dataset.renderedLang = LANG.EN;
   }
 
   function applyMeditationsLanguage(lang) {
@@ -249,15 +282,31 @@
 
     captureMeditationsEnglishTemplate();
 
+    const currentRenderedLang = m.dataset.renderedLang || LANG.EN;
+
     if (lang === LANG.ZH) {
       if (typeof window.MEDITATIONS_ZH_INNER_HTML === "string" && window.MEDITATIONS_ZH_INNER_HTML.trim()) {
-        m.innerHTML = absolutizeAssetPaths(window.MEDITATIONS_ZH_INNER_HTML);
+        const nextHTML = absolutizeAssetPaths(window.MEDITATIONS_ZH_INNER_HTML);
+
+        if (currentRenderedLang !== LANG.ZH || m.innerHTML !== nextHTML) {
+          m.innerHTML = nextHTML;
+        }
+
+        m.dataset.renderedLang = LANG.ZH;
       }
-    } else {
-      if (typeof meditationsEnInnerHTML === "string") {
-        m.innerHTML = absolutizeAssetPaths(meditationsEnInnerHTML);
+
+      return;
+    }
+
+    if (currentRenderedLang === LANG.ZH && typeof meditationsEnInnerHTML === "string") {
+      const nextHTML = absolutizeAssetPaths(meditationsEnInnerHTML);
+
+      if (m.innerHTML !== nextHTML) {
+        m.innerHTML = nextHTML;
       }
     }
+
+    m.dataset.renderedLang = LANG.EN;
   }
 
   /* ------------------------------
@@ -513,6 +562,7 @@
   function applyLanguage(lang, options) {
     const opts = options || {};
     const shouldEmitLangChange = opts.emitLangChange === true;
+    const shouldSmoothSwap = shouldEmitLangChange === true;
 
     const l = setLang(lang);
     updateLangButton(l);
@@ -520,14 +570,14 @@
     const openKeys = shouldEmitLangChange ? getResumeOpenKeys() : [];
 
     const resume = document.getElementById("resume");
-    if (resume && isActuallyVisible(resume)) {
+    if (shouldSmoothSwap && resume && isActuallyVisible(resume)) {
       smoothSwapResume(l, openKeys);
     } else {
       applyResumeLanguage(l);
     }
 
     const meditations = document.getElementById("meditations");
-    if (meditations && isActuallyVisible(meditations)) {
+    if (shouldSmoothSwap && meditations && isActuallyVisible(meditations)) {
       smoothSwapMeditations(l, openKeys);
     } else {
       applyMeditationsLanguage(l);
@@ -570,7 +620,7 @@
     let retry = 0;
     const timer = setInterval(() => {
       bindLangToggle();
-      updateLangButton(LANG.EN);
+      updateLangButton(getLang());
       retry += 1;
 
       if (document.getElementById("top-lang-btn") && retry >= 3) clearInterval(timer);
