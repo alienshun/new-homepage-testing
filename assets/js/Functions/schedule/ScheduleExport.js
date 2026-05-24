@@ -203,6 +203,7 @@
   function getSemesterLabel(id, lang) {
     const semester = getSemester(id);
     if (!semester) return id || '';
+
     return normalizeLang(lang) === 'zh'
       ? (semester.labelZH || semester.labelEN || id)
       : (semester.labelEN || semester.labelZH || id);
@@ -251,9 +252,11 @@
 
   function escapeCsv(value) {
     const str = String(value == null ? '' : value);
+
     if (/["\n\r]/.test(str)) {
       return `"${str.replace(/"/g, '""')}"`;
     }
+
     return str;
   }
 
@@ -287,12 +290,15 @@
 
     const rangeRegex = /(\d+)\s*[-~–—]\s*(\d+)/g;
     let rangeMatch;
+
     while ((rangeMatch = rangeRegex.exec(value)) !== null) {
       const start = parseInt(rangeMatch[1], 10);
       const end = parseInt(rangeMatch[2], 10);
+
       if (Number.isFinite(start) && Number.isFinite(end)) {
         const min = Math.min(start, end);
         const max = Math.max(start, end);
+
         for (let week = min; week <= max; week++) {
           weeks.add(week);
         }
@@ -302,6 +308,7 @@
     const withoutRanges = value.replace(rangeRegex, ' ');
     const singleRegex = /\b(\d+)\b/g;
     let singleMatch;
+
     while ((singleMatch = singleRegex.exec(withoutRanges)) !== null) {
       const week = parseInt(singleMatch[1], 10);
       if (Number.isFinite(week)) weeks.add(week);
@@ -336,6 +343,7 @@
     }
 
     ranges.push(start === end ? String(start) : `${start}-${end}`);
+
     return normalizeLang(lang) === 'zh'
       ? `${ranges.join('，')}周`
       : `${ranges.join(', ')} week(s)`;
@@ -344,7 +352,9 @@
   function getPeriodRange(start, end) {
     const s = parseInt(start, 10);
     const e = parseInt(end, 10);
+
     if (!Number.isFinite(s) || !Number.isFinite(e)) return '';
+
     return s === e ? String(s) : `${s}-${e}`;
   }
 
@@ -361,6 +371,7 @@
   function getDayName(day, lang) {
     const dayNumber = parseInt(day, 10);
     const names = DAY_NAMES[normalizeLang(lang)] || DAY_NAMES.en;
+
     return names[dayNumber] || '';
   }
 
@@ -373,6 +384,7 @@
   function parseLocalDate(dateString) {
     const parts = String(dateString || '').split('-').map((part) => parseInt(part, 10));
     if (parts.length !== 3 || parts.some((part) => !Number.isFinite(part))) return null;
+
     return new Date(parts[0], parts[1] - 1, parts[2]);
   }
 
@@ -380,6 +392,7 @@
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
+
     return `${year}${month}${day}`;
   }
 
@@ -388,6 +401,7 @@
     const parts = cleanTime.split(':');
     const hour = parts[0] || '00';
     const minute = parts[1] || '00';
+
     return `${formatDateCompact(date)}T${String(hour).padStart(2, '0')}${String(minute).padStart(2, '0')}00`;
   }
 
@@ -400,6 +414,7 @@
 
     const dayNumber = parseInt(day, 10);
     const mondayBasedOffset = dayNumber === 0 ? 6 : dayNumber - 1;
+
     return dateAddDays(week1Monday, (parseInt(week, 10) - 1) * 7 + mondayBasedOffset);
   }
 
@@ -424,6 +439,7 @@
 
     const format = (formatSelect && formatSelect.value) || 'pdf';
     const lang = normalizeLang((langSelect && langSelect.value) || getCurrentLang());
+
     const semesterId = type === 'ustc'
       ? ((semesterSelect && semesterSelect.value) || getDefaultSemesterId())
       : getActiveSemesterId();
@@ -463,6 +479,7 @@
 
     headerCells.forEach((th, index) => {
       const text = cleanInlineText(th.textContent).toLowerCase();
+
       if (text === 'actions' || text === 'action' || text === '操作') {
         actionIndexes.push(index);
       }
@@ -472,6 +489,7 @@
 
     table.querySelectorAll('tr').forEach((row) => {
       const cells = Array.from(row.children);
+
       actionIndexes
         .slice()
         .sort((a, b) => b - a)
@@ -622,6 +640,20 @@
 
     const opts = options || {};
     const clone = element.cloneNode(true);
+
+    clone.querySelectorAll('[data-schedule-week-hidden="true"]').forEach((node) => {
+      node.remove();
+    });
+
+    clone.querySelectorAll('[data-week-selector-empty="true"]').forEach((node) => {
+      node.querySelectorAll('.course-container, .overlap-course').forEach((course) => {
+        course.remove();
+      });
+
+      node.querySelectorAll('.time-info').forEach((timeInfo) => {
+        timeInfo.remove();
+      });
+    });
 
     clone.querySelectorAll('button, input, select, textarea, .schedule-export-toolbar').forEach((node) => {
       node.remove();
@@ -795,7 +827,38 @@
     if (!cell) return true;
     if (cell.hidden) return true;
     if (cell.style && cell.style.display === 'none') return true;
+
     return false;
+  }
+
+  function isWeekSelectorHiddenElement(element) {
+    if (!element) return false;
+
+    if (
+      element.dataset &&
+      (
+        element.dataset.scheduleWeekHidden === 'true' ||
+        element.dataset.weekSelectorEmpty === 'true'
+      )
+    ) {
+      return true;
+    }
+
+    if (
+      element.closest &&
+      element.closest('[data-schedule-week-hidden="true"], [data-week-selector-empty="true"]')
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function getVisibleCourseBlocks(cell) {
+    if (!cell) return [];
+
+    return Array.from(cell.querySelectorAll('.course-container, .overlap-course'))
+      .filter((block) => !isWeekSelectorHiddenElement(block));
   }
 
   function getBlockText(block) {
@@ -814,6 +877,7 @@
     selectors.forEach((selector) => {
       const el = block.querySelector(selector);
       const text = cleanInlineText(el ? el.textContent : '');
+
       if (text) parts.push(text);
     });
 
@@ -821,22 +885,36 @@
 
     const clone = block.cloneNode(true);
     clone.querySelectorAll('button, input, select, textarea, .time-info').forEach((node) => node.remove());
+
     return cleanText(clone.textContent);
   }
 
   function getCellExportText(cell) {
     if (!cell) return '';
 
-    const courseBlocks = cell.querySelectorAll('.course-container, .overlap-course');
+    if (cell.dataset && cell.dataset.weekSelectorEmpty === 'true') {
+      return '';
+    }
+
+    const courseBlocks = getVisibleCourseBlocks(cell);
+
     if (courseBlocks.length) {
-      return Array.from(courseBlocks)
+      return courseBlocks
         .map(getBlockText)
         .filter(Boolean)
         .join('\n---\n');
     }
 
+    if (cell.querySelector('.course-container, .overlap-course')) {
+      return '';
+    }
+
     const clone = cell.cloneNode(true);
-    clone.querySelectorAll('button, input, select, textarea, .time-info').forEach((node) => node.remove());
+
+    clone.querySelectorAll('[data-schedule-week-hidden="true"], button, input, select, textarea, .time-info').forEach((node) => {
+      node.remove();
+    });
+
     return cleanText(clone.textContent);
   }
 
@@ -877,11 +955,14 @@
     });
 
     const maxCols = matrix.reduce((max, row) => Math.max(max, row.length), 0);
+
     return matrix.map((row) => {
       const normalized = [];
+
       for (let i = 0; i < maxCols; i++) {
         normalized.push(row[i] == null ? '' : row[i]);
       }
+
       return normalized;
     });
   }
@@ -897,6 +978,7 @@
 
     header.forEach((value, index) => {
       const text = cleanInlineText(value).toLowerCase();
+
       if (text === 'actions' || text === 'action' || text === '操作') {
         actionIndexes.push(index);
       }
@@ -916,6 +998,7 @@
     const classesMatrix = removeActionColumnsFromMatrix(tableToCsvMatrix(classesTable));
 
     const rows = [];
+
     rows.push([context.text.csvTimetableMarker]);
 
     if (timetableMatrix.length) {
@@ -975,6 +1058,7 @@
     let credits = '';
 
     const creditMatch = courseNameRaw.match(/\[([^\]]+)\]\s*$/);
+
     if (creditMatch) {
       credits = creditMatch[1].trim();
       courseName = cleanInlineText(courseNameRaw.replace(/\[([^\]]+)\]\s*$/, ''));
@@ -998,10 +1082,21 @@
   function shouldReadAsCourseCell(cell) {
     if (!cell || cell.tagName !== 'TD') return false;
 
+    if (cell.dataset && cell.dataset.weekSelectorEmpty === 'true') {
+      return false;
+    }
+
+    const visibleCourseBlocks = getVisibleCourseBlocks(cell);
+
     return (
-      cell.classList.contains('event-cell') ||
-      cell.classList.contains('has-class') ||
-      !!cell.querySelector('.course-container, .overlap-course')
+      visibleCourseBlocks.length > 0 ||
+      (
+        !cell.querySelector('.course-container, .overlap-course') &&
+        (
+          cell.classList.contains('event-cell') ||
+          cell.classList.contains('has-class')
+        )
+      )
     );
   }
 
@@ -1056,16 +1151,32 @@
 
         if (shouldReadAsCourseCell(cell)) {
           const periodCell = tr.querySelector('.period-number');
-          const periodStart = parseNumber(cell.dataset && cell.dataset.period ? cell.dataset.period : (periodCell && periodCell.textContent));
+
+          const periodStart = parseNumber(
+            cell.dataset && cell.dataset.period
+              ? cell.dataset.period
+              : (periodCell && periodCell.textContent)
+          );
+
           const periodEnd = periodStart ? periodStart + rowSpan - 1 : null;
           const day = getDayFromColumn(cell, colIndex);
 
           if (periodStart && periodEnd && day !== null) {
-            const courseElements = cell.querySelectorAll('.overlap-course').length
-              ? Array.from(cell.querySelectorAll('.overlap-course'))
-              : Array.from(cell.querySelectorAll('.course-container'));
+            const overlapCourses = Array.from(cell.querySelectorAll('.overlap-course'))
+              .filter((block) => !isWeekSelectorHiddenElement(block));
 
-            const targets = courseElements.length ? courseElements : [cell];
+            const courseContainers = Array.from(cell.querySelectorAll('.course-container'))
+              .filter((block) => !isWeekSelectorHiddenElement(block));
+
+            const courseElements = overlapCourses.length ? overlapCourses : courseContainers;
+
+            const targets = courseElements.length
+              ? courseElements
+              : (
+                cell.querySelector('.course-container, .overlap-course')
+                  ? []
+                  : [cell]
+              );
 
             targets.forEach((target) => {
               const info = extractCourseFromElement(target);
@@ -1110,6 +1221,7 @@
 
     classes.forEach((cls) => {
       const days = Array.isArray(cls.days) ? cls.days : [];
+
       days.forEach((day) => {
         events.push({
           courseNumber: '',
@@ -1148,6 +1260,7 @@
 
     events.forEach((event) => {
       const key = eventKey(event);
+
       if (!seen.has(key)) {
         seen.add(key);
         result.push(event);
@@ -1159,20 +1272,19 @@
         const order = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 0: 7 };
         return (order[a.day] || 9) - (order[b.day] || 9);
       }
+
       return (a.periodStart || 0) - (b.periodStart || 0);
     });
   }
 
   function getTimetableEvents(type, semesterId) {
     const table = getTimetableTable(type);
-    const fromDom = flattenTimetableEventsFromDOM(table, semesterId);
-    if (fromDom.length) return fromDom;
 
-    if (type === 'ustc') {
-      return getUstcEventsFromStorage();
+    if (table) {
+      return flattenTimetableEventsFromDOM(table, semesterId);
     }
 
-    return [];
+    return type === 'ustc' ? getUstcEventsFromStorage() : [];
   }
 
   function buildICS(context) {
@@ -1251,13 +1363,16 @@
         lines.push(`DTSTART;TZID=${semester.timezone || 'Asia/Shanghai'}:${formatDateTimeForICS(eventDate, startTime)}`);
         lines.push(`DTEND;TZID=${semester.timezone || 'Asia/Shanghai'}:${formatDateTimeForICS(eventDate, endTime)}`);
         lines.push(`SUMMARY:${escapeICS(summary)}`);
+
         if (event.location) lines.push(`LOCATION:${escapeICS(event.location)}`);
+
         lines.push(`DESCRIPTION:${escapeICS(descriptionParts.join('\\n'))}`);
         lines.push('END:VEVENT');
       });
     });
 
     lines.push('END:VCALENDAR');
+
     return lines.map(foldICSLine).join('\r\n');
   }
 
@@ -1270,6 +1385,7 @@
     }
 
     const ics = buildICS(context);
+
     if (!ics) {
       alert(context.text.noEventsAlert);
       return;
@@ -1343,12 +1459,15 @@
     const text = textFor(lang);
 
     const controls = toolbar.querySelectorAll('.schedule-export-control');
+
     if (controls[0]) controls[0].querySelector('label').textContent = text.format;
     if (controls[1]) controls[1].querySelector('label').textContent = text.language;
 
     const formatSelect = toolbar.querySelector('[data-schedule-export-format]');
+
     if (formatSelect) {
       const selected = formatSelect.value;
+
       formatSelect.querySelector('option[value="pdf"]').textContent = text.pdf;
       formatSelect.querySelector('option[value="csv"]').textContent = text.csv;
       formatSelect.querySelector('option[value="ics"]').textContent = text.ics;
@@ -1356,8 +1475,10 @@
     }
 
     const langSelect = toolbar.querySelector('[data-schedule-export-lang]');
+
     if (langSelect) {
       const selected = langSelect.value;
+
       langSelect.querySelector('option[value="en"]').textContent = text.english;
       langSelect.querySelector('option[value="zh"]').textContent = text.chinese;
       langSelect.value = selected;
