@@ -77,6 +77,18 @@
       }
     },
 
+    optimization: {
+      webp: {
+        enabled: true,
+        serviceWorker: '/sw.js',
+        scope: '/',
+        manifest: '/assets/generated/webp-manifest.js',
+        registerDelay: 900,
+        registerTimeout: 1800,
+        updateViaCache: 'none'
+      }
+    },
+
     activitiesMoments: ACTIVITIES_MOMENTS,
 
     navigation: {
