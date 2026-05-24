@@ -77,6 +77,15 @@
       }
     },
 
+    offline: {
+      enabled: true,
+      serviceWorker: '/sw.js',
+      scope: '/',
+      registerDelay: 1200,
+      registerTimeout: 1800,
+      updateViaCache: 'none'
+    },
+
     activitiesMoments: ACTIVITIES_MOMENTS,
 
     navigation: {
