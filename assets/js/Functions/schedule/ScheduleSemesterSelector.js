@@ -23,7 +23,7 @@
     }
   };
 
-  let retryTimer = null;
+  let initialized = false;
 
   function normalizeLang(lang) {
     const value = String(lang || '').toLowerCase();
@@ -112,11 +112,12 @@
 
   function getAvailableSemesters() {
     const config = getSemesterConfig();
-    const ids = SEMESTER_ORDER.filter(function (id) {
+
+    const orderedIds = SEMESTER_ORDER.filter(function (id) {
       return document.getElementById(id) || config[id];
     });
 
-    if (ids.length) return ids;
+    if (orderedIds.length) return orderedIds;
 
     return Array.from(document.querySelectorAll('#my-timetable-section .semester-timetable-container'))
       .map(function (container) {
@@ -137,19 +138,11 @@
 
   function dispatchSemesterChange(semesterId) {
     try {
-      if (typeof CustomEvent === 'function') {
-        window.dispatchEvent(new CustomEvent('schedule:semesterchange', {
-          detail: {
-            semesterId: semesterId
-          }
-        }));
-      } else {
-        const evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent('schedule:semesterchange', false, false, {
+      window.dispatchEvent(new CustomEvent('schedule:semesterchange', {
+        detail: {
           semesterId: semesterId
-        });
-        window.dispatchEvent(evt);
-      }
+        }
+      }));
     } catch (e) { }
   }
 
@@ -175,10 +168,6 @@
       root.dataset.activeSemester = targetId;
     }
 
-    if (window.ScheduleWeekSelector && typeof window.ScheduleWeekSelector.applyWeekSelection === 'function') {
-      window.ScheduleWeekSelector.applyWeekSelection('my');
-    }
-
     dispatchSemesterChange(targetId);
   }
 
@@ -186,10 +175,17 @@
     const lang = getCurrentLang();
     const text = textFor(lang);
     const semesterIds = getAvailableSemesters();
-    const activeSemesterId = getActiveSemesterId() || DEFAULT_SEMESTER_ID;
+
+    if (!semesterIds.length) return false;
+
+    const current = getActiveSemesterId() || DEFAULT_SEMESTER_ID;
+    const selectedId = semesterIds.indexOf(current) !== -1
+      ? current
+      : (semesterIds.indexOf(DEFAULT_SEMESTER_ID) !== -1 ? DEFAULT_SEMESTER_ID : semesterIds[0]);
 
     root.classList.add('schedule-semester-panel');
     root.dataset.scheduleSemesterMounted = 'true';
+    root.dataset.activeSemester = selectedId;
 
     root.innerHTML = '';
 
@@ -214,13 +210,7 @@
       select.appendChild(option);
     });
 
-    if (semesterIds.indexOf(activeSemesterId) !== -1) {
-      select.value = activeSemesterId;
-    } else if (semesterIds.indexOf(DEFAULT_SEMESTER_ID) !== -1) {
-      select.value = DEFAULT_SEMESTER_ID;
-    } else if (semesterIds.length) {
-      select.value = semesterIds[0];
-    }
+    select.value = selectedId;
 
     select.addEventListener('change', function () {
       activateSemester(select.value);
@@ -230,15 +220,20 @@
     root.appendChild(label);
     root.appendChild(selectWrap);
 
-    activateSemester(select.value || DEFAULT_SEMESTER_ID);
+    activateSemester(selectedId);
+
+    return true;
   }
 
   function refreshLanguage() {
     const lang = getCurrentLang();
     const text = textFor(lang);
+
     const root = document.querySelector('#my-timetable-section .semester-selector');
-    const label = root ? root.querySelector('.schedule-semester-label') : null;
-    const select = root ? root.querySelector('[data-schedule-semester-select]') : null;
+    if (!root) return;
+
+    const label = root.querySelector('.schedule-semester-label');
+    const select = root.querySelector('[data-schedule-semester-select]');
 
     if (label) {
       label.textContent = text.selectSemester;
@@ -256,53 +251,36 @@
     select.value = selected;
   }
 
-  function mount() {
+  function init() {
     const root = document.querySelector('#my-timetable-section .semester-selector');
     if (!root) return false;
 
-    buildSemesterSelect(root);
-    refreshLanguage();
-
-    return true;
-  }
-
-  function initWithRetry() {
-    if (retryTimer) {
-      clearTimeout(retryTimer);
-      retryTimer = null;
+    if (!initialized || !root.querySelector('[data-schedule-semester-select]')) {
+      initialized = buildSemesterSelect(root);
+    } else {
+      refreshLanguage();
     }
 
-    let attempts = 0;
-    const maxAttempts = 50;
-
-    const tick = function () {
-      attempts += 1;
-
-      const mounted = mount();
-
-      if (!mounted && attempts < maxAttempts) {
-        retryTimer = setTimeout(tick, 100);
-      }
-    };
-
-    tick();
+    return initialized;
   }
 
   window.addEventListener('site:langchange', function () {
     refreshLanguage();
   });
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWithRetry);
-  } else {
-    initWithRetry();
-  }
-
   window.ScheduleSemesterSelector = window.ScheduleSemesterSelector || {};
-  window.ScheduleSemesterSelector.init = initWithRetry;
+  window.ScheduleSemesterSelector.init = init;
   window.ScheduleSemesterSelector.activateSemester = activateSemester;
   window.ScheduleSemesterSelector.getActiveSemesterId = getActiveSemesterId;
 
   window.Schedule = window.Schedule || {};
-  window.Schedule.initSemesterSelection = initWithRetry;
+  window.Schedule.initSemesterSelection = init;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () {
+      window.requestAnimationFrame(init);
+    }, { once: true });
+  } else {
+    window.requestAnimationFrame(init);
+  }
 })();
