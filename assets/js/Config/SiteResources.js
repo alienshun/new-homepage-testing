@@ -253,7 +253,8 @@
         domId: 'social',
         mountId: 'mount-social',
         styles: [
-          A + 'css/social/social.css'
+          A + 'css/social/social-cards.css',
+          A + 'css/social/social-stats.css'
         ],
         scripts: [
           A + 'js/Content/EN/social/social_EN.js',
