@@ -177,7 +177,6 @@
         A + 'css/base/core.css',
         A + 'css/layout/page-shell.css',
         A + 'css/components/legacy-controls.css',
-        A + 'css/about/about.css',
         A + 'css/components/expanders.css',
         A + 'css/base/dark-mode.css',
 
@@ -218,7 +217,9 @@
         route: 'about',
         domId: 'resume',
         mountId: 'mount-resume',
-        styles: [],
+        styles: [
+          A + 'css/about/about.css'
+        ],
         scripts: [
           A + 'js/Content/EN/about/resume_EN.js',
           A + 'js/Content/ZH/about/resume_ZH.js'
