@@ -58,25 +58,7 @@
     return normalizeView(slug);
   }
 
-  function injectRouteStyle() {
-    if (document.getElementById('schedule-subnav-route-style')) return;
-
-    const style = document.createElement('style');
-    style.id = 'schedule-subnav-route-style';
-    style.textContent = `
-      .schedule-switcher a.schedule-switch-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        line-height: normal;
-        font-family: inherit;
-        box-sizing: border-box;
-        user-select: none;
-      }
-    `;
-    document.head.appendChild(style);
-  }
+  function injectRouteStyle() {}
 
   function toRouteLink(control) {
     const view = normalizeView(control && control.dataset ? control.dataset.view : '');
