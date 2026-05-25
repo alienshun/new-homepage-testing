@@ -77,7 +77,8 @@ body[data-lang="zh"] .life-heading {
   box-shadow: var(--shadow-xs);
 }
 
-.life-switch-btn {
+.life-switch-btn,
+.life-switcher a.life-switch-btn {
   appearance: none;
   -webkit-appearance: none;
 
@@ -103,6 +104,7 @@ body[data-lang="zh"] .life-heading {
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
+  box-sizing: border-box;
 
   transition:
     transform 0.16s ease,
@@ -154,7 +156,7 @@ body[data-lang="zh"] .life-heading {
    ========================================================= */
 
 /*
-  meditations_EN.js still renders:
+  The original Meditations content renders:
   #mount-meditations -> #meditations -> .container -> original content
 
   Here #meditations is no longer a top-level page.
@@ -188,6 +190,13 @@ body[data-lang="zh"] .life-heading {
   border-radius: 0;
   box-shadow: none;
   background: transparent;
+}
+
+.medit-loading {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
 }
 
 /* =========================================================
