@@ -1,0 +1,250 @@
+.event-cell .time-info {
+  position: absolute;
+  font-size: 0.7em;
+  padding: 2px 6px;
+  border-radius: 6px;
+  z-index: 20;
+
+  background: transparent;
+  border: transparent;
+  color: var(--text);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+.event-cell:hover .time-info,
+.event-cell:focus-within .time-info {
+  opacity: 1;
+  visibility: visible;
+}
+
+.start-info { top: 2px; left: 2px; }
+.end-info { bottom: 2px; right: 2px; }
+
+.event-cell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-cell:hover {
+  box-shadow: inset 0 0 12px rgba(0,0,0,0.10);
+  transform: scale(1.01);
+}
+
+.event-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--accent);
+  transition: height 0.2s ease;
+}
+
+.event-cell:hover::before { height: 5px; }
+
+.ustc-timetable-cell {
+  position: relative;
+  height: 50px;
+}
+
+.ustc-course-info {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  z-index: 5;
+  background: var(--accent-weak);
+  border-radius: 6px;
+}
+
+.ustc-course-info:hover { background: var(--accent-weak); }
+
+.merged-cell {
+  border: none !important;
+  background-color: transparent !important;
+  padding: 0 !important;
+  height: 0 !important;
+}
+
+.course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.period-number {
+  background-color: var(--surface-2);
+  font-weight: 700;
+  border-right: 1px solid var(--border);
+}
+
+.overlap-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  height: 100%;
+  min-height: 100%;
+
+  position: relative;
+}
+
+.overlap-course {
+  flex: 1 1 auto;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  padding: 6px 4px;
+
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.overlap-course + .overlap-course {
+  border-top: 1px dashed var(--border);
+}
+
+/* =========================================================
+   Course cells for My Timetable and USTC Timetable
+   Scoped and lightweight to avoid slow page loading or module switching.
+   ========================================================= */
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell,
+#ustc-timetable td.event-cell {
+  position: relative;
+
+  padding: 0 !important;
+  vertical-align: middle;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 14px !important;
+
+  background: var(--accent-weak) !important;
+  background-clip: padding-box;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.08);
+  transform: none !important;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover,
+#ustc-timetable td.event-cell:hover {
+  background: var(--accent-weak) !important;
+  border-color: var(--border) !important;
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.10);
+  transform: none !important;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::before,
+#ustc-timetable td.event-cell::before {
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
+#ustc-timetable td.event-cell > .overlap-container {
+  position: relative;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 10px 7px;
+
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  overflow: hidden;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  text-align: center;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
+#ustc-timetable td.event-cell > .overlap-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+
+  height: auto;
+  min-height: 100%;
+
+  text-align: center;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course,
+#ustc-timetable td.event-cell > .overlap-container > .overlap-course {
+  flex: 0 0 auto;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 7px 4px;
+
+  display: block;
+
+  overflow: visible;
+  text-align: center;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course,
+#ustc-timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course {
+  border-top: 1px dashed var(--border);
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell .course-number,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell .course-name,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell .instructor,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell .location,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell .weeks,
+#ustc-timetable td.event-cell .course-number,
+#ustc-timetable td.event-cell .course-name,
+#ustc-timetable td.event-cell .instructor,
+#ustc-timetable td.event-cell .location,
+#ustc-timetable td.event-cell .weeks {
+  max-width: 100%;
+
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: normal;
+
+  line-height: 1.24;
+}
