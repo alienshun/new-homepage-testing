@@ -83,26 +83,6 @@
     }
   }
 
-  function injectRouteStyle() {
-    if (document.getElementById('life-subnav-route-style')) return;
-
-    const style = document.createElement('style');
-    style.id = 'life-subnav-route-style';
-    style.textContent = `
-      .life-switcher a.life-switch-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        line-height: normal;
-        font-family: inherit;
-        box-sizing: border-box;
-        user-select: none;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-
   function toRouteLink(control) {
     const view = normalizeView(control && control.dataset ? control.dataset.view : '');
     if (!control || !view) return control;
@@ -133,8 +113,6 @@
   }
 
   function enhanceLifeSubnav() {
-    injectRouteStyle();
-
     document.querySelectorAll('.life-switcher .life-switch-btn').forEach((control) => {
       const link = toRouteLink(control);
       const view = normalizeView(link && link.dataset ? link.dataset.view : '');
@@ -174,6 +152,15 @@
     }
   }
 
+  function activateMeditations() {
+    if (
+      window.LifeMeditations &&
+      typeof window.LifeMeditations.ensureCurrent === 'function'
+    ) {
+      window.LifeMeditations.ensureCurrent();
+    }
+  }
+
   function activateView(view, options) {
     const opts = options || {};
     const normalized = normalizeView(view) || DEFAULT_VIEW;
@@ -187,6 +174,10 @@
 
     if (normalized === 'activities_moments') {
       activateActivities(opts.dateKey || null, opts);
+    }
+
+    if (normalized === 'meditations') {
+      activateMeditations();
     }
 
     if (opts.updateHistory && window.history && typeof window.history.pushState === 'function') {
