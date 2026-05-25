@@ -230,15 +230,15 @@
         domId: 'schedule',
         mountId: 'mount-schedule',
         styles: [
-          ...FULL_CALENDAR.styles,
           ...SCHEDULE_STYLES
         ],
         scripts: [
-          ...FULL_CALENDAR.scripts,
           A + 'js/Content/EN/schedule/schedule_EN.js',
           A + 'js/Content/ZH/schedule/schedule_ZH.js',
           A + 'js/Config/ScheduleSemesterConfig.js',
-          A + 'js/Functions/schedule/Schedule.js',
+          A + 'js/Functions/schedule/ScheduleUstcClasses.js',
+          A + 'js/Functions/schedule/ScheduleCalendarGeneral.js',
+          A + 'js/Functions/schedule/ScheduleCore.js',
           A + 'js/Functions/schedule/ScheduleRoutes.js',
           A + 'js/Functions/schedule/ScheduleExport.js',
           A + 'js/Functions/schedule/ScheduleSemesterSelector.js',
