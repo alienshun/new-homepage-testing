@@ -27,28 +27,23 @@
 .event-cell {
   position: relative;
   overflow: hidden;
-  border-radius: 8px;
-  box-shadow: inset 0 0 8px rgba(0,0,0,0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0;
+  box-shadow: none;
+  transition: none;
 }
 
 .event-cell:hover {
-  box-shadow: inset 0 0 12px rgba(0,0,0,0.10);
-  transform: scale(1.01);
+  box-shadow: none;
+  transform: none;
 }
 
 .event-cell::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: var(--accent);
-  transition: height 0.2s ease;
+  content: none;
 }
 
-.event-cell:hover::before { height: 5px; }
+.event-cell:hover::before {
+  height: auto;
+}
 
 .ustc-timetable-cell {
   position: relative;
@@ -83,8 +78,12 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+
   width: 100%;
+  height: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
   text-align: center;
   position: relative;
 }
@@ -98,151 +97,19 @@
 .overlap-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
+  align-items: stretch;
 
+  width: 100%;
   height: 100%;
   min-height: 100%;
 
+  box-sizing: border-box;
+  text-align: center;
   position: relative;
 }
 
 .overlap-course {
-  flex: 1 1 auto;
-
-  width: 100%;
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  text-align: center;
-  padding: 6px 4px;
-
-  overflow: visible;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.overlap-course + .overlap-course {
-  border-top: 1px dashed var(--border);
-}
-
-/* =========================================================
-   Course cells for My Timetable and USTC Timetable
-   Scoped and lightweight to avoid slow page loading or module switching.
-   ========================================================= */
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell,
-#ustc-timetable td.event-cell {
-  position: relative;
-  isolation: isolate;
-
-  padding: 0 !important;
-  vertical-align: middle;
-
-  border: 1px solid var(--border) !important;
-  border-radius: 14px !important;
-
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-weak) 88%, var(--surface)),
-      color-mix(in srgb, var(--accent-weak) 68%, var(--surface))
-    ) !important;
-  background-clip: padding-box;
-
-  cursor: pointer;
-  overflow: hidden;
-
-  box-shadow:
-    0 0 0 1px var(--border),
-    inset 0 1px 0 color-mix(in srgb, #ffffff 30%, transparent),
-    inset 0 -8px 18px rgba(0, 0, 0, 0.035);
-
-  transform: none !important;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover,
-#ustc-timetable td.event-cell:hover {
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-weak) 94%, var(--surface)),
-      color-mix(in srgb, var(--accent-weak) 76%, var(--surface))
-    ) !important;
-
-  border-color: var(--border) !important;
-
-  box-shadow:
-    0 0 0 1px var(--border),
-    inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent),
-    inset 0 -8px 18px rgba(0, 0, 0, 0.045);
-
-  transform: none !important;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::before,
-#ustc-timetable td.event-cell::before {
-  z-index: 3;
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-  pointer-events: none;
-}
-
-/* No custom border overlay here:
-   use the real table border + outer 1px shadow so course-cell borders
-   match ordinary cells and adjacent course cells remain separated. */
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::after,
-#ustc-timetable td.event-cell::after {
-  content: none;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container,
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
-#ustc-timetable td.event-cell > .overlap-container {
-  position: relative;
-  z-index: 1;
-
-  width: 100%;
-  box-sizing: border-box;
-
-  padding: 10px 7px;
-
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-
-  overflow: hidden;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  height: 100%;
-  text-align: center;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
-#ustc-timetable td.event-cell > .overlap-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: stretch;
-
-  height: auto;
-  min-height: 100%;
-
-  text-align: center;
-}
-
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course,
-#ustc-timetable td.event-cell > .overlap-container > .overlap-course {
   position: relative;
 
   flex: 0 0 auto;
@@ -250,19 +117,133 @@
   width: 100%;
   box-sizing: border-box;
 
-  padding: 8px 4px;
-
   display: block;
 
-  overflow: visible;
   text-align: center;
+  padding: 8px 4px;
+
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course,
-#ustc-timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course {
+.overlap-course + .overlap-course {
   margin-top: 4px;
   padding-top: 10px;
   border-top: none;
+}
+
+/* =========================================================
+   Course cells for My Timetable and USTC Timetable
+
+   Important:
+   - td.event-cell keeps the normal table border.
+   - .course-container / .overlap-container draws the rounded course block.
+   - Do not draw custom borders on td with box-shadow or ::after.
+   ========================================================= */
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell,
+#ustc-timetable td.event-cell {
+  position: relative;
+
+  padding: 0 !important;
+  vertical-align: middle;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
+
+  background: var(--surface) !important;
+  background-clip: border-box;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover,
+#ustc-timetable td.event-cell:hover {
+  border-color: var(--border) !important;
+  background: var(--surface) !important;
+
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::before,
+#ustc-timetable td.event-cell::before,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::after,
+#ustc-timetable td.event-cell::after {
+  content: none !important;
+}
+
+/* Rounded visual course block inside the normal table cell */
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
+#ustc-timetable td.event-cell > .overlap-container {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+
+  box-sizing: border-box;
+
+  padding: 10px 7px;
+
+  border: none;
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-weak) 90%, var(--surface)),
+      color-mix(in srgb, var(--accent-weak) 72%, var(--surface))
+    );
+
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #ffffff 30%, transparent),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.035);
+
+  overflow: hidden;
+}
+
+/* Thin accent line belongs to the course block, not to the table cell */
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container::before,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container::before,
+#ustc-timetable td.event-cell > .overlap-container::before {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 3px;
+
+  background: var(--accent);
+
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+
+  pointer-events: none;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover > .course-container,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover > .overlap-container,
+#ustc-timetable td.event-cell:hover > .overlap-container {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-weak) 95%, var(--surface)),
+      color-mix(in srgb, var(--accent-weak) 78%, var(--surface))
+    );
+
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent),
+    inset 0 -8px 16px rgba(0, 0, 0, 0.045);
 }
 
 /* Stable divider between overlapped courses */
