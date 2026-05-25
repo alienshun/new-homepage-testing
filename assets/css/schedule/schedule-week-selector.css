@@ -68,11 +68,24 @@
   box-shadow: 0 0 0 3px var(--accent-weak);
 }
 
-#schedule td[data-week-selector-empty="true"] {
+#schedule td[data-week-selector-empty="true"],
+#schedule .week-selector-synthetic-cell {
   background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
   transform: none !important;
   cursor: default !important;
+}
+
+#schedule .week-selector-synthetic-cell {
+  padding: 12px !important;
+  height: 60px;
+  vertical-align: middle;
+}
+
+#schedule #ustc-timetable .week-selector-synthetic-cell {
+  height: 50px;
 }
 
 #schedule td[data-week-selector-empty="true"] > .time-info,
@@ -89,6 +102,73 @@
 
 .schedule-print-export [data-schedule-week-hidden="true"] {
   display: none !important;
+}
+
+/* Rounded and tight course blocks for My Timetable and USTC Timetable */
+#schedule .timetable td.event-cell,
+#schedule #ustc-timetable td.event-cell {
+  padding: 0;
+  border-color: transparent;
+  border-radius: 12px;
+  background: transparent !important;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+#schedule .timetable td.event-cell:hover,
+#schedule #ustc-timetable td.event-cell:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+#schedule .timetable td.event-cell::before,
+#schedule #ustc-timetable td.event-cell::before {
+  display: none;
+}
+
+#schedule .timetable td.event-cell > .course-container,
+#schedule #ustc-timetable td.event-cell > .overlap-container {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  box-sizing: border-box;
+
+  padding: 10px 6px;
+
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--border) 72%, var(--accent-weak));
+  background: color-mix(in srgb, var(--accent-weak) 76%, var(--surface));
+  box-shadow: var(--shadow-xs);
+
+  overflow: hidden;
+}
+
+#schedule .timetable td.event-cell > .course-container::before,
+#schedule #ustc-timetable td.event-cell > .overlap-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 3px;
+  background: var(--accent);
+  opacity: 0.95;
+}
+
+#schedule .timetable td.event-cell:hover > .course-container,
+#schedule #ustc-timetable td.event-cell:hover > .overlap-container {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  box-shadow: var(--shadow-sm);
+}
+
+#schedule .timetable td.event-cell > .course-container > *,
+#schedule #ustc-timetable td.event-cell > .overlap-container > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 560px) {
