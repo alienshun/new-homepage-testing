@@ -1,0 +1,497 @@
+(function () {
+  'use strict';
+
+  const resources = window.SiteResources || {};
+  const loader = window.SiteResourceLoader || {};
+  const pageConfigs = resources.pages || {};
+  const navigation = resources.navigation || {};
+  const defaultPage = navigation.defaultPage || 'resume';
+  const warmupConfig = navigation.warmup || {};
+
+  const routes = window.BootstrapRoutes || {};
+  const warmup = window.BootstrapWarmup || {};
+  const coverInput = window.BootstrapCoverInput || {};
+
+  let coverHidden = false;
+  let currentPage = null;
+
+  routes.configure({
+    pageConfigs,
+    navigation,
+    defaultPage
+  });
+
+  warmup.configure({
+    pageConfigs,
+    loader,
+    warmupConfig,
+    defaultPage,
+    getCurrentPage() {
+      return currentPage;
+    }
+  });
+
+  function getPageElement(page) {
+    return routes.getPageElement(page);
+  }
+
+  function getPageContext(page, extra) {
+    return routes.getPageContext(page, extra);
+  }
+
+  function runPageInit(page) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.init === 'function') {
+      sitePages.init(page, getPageContext(page));
+      return;
+    }
+
+    if (page === 'schedule' && window.Schedule) {
+      if (typeof window.Schedule.initSchedulePage === 'function') {
+        window.Schedule.initSchedulePage();
+      }
+
+      if (typeof window.Schedule.initWeeksSelection === 'function') {
+        window.Schedule.initWeeksSelection();
+      }
+
+      if (typeof window.Schedule.initSemesterSelection === 'function') {
+        window.Schedule.initSemesterSelection();
+      }
+    }
+
+    if (
+      page === 'toolkit' &&
+      window.Toolkit &&
+      typeof window.Toolkit.initToolkitFilter === 'function'
+    ) {
+      window.Toolkit.initToolkitFilter();
+    }
+  }
+
+  function runPageEnter(page, previousPage) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.enter === 'function') {
+      sitePages.enter(page, getPageContext(page, {
+        previousPage
+      }));
+      return;
+    }
+
+    if (
+      page === 'schedule' &&
+      window.Schedule &&
+      typeof window.Schedule.setScheduleView === 'function'
+    ) {
+      window.Schedule.setScheduleView('my-timetable');
+    }
+  }
+
+  function runPageLeave(page, nextPage) {
+    const sitePages = window.SitePages;
+
+    if (sitePages && typeof sitePages.leave === 'function') {
+      sitePages.leave(page, getPageContext(page, {
+        nextPage
+      }));
+    }
+  }
+
+  function initLoadedPage(page) {
+    const pageId = routes.getPageDomId(page);
+    const pageEl = pageId ? document.getElementById(pageId) : null;
+
+    runPageInit(page);
+
+    if (
+      window.SiteLang &&
+      typeof window.SiteLang.applyLanguage === 'function'
+    ) {
+      const lang = window.SiteLang.getLang ? window.SiteLang.getLang() : 'en';
+      window.SiteLang.applyLanguage(lang);
+    }
+
+    if (
+      window.Theme &&
+      typeof window.Theme.init === 'function'
+    ) {
+      window.Theme.init();
+    }
+
+    if (
+      window.Clock &&
+      typeof window.Clock.updateClock === 'function'
+    ) {
+      window.Clock.updateClock();
+    }
+
+    if (
+      window.ResumeExpanders &&
+      typeof window.ResumeExpanders.init === 'function'
+    ) {
+      window.ResumeExpanders.init(pageEl || document);
+    }
+
+    if (
+      window.CustomCursorAPI &&
+      typeof window.CustomCursorAPI.refresh === 'function'
+    ) {
+      window.CustomCursorAPI.refresh(pageEl || document);
+    }
+  }
+
+  async function ensurePageAssets(page) {
+    if (!pageConfigs[page]) return false;
+
+    if (!loader || typeof loader.loadPage !== 'function') {
+      console.error('[Bootstrap] SiteResourceLoader.loadPage is not available.');
+      return false;
+    }
+
+    await loader.loadPage(page);
+    initLoadedPage(page);
+
+    return true;
+  }
+
+  function activatePage(targetPage, opts) {
+    const targetEl = getPageElement(targetPage);
+    if (!targetEl) return false;
+
+    const options = opts || {};
+    const previousPage = currentPage;
+    const restorePath = options.restoreScrollPath || window.location.pathname;
+    const nextScrollPath = (
+      options.updateHistory &&
+      routes.hasRouteForPage(targetPage)
+    )
+      ? routes.getRouteForPage(targetPage)
+      : restorePath;
+
+    if (previousPage && previousPage !== targetPage) {
+      routes.saveCurrentScrollPosition();
+      runPageLeave(previousPage, targetPage);
+    }
+
+    routes.hideAllPages();
+
+    targetEl.classList.add('visible');
+
+    currentPage = targetPage;
+    routes.setCurrentScrollPath(nextScrollPath);
+
+    if (options.restoreScroll) {
+      const restored = routes.restoreSavedScrollPosition(restorePath);
+
+      if (!restored && options.scrollBehavior !== 'none') {
+        routes.scrollTargetIntoView(routes.getPageDomId(targetPage), options.scrollBehavior);
+      }
+    } else if (options.scrollBehavior !== 'none') {
+      routes.scrollTargetIntoView(routes.getPageDomId(targetPage), options.scrollBehavior);
+    }
+
+    runPageEnter(targetPage, previousPage);
+
+    if (window.TopNav) {
+      window.TopNav.show();
+      window.TopNav.setActive(currentPage);
+    }
+
+    if (
+      options.updateHistory &&
+      routes.hasRouteForPage(currentPage)
+    ) {
+      routes.syncHistory(
+        routes.getRouteForPage(currentPage),
+        options.replaceHistory
+      );
+    }
+
+    warmup.startAfterFirstPageWarmup();
+
+    return true;
+  }
+
+  async function showPage(page, options) {
+    coverInput.stopCoverEnterHint();
+
+    const opts = Object.assign({
+      updateHistory: true,
+      replaceHistory: false,
+      instant: false,
+      scrollBehavior: 'smooth',
+      restoreScroll: false,
+      restoreScrollPath: null
+    }, options || {});
+
+    if (!pageConfigs[page]) return;
+
+    if (coverHidden && currentPage === page) {
+      if (
+        opts.updateHistory &&
+        routes.hasRouteForPage(page)
+      ) {
+        routes.syncHistory(
+          routes.getRouteForPage(page),
+          opts.replaceHistory
+        );
+      }
+
+      return;
+    }
+
+    const cover = document.getElementById('cover');
+    const loadPromise = ensurePageAssets(page);
+
+    if (coverHidden || opts.instant) {
+      const loaded = await loadPromise;
+      if (!loaded) return;
+
+      const target = getPageElement(page);
+      if (!cover || !target) return;
+
+      cover.classList.add('hidden');
+      cover.classList.remove('visible', 'leaving');
+      cover.style.display = 'none';
+
+      document.body.style.overflow = 'auto';
+
+      coverHidden = true;
+
+      activatePage(page, opts);
+      document.documentElement.classList.remove('route-entry');
+
+      return;
+    }
+
+    if (!cover) {
+      const loaded = await loadPromise;
+      if (!loaded) return;
+
+      activatePage(page, opts);
+
+      return;
+    }
+
+    cover.classList.add('leaving');
+    coverInput.hideCoverElements();
+
+    const results = await Promise.all([
+      loadPromise,
+      warmup.delay(1250)
+    ]);
+
+    const loaded = results[0];
+    if (!loaded) return;
+
+    const target = getPageElement(page);
+    if (!target) return;
+
+    cover.classList.add('hidden');
+    cover.classList.remove('visible', 'leaving');
+    cover.style.display = 'none';
+
+    document.body.style.overflow = 'auto';
+
+    coverHidden = true;
+
+    activatePage(page, opts);
+    document.documentElement.classList.remove('route-entry');
+  }
+
+  function backToCover(options) {
+    const opts = Object.assign({
+      updateHistory: true,
+      replaceHistory: false,
+      instant: false
+    }, options || {});
+
+    const cover = document.getElementById('cover');
+    if (!cover) return;
+
+    if (currentPage) {
+      routes.saveCurrentScrollPosition();
+      runPageLeave(currentPage, null);
+    }
+
+    coverHidden = false;
+    currentPage = null;
+
+    if (window.TopNav) {
+      window.TopNav.hide();
+      window.TopNav.setActive('');
+    }
+
+    cover.style.display = 'flex';
+    cover.classList.remove('hidden', 'leaving');
+
+    routes.hideAllPages();
+
+    [
+      'resume-back-btn',
+      'social-back-btn',
+      'toolkit-back-btn',
+      'schedule-back-btn'
+    ].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove('visible');
+    });
+
+    window.scrollTo(0, 0);
+    document.body.style.overflow = 'hidden';
+
+    if (opts.updateHistory) {
+      routes.syncHistory(
+        routes.getCoverRoute(),
+        opts.replaceHistory
+      );
+    }
+
+    if (opts.instant) {
+      cover.classList.add('visible');
+      coverInput.showCoverElements();
+      warmup.startAfterCoverWarmup();
+
+      return;
+    }
+
+    setTimeout(() => {
+      cover.classList.add('visible');
+      coverInput.showCoverElements();
+      warmup.startAfterCoverWarmup();
+    }, 100);
+  }
+
+  async function applyRouteFromLocation(options) {
+    const page = routes.getPageFromPath(window.location.pathname);
+
+    if (page) {
+      await showPage(page, Object.assign({
+        updateHistory: false,
+        instant: true,
+        scrollBehavior: 'auto',
+        restoreScroll: true,
+        restoreScrollPath: window.location.pathname
+      }, options || {}));
+
+      return;
+    }
+
+    backToCover(Object.assign({
+      updateHistory: false,
+      instant: true
+    }, options || {}));
+  }
+
+  async function bootDOMContentLoaded() {
+    if (
+      window.Theme &&
+      typeof window.Theme.init === 'function'
+    ) {
+      window.Theme.init();
+    }
+
+    if (
+      window.TopNav &&
+      typeof window.TopNav.init === 'function'
+    ) {
+      window.TopNav.init(
+        showPage,
+        backToCover,
+        warmup.warmPageByIntent
+      );
+    }
+
+    if (
+      window.Clock &&
+      typeof window.Clock.initToggle === 'function'
+    ) {
+      window.Clock.initToggle();
+    }
+
+    const initialPage = routes.getPageFromPath(window.location.pathname);
+
+    if (initialPage) {
+      await applyRouteFromLocation({
+        updateHistory: false,
+        instant: true,
+        scrollBehavior: 'auto',
+        restoreScroll: true,
+        restoreScrollPath: window.location.pathname
+      });
+    }
+  }
+
+  function bootOnLoad() {
+    const initialPage = routes.getPageFromPath(window.location.pathname);
+
+    if (!initialPage) {
+      if (window.TopNav) {
+        window.TopNav.hide();
+      }
+
+      document.body.style.overflow = 'hidden';
+
+      const cover = document.getElementById('cover');
+
+      if (cover) {
+        cover.classList.add('visible');
+        coverInput.showCoverElements();
+        warmup.startAfterCoverWarmup();
+      }
+    }
+
+    coverInput.bindCoverArrowAndScroll();
+
+    if (
+      window.Clock &&
+      typeof window.Clock.start === 'function'
+    ) {
+      window.Clock.start();
+    }
+  }
+
+  coverInput.configure({
+    defaultPage,
+    showPage,
+    warmPage(page, reason) {
+      return warmup.warmPage(page, reason);
+    },
+    isCoverHidden() {
+      return coverHidden;
+    }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootDOMContentLoaded);
+  } else {
+    bootDOMContentLoaded();
+  }
+
+  window.addEventListener('popstate', () => {
+    routes.saveCurrentScrollPosition();
+
+    applyRouteFromLocation({
+      restoreScroll: true,
+      restoreScrollPath: window.location.pathname
+    });
+  });
+
+  window.addEventListener('load', bootOnLoad);
+
+  window.Bootstrap = {
+    showPage,
+    backToCover,
+    applyRouteFromLocation,
+    ensurePageAssets,
+    activatePage,
+    getCurrentPage() {
+      return currentPage;
+    },
+    isCoverHidden() {
+      return coverHidden;
+    }
+  };
+})();
