@@ -209,7 +209,7 @@ body[data-lang="zh"] .am-card-meta {
 .am-card-summary {
   margin: 4px 0 0;
 
-  font-family: inherit;
+  font-family: var(--font-serif);
   font-size: 0.98rem;
   line-height: 1.72;
   color: var(--text);
@@ -230,7 +230,7 @@ body[data-lang="zh"] .am-card-meta {
   margin-top: auto;
   padding: 2px 2px 5px;
 
-  font-family: inherit;
+  font-family: var(--font-serif);
   font-size: 0.98rem;
   font-style: italic;
   font-weight: 500;
