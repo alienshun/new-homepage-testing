@@ -222,7 +222,8 @@
         ],
         scripts: [
           A + 'js/Content/EN/about/resume_EN.js',
-          A + 'js/Content/ZH/about/resume_ZH.js'
+          A + 'js/Content/ZH/about/resume_ZH.js',
+          A + 'js/Functions/about/AboutResumeRender.js'
         ]
       },
 
