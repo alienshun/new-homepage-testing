@@ -294,14 +294,13 @@
           A + 'js/Content/EN/life/activities_moments_EN.js',
           A + 'js/Content/ZH/life/activities_moments_ZH.js',
 
-          A + 'js/Content/EN/life/meditations_EN.js',
-          A + 'js/Content/ZH/life/meditations_ZH.js',
-
           A + 'js/Functions/life/ActivitiesMomentsUtils.js',
           A + 'js/Functions/life/ActivitiesMomentsIndex.js',
           A + 'js/Functions/life/ActivitiesMomentsRender.js',
           A + 'js/Functions/life/ActivitiesMomentsMedia.js',
           A + 'js/Functions/life/ActivitiesMoments.js',
+          
+          A + 'js/Functions/life/LifeMeditations.js',
           A + 'js/Functions/life/LifeRoutes.js'
         ],
         warmupScripts: [
