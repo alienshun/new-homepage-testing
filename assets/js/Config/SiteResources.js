@@ -210,7 +210,10 @@
       ],
 
       bootstrap: [
-        A + 'js/Functions/Bootstrap.js'
+        A + 'js/Functions/bootstrap/BootstrapRoutes.js',
+        A + 'js/Functions/bootstrap/BootstrapWarmup.js',
+        A + 'js/Functions/bootstrap/BootstrapCoverInput.js',
+        A + 'js/Functions/bootstrap/Bootstrap.js'
       ],
 
       optional: {
