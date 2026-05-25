@@ -68,6 +68,19 @@
     ]
   };
 
+  const SCHEDULE_STYLES = [
+    A + 'css/schedule/schedule-shell.css',
+    A + 'css/schedule/schedule-calendar.css',
+    A + 'css/schedule/schedule-general-timetable.css',
+    A + 'css/schedule/schedule-modal.css',
+    A + 'css/schedule/schedule-ustc-base.css',
+    A + 'css/schedule/schedule-course-cells.css',
+    A + 'css/schedule/schedule-semester-controls.css',
+
+    A + 'css/schedule/schedule-export.css',
+    A + 'css/schedule/schedule-week-selector.css'
+  ];
+
   window.SiteResources = {
     site: {
       title: 'Joker Chen',
@@ -217,9 +230,7 @@
         mountId: 'mount-schedule',
         styles: [
           ...FULL_CALENDAR.styles,
-          A + 'css/schedule/schedule.css',
-          A + 'css/schedule/schedule-export.css',
-          A + 'css/schedule/schedule-week-selector.css'
+          ...SCHEDULE_STYLES
         ],
         scripts: [
           ...FULL_CALENDAR.scripts,
