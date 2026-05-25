@@ -242,6 +242,17 @@
     ));
   }
 
+  function getActiveMySemester() {
+    return document.querySelector('#my-timetable-section .semester-timetable-container.active');
+  }
+
+  function removeSyntheticMyCells(root) {
+    const scope = root || document;
+    scope.querySelectorAll('td[data-week-selector-synthetic="true"]').forEach(function (cell) {
+      cell.remove();
+    });
+  }
+
   function storeMyCellState(cell) {
     if (!cell || !cell.dataset) return;
 
@@ -251,6 +262,10 @@
 
     if (cell.dataset.weekSelectorOriginalCursor == null) {
       cell.dataset.weekSelectorOriginalCursor = cell.style.cursor || '';
+    }
+
+    if (cell.dataset.weekSelectorOriginalRowSpan == null) {
+      cell.dataset.weekSelectorOriginalRowSpan = String(cell.rowSpan || 1);
     }
   }
 
@@ -265,7 +280,15 @@
       cell.style.cursor = cell.dataset.weekSelectorOriginalCursor;
     }
 
+    if (cell.dataset.weekSelectorOriginalRowSpan != null) {
+      const originalRowSpan = parseInt(cell.dataset.weekSelectorOriginalRowSpan, 10);
+      if (Number.isFinite(originalRowSpan) && originalRowSpan > 0) {
+        cell.rowSpan = originalRowSpan;
+      }
+    }
+
     cell.removeAttribute('data-week-selector-empty');
+    cell.removeAttribute('data-week-selector-split-span');
   }
 
   function updateMyCellVisibility(cell) {
@@ -286,12 +309,102 @@
       cell.classList.add('empty-cell');
       cell.style.cursor = 'default';
       cell.dataset.weekSelectorEmpty = 'true';
+      cell.dataset.weekSelectorSplitSpan = cell.dataset.weekSelectorOriginalRowSpan || String(cell.rowSpan || 1);
     }
+  }
+
+  function findInsertionReferenceByLeft(row, left) {
+    const cells = Array.from(row.children).filter(function (cell) {
+      return /^(TD|TH)$/i.test(cell.tagName || '') &&
+        !(cell.dataset && cell.dataset.weekSelectorSynthetic === 'true');
+    });
+
+    for (const cell of cells) {
+      if (!cell.getBoundingClientRect) continue;
+      const rect = cell.getBoundingClientRect();
+
+      if (rect.left > left + 1) {
+        return cell;
+      }
+    }
+
+    return null;
+  }
+
+  function splitMyEmptyRowspanCells(cells) {
+    const targets = Array.from(cells).filter(function (cell) {
+      const span = parseInt(cell.dataset.weekSelectorSplitSpan || cell.rowSpan || 1, 10);
+      return cell.dataset.weekSelectorEmpty === 'true' &&
+        Number.isFinite(span) &&
+        span > 1;
+    });
+
+    if (!targets.length) return;
+
+    const insertPlans = [];
+
+    targets.forEach(function (cell) {
+      const span = parseInt(cell.dataset.weekSelectorSplitSpan || cell.rowSpan || 1, 10);
+      const baseRow = cell.parentElement;
+
+      if (!baseRow || !Number.isFinite(span) || span <= 1) return;
+
+      const rect = cell.getBoundingClientRect ? cell.getBoundingClientRect() : null;
+      const left = rect ? rect.left : 0;
+
+      let row = baseRow;
+
+      for (let offset = 1; offset < span; offset += 1) {
+        row = row ? row.nextElementSibling : null;
+        if (!row) break;
+
+        insertPlans.push({
+          row: row,
+          before: rect ? findInsertionReferenceByLeft(row, left) : null,
+          left: left
+        });
+      }
+
+      cell.rowSpan = 1;
+    });
+
+    insertPlans.sort(function (a, b) {
+      if (a.row === b.row) {
+        return a.left - b.left;
+      }
+
+      if (typeof Node !== 'undefined') {
+        return (a.row.compareDocumentPosition(b.row) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+      }
+
+      return 0;
+    });
+
+    insertPlans.forEach(function (plan) {
+      const syntheticCell = document.createElement('td');
+
+      syntheticCell.className = 'empty-cell week-selector-synthetic-cell';
+      syntheticCell.dataset.weekSelectorSynthetic = 'true';
+      syntheticCell.dataset.weekSelectorEmpty = 'true';
+      syntheticCell.setAttribute('aria-hidden', 'true');
+
+      const before = plan.before && plan.before.parentNode === plan.row
+        ? plan.before
+        : null;
+
+      plan.row.insertBefore(syntheticCell, before);
+    });
   }
 
   function applyMyWeekSelection() {
     const selected = state.my || 'all';
     const lang = getCurrentLangForWeekSelector();
+    const activeSemester = getActiveMySemester();
+
+    if (activeSemester) {
+      removeSyntheticMyCells(activeSemester);
+    }
+
     const blocks = getMyCourseBlocks();
 
     if (!blocks.length) return;
@@ -327,6 +440,7 @@
     });
 
     cells.forEach(updateMyCellVisibility);
+    splitMyEmptyRowspanCells(cells);
   }
 
   function classMatchesSelectedWeek(cls, selectedWeek) {
