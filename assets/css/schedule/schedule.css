@@ -966,6 +966,149 @@
   border-top: 1px dashed var(--border);
 }
 
+/* =========================================================
+   Course cells for My Timetable and USTC Timetable
+   ========================================================= */
+
+#schedule .timetable,
+#schedule #ustc-timetable {
+  table-layout: fixed;
+}
+
+#schedule .timetable td.event-cell,
+#schedule #ustc-timetable td.event-cell {
+  position: relative;
+
+  padding: 0 !important;
+  vertical-align: middle;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 15px;
+
+  background: color-mix(in srgb, var(--accent-weak) 76%, var(--surface)) !important;
+  background-clip: padding-box;
+
+  box-shadow: none !important;
+  transform: none !important;
+  overflow: hidden;
+
+  transition:
+    background-color 0.18s ease,
+    border-color 0.18s ease;
+}
+
+#schedule .timetable td.event-cell:hover,
+#schedule #ustc-timetable td.event-cell:hover {
+  background: color-mix(in srgb, var(--accent-weak) 86%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border)) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+#schedule .timetable td.event-cell::before,
+#schedule #ustc-timetable td.event-cell::before {
+  display: none !important;
+}
+
+#schedule .timetable td.event-cell > .course-container,
+#schedule .timetable td.event-cell > .overlap-container,
+#schedule #ustc-timetable td.event-cell > .overlap-container {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+
+  padding: 10px 7px;
+
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  overflow: visible;
+}
+
+#schedule .timetable td.event-cell > .course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+}
+
+#schedule .timetable td.event-cell > .overlap-container,
+#schedule #ustc-timetable td.event-cell > .overlap-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: stretch;
+
+  text-align: center;
+}
+
+#schedule .timetable td.event-cell > .overlap-container > .overlap-course,
+#schedule #ustc-timetable td.event-cell > .overlap-container > .overlap-course {
+  flex: 1 1 0;
+  min-height: 0;
+  box-sizing: border-box;
+
+  padding: 7px 4px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  overflow: visible;
+}
+
+#schedule .timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course,
+#schedule #ustc-timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course {
+  border-top: 1px dashed color-mix(in srgb, var(--border) 78%, transparent) !important;
+}
+
+#schedule .timetable td.event-cell .course-number,
+#schedule .timetable td.event-cell .course-name,
+#schedule .timetable td.event-cell .instructor,
+#schedule .timetable td.event-cell .location,
+#schedule .timetable td.event-cell .weeks,
+#schedule #ustc-timetable td.event-cell .course-number,
+#schedule #ustc-timetable td.event-cell .course-name,
+#schedule #ustc-timetable td.event-cell .instructor,
+#schedule #ustc-timetable td.event-cell .location,
+#schedule #ustc-timetable td.event-cell .weeks {
+  max-width: 100%;
+
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: break-word;
+  word-break: normal;
+
+  line-height: 1.24;
+}
+
+#schedule .timetable td.event-cell .course-name,
+#schedule #ustc-timetable td.event-cell .course-name {
+  font-size: 0.88em;
+}
+
+#schedule .timetable td.event-cell .course-number,
+#schedule #ustc-timetable td.event-cell .course-number {
+  font-size: 0.74em;
+}
+
+#schedule .timetable td.event-cell .instructor,
+#schedule .timetable td.event-cell .location,
+#schedule .timetable td.event-cell .weeks,
+#schedule #ustc-timetable td.event-cell .instructor,
+#schedule #ustc-timetable td.event-cell .location,
+#schedule #ustc-timetable td.event-cell .weeks {
+  font-size: 0.78em;
+}
+
 .weeks-container {
   margin-top: 10px;
   margin-bottom: 15px;
