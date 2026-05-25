@@ -1,7 +1,7 @@
 (function () {
-  const mount = document.getElementById("mount-resume") || document.body;
-  mount.insertAdjacentHTML("beforeend", `
-  <div id="resume">
+  'use strict';
+
+  window.RESUME_EN_INNER_HTML = `
     <button id="toggle-btn">
       <span><i class="fas fa-sun"></i></span>
     </button>
@@ -40,7 +40,7 @@
           <span>Sep. 2023 -- Jul. 2027 (Expected)</span>
         </div>
 
-        <div class="subsubheading" style="display: flex; justify-content: space-between;">
+        <div class="subsubheading resume-degree-line">
           <span>
             B.Sc. in Mathematics; B.Eng. in Computer Science and Technology
             <button class="expander" type="button" data-expand-target="exp-edu-bg" data-expand-key="edu-bg" aria-expanded="false" aria-label="Expand details">
@@ -118,7 +118,6 @@
           <tr class="expand-row" id="exp-mcm-hm" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <!-- CHANGED: click the MCM image to download the PDF -->
                 <a class="expand-item" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">
                   <img src="./assets/images/about/Honorable_Mention.jpg" alt="Honorable Mention, MCM">
                 </a>
@@ -137,7 +136,7 @@
         </div>
         <div class="subsubheading">
           <div>Advisors:</div>
-          <div style="margin-left: 20px;">
+          <div class="resume-advisor-list">
             <div><strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong)</div>
             <div><strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
           </div>
@@ -154,7 +153,7 @@
         </div>
         <div class="subsubheading">
           <div>Advisors:</div>
-          <div style="margin-left: 20px;">
+          <div class="resume-advisor-list">
             <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, University of Science and Technology of China)</div>
             <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, University of Science and Technology of China)</div>
           </div>
@@ -394,6 +393,5 @@
     <a href="#" class="back-btn" id="resume-back-btn">
       <i class="fas fa-arrow-left"></i>
     </a>
-  </div>
-`);
+  `;
 })();
