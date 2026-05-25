@@ -1,0 +1,254 @@
+// ============ i18n hooks (delegated to Translate.js) ============
+function getCurrentLang() {
+  if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
+    return window.SiteLang.getLang();
+  }
+
+  const s = String((document.body && document.body.dataset && document.body.dataset.lang) || 'en').toLowerCase();
+  return (s === 'zh' || s.startsWith('zh')) ? 'zh' : 'en';
+}
+
+function getFullCalendarLocale(lang) {
+  if (window.SiteLang && typeof window.SiteLang.getFullCalendarLocale === 'function') {
+    return window.SiteLang.getFullCalendarLocale(lang);
+  }
+
+  const l = String(lang || '').toLowerCase();
+  return (l === 'zh' || l.startsWith('zh')) ? 'zh-cn' : 'en';
+}
+
+function t(key) {
+  if (window.SiteI18N && typeof window.SiteI18N.t === 'function') {
+    return window.SiteI18N.t('schedule', key);
+  }
+
+  return key;
+}
+// ===============================================================
+
+let schedulePageInitialized = false;
+
+function dispatchScheduleViewChange(view) {
+  try {
+    if (typeof CustomEvent === 'function') {
+      window.dispatchEvent(new CustomEvent('schedule:viewchange', {
+        detail: { view }
+      }));
+    } else {
+      const evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent('schedule:viewchange', false, false, { view });
+      window.dispatchEvent(evt);
+    }
+  } catch (e) { }
+}
+
+function setScheduleView(view) {
+  const targetView = view || 'my-timetable';
+
+  const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
+  const calendarSection = document.getElementById('calendar-section');
+  const timetableSection = document.getElementById('timetable-section');
+  const ustcTimetableSection = document.getElementById('ustc-timetable-section');
+  const myTimetableSection = document.getElementById('my-timetable-section');
+
+  viewSwitchers.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.view === targetView);
+  });
+
+  [calendarSection, timetableSection, ustcTimetableSection, myTimetableSection].forEach(sec => {
+    if (sec) sec.classList.remove('active');
+  });
+
+  if (targetView === 'calendar') {
+    if (calendarSection) calendarSection.classList.add('active');
+    setTimeout(() => {
+      if (typeof ensureCalendarRendered === 'function') {
+        ensureCalendarRendered('dayGridMonth');
+      }
+    }, 0);
+  } else if (targetView === 'timetable') {
+    if (timetableSection) timetableSection.classList.add('active');
+    if (typeof updateTimetable === 'function') {
+      updateTimetable();
+    }
+  } else if (targetView === 'ustc-timetable') {
+    if (ustcTimetableSection) ustcTimetableSection.classList.add('active');
+    if (typeof renderUstcTimetable === 'function') {
+      renderUstcTimetable();
+    }
+  } else {
+    if (myTimetableSection) myTimetableSection.classList.add('active');
+  }
+
+  dispatchScheduleViewChange(targetView);
+}
+
+function bindOnce(element, eventName, handler, flag) {
+  if (!element || !eventName || typeof handler !== 'function') return;
+
+  const key = flag || ('bound' + eventName);
+
+  if (element.dataset && element.dataset[key] === 'true') {
+    return;
+  }
+
+  element.addEventListener(eventName, handler);
+
+  if (element.dataset) {
+    element.dataset[key] = 'true';
+  }
+}
+
+function initSchedulePage() {
+  if (typeof initCalendar === 'function') {
+    initCalendar();
+  }
+
+  if (typeof initTimetable === 'function') {
+    initTimetable();
+  }
+
+  const viewSwitchers = document.querySelectorAll('.schedule-switch-btn');
+
+  if (!schedulePageInitialized) {
+    setScheduleView('my-timetable');
+  }
+
+  viewSwitchers.forEach(btn => {
+    bindOnce(btn, 'click', () => {
+      const view = btn.dataset.view;
+      setScheduleView(view);
+    }, 'scheduleViewBound');
+  });
+
+  const eventModal = document.getElementById('event-modal');
+  const eventModalClose = document.getElementById('event-modal-close');
+  const eventCancelBtn = document.getElementById('event-cancel-btn');
+  const eventForm = document.getElementById('event-form');
+
+  const generalEventModal = document.getElementById('general-event-modal');
+  const generalEventModalClose = document.getElementById('general-event-modal-close');
+  const generalEventCancelBtn = document.getElementById('general-event-cancel-btn');
+  const generalEventForm = document.getElementById('general-event-form');
+
+  bindOnce(document.getElementById('add-calendar-event'), 'click', () => {
+    if (typeof openGeneralEventModal === 'function') {
+      openGeneralEventModal('calendar');
+    }
+  }, 'scheduleAddCalendarBound');
+
+  bindOnce(document.getElementById('add-timetable-event'), 'click', () => {
+    if (typeof openGeneralEventModal === 'function') {
+      openGeneralEventModal('timetable');
+    }
+  }, 'scheduleAddTimetableBound');
+
+  bindOnce(document.getElementById('add-ustc-event'), 'click', () => {
+    if (typeof openUstcClassModal === 'function') {
+      openUstcClassModal();
+    }
+  }, 'scheduleAddUstcBound');
+
+  bindOnce(eventModalClose, 'click', () => {
+    if (eventModal) eventModal.style.display = 'none';
+  }, 'scheduleCloseEventModalBound');
+
+  bindOnce(eventCancelBtn, 'click', () => {
+    if (eventModal) eventModal.style.display = 'none';
+  }, 'scheduleCancelEventModalBound');
+
+  bindOnce(generalEventModalClose, 'click', () => {
+    if (generalEventModal) generalEventModal.style.display = 'none';
+  }, 'scheduleCloseGeneralEventModalBound');
+
+  bindOnce(generalEventCancelBtn, 'click', () => {
+    if (generalEventModal) generalEventModal.style.display = 'none';
+  }, 'scheduleCancelGeneralEventModalBound');
+
+  if (!schedulePageInitialized) {
+    window.addEventListener('click', (e) => {
+      if (e.target === eventModal) {
+        eventModal.style.display = 'none';
+      }
+
+      if (e.target === generalEventModal) {
+        generalEventModal.style.display = 'none';
+      }
+    });
+  }
+
+  bindOnce(eventForm, 'submit', (e) => {
+    e.preventDefault();
+
+    if (typeof saveUstcClass === 'function') {
+      saveUstcClass();
+    }
+  }, 'scheduleEventFormBound');
+
+  bindOnce(generalEventForm, 'submit', (e) => {
+    e.preventDefault();
+
+    if (typeof saveGeneralEvent === 'function') {
+      saveGeneralEvent();
+    }
+  }, 'scheduleGeneralEventFormBound');
+
+  bindOnce(document.getElementById('event-delete-btn'), 'click', () => {
+    if (typeof deleteUstcClass === 'function') {
+      deleteUstcClass();
+    }
+  }, 'scheduleDeleteUstcBound');
+
+  bindOnce(document.getElementById('general-event-delete-btn'), 'click', () => {
+    if (typeof deleteGeneralEvent === 'function') {
+      deleteGeneralEvent();
+    }
+  }, 'scheduleDeleteGeneralEventBound');
+
+  bindOnce(document.getElementById('prev-week-btn'), 'click', () => {
+    if (typeof goToPreviousWeek === 'function') {
+      goToPreviousWeek();
+    }
+  }, 'schedulePrevWeekBound');
+
+  bindOnce(document.getElementById('next-week-btn'), 'click', () => {
+    if (typeof goToNextWeek === 'function') {
+      goToNextWeek();
+    }
+  }, 'scheduleNextWeekBound');
+
+  schedulePageInitialized = true;
+}
+
+window.addEventListener('site:langchange', function (e) {
+  if (e && e.detail && e.detail.scheduleExportOnly === true) {
+    return;
+  }
+
+  const lang = (window.SiteLang && typeof window.SiteLang.normalizeLang === 'function')
+    ? window.SiteLang.normalizeLang(e && e.detail && e.detail.lang)
+    : getCurrentLang();
+
+  if (typeof setCalendarLocale === 'function') {
+    setCalendarLocale(lang);
+  }
+
+  try {
+    if (typeof updateTimetable === 'function') updateTimetable();
+  } catch (err) { }
+
+  try {
+    if (typeof updateWeekDisplay === 'function') updateWeekDisplay();
+  } catch (err) { }
+
+  try {
+    if (typeof renderUstcClassesList === 'function') renderUstcClassesList();
+  } catch (err) { }
+});
+
+window.Schedule = window.Schedule || {};
+window.Schedule.setScheduleView = setScheduleView;
+window.Schedule.initSchedulePage = initSchedulePage;
+window.Schedule.initWeeksSelection = (typeof initWeeksSelection === 'function') ? initWeeksSelection : undefined;
+window.Schedule.initSemesterSelection = function () {};
+window.Schedule.updateCalendarTheme = (typeof updateCalendarTheme === 'function') ? updateCalendarTheme : function () {};
