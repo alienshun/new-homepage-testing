@@ -1,4 +1,6 @@
 (function () {
+  'use strict';
+
   window.RESUME_ZH_INNER_HTML = `
     <button id="toggle-btn">
       <span><i class="fas fa-sun"></i></span>
@@ -38,7 +40,7 @@
           <span>2023年9月 -- 2027年7月 (预计)</span>
         </div>
 
-        <div class="subsubheading" style="display: flex; justify-content: space-between;">
+        <div class="subsubheading resume-degree-line">
           <span>
             数学理学学士; 计算机科学与技术工学学士
             <button class="expander" type="button" data-expand-target="exp-edu-bg-zh" data-expand-key="edu-bg" aria-expanded="false" aria-label="展开详情">
@@ -116,7 +118,6 @@
           <tr class="expand-row" id="exp-mcm-hm-zh" aria-hidden="true" style="display:none;">
             <td colspan="2">
               <div class="expand-content">
-                <!-- CHANGED: 点击 MCM 图片下载 PDF -->
                 <a class="expand-item" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">
                   <img src="./assets/images/about/Honorable_Mention.jpg" alt="MCM Honorable Mention">
                 </a>
@@ -135,7 +136,7 @@
         </div>
         <div class="subsubheading">
           <div>导师: </div>
-          <div style="margin-left: 20px;">
+          <div class="resume-advisor-list">
             <div><strong>虞义敏教授</strong>(香港城市大学 决策分析与运营学系)</div>
             <div><strong>汪倩教授</strong>(香港岭南大学 市场营销与国际商务学系)</div>
           </div>
@@ -152,7 +153,7 @@
         </div>
         <div class="subsubheading">
           <div>导师: </div>
-          <div style="margin-left: 20px;">
+          <div class="resume-advisor-list">
             <div><strong>沈晓蓓教授</strong>(中国科学技术大学 管理科学系)</div>
             <div><strong>吕建成博士</strong>(中国科学技术大学 管理科学系)</div>
           </div>
