@@ -104,16 +104,16 @@
   display: none !important;
 }
 
-/* Keep timetable layout fast */
+/* Keep timetable layout fast and stable */
 #schedule .timetable,
 #schedule #ustc-timetable {
   table-layout: fixed;
 }
 
-/* Restore normal grid lines and avoid expensive table-cell auto reflow */
+/* Keep normal table grid lines; do not trigger auto-height table reflow */
 #schedule .timetable td.event-cell,
 #schedule #ustc-timetable td.event-cell {
-  padding: 2px !important;
+  padding: 3px !important;
 
   border: 1px solid var(--border) !important;
   border-radius: 0;
@@ -135,26 +135,34 @@
   display: none !important;
 }
 
-/* Rounded inner course blocks without removing the table's own separators */
+/* Rounded inner course blocks */
 #schedule .timetable td.event-cell > .course-container,
 #schedule .timetable td.event-cell > .overlap-container,
 #schedule #ustc-timetable td.event-cell > .overlap-container {
   position: relative;
 
   width: 100%;
+  height: 100% !important;
   min-height: 100%;
   box-sizing: border-box;
 
   padding: 10px 6px 8px;
 
-  border-radius: 10px;
+  border-radius: 14px;
   background: color-mix(in srgb, var(--accent-weak) 76%, var(--surface));
   box-shadow: none;
 
   overflow: visible;
-  contain: paint;
 }
 
+#schedule .timetable td.event-cell > .course-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Top accent, clipped only by the rounded course block itself */
 #schedule .timetable td.event-cell > .course-container::before,
 #schedule .timetable td.event-cell > .overlap-container::before,
 #schedule #ustc-timetable td.event-cell > .overlap-container::before {
@@ -165,8 +173,8 @@
   right: 0;
 
   height: 3px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
 
   background: var(--accent);
   opacity: 0.9;
@@ -177,6 +185,14 @@
 #schedule .timetable td.event-cell:hover > .overlap-container,
 #schedule #ustc-timetable td.event-cell:hover > .overlap-container {
   background: color-mix(in srgb, var(--accent-weak) 86%, var(--surface));
+}
+
+/* Keep content above the top accent */
+#schedule .timetable td.event-cell > .course-container > *,
+#schedule .timetable td.event-cell > .overlap-container > *,
+#schedule #ustc-timetable td.event-cell > .overlap-container > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Restore subtle dividers between overlapped courses */
@@ -194,7 +210,7 @@
   border-top: 1px dashed color-mix(in srgb, var(--border) 78%, transparent) !important;
 }
 
-/* Reduce clipping without forcing every table cell into expensive auto-height layout */
+/* Reduce clipping without forcing table-cell auto reflow */
 #schedule .timetable td.event-cell .course-number,
 #schedule .timetable td.event-cell .course-name,
 #schedule .timetable td.event-cell .instructor,
