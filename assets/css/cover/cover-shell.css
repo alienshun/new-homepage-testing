@@ -1,0 +1,181 @@
+/* =========================================================
+   Cover - Shell and background layers
+   ========================================================= */
+
+#cover {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  height: var(--app-height, 100dvh);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: calc(env(safe-area-inset-top, 0px) + 16px) 16px calc(env(safe-area-inset-bottom, 0px) + 76px);
+  overscroll-behavior: none;
+  touch-action: pan-y;
+  opacity: 0;
+  overflow: hidden;
+  background: #06080f;
+  transition: opacity 1.5s ease-in-out;
+  z-index: 100;
+  isolation: isolate;
+
+  --cover-overscan: 36px;
+  --cover-bg-x: 0px;
+  --cover-bg-y: 0px;
+  --cover-fg-x: 0px;
+  --cover-fg-y: 0px;
+  --cover-avatar-x: var(--cover-fg-x);
+  --cover-avatar-y: var(--cover-fg-y);
+  --cover-name-x: var(--cover-fg-x);
+  --cover-name-y: var(--cover-fg-y);
+  --cover-slogan-x: var(--cover-fg-x);
+  --cover-slogan-y: var(--cover-fg-y);
+  --cover-cue-x: 0px;
+  --cover-cue-y: 0px;
+  --cover-light-x: 50%;
+  --cover-light-y: 44%;
+}
+
+.cover-bg {
+  position: absolute;
+  inset: calc(-1 * var(--cover-overscan));
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  pointer-events: none;
+  will-change: opacity, transform, filter, translate;
+  translate: var(--cover-bg-x) var(--cover-bg-y);
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.cover-bg-base {
+  z-index: 0;
+  opacity: 0.34;
+  transform: scale(1.065);
+  filter: blur(5px) brightness(0.72) saturate(0.92);
+  transition:
+    opacity 1.35s ease,
+    transform 3.0s ease,
+    filter 1.35s ease;
+}
+
+.cover-bg-reveal {
+  z-index: 1;
+  opacity: 0;
+  transform: scale(1.12);
+  filter: blur(7px) brightness(0.82) saturate(0.96);
+  transition:
+    opacity 1.45s ease,
+    transform 6.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.65s ease;
+}
+
+.cover-bg-reveal::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at var(--cover-light-x) var(--cover-light-y),
+      rgba(255,255,255,0.105) 0%,
+      rgba(210,225,255,0.055) 24%,
+      rgba(0,0,0,0.0) 52%
+    );
+  mix-blend-mode: screen;
+  transition: opacity 1.15s ease;
+}
+
+#cover.background-ready:not(.leaving) .cover-bg-reveal {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+}
+
+#cover.background-ready:not(.leaving) .cover-bg-reveal::after {
+  opacity: 0.72;
+}
+
+#cover.background-ready:not(.leaving) .cover-bg-base {
+  opacity: 0;
+  transform: scale(1);
+  filter: none;
+}
+
+#cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    radial-gradient(circle at center, rgba(0,0,0,0.08), rgba(0,0,0,0.30)),
+    linear-gradient(180deg, rgba(0,0,0,0.14), rgba(0,0,0,0.30));
+  transition: opacity 1.2s ease;
+}
+
+#cover.background-ready:not(.leaving)::before {
+  opacity: 0;
+}
+
+#cover::after {
+  content: "";
+  position: absolute;
+  inset: -2px 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(18px);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 7, 12, 0.08) 0%,
+      rgba(5, 7, 12, 0.70) 58%,
+      rgba(5, 7, 12, 0.96) 100%
+    );
+  transition:
+    opacity 1.05s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover.leaving {
+  pointer-events: none;
+}
+
+#cover.leaving::before {
+  opacity: 1;
+}
+
+#cover.leaving::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#cover.leaving .cover-bg-base {
+  opacity: 0.08;
+  transform: scale(1.055);
+  filter: blur(7px) brightness(0.48) saturate(1);
+}
+
+#cover.leaving .cover-bg-reveal {
+  opacity: 1;
+  transform: scale(1.065);
+  filter: blur(2px) brightness(0.62) saturate(1.03);
+}
+
+#cover.visible {
+  opacity: 1;
+}
+
+#cover.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
