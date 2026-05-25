@@ -139,7 +139,7 @@
    Important:
    - td.event-cell keeps the normal table border.
    - .course-container / .overlap-container draws the rounded course block.
-   - Do not draw custom borders on td with box-shadow or ::after.
+   - Hover floating is applied only to the inner course block.
    ========================================================= */
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell,
@@ -156,7 +156,7 @@
   background-clip: border-box;
 
   cursor: pointer;
-  overflow: hidden;
+  overflow: visible;
 
   box-shadow: none !important;
   transform: none !important;
@@ -169,6 +169,7 @@
 
   box-shadow: none !important;
   transform: none !important;
+  z-index: 2;
 }
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell::before,
@@ -194,7 +195,8 @@
   padding: 10px 7px;
 
   border: none;
-  border-radius: 14px;
+  border-radius: 18px;
+  clip-path: inset(0 round 18px);
 
   background:
     linear-gradient(
@@ -208,6 +210,12 @@
     inset 0 -8px 16px rgba(0, 0, 0, 0.035);
 
   overflow: hidden;
+
+  transform: translateY(0);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 /* Thin accent line belongs to the course block, not to the table cell */
@@ -225,8 +233,8 @@
 
   background: var(--accent);
 
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
 
   pointer-events: none;
 }
@@ -242,8 +250,11 @@
     );
 
   box-shadow:
+    0 8px 18px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent),
     inset 0 -8px 16px rgba(0, 0, 0, 0.045);
+
+  transform: translateY(-2px);
 }
 
 /* Stable divider between overlapped courses */
