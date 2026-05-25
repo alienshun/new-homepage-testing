@@ -25,6 +25,8 @@
     }
   };
 
+  let currentView = DEFAULT_VIEW;
+
   function normalizeView(view) {
     const key = String(view || '').trim().toLowerCase();
     return VIEW_ALIASES[key] || null;
@@ -76,8 +78,35 @@
     }
   }
 
+  function renderMeditations(options) {
+    const opts = options || {};
+    const mount = document.getElementById('mount-meditations');
+    if (!mount) return;
+
+    if (window.LifeMeditations && typeof window.LifeMeditations.ensureCurrent === 'function') {
+      window.LifeMeditations.ensureCurrent({
+        preserveState: opts.preserveState === true
+      });
+      return;
+    }
+
+    if (!mount.firstElementChild) {
+      mount.innerHTML = `
+        <div id="meditations">
+          <div class="container">
+            <div class="section">
+              <p class="medit-loading">Loading Meditations...</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
   function setLifeView(view) {
     const normalized = normalizeView(view) || DEFAULT_VIEW;
+
+    currentView = normalized;
 
     applyLifeI18N();
 
@@ -102,7 +131,15 @@
       renderActivitiesMoments();
     }
 
+    if (normalized === 'meditations') {
+      renderMeditations();
+    }
+
     return normalized;
+  }
+
+  function getCurrentView() {
+    return currentView;
   }
 
   function initLifePage() {
@@ -130,6 +167,19 @@
 
     const observer = new MutationObserver(() => {
       applyLifeI18N();
+
+      if (currentView === 'meditations') {
+        if (
+          window.LifeMeditations &&
+          typeof window.LifeMeditations.refreshCurrentLanguage === 'function'
+        ) {
+          window.LifeMeditations.refreshCurrentLanguage();
+        } else {
+          renderMeditations({ preserveState: true });
+        }
+
+        return;
+      }
 
       if (window.ActivitiesMoments && typeof window.ActivitiesMoments.renderCurrent === 'function') {
         window.ActivitiesMoments.renderCurrent({ scroll: false });
@@ -204,8 +254,10 @@
   window.Life = {
     normalizeView,
     setLifeView,
+    getCurrentView,
     initLifePage,
     renderActivitiesMoments,
+    renderMeditations,
     applyLifeI18N
   };
 
