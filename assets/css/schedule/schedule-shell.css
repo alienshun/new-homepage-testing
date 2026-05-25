@@ -73,6 +73,17 @@
   background: var(--accent-strong);
 }
 
+.schedule-switcher a.schedule-switch-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  line-height: normal;
+  font-family: inherit;
+  box-sizing: border-box;
+  user-select: none;
+}
+
 @media (max-width: 520px){
   .schedule-switcher{
     justify-content: flex-start;
