@@ -181,7 +181,9 @@
         A + 'css/base/dark-mode.css',
 
         A + 'css/top-nav.css',
-        A + 'css/cover.css'
+        A + 'css/cover/cover-shell.css',
+        A + 'css/cover/cover-identity.css',
+        A + 'css/cover/cover-enter.css'
       ],
 
       optional: {
@@ -192,6 +194,10 @@
     scripts: {
       core: [
         A + 'js/Functions/Top-nav.js',
+
+        A + 'js/Functions/cover/CoverBackground.js',
+        A + 'js/Functions/cover/CoverDepthMotion.js',
+        A + 'js/Functions/cover/CoverEnterHint.js',
         A + 'js/Functions/Cover.js',
 
         A + 'js/Functions/general/Clock.js',
