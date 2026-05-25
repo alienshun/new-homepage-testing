@@ -121,3 +121,103 @@
   transform: translateY(0);
   box-shadow: var(--shadow-xs);
 }
+
+/* =========================================================
+   Schedule table geometry
+
+   Keep table-level corner handling here instead of
+   schedule-export.css. This file owns on-page timetable
+   geometry, while schedule-export.css should only own export
+   and print styles.
+   ========================================================= */
+
+#schedule .timetable-container {
+  border-radius: var(--radius);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#schedule .timetable,
+#schedule #ustc-timetable,
+#schedule .my-classes-table,
+#schedule .ustc-classes-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Keep inner grid cells rectangular by default. */
+#schedule .timetable th,
+#schedule .timetable td,
+#schedule #ustc-timetable th,
+#schedule #ustc-timetable td,
+#schedule .my-classes-table th,
+#schedule .my-classes-table td,
+#schedule .ustc-classes-table th,
+#schedule .ustc-classes-table td {
+  border-radius: 0 !important;
+  background-clip: padding-box;
+}
+
+/* Outer top-left corner. */
+#schedule .timetable > thead > tr:first-child > th:first-child,
+#schedule #ustc-timetable > thead > tr:first-child > th:first-child {
+  border-top-left-radius: var(--radius) !important;
+}
+
+/* Outer top-right corner. */
+#schedule .timetable > thead > tr:first-child > th:last-child,
+#schedule #ustc-timetable > thead > tr:first-child > th:last-child {
+  border-top-right-radius: var(--radius) !important;
+}
+
+/*
+  My Timetable and USTC Timetable:
+  the visual bottom-left corner belongs to the row-spanned Evening cell,
+  not to period number 13.
+*/
+#schedule .timetable > tbody > tr:nth-last-child(3) > .period-header,
+#schedule #ustc-timetable > tbody > tr:nth-last-child(3) > .period-header {
+  border-bottom-left-radius: var(--radius) !important;
+}
+
+#schedule .timetable > tbody > tr:last-child > .period-number,
+#schedule #ustc-timetable > tbody > tr:last-child > .period-number {
+  border-bottom-left-radius: 0 !important;
+}
+
+/* Outer bottom-right corner. */
+#schedule .timetable > tbody > tr:last-child > td:last-child,
+#schedule #ustc-timetable > tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: var(--radius) !important;
+}
+
+/* My Classes and USTC Classes: only the outer four corners are rounded. */
+#schedule .my-classes-table > thead > tr:first-child > :first-child,
+#schedule .ustc-classes-table > thead > tr:first-child > :first-child {
+  border-top-left-radius: var(--radius) !important;
+}
+
+#schedule .my-classes-table > thead > tr:first-child > :last-child,
+#schedule .ustc-classes-table > thead > tr:first-child > :last-child {
+  border-top-right-radius: var(--radius) !important;
+}
+
+#schedule .my-classes-table > tbody > tr:last-child > :first-child,
+#schedule .ustc-classes-table > tbody > tr:last-child > :first-child {
+  border-bottom-left-radius: var(--radius) !important;
+}
+
+#schedule .my-classes-table > tbody > tr:last-child > :last-child,
+#schedule .ustc-classes-table > tbody > tr:last-child > :last-child {
+  border-bottom-right-radius: var(--radius) !important;
+}
+
+/* Prevent hover transform from creating page jitter or a temporary scrollbar. */
+#schedule .event-cell:hover,
+#schedule .timetable-event:hover,
+#schedule .ustc-event-overlay:hover {
+  transform: none !important;
+}
