@@ -1,0 +1,448 @@
+/* Schedule PDF / print export layer */
+
+.schedule-print-export {
+  display: none;
+}
+
+.schedule-print-export.schedule-print-export-en {
+  font-family: "Georgia", "Times New Roman", Times, serif !important;
+}
+
+.schedule-print-export.schedule-print-export-zh {
+  font-family: "KaiTi", "STKaiti", "Songti SC", "SimSun", "Noto Serif CJK SC", serif !important;
+}
+
+.schedule-print-export,
+.schedule-print-export * {
+  font-family: inherit !important;
+}
+
+body.schedule-export-print-mode .schedule-print-export {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  overflow: auto;
+  padding: 14px 18px;
+  background: #ffffff;
+  color: #111827;
+}
+
+.schedule-print-header {
+  min-height: calc(100vh - 28px);
+  margin: 0;
+  padding: 18px 24px;
+  border-bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.schedule-print-header h1 {
+  margin: 0 0 14px;
+  font-size: 24px;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.schedule-print-meta {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  max-width: 760px;
+  gap: 6px 18px;
+
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: #374151;
+  text-align: center;
+}
+
+.schedule-print-meta > div {
+  white-space: nowrap;
+}
+
+.schedule-print-section {
+  margin-top: 0;
+}
+
+.schedule-print-section h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  line-height: 1.25;
+  color: #111827;
+}
+
+.schedule-print-empty {
+  margin: 6px 0 0;
+  color: #6b7280;
+  font-size: 11px;
+}
+
+/* PDF export: table fidelity and reliable print geometry */
+
+.schedule-print-export,
+.schedule-print-export * {
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+.schedule-print-export .schedule-print-table-wrap {
+  width: 100%;
+  overflow: hidden !important;
+  border-radius: 12px !important;
+  background: #ffffff !important;
+}
+
+.schedule-print-export .schedule-print-source-table {
+  width: 100% !important;
+  margin: 0 !important;
+  table-layout: fixed !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: transparent !important;
+}
+
+.schedule-print-export .schedule-print-source-table th,
+.schedule-print-export .schedule-print-source-table td {
+  border: 0 !important;
+  border-right: 1px solid #cbd5e1 !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+
+  padding: 3px 4px !important;
+  text-align: center !important;
+  vertical-align: middle !important;
+
+  font-size: 8.2px !important;
+  line-height: 1.18 !important;
+
+  color: #111827 !important;
+  background: #ffffff !important;
+  background-clip: padding-box !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-edge-top {
+  border-top: 1px solid #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-edge-left {
+  border-left: 1px solid #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-tl {
+  border-top-left-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-tr {
+  border-top-right-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-bl {
+  border-bottom-left-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table .print-corner-br {
+  border-bottom-right-radius: 12px !important;
+}
+
+.schedule-print-export .schedule-print-source-table th {
+  font-weight: 700 !important;
+  background: #f3f4f6 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .period-header,
+.schedule-print-export .schedule-print-source-table .period-number,
+.schedule-print-export .schedule-print-source-table .time-cell {
+  font-weight: 700 !important;
+  background: #f8fafc !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td {
+  height: 36px !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td.event-cell,
+.schedule-print-export .schedule-print-timetable-table td.has-class {
+  position: relative !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table td.event-cell::before {
+  display: none !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .course-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-container {
+  display: flex !important;
+  flex-direction: column !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-course {
+  flex: 1 1 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: 0 !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .overlap-course + .overlap-course {
+  border-top: 1px dashed #cbd5e1 !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .ustc-timetable-cell {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-print-export .schedule-print-timetable-table .ustc-event-overlay,
+.schedule-print-export .schedule-print-timetable-table .ustc-course-info {
+  position: static !important;
+  inset: auto !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+
+  width: 100% !important;
+  min-height: var(--schedule-print-event-min-height, 36px) !important;
+
+  padding: 3px 4px !important;
+  box-sizing: border-box !important;
+  text-align: center !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.schedule-print-export .schedule-print-source-table .course-number {
+  display: block !important;
+  font-weight: 700 !important;
+  font-size: 7.4px !important;
+  line-height: 1.18 !important;
+  margin: 0.5px 0 !important;
+  color: #111827 !important;
+}
+
+/* Make course type labels plain and print-friendly in exported PDF. */
+.schedule-print-export .course-type-badge {
+  display: inline !important;
+  position: static !important;
+
+  margin: 0 0 0 3px !important;
+  padding: 0 !important;
+
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+
+  color: #6b7280 !important;
+  font-size: 0.86em !important;
+  font-weight: 600 !important;
+  line-height: inherit !important;
+  letter-spacing: 0 !important;
+  vertical-align: baseline !important;
+}
+
+/* In My Classes, keep the label even quieter so it matches the white table style. */
+.schedule-print-export .schedule-print-classes-table .course-type-badge {
+  margin-left: 4px !important;
+  color: #6b7280 !important;
+  font-size: 0.9em !important;
+  font-weight: 600 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .course-name {
+  display: block !important;
+  font-weight: 700 !important;
+  font-size: 7.8px !important;
+  line-height: 1.18 !important;
+  margin: 0.5px 0 !important;
+  color: #111827 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .instructor,
+.schedule-print-export .schedule-print-source-table .location,
+.schedule-print-export .schedule-print-source-table .weeks {
+  display: block !important;
+  font-size: 6.8px !important;
+  line-height: 1.15 !important;
+  margin: 0.5px 0 !important;
+  color: #374151 !important;
+}
+
+.schedule-print-export .schedule-print-source-table .time-info {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
+
+.schedule-print-export .schedule-print-classes-table th,
+.schedule-print-export .schedule-print-classes-table td {
+  padding: 4px 5px !important;
+  font-size: 7.8px !important;
+  line-height: 1.18 !important;
+}
+
+.schedule-print-export .schedule-print-header h1,
+.schedule-print-export .schedule-print-section h2 {
+  font-family: inherit !important;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 6mm;
+  }
+
+  body.schedule-export-print-mode {
+    background: #ffffff !important;
+  }
+
+  body.schedule-export-print-mode > :not(.schedule-print-export) {
+    display: none !important;
+  }
+
+  body.schedule-export-print-mode .schedule-print-export {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .schedule-print-header {
+    height: 190mm !important;
+    min-height: 190mm !important;
+    margin: 0 !important;
+    padding: 0 18mm !important;
+    border-bottom: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    text-align: center !important;
+    box-sizing: border-box !important;
+
+    break-after: page !important;
+    page-break-after: always !important;
+  }
+
+  .schedule-print-header h1 {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
+    margin: 0 0 12px !important;
+  }
+
+  .schedule-print-meta {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+
+    max-width: 190mm !important;
+    gap: 5px 18px !important;
+
+    font-size: 10.5px !important;
+    line-height: 1.45 !important;
+    text-align: center !important;
+  }
+
+  .schedule-print-meta > div {
+    white-space: nowrap !important;
+  }
+
+  .schedule-print-section {
+    margin-top: 0 !important;
+  }
+
+  .schedule-print-timetable-section {
+    break-before: auto !important;
+    page-break-before: auto !important;
+  }
+
+  .schedule-print-classes-section {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  .schedule-print-section h2 {
+    font-size: 12.5px !important;
+    margin: 0 0 5px !important;
+  }
+
+  .schedule-print-export .schedule-print-table-wrap {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .schedule-print-export .schedule-print-source-table {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .schedule-print-export .schedule-print-source-table tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
