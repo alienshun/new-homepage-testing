@@ -1,0 +1,120 @@
+#calendar-container {
+  height: 70vh;
+  margin-bottom: 20px;
+}
+
+.fc { font-family: "Georgia", serif; }
+
+.fc-toolbar-title {
+  font-family: "Georgia", serif;
+  font-size: 1.35em;
+  color: var(--accent);
+}
+
+/* FullCalendar grid polish (paper-like, understated) */
+.fc .fc-scrollgrid,
+.fc .fc-scrollgrid table,
+.fc .fc-scrollgrid-section > td,
+.fc .fc-scrollgrid-section table,
+.fc .fc-scrollgrid td,
+.fc .fc-scrollgrid th {
+  border-color: color-mix(in srgb, var(--border) 72%, transparent) !important;
+}
+
+.fc .fc-col-header-cell-cushion,
+.fc .fc-daygrid-day-number {
+  text-decoration: none;
+}
+
+.fc-daygrid-day.fc-day-sat:not(.fc-day-today),
+.fc-daygrid-day.fc-day-sun:not(.fc-day-today) {
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2)) !important;
+}
+
+.fc .fc-button,
+.fc-button {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-sm) !important;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.fc .fc-button:hover,
+.fc-button:hover {
+  background: var(--surface-2) !important;
+  box-shadow: var(--shadow) !important;
+  transform: translateY(-0.5px);
+}
+
+.fc .fc-button:active,
+.fc-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs) !important;
+}
+
+.fc .fc-button:focus-visible,
+.fc-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm) !important;
+}
+
+.fc .fc-button:disabled,
+.fc-button:disabled {
+  opacity: 0.6;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.fc .fc-button-primary.fc-button-active,
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow) !important;
+}
+
+.fc-daygrid-day-number { color: var(--accent); }
+
+.fc-daygrid-day.fc-day-today {
+  background: var(--accent-weak) !important;
+}
+
+.fc-event {
+  /* “Left bar + light fill” looks more like a polished calendar than a solid chip */
+  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface)) !important;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak)) !important;
+  color: var(--text) !important;
+  cursor: pointer;
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  border-radius: 10px;
+  position: relative;
+  padding-left: 10px;
+}
+
+.fc-event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0.95;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.fc-event:hover {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface)) !important;
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border)) !important;
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-0.5px);
+}
+
+.fc-event:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
