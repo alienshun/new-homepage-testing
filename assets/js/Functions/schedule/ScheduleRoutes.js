@@ -58,8 +58,6 @@
     return normalizeView(slug);
   }
 
-  function injectRouteStyle() {}
-
   function toRouteLink(control) {
     const view = normalizeView(control && control.dataset ? control.dataset.view : '');
     if (!control || !view) return control;
@@ -90,8 +88,6 @@
   }
 
   function enhanceScheduleSubnav() {
-    injectRouteStyle();
-
     document.querySelectorAll('.schedule-switcher .schedule-switch-btn').forEach((control) => {
       const link = toRouteLink(control);
       const view = normalizeView(link && link.dataset ? link.dataset.view : '');
