@@ -1,0 +1,123 @@
+.timetable-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.timetable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 20px;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.timetable th, .timetable td,
+#ustc-timetable th, #ustc-timetable td,
+.my-classes-table th, .my-classes-table td {
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+}
+
+.timetable th {
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.timetable td {
+  background-color: var(--surface);
+  height: 60px;
+  vertical-align: middle;
+  position: relative;
+  color: var(--text);
+}
+
+.timetable td.time-cell {
+  background-color: var(--surface-2);
+  font-weight: 600;
+}
+
+/* Sticky first (time/period) column for easier horizontal scrolling */
+.timetable th:first-child,
+.timetable td.time-cell,
+#ustc-timetable th:first-child,
+#ustc-timetable .period-header {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+}
+
+.timetable th:first-child,
+#ustc-timetable th:first-child {
+  z-index: 4;
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+.timetable td.time-cell,
+#ustc-timetable .period-header {
+  background: var(--surface-2);
+  border-right: 1px solid color-mix(in srgb, var(--border) 75%, transparent);
+}
+
+.timetable td.empty-cell {
+  background-color: var(--surface);
+}
+
+.timetable td.has-event {
+  background: var(--accent-weak) !important;
+  cursor: pointer;
+}
+
+.timetable td.has-event:hover {
+  background: var(--accent-weak) !important;
+}
+
+.timetable-event {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+
+  background: color-mix(in srgb, var(--accent-weak) 72%, var(--surface));
+  color: var(--text);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 0.9em;
+  padding: 2px;
+  overflow: hidden;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease;
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+}
+
+.timetable-event::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  opacity: 0.95;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.timetable-event:hover {
+  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+  transform: translateY(-0.5px);
+  box-shadow: var(--shadow-sm);
+}
+
+.timetable-event:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
