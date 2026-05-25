@@ -14,6 +14,7 @@
   min-height: 100vh;
   overflow-y: auto;
   opacity: 0;
+  font-family: var(--font-serif);
   transition: opacity 0.8s ease-in-out;
 }
 
@@ -41,12 +42,13 @@
   text-align: center;
   color: var(--accent);
   margin-bottom: 22px;
-  font-family: "Georgia", serif;
+  font-family: var(--font-heading-serif);
   font-variant: small-caps;
   letter-spacing: 0.6px;
 }
 
 body[data-lang="zh"] .life-heading {
+  font-family: var(--font-zh-heading);
   font-variant: normal;
   letter-spacing: 0.8px;
 }
@@ -94,7 +96,7 @@ body[data-lang="zh"] .life-heading {
   background: transparent;
 
   color: var(--muted);
-  font-family: Arial, sans-serif;
+  font-family: var(--font-body-sans);
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.2;
@@ -112,6 +114,12 @@ body[data-lang="zh"] .life-heading {
     background-color 0.16s ease,
     border-color 0.16s ease,
     box-shadow 0.16s ease;
+}
+
+body[data-lang="zh"] .life-switch-btn,
+body[data-lang="zh"] .life-switcher a.life-switch-btn {
+  font-family: var(--font-zh-heading);
+  letter-spacing: 0.8px;
 }
 
 .life-switch-btn:hover {
