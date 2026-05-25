@@ -313,22 +313,90 @@
     }
   }
 
-  function findInsertionReferenceByLeft(row, left) {
-    const cells = Array.from(row.children).filter(function (cell) {
-      return /^(TD|TH)$/i.test(cell.tagName || '') &&
-        !(cell.dataset && cell.dataset.weekSelectorSynthetic === 'true');
+  function getCellTableSection(cell) {
+    return cell && cell.closest
+      ? cell.closest('tbody')
+      : null;
+  }
+
+  function getPositiveSpan(value, fallback) {
+    const parsed = parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0
+      ? parsed
+      : fallback;
+  }
+
+  function buildTableGrid(tbody) {
+    const rows = Array.from(tbody ? tbody.rows : []);
+    const occupied = [];
+    const entriesByCell = new Map();
+    const entriesByRow = new Map();
+
+    rows.forEach(function (row, rowIndex) {
+      if (!occupied[rowIndex]) occupied[rowIndex] = [];
+
+      let colIndex = 0;
+      const rowEntries = [];
+      entriesByRow.set(row, rowEntries);
+
+      Array.from(row.children).forEach(function (cell) {
+        if (!/^(TD|TH)$/i.test(cell.tagName || '')) return;
+
+        if (cell.dataset && cell.dataset.weekSelectorSynthetic === 'true') {
+          return;
+        }
+
+        while (occupied[rowIndex][colIndex]) {
+          colIndex += 1;
+        }
+
+        const rowSpan = getPositiveSpan(cell.getAttribute('rowspan') || cell.rowSpan || 1, 1);
+        const colSpan = getPositiveSpan(cell.getAttribute('colspan') || cell.colSpan || 1, 1);
+
+        const entry = {
+          cell: cell,
+          row: row,
+          rowIndex: rowIndex,
+          colIndex: colIndex,
+          rowSpan: rowSpan,
+          colSpan: colSpan
+        };
+
+        entriesByCell.set(cell, entry);
+        rowEntries.push(entry);
+
+        for (let r = rowIndex; r < rowIndex + rowSpan; r += 1) {
+          if (!occupied[r]) occupied[r] = [];
+
+          for (let c = colIndex; c < colIndex + colSpan; c += 1) {
+            occupied[r][c] = true;
+          }
+        }
+
+        colIndex += colSpan;
+      });
     });
 
-    for (const cell of cells) {
-      if (!cell.getBoundingClientRect) continue;
-      const rect = cell.getBoundingClientRect();
+    return {
+      rows: rows,
+      entriesByCell: entriesByCell,
+      entriesByRow: entriesByRow
+    };
+  }
 
-      if (rect.left > left + 1) {
-        return cell;
+  function findInsertionReferenceByColumn(grid, row, targetColumn) {
+    const rowEntries = grid.entriesByRow.get(row) || [];
+    let best = null;
+
+    rowEntries.forEach(function (entry) {
+      if (entry.colIndex <= targetColumn) return;
+
+      if (!best || entry.colIndex < best.colIndex) {
+        best = entry;
       }
-    }
+    });
 
-    return null;
+    return best ? best.cell : null;
   }
 
   function splitMyEmptyRowspanCells(cells) {
@@ -341,58 +409,71 @@
 
     if (!targets.length) return;
 
-    const insertPlans = [];
+    const targetsByTbody = new Map();
 
     targets.forEach(function (cell) {
-      const span = parseInt(cell.dataset.weekSelectorSplitSpan || cell.rowSpan || 1, 10);
-      const baseRow = cell.parentElement;
+      const tbody = getCellTableSection(cell);
+      if (!tbody) return;
 
-      if (!baseRow || !Number.isFinite(span) || span <= 1) return;
-
-      const rect = cell.getBoundingClientRect ? cell.getBoundingClientRect() : null;
-      const left = rect ? rect.left : 0;
-
-      let row = baseRow;
-
-      for (let offset = 1; offset < span; offset += 1) {
-        row = row ? row.nextElementSibling : null;
-        if (!row) break;
-
-        insertPlans.push({
-          row: row,
-          before: rect ? findInsertionReferenceByLeft(row, left) : null,
-          left: left
-        });
+      if (!targetsByTbody.has(tbody)) {
+        targetsByTbody.set(tbody, []);
       }
 
-      cell.rowSpan = 1;
+      targetsByTbody.get(tbody).push(cell);
     });
 
-    insertPlans.sort(function (a, b) {
-      if (a.row === b.row) {
-        return a.left - b.left;
-      }
+    targetsByTbody.forEach(function (tbodyTargets, tbody) {
+      const beforeGrid = buildTableGrid(tbody);
+      const insertPlans = [];
 
-      if (typeof Node !== 'undefined') {
-        return (a.row.compareDocumentPosition(b.row) & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
-      }
+      tbodyTargets.forEach(function (cell) {
+        const entry = beforeGrid.entriesByCell.get(cell);
+        const span = parseInt(cell.dataset.weekSelectorSplitSpan || cell.rowSpan || 1, 10);
 
-      return 0;
-    });
+        if (!entry || !Number.isFinite(span) || span <= 1) return;
 
-    insertPlans.forEach(function (plan) {
-      const syntheticCell = document.createElement('td');
+        for (let offset = 1; offset < span; offset += 1) {
+          const row = beforeGrid.rows[entry.rowIndex + offset];
+          if (!row) break;
 
-      syntheticCell.className = 'empty-cell week-selector-synthetic-cell';
-      syntheticCell.dataset.weekSelectorSynthetic = 'true';
-      syntheticCell.dataset.weekSelectorEmpty = 'true';
-      syntheticCell.setAttribute('aria-hidden', 'true');
+          insertPlans.push({
+            row: row,
+            rowIndex: entry.rowIndex + offset,
+            colIndex: entry.colIndex,
+            colSpan: entry.colSpan
+          });
+        }
 
-      const before = plan.before && plan.before.parentNode === plan.row
-        ? plan.before
-        : null;
+        cell.rowSpan = 1;
+      });
 
-      plan.row.insertBefore(syntheticCell, before);
+      if (!insertPlans.length) return;
+
+      const afterGrid = buildTableGrid(tbody);
+
+      insertPlans.sort(function (a, b) {
+        return (a.rowIndex - b.rowIndex) || (a.colIndex - b.colIndex);
+      });
+
+      insertPlans.forEach(function (plan) {
+        const syntheticCell = document.createElement('td');
+
+        syntheticCell.className = 'empty-cell week-selector-synthetic-cell';
+        syntheticCell.dataset.weekSelectorSynthetic = 'true';
+        syntheticCell.dataset.weekSelectorEmpty = 'true';
+        syntheticCell.setAttribute('aria-hidden', 'true');
+
+        if (plan.colSpan && plan.colSpan > 1) {
+          syntheticCell.colSpan = plan.colSpan;
+        }
+
+        const before = findInsertionReferenceByColumn(afterGrid, plan.row, plan.colIndex);
+
+        plan.row.insertBefore(
+          syntheticCell,
+          before && before.parentNode === plan.row ? before : null
+        );
+      });
     });
   }
 
