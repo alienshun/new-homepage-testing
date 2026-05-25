@@ -270,6 +270,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  background-color: var(--surface);
+  transition: opacity 0.5s ease;
 }
 
 #name,
