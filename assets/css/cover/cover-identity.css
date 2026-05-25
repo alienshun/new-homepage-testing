@@ -1,0 +1,177 @@
+/* =========================================================
+   Cover - Identity area
+   - Avatar
+   - Name
+   - Slogan
+   ========================================================= */
+
+#avatar-frame {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: none;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(56px) scale(0.86);
+  translate: var(--cover-avatar-x, var(--cover-fg-x)) var(--cover-avatar-y, var(--cover-fg-y));
+  transition:
+    opacity 0.95s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.95s ease;
+  z-index: 20;
+  isolation: isolate;
+
+  outline: 1px solid rgba(255,255,255,0.70);
+  outline-offset: 2px;
+  filter:
+    blur(12px)
+    drop-shadow(0 0 0.8px rgba(255,255,255,0.85))
+    drop-shadow(0 0 1.2px rgba(0,0,0,0.75))
+    drop-shadow(0 6px 22px rgba(0,0,0,0.22));
+  box-shadow:
+    inset 0 0 0.5px rgba(255,255,255,0.35),
+    0 8px 24px rgba(0,0,0,0.18),
+    0 2px 6px rgba(0,0,0,0.12),
+    0 0 0 6px rgba(255,255,255,0.06),
+    0 0 0 12px rgba(0,0,0,0.06);
+  -webkit-backdrop-filter: saturate(1.05) contrast(1.02);
+          backdrop-filter: saturate(1.05) contrast(1.02);
+}
+
+#avatar-frame::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      from 28deg,
+      rgba(255,255,255,0.65),
+      rgba(224,232,248,0.35),
+      rgba(170,182,206,0.30),
+      rgba(255,255,255,0.65)
+    );
+  filter: blur(0.28px);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 0);
+          mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 0);
+  z-index: -1;
+  animation: ring-rotate 18s linear infinite;
+  opacity: 0.9;
+
+  -webkit-backdrop-filter: blur(2.2px) saturate(1.06);
+          backdrop-filter: blur(2.2px) saturate(1.06);
+}
+
+#avatar-frame::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 120% at 20% 15%, rgba(255,255,255,0.38) 0%, rgba(255,255,255,0.04) 42%, rgba(255,255,255,0.0) 60%),
+    radial-gradient(90% 90% at 80% 85%, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.02) 55%, rgba(255,255,255,0.0) 70%);
+  mix-blend-mode: screen;
+  box-shadow:
+    inset 0 0 1px rgba(255,255,255,0.45),
+    inset 0 6px 12px rgba(0,0,0,0.10);
+}
+
+@keyframes ring-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+#avatar-frame.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  filter:
+    blur(0)
+    drop-shadow(0 0 0.8px rgba(255,255,255,0.85))
+    drop-shadow(0 0 1.2px rgba(0,0,0,0.75))
+    drop-shadow(0 6px 22px rgba(0,0,0,0.22));
+}
+
+#avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background-color: var(--surface);
+  transition: opacity 0.5s ease;
+}
+
+#name,
+#slogan {
+  position: relative;
+  z-index: 20;
+  opacity: 0;
+  transform: translateY(42px);
+  translate: var(--cover-fg-x) var(--cover-fg-y);
+  filter: blur(12px);
+  transition:
+    opacity 0.95s ease,
+    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.95s ease,
+    letter-spacing 1.05s ease;
+  text-align: center;
+  max-width: 90vw;
+  word-break: break-word;
+}
+
+#name.visible,
+#slogan.visible {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+#cover.leaving #avatar-frame,
+#cover.leaving #name,
+#cover.leaving #slogan {
+  opacity: 0;
+  transform: translateY(-18px);
+  transition-duration: 0.45s;
+}
+
+#name {
+  font-family: var(--font-cover-name);
+  font-size: 2em;
+  letter-spacing: 0.12em;
+  translate: var(--cover-name-x, var(--cover-fg-x)) var(--cover-name-y, var(--cover-fg-y));
+
+  color: #f6f7fb;
+  background: linear-gradient(180deg, #ffffff 0%, #eef2f8 55%, #e6ecf5 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+
+  -webkit-text-stroke: 0.6px rgba(0,0,0,0.35);
+
+  text-shadow:
+    0 0 0.5px rgba(255,255,255,0.8),
+    0 2px 6px rgba(0,0,0,0.28),
+    0 0 18px rgba(120,170,220,0.35);
+}
+
+#name.visible {
+  letter-spacing: 1px;
+}
+
+#slogan {
+  font-family: var(--font-cover-slogan);
+  font-size: 2.5em;
+  translate: var(--cover-slogan-x, var(--cover-fg-x)) var(--cover-slogan-y, var(--cover-fg-y));
+
+  color: #f4f6fb;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f4fa 60%, #e8edf6 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+
+  -webkit-text-stroke: 0.45px rgba(0,0,0,0.30);
+
+  text-shadow:
+    0 0 0.4px rgba(255,255,255,0.85),
+    0 1.5px 5px rgba(0,0,0,0.24),
+    0 0 14px rgba(0,0,0,0.12);
+}
