@@ -137,6 +137,7 @@
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell,
 #ustc-timetable td.event-cell {
   position: relative;
+  isolation: isolate;
 
   padding: 0 !important;
   vertical-align: middle;
@@ -156,7 +157,6 @@
   overflow: hidden;
 
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--border) 82%, var(--accent-weak)),
     inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent),
     inset 0 -8px 18px rgba(0, 0, 0, 0.035);
   transform: none !important;
@@ -173,7 +173,6 @@
 
   border-color: color-mix(in srgb, var(--border) 72%, var(--accent)) !important;
   box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--border) 68%, var(--accent)),
     inset 0 1px 0 color-mix(in srgb, #ffffff 38%, transparent),
     inset 0 -8px 18px rgba(0, 0, 0, 0.045);
   transform: none !important;
@@ -181,14 +180,39 @@
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell::before,
 #ustc-timetable td.event-cell::before {
+  z-index: 3;
   border-top-left-radius: 14px;
   border-top-right-radius: 14px;
+  pointer-events: none;
+}
+
+/* Stable visible border layer for occupied course cells */
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell::after,
+#ustc-timetable td.event-cell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid color-mix(in srgb, var(--border) 74%, var(--accent-weak));
+  border-radius: inherit;
+
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, #ffffff 18%, transparent);
+
+  pointer-events: none;
+  z-index: 4;
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover::after,
+#ustc-timetable td.event-cell:hover::after {
+  border-color: color-mix(in srgb, var(--border) 58%, var(--accent));
 }
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container,
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container,
 #ustc-timetable td.event-cell > .overlap-container {
   position: relative;
+  z-index: 1;
 
   width: 100%;
   box-sizing: border-box;
@@ -228,6 +252,8 @@
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course,
 #ustc-timetable td.event-cell > .overlap-container > .overlap-course {
+  position: relative;
+
   flex: 0 0 auto;
 
   width: 100%;
@@ -244,8 +270,24 @@
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course,
 #ustc-timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course {
   margin-top: 4px;
-  padding-top: 9px;
-  border-top: 1px dashed color-mix(in srgb, var(--border) 72%, transparent);
+  padding-top: 10px;
+  border-top: none;
+}
+
+/* Stable divider between overlapped courses */
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course::before,
+#ustc-timetable td.event-cell > .overlap-container > .overlap-course + .overlap-course::before {
+  content: "";
+  position: absolute;
+
+  top: 0;
+  left: 8%;
+  right: 8%;
+
+  border-top: 1px dashed color-mix(in srgb, var(--border) 72%, var(--accent));
+  opacity: 0.72;
+
+  pointer-events: none;
 }
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell .course-number,
