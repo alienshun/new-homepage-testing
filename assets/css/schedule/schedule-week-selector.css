@@ -104,15 +104,24 @@
   display: none !important;
 }
 
-/* Rounded and tight course blocks for My Timetable and USTC Timetable */
+/* Rounded course blocks for My Timetable and USTC Timetable */
 #schedule .timetable td.event-cell,
 #schedule #ustc-timetable td.event-cell {
-  padding: 0;
-  border-color: transparent;
-  border-radius: 12px;
-  background: transparent !important;
-  box-shadow: none;
-  overflow: hidden;
+  padding: 0 !important;
+  height: auto !important;
+  min-height: 60px;
+
+  border: 1px solid var(--border) !important;
+  border-radius: 0;
+
+  background: var(--surface) !important;
+  box-shadow: none !important;
+  transform: none !important;
+  overflow: visible;
+}
+
+#schedule #ustc-timetable td.event-cell {
+  min-height: 50px;
 }
 
 #schedule .timetable td.event-cell:hover,
@@ -126,26 +135,30 @@
   display: none;
 }
 
+/* Course visual block: keep normal table borders visible while making the course itself rounded */
 #schedule .timetable td.event-cell > .course-container,
+#schedule .timetable td.event-cell > .overlap-container,
 #schedule #ustc-timetable td.event-cell > .overlap-container {
-  position: absolute;
-  inset: 0;
-  width: auto;
-  height: auto;
-  min-height: 0;
+  position: relative;
+  inset: auto;
+
+  width: 100%;
+  height: auto !important;
+  min-height: 100%;
   box-sizing: border-box;
 
-  padding: 10px 6px;
+  padding: 12px 7px 10px;
 
-  border-radius: 12px;
-  border: 1px solid color-mix(in srgb, var(--border) 72%, var(--accent-weak));
+  border-radius: 11px;
   background: color-mix(in srgb, var(--accent-weak) 76%, var(--surface));
-  box-shadow: var(--shadow-xs);
+  box-shadow: none;
 
-  overflow: hidden;
+  overflow: visible;
 }
 
+/* A subtle top accent without covering the table gridlines */
 #schedule .timetable td.event-cell > .course-container::before,
+#schedule .timetable td.event-cell > .overlap-container::before,
 #schedule #ustc-timetable td.event-cell > .overlap-container::before {
   content: "";
   position: absolute;
@@ -154,21 +167,62 @@
   right: 0;
 
   height: 3px;
+  border-top-left-radius: 11px;
+  border-top-right-radius: 11px;
+
   background: var(--accent);
-  opacity: 0.95;
+  opacity: 0.9;
+  pointer-events: none;
 }
 
 #schedule .timetable td.event-cell:hover > .course-container,
+#schedule .timetable td.event-cell:hover > .overlap-container,
 #schedule #ustc-timetable td.event-cell:hover > .overlap-container {
-  background: color-mix(in srgb, var(--accent-weak) 88%, var(--surface));
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-  box-shadow: var(--shadow-sm);
+  background: color-mix(in srgb, var(--accent-weak) 86%, var(--surface));
 }
 
+/* Keep content above the accent bar */
 #schedule .timetable td.event-cell > .course-container > *,
+#schedule .timetable td.event-cell > .overlap-container > *,
 #schedule #ustc-timetable td.event-cell > .overlap-container > * {
   position: relative;
   z-index: 1;
+}
+
+/* Restore subtle dividers between overlapping courses */
+#schedule .timetable td.event-cell > .overlap-container > .overlap-course,
+#schedule #ustc-timetable td.event-cell > .overlap-container > .overlap-course {
+  flex: 0 0 auto;
+  min-height: 0;
+  height: auto;
+  box-sizing: border-box;
+
+  padding: 8px 4px;
+  overflow: visible;
+}
+
+#schedule .timetable td.event-cell > .overlap-container > .overlap-course:not([data-schedule-week-hidden="true"]) ~ .overlap-course:not([data-schedule-week-hidden="true"]),
+#schedule #ustc-timetable td.event-cell > .overlap-container > .overlap-course:not([data-schedule-week-hidden="true"]) ~ .overlap-course:not([data-schedule-week-hidden="true"]) {
+  border-top: 1px solid color-mix(in srgb, var(--border) 72%, transparent) !important;
+}
+
+/* Prevent course text from being clipped horizontally or vertically */
+#schedule .timetable td.event-cell .course-number,
+#schedule .timetable td.event-cell .course-name,
+#schedule .timetable td.event-cell .instructor,
+#schedule .timetable td.event-cell .location,
+#schedule .timetable td.event-cell .weeks,
+#schedule #ustc-timetable td.event-cell .course-number,
+#schedule #ustc-timetable td.event-cell .course-name,
+#schedule #ustc-timetable td.event-cell .instructor,
+#schedule #ustc-timetable td.event-cell .location,
+#schedule #ustc-timetable td.event-cell .weeks {
+  max-width: 100%;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.28;
 }
 
 @media (max-width: 560px) {
