@@ -3,6 +3,7 @@
    - Resume heading and contact information
    - Resume avatar and hero layout
    - Project action groups
+   - Resume layout utilities
    ========================================================= */
 
 .resume-heading {
@@ -27,7 +28,7 @@
 
 .resume-hero-avatar {
   flex: 0 0 clamp(120px, 16vw, 170px);
-  align-self: stretch; /* match the computed section height (driven by text lines) */
+  align-self: stretch;
 }
 
 .resume-hero-avatar img {
@@ -53,7 +54,7 @@
 }
 
 .resume-hero-name {
-  font-size: 2.2em;          /* close to original, but suited for left-aligned layout */
+  font-size: 2.2em;
   font-weight: 700;
   line-height: 1.08;
   color: var(--accent);
@@ -71,7 +72,7 @@
   gap: 8px;
 
   padding: 8px 12px;
-  border-radius: 999px; /* half-round ends */
+  border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
   background: color-mix(in srgb, var(--surface) 84%, var(--accent-weak));
   box-shadow: var(--shadow-xs);
@@ -103,6 +104,34 @@
   color: var(--muted);
   font-size: 1.02em;
   line-height: 1.55;
+}
+
+/* Resume layout utilities */
+.resume-degree-line {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.resume-degree-line > span:first-child {
+  min-width: 0;
+}
+
+.resume-degree-line > span:last-child {
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.resume-advisor-list {
+  margin-left: 20px;
+}
+
+#resume table {
+  width: 100%;
+}
+
+#resume img {
+  max-width: 100%;
 }
 
 .project-actions {
@@ -148,5 +177,20 @@
 
   .resume-hero-name {
     font-size: 1.95em;
+  }
+
+  .resume-degree-line {
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .resume-degree-line > span:last-child {
+    text-align: left;
+  }
+
+  .resume-advisor-list {
+    margin-left: 0;
+    margin-top: 4px;
   }
 }
