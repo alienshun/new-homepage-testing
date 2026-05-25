@@ -1,4 +1,4 @@
-#meditations{
+#meditations {
   --medit-arrow-space: 26px;
   --medit-indent: 18px;
 
@@ -12,19 +12,18 @@
   --medit-zh-body: var(--font-medit-zh-body);
   --medit-zh-title: var(--font-medit-zh-title);
   --medit-zh-subtitle: var(--font-medit-zh-subtitle);
+
+  font-family: var(--medit-en-body);
 }
 
-body[data-lang="zh"] #meditations{
-  font-family: var(--medit-zh-body);
+body[data-lang="zh"] #meditations {
   --medit-par-indent: var(--medit-par-indent-zh);
-}
-body:not([data-lang="zh"]) #meditations{
-  font-family: var(--medit-en-body);
-  --medit-par-indent: var(--medit-par-indent-en);
+
+  font-family: var(--medit-zh-body);
 }
 
 /* Page title */
-#meditations .resume-heading{
+#meditations .resume-heading {
   font-size: 2.4em;
   text-align: center;
   color: var(--accent);
@@ -34,33 +33,26 @@ body:not([data-lang="zh"]) #meditations{
   letter-spacing: 0.6px;
 }
 
-body:not([data-lang="zh"]) #meditations .resume-heading{
-  font-family: var(--font-medit-heading-en);
-  font-variant: small-caps;
-}
-
-body[data-lang="zh"] #meditations .resume-heading{
+body[data-lang="zh"] #meditations .resume-heading {
   font-family: var(--font-medit-heading-zh);
   font-variant: normal;
-  letter-spacing: 0.6px;
 }
 
-#meditations .medit-contents-title{
+/* Contents title */
+#meditations .medit-contents-title {
   text-align: center;
   margin: 6px 0 18px;
   color: var(--text);
-}
-
-body:not([data-lang="zh"]) #meditations .medit-contents-title{
   font-family: var(--medit-en-title);
   font-variant: small-caps;
 }
-body[data-lang="zh"] #meditations .medit-contents-title{
+
+body[data-lang="zh"] #meditations .medit-contents-title {
   font-family: var(--medit-zh-title);
   font-variant: normal;
 }
 
-#meditations .medit-contents-title-text{
+#meditations .medit-contents-title-text {
   position: relative;
   display: inline-block;
   font-size: 1.35em;
@@ -72,7 +64,7 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   text-rendering: optimizeLegibility;
 }
 
-#meditations .medit-pdf-link{
+#meditations .medit-pdf-link {
   position: absolute;
   left: 100%;
   top: 50%;
@@ -85,42 +77,46 @@ body[data-lang="zh"] #meditations .medit-contents-title{
   opacity: 0.92;
 }
 
-#meditations .medit-pdf-link:hover{
+#meditations .medit-pdf-link:hover {
   color: var(--accent-strong);
   text-decoration: underline;
 }
 
 /* Paragraphs */
-#meditations p{
+#meditations p {
   font-size: 1.02em;
   line-height: 1.85;
   margin: 0 0 12px;
 }
 
-#meditations .medit-body p{
+#meditations .medit-body p {
   text-indent: var(--medit-par-indent);
 }
 
-body:not([data-lang="zh"]) #meditations .medit-body p:first-child{
+#meditations .medit-body p:first-child {
   text-indent: 0;
 }
 
-#meditations .medit-body p.medit-empty{
+body[data-lang="zh"] #meditations .medit-body p:first-child {
+  text-indent: var(--medit-par-indent);
+}
+
+#meditations .medit-body p.medit-empty {
   text-indent: 0;
 }
 
 /* Contents structure */
-#meditations .medit-entry{
+#meditations .medit-entry {
   margin: 10px 0;
 }
 
-#meditations .medit-row{
+#meditations .medit-row {
   position: relative;
   padding: 10px 0;
   user-select: none;
 }
 
-#meditations .medit-row .expander{
+#meditations .medit-row .expander {
   position: absolute;
   right: 0;
   top: 50%;
@@ -128,79 +124,75 @@ body:not([data-lang="zh"]) #meditations .medit-body p:first-child{
   margin-left: 0;
 }
 
-#meditations .medit-title{
+#meditations .medit-title {
   display: block;
   text-align: left;
   padding-right: var(--medit-arrow-space);
 }
 
-#meditations .medit-row-small .medit-title{
+#meditations .medit-row-small .medit-title {
   padding-left: var(--medit-indent);
 }
 
-#meditations .medit-row .expander.is-open + .medit-title{
+#meditations .medit-row .expander.is-open + .medit-title {
   text-align: center;
   padding-left: var(--medit-arrow-space);
   padding-right: var(--medit-arrow-space);
 }
 
-#meditations .medit-row-big .medit-title{
+#meditations .medit-row-big .medit-title {
+  font-family: var(--medit-en-title);
   font-size: 1.55em;
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 0.7px;
 }
 
-#meditations .medit-row-small .medit-title{
+#meditations .medit-row-small .medit-title {
+  font-family: var(--medit-en-body);
   font-size: 1.12em;
   font-weight: 600;
   color: var(--text);
 }
 
-body:not([data-lang="zh"]) #meditations .medit-row-big .medit-title{
-  font-family: var(--medit-en-title);
-}
-body:not([data-lang="zh"]) #meditations .medit-row-small .medit-title{
-  font-family: var(--medit-en-body);
-}
-
-body[data-lang="zh"] #meditations .medit-row-big .medit-title{
+body[data-lang="zh"] #meditations .medit-row-big .medit-title {
   font-family: var(--medit-zh-title);
 }
-body[data-lang="zh"] #meditations .medit-row-small .medit-title{
+
+body[data-lang="zh"] #meditations .medit-row-small .medit-title {
   font-family: var(--medit-zh-subtitle);
 }
 
-#meditations .medit-children{
+#meditations .medit-children {
   padding-left: 0;
   margin-top: 6px;
 }
 
-#meditations .medit-body{
+#meditations .medit-body {
   margin: 10px 0 2px;
   padding: 14px 16px;
   border-radius: 12px;
   background: color-mix(in srgb, var(--surface) 92%, var(--surface-2));
 }
 
-#meditations .medit-empty{
+#meditations .medit-empty {
   color: var(--muted);
   margin: 0;
   text-indent: 0;
 }
 
-.medit-poem{
+.medit-poem {
   text-align: center;
   margin: 12px 0;
   line-height: 1.9;
 }
 
-.medit-poem p{
+.medit-poem p {
   margin: 0.25em 0;
 }
 
 /* Epilogue signature / date line */
-#meditations .medit-body p.medit-signature{
+#meditations .medit-body p.medit-signature {
   text-align: right;
   text-indent: 0;
   margin-top: 16px;
