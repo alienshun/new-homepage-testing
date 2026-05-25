@@ -77,7 +77,8 @@
     A + 'css/schedule/schedule-course-cells.css',
     A + 'css/schedule/schedule-semester-controls.css',
 
-    A + 'css/schedule/schedule-export.css',
+    A + 'css/schedule/schedule-export-toolbar.css',
+    A + 'css/schedule/schedule-export-print.css',
     A + 'css/schedule/schedule-week-selector.css'
   ];
 
