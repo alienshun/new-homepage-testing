@@ -1,0 +1,249 @@
+.weeks-container {
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.weeks-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.weeks-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.week-checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.week-checkbox label {
+  margin-left: 5px;
+  font-size: 0.9em;
+}
+
+.week-display {
+  font-size: 0.85em;
+  color: var(--muted);
+  margin-top: 5px;
+  min-height: 20px;
+}
+
+.semester-selector {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.semester-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 300px;
+}
+
+.semester-dropdown-btn {
+  background: var(--surface);
+  color: var(--text);
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.semester-dropdown-btn:hover {
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+.semester-dropdown-btn:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-xs);
+}
+
+.semester-dropdown-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-sm);
+}
+
+.semester-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--surface);
+  width: 100%;
+  box-shadow: var(--shadow);
+  z-index: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  margin-top: 6px;
+  border: 1px solid var(--border);
+}
+
+.semester-dropdown-content a {
+  color: var(--accent);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.semester-dropdown-content a:hover {
+  background: var(--accent-weak);
+  color: var(--accent-strong);
+}
+
+.semester-dropdown:hover .semester-dropdown-content {
+  display: block;
+}
+
+.semester-dropdown:focus-within .semester-dropdown-content {
+  display: block;
+}
+
+.semester-dropdown:hover .semester-dropdown-btn {
+  background: var(--surface-2);
+}
+
+.semester-timetable-container {
+  display: none;
+  margin-top: 20px;
+}
+
+.semester-timetable-container.active { display: block; }
+
+.semester-title {
+  text-align: center;
+  font-size: 1.6em;
+  margin-bottom: 20px;
+  color: var(--accent);
+  font-family: "Georgia", serif;
+  font-variant: small-caps;
+}
+
+/* =========================================================
+   Schedule top control layout
+   ========================================================= */
+
+#schedule .schedule-export-inline-row.schedule-control-row {
+  display: grid;
+  align-items: stretch;
+  gap: 16px;
+  margin: 0 0 20px;
+}
+
+#schedule .schedule-control-row-my {
+  grid-template-columns: minmax(300px, 1.12fr) minmax(220px, 0.88fr) minmax(340px, 1.25fr);
+}
+
+#schedule .schedule-control-row-ustc {
+  grid-template-columns: minmax(240px, 1fr) minmax(360px, 1.35fr);
+}
+
+#schedule .schedule-control-row > .semester-selector,
+#schedule .schedule-control-row > .schedule-export-toolbar,
+#schedule .schedule-control-row > .schedule-week-panel {
+  margin: 0;
+  width: 100%;
+  min-width: 0;
+}
+
+#schedule .schedule-semester-panel {
+  width: 100%;
+  min-height: 56px;
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  margin: 0;
+  padding: 10px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease,
+    border-color 0.18s ease;
+}
+
+#schedule .schedule-semester-panel:hover {
+  background: var(--surface-2);
+  box-shadow: var(--shadow);
+}
+
+#schedule .schedule-semester-panel label {
+  flex: 0 0 auto;
+  margin: 0;
+
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+#schedule .schedule-semester-select-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#schedule .schedule-semester-select {
+  width: 100%;
+  height: 34px;
+  min-width: 0;
+  padding: 0 28px 0 10px;
+
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
+  color: var(--text);
+
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+}
+
+#schedule .schedule-semester-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-weak);
+}
+
+#schedule .schedule-control-hint-below {
+  max-width: none;
+  width: 100%;
+  box-sizing: border-box;
+  margin: -4px 0 20px;
+}
+
+@media (max-width: 980px) {
+  #schedule .schedule-control-row-my,
+  #schedule .schedule-control-row-ustc {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  #schedule .schedule-semester-panel {
+    border-radius: 22px;
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
