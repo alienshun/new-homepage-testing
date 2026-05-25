@@ -259,7 +259,8 @@
         scripts: [
           A + 'js/Content/EN/social/social_EN.js',
           A + 'js/Content/ZH/social/social_ZH.js',
-          A + 'js/Functions/social/Social.js'
+          A + 'js/Functions/social/SocialRender.js',
+          A + 'js/Functions/social/SocialStats.js'
         ]
       },
 
