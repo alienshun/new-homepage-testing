@@ -198,7 +198,7 @@
         A + 'js/Functions/cover/CoverBackground.js',
         A + 'js/Functions/cover/CoverDepthMotion.js',
         A + 'js/Functions/cover/CoverEnterHint.js',
-        A + 'js/Functions/Cover.js',
+        A + 'js/Functions/cover/Cover.js',
 
         A + 'js/Functions/general/Clock.js',
         A + 'js/Functions/general/Theme.js',
