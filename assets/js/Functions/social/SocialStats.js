@@ -2,18 +2,7 @@
   'use strict';
 
   const GC_SITE = 'https://stardust.goatcounter.com';
-
-  const CLUSTRMAPS_TOKEN = 'JNHdsUlsgFLa9cs6tAwlyymTImAhTyfKPyc_DG4MDX8';
-  const CLUSTRMAPS_COLOR = 'ffffff';
-  const CLUSTRMAPS_WIDTH = '800';
-
-  const CLUSTRMAPS_SCRIPT_SRC =
-    'https://clustrmaps.com/map_v2.js?d=' +
-    encodeURIComponent(CLUSTRMAPS_TOKEN) +
-    '&cl=' +
-    encodeURIComponent(CLUSTRMAPS_COLOR) +
-    '&w=' +
-    encodeURIComponent(CLUSTRMAPS_WIDTH);
+  const CLUSTRMAPS_FRAME_SRC = './assets/vendor/clustrmaps.html?v=20260527';
 
   let statsStarted = false;
   let statsFinished = false;
@@ -21,7 +10,6 @@
   let clustrMapsStarted = false;
   let visibleObserver = null;
   let delayedLoadTimer = null;
-  let fallbackTimer = null;
 
   function getSocialRoot() {
     return document.getElementById('social');
@@ -68,7 +56,7 @@
       if (!el) return;
 
       el.textContent = '—';
-      el.title = 'GoatCounter visitor-counter may be disabled in settings.';
+      el.title = 'GoatCounter visitor-counter may be disabled or blocked.';
     });
   }
 
@@ -98,6 +86,7 @@
 
   async function initStats() {
     if (statsStarted) return;
+
     statsStarted = true;
 
     try {
@@ -119,10 +108,10 @@
       setText('gc-month', month);
       setText('gc-week', week);
       setText('gc-page', page);
-
-      statsFinished = true;
     } catch (e) {
       setStatsFallback();
+    } finally {
+      statsFinished = true;
     }
   }
 
@@ -146,105 +135,39 @@
     return document.getElementById('clustrmaps-placeholder');
   }
 
-  function markClustrMapsLoaded() {
+  function markClustrMapsState(state) {
     const placeholder = getClustrMapsPlaceholder();
     if (!placeholder) return;
 
-    placeholder.classList.add('is-loaded');
-    placeholder.classList.remove('is-loading');
+    placeholder.classList.remove('is-loading', 'is-loaded', 'is-fallback');
 
-    if (fallbackTimer) {
-      clearTimeout(fallbackTimer);
-      fallbackTimer = null;
+    if (state === 'loaded') {
+      placeholder.classList.add('is-loaded');
+      return;
     }
+
+    if (state === 'fallback') {
+      placeholder.classList.add('is-fallback');
+      return;
+    }
+
+    placeholder.classList.add('is-loading');
   }
 
-  function markClustrMapsFallback() {
+  function mountClustrMapsFrame() {
     const placeholder = getClustrMapsPlaceholder();
     if (!placeholder) return;
 
-    if (placeholder.classList.contains('is-loaded')) return;
+    const existingFrame = placeholder.querySelector('.clustrmaps-frame');
 
-    placeholder.classList.remove('is-loading');
-    placeholder.classList.add('is-fallback');
-
-    const fallback = document.createElement('div');
-    fallback.className = 'clustrmaps-fallback';
-    fallback.innerHTML =
-      '<p>Visitor map may be blocked by the browser, privacy settings, or an extension.</p>' +
-      '<a href="https://clustrmaps.com/" target="_blank" rel="noopener noreferrer">Open ClustrMaps</a>';
-
-    placeholder.textContent = '';
-    placeholder.appendChild(fallback);
-  }
-
-  function createClustrMapsFrameHtml() {
-    return `<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<base target="_blank">
-<style>
-  html,
-  body {
-    width: 100%;
-    min-height: 320px;
-    margin: 0;
-    padding: 0;
-    background: transparent;
-    overflow: hidden;
-  }
-
-  body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  a,
-  img,
-  canvas,
-  svg {
-    max-width: 100% !important;
-  }
-
-  img {
-    height: auto !important;
-    border: 0;
-  }
-</style>
-</head>
-<body>
-  <script>
-    window.addEventListener('load', function () {
-      try {
-        parent.postMessage({ type: 'stardust-clustrmaps-loaded' }, '*');
-      } catch (e) {}
-    });
-  <\/script>
-  <script type="text/javascript" id="clustrmaps" src="${CLUSTRMAPS_SCRIPT_SRC}"><\/script>
-</body>
-</html>`;
-  }
-
-  function mountClustrMapsScript() {
-    const placeholder = getClustrMapsPlaceholder();
-    if (!placeholder) return;
-
-    if (clustrMapsStarted && placeholder.querySelector('.clustrmaps-frame')) {
+    if (clustrMapsStarted && existingFrame) {
       return;
     }
 
     clustrMapsStarted = true;
 
-    if (fallbackTimer) {
-      clearTimeout(fallbackTimer);
-      fallbackTimer = null;
-    }
-
     placeholder.textContent = '';
-    placeholder.classList.remove('is-loaded', 'is-fallback');
-    placeholder.classList.add('is-loading');
+    markClustrMapsState('loading');
 
     const frame = document.createElement('iframe');
     frame.className = 'clustrmaps-frame';
@@ -252,21 +175,9 @@
     frame.loading = 'lazy';
     frame.referrerPolicy = 'strict-origin-when-cross-origin';
     frame.setAttribute('scrolling', 'no');
-
-    /*
-      Do not add a strict sandbox here.
-      ClustrMaps' script may use document.write or related layout logic,
-      and an over-restrictive sandbox can make the map render as a blank area.
-    */
-    frame.srcdoc = createClustrMapsFrameHtml();
-
-    frame.addEventListener('load', () => {
-      setTimeout(markClustrMapsLoaded, 500);
-    }, { once: true });
+    frame.src = CLUSTRMAPS_FRAME_SRC;
 
     placeholder.appendChild(frame);
-
-    fallbackTimer = window.setTimeout(markClustrMapsFallback, 6500);
   }
 
   function scheduleVisibleResourceLoad() {
@@ -277,7 +188,7 @@
 
       if (!socialIsVisible()) return;
 
-      mountClustrMapsScript();
+      mountClustrMapsFrame();
 
       window.setTimeout(() => {
         if (!socialIsVisible()) return;
@@ -285,13 +196,13 @@
         if (!statsFinished) {
           initStats();
         }
-      }, 120);
+      }, 180);
 
       window.setTimeout(() => {
         if (!socialIsVisible()) return;
 
         loadGoatCounterFrame();
-      }, 900);
+      }, 1200);
     }, 180);
   }
 
@@ -346,11 +257,17 @@
   }
 
   window.addEventListener('message', (event) => {
-    if (!event || !event.data || event.data.type !== 'stardust-clustrmaps-loaded') {
+    if (!event || !event.data || event.data.type !== 'stardust-clustrmaps-state') {
       return;
     }
 
-    markClustrMapsLoaded();
+    if (
+      event.data.state === 'loaded' ||
+      event.data.state === 'fallback' ||
+      event.data.state === 'loading'
+    ) {
+      markClustrMapsState(event.data.state);
+    }
   });
 
   window.SocialStats = {
@@ -359,7 +276,7 @@
     initVisibleResources,
     initStats,
     loadGoatCounterFrame,
-    mountClustrMapsScript
+    mountClustrMapsFrame
   };
 
   if (window.SitePages && typeof window.SitePages.register === 'function') {
