@@ -7,14 +7,6 @@
   const CLUSTRMAPS_COLOR = 'ffffff';
   const CLUSTRMAPS_WIDTH = '800';
 
-  const CLUSTRMAPS_IMAGE_SRC =
-    'https://clustrmaps.com/map_v2.png?d=' +
-    encodeURIComponent(CLUSTRMAPS_TOKEN) +
-    '&cl=' +
-    encodeURIComponent(CLUSTRMAPS_COLOR) +
-    '&w=' +
-    encodeURIComponent(CLUSTRMAPS_WIDTH);
-
   const CLUSTRMAPS_SCRIPT_SRC =
     'https://clustrmaps.com/map_v2.js?d=' +
     encodeURIComponent(CLUSTRMAPS_TOKEN) +
@@ -23,14 +15,13 @@
     '&w=' +
     encodeURIComponent(CLUSTRMAPS_WIDTH);
 
-  const CLUSTRMAPS_LINK = 'https://clustrmaps.com/';
-
   let statsStarted = false;
   let statsFinished = false;
   let goatCounterFrameStarted = false;
   let clustrMapsStarted = false;
-  let clustrMapsMode = '';
   let visibleObserver = null;
+  let delayedLoadTimer = null;
+  let fallbackTimer = null;
 
   function getSocialRoot() {
     return document.getElementById('social');
@@ -39,7 +30,11 @@
   function ensureSocialRoot() {
     let social = getSocialRoot();
 
-    if (!social && window.SocialRender && typeof window.SocialRender.renderSocialPage === 'function') {
+    if (
+      !social &&
+      window.SocialRender &&
+      typeof window.SocialRender.renderSocialPage === 'function'
+    ) {
       social = window.SocialRender.renderSocialPage();
     }
 
@@ -147,33 +142,43 @@
     goatCounterFrameStarted = true;
   }
 
-  function bumpClustrMapsLayout() {
-    const bump = () => window.dispatchEvent(new Event('resize'));
-
-    requestAnimationFrame(bump);
-    setTimeout(bump, 200);
-    setTimeout(bump, 600);
-  }
-
   function getClustrMapsPlaceholder() {
     return document.getElementById('clustrmaps-placeholder');
   }
 
-  function escapeHtmlAttr(value) {
-    return String(value).replace(/[&<>"']/g, (ch) => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    })[ch]);
+  function markClustrMapsLoaded() {
+    const placeholder = getClustrMapsPlaceholder();
+    if (!placeholder) return;
+
+    placeholder.classList.add('is-loaded');
+    placeholder.classList.remove('is-loading');
+
+    if (fallbackTimer) {
+      clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
   }
 
-  function createClustrMapsIframeSrcdoc() {
-    const scriptSrc = escapeHtmlAttr(CLUSTRMAPS_SCRIPT_SRC);
-    const imageSrc = escapeHtmlAttr(CLUSTRMAPS_IMAGE_SRC);
-    const linkHref = escapeHtmlAttr(CLUSTRMAPS_LINK);
+  function markClustrMapsFallback() {
+    const placeholder = getClustrMapsPlaceholder();
+    if (!placeholder) return;
 
+    if (placeholder.classList.contains('is-loaded')) return;
+
+    placeholder.classList.remove('is-loading');
+    placeholder.classList.add('is-fallback');
+
+    const fallback = document.createElement('div');
+    fallback.className = 'clustrmaps-fallback';
+    fallback.innerHTML =
+      '<p>Visitor map may be blocked by the browser, privacy settings, or an extension.</p>' +
+      '<a href="https://clustrmaps.com/" target="_blank" rel="noopener noreferrer">Open ClustrMaps</a>';
+
+    placeholder.textContent = '';
+    placeholder.appendChild(fallback);
+  }
+
+  function createClustrMapsFrameHtml() {
     return `<!doctype html>
 <html>
 <head>
@@ -194,133 +199,100 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Georgia, "Times New Roman", serif;
   }
 
-  a {
-    display: inline-block;
-    max-width: 100%;
+  a,
+  img,
+  canvas,
+  svg {
+    max-width: 100% !important;
   }
 
   img {
-    display: block;
-    max-width: 100%;
-    height: auto;
+    height: auto !important;
     border: 0;
-  }
-
-  .fallback {
-    padding: 12px;
-    text-align: center;
   }
 </style>
 </head>
 <body>
-  <script type="text/javascript" id="clustrmaps" src="${scriptSrc}"><\/script>
-  <noscript>
-    <div class="fallback">
-      <a href="${linkHref}" rel="noopener noreferrer">
-        <img src="${imageSrc}" alt="ClustrMaps visitor map">
-      </a>
-    </div>
-  </noscript>
+  <script>
+    window.addEventListener('load', function () {
+      try {
+        parent.postMessage({ type: 'stardust-clustrmaps-loaded' }, '*');
+      } catch (e) {}
+    });
+  <\/script>
+  <script type="text/javascript" id="clustrmaps" src="${CLUSTRMAPS_SCRIPT_SRC}"><\/script>
 </body>
 </html>`;
-  }
-
-  function mountClustrMapsIframe(placeholder) {
-    if (!placeholder) return;
-
-    placeholder.textContent = '';
-
-    const iframe = document.createElement('iframe');
-    iframe.className = 'clustrmaps-frame';
-    iframe.title = 'ClustrMaps visitor map';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    iframe.setAttribute('scrolling', 'no');
-    iframe.setAttribute('sandbox', 'allow-scripts allow-popups allow-popups-to-escape-sandbox');
-
-    if ('srcdoc' in iframe) {
-      iframe.srcdoc = createClustrMapsIframeSrcdoc();
-    } else {
-      iframe.src = 'data:text/html;charset=utf-8,' + encodeURIComponent(createClustrMapsIframeSrcdoc());
-    }
-
-    iframe.addEventListener('load', bumpClustrMapsLayout, { once: true });
-
-    placeholder.appendChild(iframe);
-
-    clustrMapsStarted = true;
-    clustrMapsMode = 'iframe';
-
-    bumpClustrMapsLayout();
-  }
-
-  function mountClustrMapsImage(placeholder) {
-    if (!placeholder) return;
-
-    placeholder.textContent = '';
-
-    const link = document.createElement('a');
-    link.className = 'clustrmaps-link';
-    link.href = CLUSTRMAPS_LINK;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    link.setAttribute('aria-label', 'Open ClustrMaps visitor map');
-
-    const image = document.createElement('img');
-    image.className = 'clustrmaps-map';
-    image.src = CLUSTRMAPS_IMAGE_SRC;
-    image.alt = 'ClustrMaps visitor map';
-    image.loading = 'lazy';
-    image.decoding = 'async';
-
-    image.addEventListener('load', () => {
-      image.dataset.loaded = '1';
-      bumpClustrMapsLayout();
-    }, { once: true });
-
-    image.addEventListener('error', () => {
-      mountClustrMapsIframe(placeholder);
-    }, { once: true });
-
-    link.appendChild(image);
-    placeholder.appendChild(link);
-
-    clustrMapsStarted = true;
-    clustrMapsMode = 'image';
-
-    setTimeout(() => {
-      if (
-        clustrMapsMode === 'image' &&
-        image.dataset.loaded !== '1' &&
-        (!image.complete || image.naturalWidth === 0)
-      ) {
-        mountClustrMapsIframe(placeholder);
-      }
-    }, 2600);
-
-    bumpClustrMapsLayout();
   }
 
   function mountClustrMapsScript() {
     const placeholder = getClustrMapsPlaceholder();
     if (!placeholder) return;
 
-    const hasMap =
-      placeholder.querySelector('.clustrmaps-map') ||
-      placeholder.querySelector('.clustrmaps-frame');
-
-    if (clustrMapsStarted && hasMap) {
-      bumpClustrMapsLayout();
+    if (clustrMapsStarted && placeholder.querySelector('.clustrmaps-frame')) {
       return;
     }
 
-    clustrMapsStarted = false;
-    clustrMapsMode = '';
+    clustrMapsStarted = true;
 
-    mountClustrMapsImage(placeholder);
+    if (fallbackTimer) {
+      clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
+
+    placeholder.textContent = '';
+    placeholder.classList.remove('is-loaded', 'is-fallback');
+    placeholder.classList.add('is-loading');
+
+    const frame = document.createElement('iframe');
+    frame.className = 'clustrmaps-frame';
+    frame.title = 'ClustrMaps visitor map';
+    frame.loading = 'lazy';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    frame.setAttribute('scrolling', 'no');
+
+    /*
+      Do not add a strict sandbox here.
+      ClustrMaps' script may use document.write or related layout logic,
+      and an over-restrictive sandbox can make the map render as a blank area.
+    */
+    frame.srcdoc = createClustrMapsFrameHtml();
+
+    frame.addEventListener('load', () => {
+      setTimeout(markClustrMapsLoaded, 500);
+    }, { once: true });
+
+    placeholder.appendChild(frame);
+
+    fallbackTimer = window.setTimeout(markClustrMapsFallback, 6500);
+  }
+
+  function scheduleVisibleResourceLoad() {
+    if (delayedLoadTimer) return;
+
+    delayedLoadTimer = window.setTimeout(() => {
+      delayedLoadTimer = null;
+
+      if (!socialIsVisible()) return;
+
+      mountClustrMapsScript();
+
+      window.setTimeout(() => {
+        if (!socialIsVisible()) return;
+
+        if (!statsFinished) {
+          initStats();
+        }
+      }, 120);
+
+      window.setTimeout(() => {
+        if (!socialIsVisible()) return;
+
+        loadGoatCounterFrame();
+      }, 900);
+    }, 180);
   }
 
   function initVisibleResources() {
@@ -330,14 +302,7 @@
       return false;
     }
 
-    loadGoatCounterFrame();
-    mountClustrMapsScript();
-
-    if (!statsFinished) {
-      initStats();
-    }
-
-    bumpClustrMapsLayout();
+    scheduleVisibleResourceLoad();
 
     return true;
   }
@@ -380,14 +345,21 @@
     armWhenVisible();
   }
 
+  window.addEventListener('message', (event) => {
+    if (!event || !event.data || event.data.type !== 'stardust-clustrmaps-loaded') {
+      return;
+    }
+
+    markClustrMapsLoaded();
+  });
+
   window.SocialStats = {
     enter,
     refresh,
     initVisibleResources,
     initStats,
     loadGoatCounterFrame,
-    mountClustrMapsScript,
-    bumpClustrMapsLayout
+    mountClustrMapsScript
   };
 
   if (window.SitePages && typeof window.SitePages.register === 'function') {
