@@ -144,8 +144,6 @@
 }
 
 #clustrmaps-placeholder {
-  position: relative;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -154,31 +152,7 @@
   min-height: 280px;
 }
 
-#clustrmaps-placeholder.is-loading::before {
-  content: "Loading visitor map...";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 0;
-
-  transform: translate(-50%, -50%);
-
-  color: var(--muted);
-  font-family: var(--font-social-action);
-  font-size: 0.95rem;
-  letter-spacing: 0.2px;
-  opacity: 0.72;
-}
-
-#clustrmaps-placeholder.is-loaded::before,
-#clustrmaps-placeholder.is-fallback::before {
-  display: none;
-}
-
 .clustrmaps-frame {
-  position: relative;
-  z-index: 1;
-
   display: block;
 
   width: min(100%, 820px);
