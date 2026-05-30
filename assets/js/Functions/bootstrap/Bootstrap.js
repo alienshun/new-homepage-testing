@@ -12,9 +12,12 @@
   const warmup = window.BootstrapWarmup || {};
   const coverInput = window.BootstrapCoverInput || {};
 
+  const FOOTER_LABEL_SCRIPT_SRC = './assets/js/Functions/general/SiteFooterLabel.js';
+
   let coverHidden = false;
   let currentPage = null;
   let coverWarmupWatcherBound = false;
+  let footerLabelLoadStarted = false;
 
   const MIN_COVER_EXIT_DELAY = 300;
 
@@ -33,6 +36,48 @@
       return currentPage;
     }
   });
+
+  function runWhenIdle(callback, timeout) {
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(callback, {
+        timeout: timeout || 1200
+      });
+      return;
+    }
+
+    window.setTimeout(callback, Math.min(timeout || 600, 600));
+  }
+
+  function loadFooterLabelNonBlocking() {
+    if (footerLabelLoadStarted) return;
+
+    footerLabelLoadStarted = true;
+
+    runWhenIdle(() => {
+      if (window.SiteFooterLabel && typeof window.SiteFooterLabel.init === 'function') {
+        window.SiteFooterLabel.init();
+        return;
+      }
+
+      if (document.querySelector('script[data-site-footer-label-script="1"]')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = FOOTER_LABEL_SCRIPT_SRC;
+      script.async = true;
+      script.defer = true;
+      script.setAttribute('data-site-footer-label-script', '1');
+
+      script.onload = () => {
+        if (window.SiteFooterLabel && typeof window.SiteFooterLabel.init === 'function') {
+          window.SiteFooterLabel.init();
+        }
+      };
+
+      document.body.appendChild(script);
+    }, 1400);
+  }
 
   function getPageElement(page) {
     return routes.getPageElement(page);
@@ -252,8 +297,7 @@
 
     /*
       Do not block page transition for images.
-      Resume profile is allowed to continue loading in the background,
-      because fast page entry has higher priority than avoiding a brief image blank.
+      Resume profile is allowed to continue loading in the background.
     */
     warmPageCriticalAssetsNonBlocking(page);
 
@@ -319,6 +363,8 @@
     ) {
       warmup.startAfterFirstPageWarmup();
     }
+
+    loadFooterLabelNonBlocking();
 
     return true;
   }
