@@ -35,8 +35,9 @@
   let initialized = false;
   let mutationObserver = null;
   let ensureTimer = 0;
-  let footerHydrationStarted = false;
   let lastUpdatedPromise = null;
+
+  const hydratedFooters = new WeakSet();
 
   function runWhenIdle(callback, timeout) {
     if (typeof window.requestIdleCallback === 'function') {
@@ -170,7 +171,7 @@
 
     footer.innerHTML = [
       '<div class="site-footer-label__left">',
-      '  <img class="site-footer-label__emblem is-hidden" alt="School emblem" decoding="async" loading="lazy" fetchpriority="low">',
+      '  <img class="site-footer-label__emblem is-hidden" alt="School emblem" decoding="async" loading="lazy" fetchpriority="low" style="width:min(86vw,420px);max-width:100%;height:auto;visibility:hidden;">',
       '</div>',
 
       '<div class="site-footer-label__center">',
@@ -191,11 +192,6 @@
   }
 
   function getFooterHost(page) {
-    /*
-      Footer must sit at the bottom of the whole module page,
-      not inside inner content cards such as .container, .resume-container,
-      .social-container, or .life-container.
-    */
     return page || null;
   }
 
@@ -205,10 +201,6 @@
     const host = getFooterHost(page);
     if (!host) return;
 
-    /*
-      If an older version already inserted the footer inside an inner container,
-      move it out to the page root instead of creating a duplicate.
-    */
     const existing = page.querySelector('.site-footer-label');
 
     if (existing) {
@@ -255,44 +247,54 @@
     }, 120);
   }
 
-  function hydrateVisibleFooters() {
-    if (footerHydrationStarted) return;
+  function hydrateEmblem(footer) {
+    const emblem = footer.querySelector('.site-footer-label__emblem');
 
-    footerHydrationStarted = true;
+    if (!emblem || emblem.dataset.emblemHydrated === '1') {
+      return;
+    }
+
+    emblem.dataset.emblemHydrated = '1';
+
+    emblem.onerror = () => {
+      if (emblem.dataset.triedPng === '1') {
+        emblem.classList.add('is-hidden');
+        emblem.style.visibility = 'hidden';
+        return;
+      }
+
+      emblem.dataset.triedPng = '1';
+      emblem.src = CONFIG.emblemPng;
+    };
+
+    emblem.onload = () => {
+      emblem.classList.remove('is-hidden');
+      emblem.style.visibility = '';
+    };
+
+    emblem.src = CONFIG.emblemSvg;
+  }
+
+  function hydrateLastUpdated(footer) {
+    const updated = footer.querySelector('[data-site-footer-updated]');
+    if (!updated) return;
+
+    fetchLastUpdated().then((dateText) => {
+      updated.textContent = dateText || 'Unavailable';
+    });
+  }
+
+  function hydrateFooter(footer) {
+    if (!footer || hydratedFooters.has(footer)) {
+      return;
+    }
+
+    hydratedFooters.add(footer);
 
     runWhenIdle(() => {
-      const footers = Array.from(document.querySelectorAll('.site-footer-label'));
-
-      footers.forEach((footer) => {
-        const emblem = footer.querySelector('.site-footer-label__emblem');
-        if (!emblem || emblem.src) return;
-
-        emblem.onerror = () => {
-          if (emblem.dataset.triedPng === '1') {
-            emblem.classList.add('is-hidden');
-            return;
-          }
-
-          emblem.dataset.triedPng = '1';
-          emblem.src = CONFIG.emblemPng;
-        };
-
-        emblem.onload = () => {
-          emblem.classList.remove('is-hidden');
-        };
-
-        emblem.src = CONFIG.emblemSvg;
-      });
-
-      fetchLastUpdated().then((dateText) => {
-        footers.forEach((footer) => {
-          const updated = footer.querySelector('[data-site-footer-updated]');
-          if (!updated) return;
-
-          updated.textContent = dateText || 'Unavailable';
-        });
-      });
-    }, 1500);
+      hydrateEmblem(footer);
+      hydrateLastUpdated(footer);
+    }, 1200);
   }
 
   function observeFooterVisibility(footer) {
@@ -305,7 +307,7 @@
     footer.dataset.footerVisibilityObserved = '1';
 
     if (typeof IntersectionObserver !== 'function') {
-      hydrateVisibleFooters();
+      hydrateFooter(footer);
       return;
     }
 
@@ -314,11 +316,11 @@
         if (!entry.isIntersecting) return;
 
         observer.disconnect();
-        hydrateVisibleFooters();
+        hydrateFooter(footer);
       });
     }, {
       root: null,
-      rootMargin: '360px 0px',
+      rootMargin: '420px 0px',
       threshold: 0
     });
 
