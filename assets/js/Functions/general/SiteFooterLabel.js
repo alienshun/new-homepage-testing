@@ -15,6 +15,7 @@
       Keep these filenames exactly the same as the uploaded files.
 
       SVG is tried first. PNG is used only if SVG fails.
+      If your actual files are USTC.SVG / USTC.PNG, change these two lines.
     */
     emblemSvg: './assets/images/labels/USTC.svg',
     emblemPng: './assets/images/labels/USTC.png',
@@ -36,6 +37,9 @@
   let mutationObserver = null;
   let ensureTimer = 0;
   let lastUpdatedPromise = null;
+
+  let emblemReadySrc = '';
+  let emblemPreloadPromise = null;
 
   const hydratedFooters = new WeakSet();
 
@@ -155,6 +159,49 @@
     return lastUpdatedPromise;
   }
 
+  function testEmblemImage(src) {
+    return new Promise((resolve) => {
+      if (!src) {
+        resolve('');
+        return;
+      }
+
+      const img = new Image();
+
+      img.onload = () => resolve(src);
+      img.onerror = () => resolve('');
+
+      try {
+        img.decoding = 'async';
+      } catch (e) {}
+
+      img.src = src;
+    });
+  }
+
+  function preloadEmblem() {
+    if (emblemReadySrc) {
+      return Promise.resolve(emblemReadySrc);
+    }
+
+    if (emblemPreloadPromise) {
+      return emblemPreloadPromise;
+    }
+
+    emblemPreloadPromise = testEmblemImage(CONFIG.emblemSvg)
+      .then((src) => {
+        if (src) return src;
+        return testEmblemImage(CONFIG.emblemPng);
+      })
+      .then((src) => {
+        emblemReadySrc = src || '';
+        return emblemReadySrc;
+      })
+      .catch(() => '');
+
+    return emblemPreloadPromise;
+  }
+
   function githubIconSvg() {
     return [
       '<svg class="site-footer-label__github-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">',
@@ -177,7 +224,7 @@
       '<div class="site-footer-label__center">',
       `  <div class="site-footer-label__copyright">${escapeText(CONFIG.copyright)}</div>`,
       `  <div class="site-footer-label__quote">${escapeText(CONFIG.quote)}</div>`,
-      '  <div class="site-footer-label__updated">Last updates: <span data-site-footer-updated>Loading...</span></div>',
+      '  <div class="site-footer-label__updated">Last updated: <span data-site-footer-updated>Loading...</span></div>',
       '</div>',
 
       '<div class="site-footer-label__right">',
@@ -256,23 +303,30 @@
 
     emblem.dataset.emblemHydrated = '1';
 
-    emblem.onerror = () => {
-      if (emblem.dataset.triedPng === '1') {
+    preloadEmblem().then((src) => {
+      if (!src) {
         emblem.classList.add('is-hidden');
         emblem.style.visibility = 'hidden';
         return;
       }
 
-      emblem.dataset.triedPng = '1';
-      emblem.src = CONFIG.emblemPng;
-    };
+      emblem.onload = () => {
+        emblem.classList.remove('is-hidden');
+        emblem.style.visibility = '';
+      };
 
-    emblem.onload = () => {
-      emblem.classList.remove('is-hidden');
-      emblem.style.visibility = '';
-    };
+      emblem.onerror = () => {
+        emblem.classList.add('is-hidden');
+        emblem.style.visibility = 'hidden';
+      };
 
-    emblem.src = CONFIG.emblemSvg;
+      emblem.src = src;
+
+      if (emblem.complete && emblem.naturalWidth > 0) {
+        emblem.classList.remove('is-hidden');
+        emblem.style.visibility = '';
+      }
+    });
   }
 
   function hydrateLastUpdated(footer) {
@@ -355,12 +409,15 @@
     init,
     ensureAllFooters,
     ensureFooterForPage,
-    fetchLastUpdated
+    fetchLastUpdated,
+    preloadEmblem
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+  if (!window.__SiteFooterLabelPreloadOnly) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   }
 })();
