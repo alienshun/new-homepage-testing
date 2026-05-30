@@ -11,32 +11,13 @@
     quote: 'You have reached the end of this page, but not the end of the journey.',
 
     /*
-      Logo candidates are tried only when the footer is near the viewport.
-      SVG candidates come first, PNG candidates second.
+      GitHub Pages paths are case-sensitive.
+      Keep these filenames exactly the same as the uploaded files.
 
-      If your actual uploaded filenames are different, just add them here.
+      SVG is tried first. PNG is used only if SVG fails.
     */
-    logoCandidates: [
-      './assets/images/labels/ustc-logo.svg',
-      './assets/images/labels/ustc_logo.svg',
-      './assets/images/labels/USTC-logo.svg',
-      './assets/images/labels/USTC_logo.svg',
-      './assets/images/labels/ustc.svg',
-      './assets/images/labels/USTC.svg',
-      './assets/images/labels/school-logo.svg',
-      './assets/images/labels/school_logo.svg',
-      './assets/images/labels/logo.svg',
-
-      './assets/images/labels/ustc-logo.png',
-      './assets/images/labels/ustc_logo.png',
-      './assets/images/labels/USTC-logo.png',
-      './assets/images/labels/USTC_logo.png',
-      './assets/images/labels/ustc.png',
-      './assets/images/labels/USTC.png',
-      './assets/images/labels/school-logo.png',
-      './assets/images/labels/school_logo.png',
-      './assets/images/labels/logo.png'
-    ],
+    emblemSvg: './assets/images/labels/USTC.svg',
+    emblemPng: './assets/images/labels/USTC.png',
 
     targetPageIds: [
       'resume',
@@ -56,7 +37,6 @@
   let ensureTimer = 0;
   let footerHydrationStarted = false;
   let lastUpdatedPromise = null;
-  let logoPromise = null;
 
   function runWhenIdle(callback, timeout) {
     if (typeof window.requestIdleCallback === 'function') {
@@ -74,8 +54,9 @@
 
     stylesheetLoaded = true;
 
-    const existing = document.querySelector('link[data-site-footer-label-style="1"]');
-    if (existing) return;
+    if (document.querySelector('link[data-site-footer-label-style="1"]')) {
+      return;
+    }
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
@@ -171,39 +152,6 @@
       .catch(() => '');
 
     return lastUpdatedPromise;
-  }
-
-  function testImage(src) {
-    return new Promise((resolve) => {
-      const img = new Image();
-
-      img.onload = () => resolve(src);
-      img.onerror = () => resolve('');
-
-      img.decoding = 'async';
-      img.loading = 'lazy';
-      img.src = src;
-    });
-  }
-
-  async function resolveLogoSrc() {
-    if (logoPromise) {
-      return logoPromise;
-    }
-
-    logoPromise = (async () => {
-      for (const src of CONFIG.logoCandidates) {
-        const ok = await testImage(src);
-
-        if (ok) {
-          return ok;
-        }
-      }
-
-      return '';
-    })();
-
-    return logoPromise;
   }
 
   function githubIconSvg() {
@@ -307,16 +255,25 @@
     runWhenIdle(() => {
       const footers = Array.from(document.querySelectorAll('.site-footer-label'));
 
-      resolveLogoSrc().then((src) => {
-        if (!src) return;
+      footers.forEach((footer) => {
+        const emblem = footer.querySelector('.site-footer-label__emblem');
+        if (!emblem || emblem.src) return;
 
-        footers.forEach((footer) => {
-          const emblem = footer.querySelector('.site-footer-label__emblem');
-          if (!emblem || emblem.src) return;
+        emblem.onerror = () => {
+          if (emblem.dataset.triedPng === '1') {
+            emblem.classList.add('is-hidden');
+            return;
+          }
 
-          emblem.src = src;
+          emblem.dataset.triedPng = '1';
+          emblem.src = CONFIG.emblemPng;
+        };
+
+        emblem.onload = () => {
           emblem.classList.remove('is-hidden');
-        });
+        };
+
+        emblem.src = CONFIG.emblemSvg;
       });
 
       fetchLastUpdated().then((dateText) => {
@@ -346,7 +303,7 @@
       });
     }, {
       root: null,
-      rootMargin: '480px 0px',
+      rootMargin: '360px 0px',
       threshold: 0
     });
 
@@ -381,8 +338,7 @@
     init,
     ensureAllFooters,
     ensureFooterForPage,
-    fetchLastUpdated,
-    resolveLogoSrc
+    fetchLastUpdated
   };
 
   if (document.readyState === 'loading') {
