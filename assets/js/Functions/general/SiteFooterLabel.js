@@ -191,15 +191,12 @@
   }
 
   function getFooterHost(page) {
-    if (!page) return null;
-
-    return (
-      page.querySelector(':scope > .container') ||
-      page.querySelector(':scope > .resume-container') ||
-      page.querySelector(':scope > .social-container') ||
-      page.querySelector(':scope > .life-container') ||
-      page
-    );
+    /*
+      Footer must sit at the bottom of the whole module page,
+      not inside inner content cards such as .container, .resume-container,
+      .social-container, or .life-container.
+    */
+    return page || null;
   }
 
   function ensureFooterForPage(page) {
@@ -208,8 +205,19 @@
     const host = getFooterHost(page);
     if (!host) return;
 
-    if (host.querySelector(':scope > .site-footer-label')) {
+    /*
+      If an older version already inserted the footer inside an inner container,
+      move it out to the page root instead of creating a duplicate.
+    */
+    const existing = page.querySelector('.site-footer-label');
+
+    if (existing) {
+      if (existing.parentElement !== host) {
+        host.appendChild(existing);
+      }
+
       page.dataset.footerLabelReady = '1';
+      observeFooterVisibility(existing);
       return;
     }
 
@@ -290,7 +298,14 @@
   function observeFooterVisibility(footer) {
     if (!footer) return;
 
+    if (footer.dataset.footerVisibilityObserved === '1') {
+      return;
+    }
+
+    footer.dataset.footerVisibilityObserved = '1';
+
     if (typeof IntersectionObserver !== 'function') {
+      hydrateVisibleFooters();
       return;
     }
 
