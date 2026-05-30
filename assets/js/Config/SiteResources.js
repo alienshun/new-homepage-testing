@@ -20,7 +20,7 @@
 
     Loading strategy:
     1. List/index files are critical Life resources.
-    2. Detail files are warm-up resources loaded after the critical Life resources finish.
+    2. Detail files are loaded on demand when a visitor opens a specific moment.
   */
   const ACTIVITY_MOMENT_DATES = [
     '2026_03_20',
@@ -116,23 +116,21 @@
       pages: ['resume', 'schedule', 'social', 'toolkit', 'life'],
 
       warmup: {
-        afterCover: ['resume', 'schedule', 'social', 'life'],
-        afterFirstPage: ['schedule', 'social', 'life'],
-
         /*
-          Warm-up policy:
-          - afterCover starts shortly after the cover background is ready.
-          - Resources are still loaded sequentially to avoid competing too strongly
-            with the first visible screen.
-          - Toolkit and Blog are intentionally not included here because they are
-            hidden/easter-egg pages.
-          - FullCalendar remains lazy-loaded inside Schedule unless explicitly needed.
+          Visitor-experience-first warm-up policy:
+          - The cover remains the first critical visual target.
+          - Once the cover background is ready, all main modules keep warming.
+          - Hidden/easter-egg pages are excluded.
+          - FullCalendar and Life moment details stay lazy-loaded.
         */
-        delayAfterCover: 350,
-        delayAfterFirstPage: 700,
-        delayBetweenPages: 500,
-        idleAfterCover: 400,
-        idleAfterFirstPage: 700,
+        afterCover: ['resume', 'schedule', 'social', 'life'],
+        afterFirstPage: ['resume', 'schedule', 'social', 'life'],
+
+        delayAfterCover: 250,
+        delayAfterFirstPage: 600,
+        delayBetweenPages: 350,
+        idleAfterCover: 150,
+        idleAfterFirstPage: 500,
         hoverDelay: 60
       }
     },
@@ -323,10 +321,6 @@
           
           A + 'js/Functions/life/LifeMeditations.js',
           A + 'js/Functions/life/LifeRoutes.js'
-        ],
-        warmupScripts: [
-          ...ACTIVITIES_MOMENTS.detailScripts('EN'),
-          ...ACTIVITIES_MOMENTS.detailScripts('ZH')
         ]
       }
     },
