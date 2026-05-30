@@ -21,6 +21,16 @@
     });
   }
 
+  function toDelay(value, fallback) {
+    const n = Number(value);
+
+    if (Number.isFinite(n)) {
+      return Math.max(0, n);
+    }
+
+    return Math.max(0, Number(fallback) || 0);
+  }
+
   function validPages(list) {
     return (Array.isArray(list) ? list : [])
       .filter((page) => page && pageConfigs[page]);
@@ -65,8 +75,9 @@
 
     if (!list.length) return;
 
-    const startDelay = Number(opts.startDelay) || 0;
-    const gap = Number(opts.gap) || 0;
+    const startDelay = toDelay(opts.startDelay, 0);
+    const gap = toDelay(opts.gap, 0);
+    const idleDelay = toDelay(opts.idleDelay, 450);
     const reason = opts.reason || 'sequence';
 
     const afterPageWarmup = typeof opts.afterPageWarmup === 'function'
@@ -97,10 +108,20 @@
       }, startDelay);
     }
 
+    /*
+      Use a short idle window instead of waiting for a long post-load idle phase.
+      This keeps the cover-first experience smooth while ensuring page modules
+      begin warming soon after the cover is visually ready.
+    */
+    if (idleDelay <= 0) {
+      run();
+      return;
+    }
+
     if (loader && typeof loader.idle === 'function') {
-      loader.idle(run, 1800);
+      loader.idle(run, idleDelay);
     } else {
-      window.setTimeout(run, 800);
+      window.setTimeout(run, idleDelay);
     }
   }
 
@@ -110,8 +131,9 @@
     afterCoverWarmupStarted = true;
 
     scheduleWarmupSequence(warmupConfig.afterCover || [defaultPage], {
-      startDelay: warmupConfig.delayAfterCover || 650,
-      gap: warmupConfig.delayBetweenPages || 850,
+      startDelay: warmupConfig.delayAfterCover || 350,
+      gap: warmupConfig.delayBetweenPages || 500,
+      idleDelay: warmupConfig.idleAfterCover || 400,
       reason: 'after-cover',
       afterPageWarmup(page) {
         if (page === 'resume') {
@@ -128,7 +150,8 @@
 
     scheduleWarmupSequence(warmupConfig.afterFirstPage || [], {
       startDelay: warmupConfig.delayAfterFirstPage || 700,
-      gap: warmupConfig.delayBetweenPages || 850,
+      gap: warmupConfig.delayBetweenPages || 500,
+      idleDelay: warmupConfig.idleAfterFirstPage || 700,
       reason: 'after-first-page'
     });
   }
@@ -137,7 +160,7 @@
     if (!page || !pageConfigs[page]) return;
 
     const hoverDelay = Number(warmupConfig.hoverDelay);
-    const ms = Number.isFinite(hoverDelay) ? hoverDelay : 80;
+    const ms = Number.isFinite(hoverDelay) ? hoverDelay : 60;
 
     if (intentWarmTimers[page]) {
       clearTimeout(intentWarmTimers[page]);
