@@ -17,8 +17,13 @@
   let coverHidden = false;
   let currentPage = null;
   let coverWarmupWatcherBound = false;
-  let footerLabelLoadStarted = false;
+
+  let footerLabelScriptLoadStarted = false;
+  let footerLabelInitStarted = false;
+  let footerLabelInitRequested = false;
+
   let defaultPageWarmupStarted = false;
+  let defaultPageWarmupPromise = null;
 
   const MIN_COVER_EXIT_DELAY = 300;
 
@@ -39,24 +44,68 @@
   });
 
   function runWhenIdle(callback, timeout) {
+    const numericTimeout = Number(timeout);
+    const hasTimeout = Number.isFinite(numericTimeout);
+
     if (typeof window.requestIdleCallback === 'function') {
       window.requestIdleCallback(callback, {
-        timeout: timeout || 1200
+        timeout: hasTimeout ? Math.max(0, numericTimeout) : 1200
       });
       return;
     }
 
-    window.setTimeout(callback, Math.min(timeout || 600, 600));
+    window.setTimeout(callback, hasTimeout ? Math.max(0, numericTimeout) : 600);
   }
 
-  function loadFooterLabelNonBlocking() {
-    if (footerLabelLoadStarted) return;
+  function finalizeFooterLabelReady() {
+    if (!window.SiteFooterLabel) return;
 
-    footerLabelLoadStarted = true;
+    if (typeof window.SiteFooterLabel.preloadEmblem === 'function') {
+      window.SiteFooterLabel.preloadEmblem();
+    }
+
+    if (
+      footerLabelInitRequested &&
+      !footerLabelInitStarted &&
+      typeof window.SiteFooterLabel.init === 'function'
+    ) {
+      footerLabelInitStarted = true;
+      window.__SiteFooterLabelPreloadOnly = false;
+      window.SiteFooterLabel.init();
+    }
+  }
+
+  function loadFooterLabelNonBlocking(options) {
+    const opts = options || {};
+    const timeout = Number.isFinite(Number(opts.timeout))
+      ? Number(opts.timeout)
+      : 1400;
+    const preloadEmblemOnly = opts.preloadEmblemOnly === true;
+    const shouldInit = !preloadEmblemOnly;
+
+    if (shouldInit) {
+      footerLabelInitRequested = true;
+      window.__SiteFooterLabelPreloadOnly = false;
+    }
+
+    if (window.SiteFooterLabel) {
+      finalizeFooterLabelReady();
+      return;
+    }
+
+    if (footerLabelScriptLoadStarted) {
+      return;
+    }
+
+    footerLabelScriptLoadStarted = true;
+
+    if (preloadEmblemOnly && !footerLabelInitRequested) {
+      window.__SiteFooterLabelPreloadOnly = true;
+    }
 
     runWhenIdle(() => {
-      if (window.SiteFooterLabel && typeof window.SiteFooterLabel.init === 'function') {
-        window.SiteFooterLabel.init();
+      if (window.SiteFooterLabel) {
+        finalizeFooterLabelReady();
         return;
       }
 
@@ -71,17 +120,17 @@
       script.setAttribute('data-site-footer-label-script', '1');
 
       script.onload = () => {
-        if (window.SiteFooterLabel && typeof window.SiteFooterLabel.init === 'function') {
-          window.SiteFooterLabel.init();
-        }
+        finalizeFooterLabelReady();
       };
 
       document.body.appendChild(script);
-    }, 1400);
+    }, timeout);
   }
 
   function warmDefaultPageImmediately(reason) {
-    if (defaultPageWarmupStarted) return;
+    if (defaultPageWarmupStarted) {
+      return defaultPageWarmupPromise || Promise.resolve(null);
+    }
 
     defaultPageWarmupStarted = true;
 
@@ -89,11 +138,17 @@
       warmup &&
       typeof warmup.warmPage === 'function'
     ) {
-      warmup.warmPage(defaultPage, reason || 'cover-default-priority')
+      defaultPageWarmupPromise = warmup.warmPage(defaultPage, reason || 'cover-default-priority')
         .catch((err) => {
           console.warn('[Bootstrap] Default page warm-up failed:', err);
+          return null;
         });
+
+      return defaultPageWarmupPromise;
     }
+
+    defaultPageWarmupPromise = Promise.resolve(null);
+    return defaultPageWarmupPromise;
   }
 
   function getPageElement(page) {
@@ -115,14 +170,25 @@
   function triggerAfterCoverWarmup() {
     if (!canStartAfterCoverWarmup()) return;
 
-    warmDefaultPageImmediately('cover-background-ready-default-page');
+    warmDefaultPageImmediately('cover-background-ready-default-page')
+      .finally(() => {
+        /*
+          Start the footer emblem request after the cover and About resources,
+          but before warming later modules. This only starts the emblem request;
+          it never waits for the image to finish loading.
+        */
+        loadFooterLabelNonBlocking({
+          timeout: 0,
+          preloadEmblemOnly: true
+        });
 
-    if (
-      warmup &&
-      typeof warmup.startAfterCoverWarmup === 'function'
-    ) {
-      warmup.startAfterCoverWarmup();
-    }
+        if (
+          warmup &&
+          typeof warmup.startAfterCoverWarmup === 'function'
+        ) {
+          warmup.startAfterCoverWarmup();
+        }
+      });
   }
 
   function startAfterCoverWarmupWhenReady(reason) {
