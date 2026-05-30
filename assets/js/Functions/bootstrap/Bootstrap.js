@@ -295,10 +295,6 @@
     await loader.loadPage(page);
     initLoadedPage(page);
 
-    /*
-      Do not block page transition for images.
-      Resume profile is allowed to continue loading in the background.
-    */
     warmPageCriticalAssetsNonBlocking(page);
 
     return true;
