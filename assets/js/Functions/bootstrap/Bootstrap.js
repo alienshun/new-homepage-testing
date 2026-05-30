@@ -110,12 +110,6 @@
       attributeFilter: ['class']
     });
 
-    /*
-      Safety fallback:
-      Prefer the cover background-ready signal. If it never arrives, start
-      warm-up only when the document is complete or after a longer grace period.
-      This prevents background warm-up from competing with the first cover paint.
-    */
     window.setTimeout(() => {
       observer.disconnect();
 
@@ -231,6 +225,18 @@
     }
   }
 
+  async function waitForPageCriticalAssets(page) {
+    if (
+      page === 'resume' &&
+      window.AboutResumeRender &&
+      typeof window.AboutResumeRender.waitForCriticalImages === 'function'
+    ) {
+      await window.AboutResumeRender.waitForCriticalImages({
+        timeout: 1400
+      });
+    }
+  }
+
   async function ensurePageAssets(page) {
     if (!pageConfigs[page]) return false;
 
@@ -241,6 +247,7 @@
 
     await loader.loadPage(page);
     initLoadedPage(page);
+    await waitForPageCriticalAssets(page);
 
     return true;
   }
