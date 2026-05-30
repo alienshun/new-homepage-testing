@@ -57,6 +57,11 @@
       if (isHeroAvatar) {
         img.setAttribute('loading', 'eager');
         img.setAttribute('fetchpriority', 'high');
+
+        try {
+          img.fetchPriority = 'high';
+        } catch (e) {}
+
         return;
       }
 
@@ -111,9 +116,93 @@
     }
 
     observeResumeChanges(resume);
-    scheduleImageOptimization(resume);
+    optimizeResumeImages(resume);
 
     return resume;
+  }
+
+  function waitForImageReady(img, timeout) {
+    if (!img) return Promise.resolve(false);
+
+    const timeoutMs = Math.max(0, Number(timeout) || 1400);
+
+    if (img.complete && img.naturalWidth > 0) {
+      if (typeof img.decode === 'function') {
+        return img.decode()
+          .then(() => true)
+          .catch(() => true);
+      }
+
+      return Promise.resolve(true);
+    }
+
+    return new Promise((resolve) => {
+      let settled = false;
+      let timer = null;
+
+      function cleanup() {
+        img.removeEventListener('load', handleLoad);
+        img.removeEventListener('error', handleError);
+
+        if (timer) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+      }
+
+      function done(value) {
+        if (settled) return;
+
+        settled = true;
+        cleanup();
+        resolve(value);
+      }
+
+      function handleLoad() {
+        if (typeof img.decode === 'function') {
+          img.decode()
+            .then(() => done(true))
+            .catch(() => done(true));
+          return;
+        }
+
+        done(true);
+      }
+
+      function handleError() {
+        done(false);
+      }
+
+      img.addEventListener('load', handleLoad, { once: true });
+      img.addEventListener('error', handleError, { once: true });
+
+      if (timeoutMs > 0) {
+        timer = window.setTimeout(() => {
+          done(img.complete && img.naturalWidth > 0);
+        }, timeoutMs);
+      }
+    });
+  }
+
+  function waitForCriticalImages(options) {
+    const opts = options || {};
+    const resume = renderEnglishResume();
+
+    if (!resume) return Promise.resolve(false);
+
+    const avatar = resume.querySelector('.resume-hero-avatar img');
+
+    if (!avatar) return Promise.resolve(false);
+
+    avatar.setAttribute('loading', 'eager');
+    avatar.setAttribute('fetchpriority', 'high');
+    avatar.setAttribute('decoding', 'async');
+
+    try {
+      avatar.fetchPriority = 'high';
+    } catch (e) {}
+
+    return waitForImageReady(avatar, opts.timeout || 1400);
   }
 
   function init() {
@@ -131,7 +220,8 @@
   window.AboutResumeRender = {
     init,
     renderEnglishResume,
-    optimizeResumeImages
+    optimizeResumeImages,
+    waitForCriticalImages
   };
 
   if (window.SitePages && typeof window.SitePages.register === 'function') {
