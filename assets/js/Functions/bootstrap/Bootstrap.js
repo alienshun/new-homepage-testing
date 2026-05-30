@@ -14,6 +14,7 @@
 
   let coverHidden = false;
   let currentPage = null;
+  let coverWarmupWatcherBound = false;
 
   routes.configure({
     pageConfigs,
@@ -37,6 +38,75 @@
 
   function getPageContext(page, extra) {
     return routes.getPageContext(page, extra);
+  }
+
+  function isCoverRoute() {
+    return !routes.getPageFromPath(window.location.pathname);
+  }
+
+  function canStartAfterCoverWarmup() {
+    return isCoverRoute() && !coverHidden;
+  }
+
+  function triggerAfterCoverWarmup() {
+    if (!canStartAfterCoverWarmup()) return;
+    warmup.startAfterCoverWarmup();
+  }
+
+  function startAfterCoverWarmupWhenReady(reason) {
+    if (!canStartAfterCoverWarmup()) return;
+
+    const cover = document.getElementById('cover');
+
+    if (!cover) {
+      window.setTimeout(() => {
+        startAfterCoverWarmupWhenReady(reason || 'cover-missing-retry');
+      }, 120);
+      return;
+    }
+
+    if (cover.classList.contains('background-ready')) {
+      window.setTimeout(() => {
+        triggerAfterCoverWarmup();
+      }, 180);
+      return;
+    }
+
+    if (coverWarmupWatcherBound) return;
+    coverWarmupWatcherBound = true;
+
+    if (typeof MutationObserver !== 'function') {
+      window.setTimeout(() => {
+        triggerAfterCoverWarmup();
+      }, 1200);
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      if (cover.classList.contains('background-ready')) {
+        observer.disconnect();
+
+        window.setTimeout(() => {
+          triggerAfterCoverWarmup();
+        }, 180);
+      }
+    });
+
+    observer.observe(cover, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    /*
+      Safety fallback:
+      If the background-ready class is delayed by image/network events,
+      still start the warm-up after a short grace period. The warm-up itself
+      remains sequential and lightly idled by BootstrapWarmup.
+    */
+    window.setTimeout(() => {
+      observer.disconnect();
+      triggerAfterCoverWarmup();
+    }, 1500);
   }
 
   function runPageInit(page) {
@@ -352,7 +422,7 @@
     if (opts.instant) {
       cover.classList.add('visible');
       coverInput.showCoverElements();
-      warmup.startAfterCoverWarmup();
+      startAfterCoverWarmupWhenReady('back-to-cover-instant');
 
       return;
     }
@@ -360,7 +430,7 @@
     setTimeout(() => {
       cover.classList.add('visible');
       coverInput.showCoverElements();
-      warmup.startAfterCoverWarmup();
+      startAfterCoverWarmupWhenReady('back-to-cover');
     }, 100);
   }
 
@@ -411,6 +481,8 @@
       window.Clock.initToggle();
     }
 
+    coverInput.bindCoverArrowAndScroll();
+
     const initialPage = routes.getPageFromPath(window.location.pathname);
 
     if (initialPage) {
@@ -421,6 +493,8 @@
         restoreScroll: true,
         restoreScrollPath: window.location.pathname
       });
+    } else {
+      startAfterCoverWarmupWhenReady('dom-content-loaded');
     }
   }
 
@@ -439,7 +513,7 @@
       if (cover) {
         cover.classList.add('visible');
         coverInput.showCoverElements();
-        warmup.startAfterCoverWarmup();
+        startAfterCoverWarmupWhenReady('window-load');
       }
     }
 
