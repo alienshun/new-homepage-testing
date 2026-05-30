@@ -118,10 +118,22 @@
       warmup: {
         afterCover: ['resume', 'schedule', 'social', 'life'],
         afterFirstPage: ['schedule', 'social', 'life'],
-        delayAfterCover: 650,
+
+        /*
+          Warm-up policy:
+          - afterCover starts shortly after the cover background is ready.
+          - Resources are still loaded sequentially to avoid competing too strongly
+            with the first visible screen.
+          - Toolkit and Blog are intentionally not included here because they are
+            hidden/easter-egg pages.
+          - FullCalendar remains lazy-loaded inside Schedule unless explicitly needed.
+        */
+        delayAfterCover: 350,
         delayAfterFirstPage: 700,
-        delayBetweenPages: 850,
-        hoverDelay: 80
+        delayBetweenPages: 500,
+        idleAfterCover: 400,
+        idleAfterFirstPage: 700,
+        hoverDelay: 60
       }
     },
 
