@@ -18,6 +18,7 @@
   let currentPage = null;
   let coverWarmupWatcherBound = false;
   let footerLabelLoadStarted = false;
+  let defaultPageWarmupStarted = false;
 
   const MIN_COVER_EXIT_DELAY = 300;
 
@@ -79,6 +80,22 @@
     }, 1400);
   }
 
+  function warmDefaultPageImmediately(reason) {
+    if (defaultPageWarmupStarted) return;
+
+    defaultPageWarmupStarted = true;
+
+    if (
+      warmup &&
+      typeof warmup.warmPage === 'function'
+    ) {
+      warmup.warmPage(defaultPage, reason || 'cover-default-priority')
+        .catch((err) => {
+          console.warn('[Bootstrap] Default page warm-up failed:', err);
+        });
+    }
+  }
+
   function getPageElement(page) {
     return routes.getPageElement(page);
   }
@@ -97,6 +114,8 @@
 
   function triggerAfterCoverWarmup() {
     if (!canStartAfterCoverWarmup()) return;
+
+    warmDefaultPageImmediately('cover-background-ready-default-page');
 
     if (
       warmup &&
@@ -391,6 +410,10 @@
       }
 
       return;
+    }
+
+    if (!coverHidden && page === defaultPage) {
+      warmDefaultPageImmediately('cover-enter-request');
     }
 
     const cover = document.getElementById('cover');
