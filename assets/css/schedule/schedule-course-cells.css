@@ -8,25 +8,25 @@
   --course-card-radius: 10px;
   --course-card-radius-sm: 8px;
 
-  --course-card-bg-top: color-mix(in srgb, var(--surface) 86%, var(--accent-weak));
-  --course-card-bg-bottom: color-mix(in srgb, var(--surface-2) 88%, var(--accent-weak));
+  --course-card-bg-top: color-mix(in srgb, var(--surface) 90%, var(--accent-weak));
+  --course-card-bg-bottom: color-mix(in srgb, var(--surface-2) 90%, var(--accent-weak));
 
-  --course-card-hover-bg-top: color-mix(in srgb, var(--surface) 80%, var(--accent-weak));
-  --course-card-hover-bg-bottom: color-mix(in srgb, var(--surface-2) 82%, var(--accent-weak));
+  --course-card-hover-bg-top: color-mix(in srgb, var(--surface) 84%, var(--accent-weak));
+  --course-card-hover-bg-bottom: color-mix(in srgb, var(--surface-2) 84%, var(--accent-weak));
 
-  --course-card-border: color-mix(in srgb, var(--border) 82%, var(--accent));
-  --course-card-border-hover: color-mix(in srgb, var(--border) 58%, var(--accent));
+  --course-card-border: color-mix(in srgb, var(--border) 84%, var(--accent));
+  --course-card-border-hover: color-mix(in srgb, var(--border) 54%, var(--accent));
 
   --course-card-accent: color-mix(in srgb, var(--accent) 72%, var(--text));
-  --course-card-muted-accent: color-mix(in srgb, var(--accent) 36%, var(--muted));
+  --course-card-muted-accent: color-mix(in srgb, var(--accent) 38%, var(--muted));
 
   --course-card-shadow:
     0 1px 2px rgba(0, 0, 0, 0.045),
-    inset 0 1px 0 color-mix(in srgb, #ffffff 34%, transparent);
+    inset 0 1px 0 color-mix(in srgb, #ffffff 30%, transparent);
 
   --course-card-shadow-hover:
-    0 8px 18px rgba(0, 0, 0, 0.10),
-    0 2px 6px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.13),
+    0 3px 8px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 color-mix(in srgb, #ffffff 38%, transparent);
 }
 
@@ -38,7 +38,7 @@
   border-radius: 6px;
   z-index: 20;
 
-  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
   border: 1px solid color-mix(in srgb, var(--border) 72%, transparent);
   color: var(--muted);
   box-shadow: var(--shadow-xs);
@@ -276,6 +276,7 @@
   overflow: hidden;
 
   transform: translate3d(0, 0, 0);
+  will-change: transform, box-shadow, border-color;
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease,
@@ -283,29 +284,49 @@
     background 0.18s ease;
 }
 
-/* A restrained accent strip: thinner, less playful than the previous top bar */
+/* Top accent line: restrained and cleaner than a large colored block */
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container::before,
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container::before,
 #ustc-timetable td.event-cell > .overlap-container::before {
   content: "";
   position: absolute;
 
-  top: 7px;
-  left: 7px;
-  bottom: 7px;
+  top: 0;
+  left: 0;
+  right: 0;
 
-  width: 3px;
-
-  border-radius: 999px;
+  height: 2px;
 
   background:
     linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--course-card-accent) 86%, transparent),
-      color-mix(in srgb, var(--course-card-muted-accent) 74%, transparent)
+      90deg,
+      color-mix(in srgb, var(--course-card-muted-accent) 68%, transparent),
+      color-mix(in srgb, var(--course-card-accent) 88%, transparent),
+      color-mix(in srgb, var(--course-card-muted-accent) 68%, transparent)
     );
 
   pointer-events: none;
+}
+
+/* Soft highlight layer, visible mainly on hover */
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .course-container::after,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell > .overlap-container::after,
+#ustc-timetable td.event-cell > .overlap-container::after {
+  content: "";
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      color-mix(in srgb, var(--accent-weak) 38%, transparent),
+      transparent 58%
+    );
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
 }
 
 #my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover > .course-container,
@@ -321,7 +342,13 @@
   border-color: var(--course-card-border-hover);
   box-shadow: var(--course-card-shadow-hover);
 
-  transform: translate3d(0, -1px, 0);
+  transform: translate3d(0, -3px, 0);
+}
+
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover > .course-container::after,
+#my-timetable-section .semester-timetable-container.active .timetable td.event-cell:hover > .overlap-container::after,
+#ustc-timetable td.event-cell:hover > .overlap-container::after {
+  opacity: 1;
 }
 
 /* Stable divider between overlapped courses */
