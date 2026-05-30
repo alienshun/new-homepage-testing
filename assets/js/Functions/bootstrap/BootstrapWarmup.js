@@ -52,7 +52,7 @@
     return loader.warmPage(page, reason || 'bootstrap');
   }
 
-  function warmLifeDisplayFontsAfterAbout() {
+  function warmLifeDisplayFontsAfterLife() {
     if (lifeDisplayFontWarmupStarted) return;
 
     lifeDisplayFontWarmupStarted = true;
@@ -65,7 +65,7 @@
 
     preloader.warmFontGroupWhenIdle('lifeDisplay', {
       timeout: 3000,
-      reason: 'after-about-warmup'
+      reason: 'after-life-warmup'
     });
   }
 
@@ -77,7 +77,7 @@
 
     const startDelay = toDelay(opts.startDelay, 0);
     const gap = toDelay(opts.gap, 0);
-    const idleDelay = toDelay(opts.idleDelay, 450);
+    const idleDelay = toDelay(opts.idleDelay, 150);
     const reason = opts.reason || 'sequence';
 
     const afterPageWarmup = typeof opts.afterPageWarmup === 'function'
@@ -109,9 +109,9 @@
     }
 
     /*
-      Use a short idle window instead of waiting for a long post-load idle phase.
-      This keeps the cover-first experience smooth while ensuring page modules
-      begin warming soon after the cover is visually ready.
+      Keep the warm-up continuous, but give the browser a very short chance
+      to finish immediate cover work first. This avoids blocking the first
+      visible screen while still preparing later modules quickly.
     */
     if (idleDelay <= 0) {
       run();
@@ -131,13 +131,13 @@
     afterCoverWarmupStarted = true;
 
     scheduleWarmupSequence(warmupConfig.afterCover || [defaultPage], {
-      startDelay: warmupConfig.delayAfterCover || 350,
-      gap: warmupConfig.delayBetweenPages || 500,
-      idleDelay: warmupConfig.idleAfterCover || 400,
+      startDelay: warmupConfig.delayAfterCover || 250,
+      gap: warmupConfig.delayBetweenPages || 350,
+      idleDelay: warmupConfig.idleAfterCover || 150,
       reason: 'after-cover',
       afterPageWarmup(page) {
-        if (page === 'resume') {
-          warmLifeDisplayFontsAfterAbout();
+        if (page === 'life') {
+          warmLifeDisplayFontsAfterLife();
         }
       }
     });
@@ -149,10 +149,15 @@
     afterFirstPageWarmupStarted = true;
 
     scheduleWarmupSequence(warmupConfig.afterFirstPage || [], {
-      startDelay: warmupConfig.delayAfterFirstPage || 700,
-      gap: warmupConfig.delayBetweenPages || 500,
-      idleDelay: warmupConfig.idleAfterFirstPage || 700,
-      reason: 'after-first-page'
+      startDelay: warmupConfig.delayAfterFirstPage || 600,
+      gap: warmupConfig.delayBetweenPages || 350,
+      idleDelay: warmupConfig.idleAfterFirstPage || 500,
+      reason: 'after-first-page',
+      afterPageWarmup(page) {
+        if (page === 'life') {
+          warmLifeDisplayFontsAfterLife();
+        }
+      }
     });
   }
 
@@ -202,7 +207,7 @@
     validPages,
     warmPage,
     scheduleWarmupSequence,
-    warmLifeDisplayFontsAfterAbout,
+    warmLifeDisplayFontsAfterLife,
     startAfterCoverWarmup,
     startAfterFirstPageWarmup,
     warmPageByIntent,
