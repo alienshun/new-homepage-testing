@@ -1,34 +1,22 @@
 /* =========================================================
    Global Site Footer Label
+   - Minimal academic-style footer
    - Loaded lazily by SiteFooterLabel.js
-   - Does not block cover loading or page switching
+   - No card, no frame, no special font
    ========================================================= */
 
 .site-footer-label {
-  width: min(1080px, calc(100% - 32px));
-  margin: 58px auto 28px;
-  padding: 18px 22px;
+  width: min(1080px, calc(100% - 36px));
+  margin: 64px auto 22px;
+  padding: 0 2px 4px;
 
   display: grid;
-  grid-template-columns: 1fr minmax(280px, 1.35fr) 1fr;
-  align-items: center;
-  gap: 22px;
+  grid-template-columns: 1fr minmax(280px, 1.4fr) 1fr;
+  align-items: end;
+  column-gap: 22px;
 
-  border: 1px solid color-mix(in srgb, var(--border) 76%, transparent);
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--surface) 94%, transparent),
-      color-mix(in srgb, var(--surface-2) 92%, transparent)
-    );
-
-  box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.055),
-    inset 0 1px 0 color-mix(in srgb, #ffffff 30%, transparent);
-
-  color: var(--text);
+  font: inherit;
+  color: var(--muted);
 }
 
 .site-footer-label__left,
@@ -39,7 +27,7 @@
 
 .site-footer-label__left {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-start;
 }
 
@@ -50,18 +38,18 @@
 
 .site-footer-label__right {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: flex-end;
 }
 
 .site-footer-label__emblem {
-  width: 54px;
-  height: 54px;
-  object-fit: contain;
-  display: block;
+  width: 42px;
+  height: 42px;
 
-  opacity: 0.94;
-  filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.08));
+  display: block;
+  object-fit: contain;
+
+  opacity: 0.78;
 }
 
 .site-footer-label__emblem.is-hidden {
@@ -69,76 +57,76 @@
 }
 
 .site-footer-label__copyright {
-  font-size: 0.88rem;
-  font-weight: 650;
-  letter-spacing: 0.01em;
-  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
 }
 
 .site-footer-label__quote {
-  margin-top: 3px;
+  margin-top: 2px;
 
-  font-size: 0.86rem;
-  color: var(--muted);
-  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-style: normal;
+  color: color-mix(in srgb, var(--muted) 88%, var(--text));
 }
 
 .site-footer-label__updated {
-  margin-top: 3px;
+  margin-top: 2px;
 
-  font-size: 0.78rem;
-  color: color-mix(in srgb, var(--muted) 88%, var(--text));
+  font-size: 0.76rem;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--muted) 78%, var(--text));
 }
 
 .site-footer-label__github-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 5px;
 
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 700;
+  padding: 0;
+
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 400;
+  line-height: 1.3;
 
   color: #2563eb;
+  text-decoration: none;
 
-  padding: 7px 11px;
-  border-radius: 999px;
-
-  border: 1px solid color-mix(in srgb, #2563eb 28%, transparent);
-  background: color-mix(in srgb, #2563eb 7%, transparent);
+  background: none;
+  border: none;
+  box-shadow: none;
 
   transition:
-    transform 0.16s ease,
-    box-shadow 0.16s ease,
-    background 0.16s ease,
-    border-color 0.16s ease;
+    color 0.16s ease,
+    opacity 0.16s ease;
 }
 
 .site-footer-label__github-link:hover {
-  transform: translateY(-1px);
-
-  border-color: color-mix(in srgb, #2563eb 44%, transparent);
-  background: color-mix(in srgb, #2563eb 11%, transparent);
-
-  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.15);
+  color: #1d4ed8;
+  text-decoration: underline;
 }
 
 .site-footer-label__github-icon {
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
   flex: 0 0 auto;
 
   color: currentColor;
+  opacity: 0.9;
 }
 
 @media (max-width: 760px) {
   .site-footer-label {
+    width: min(100% - 28px, 520px);
     grid-template-columns: 1fr;
-    gap: 12px;
+    row-gap: 10px;
 
-    margin-top: 46px;
-    padding: 18px 18px;
+    margin-top: 48px;
+    text-align: center;
   }
 
   .site-footer-label__left,
@@ -148,8 +136,20 @@
     text-align: center;
   }
 
+  .site-footer-label__left {
+    order: 1;
+  }
+
+  .site-footer-label__center {
+    order: 2;
+  }
+
+  .site-footer-label__right {
+    order: 3;
+  }
+
   .site-footer-label__emblem {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
   }
 }
