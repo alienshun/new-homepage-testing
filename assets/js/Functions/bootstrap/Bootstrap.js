@@ -16,6 +16,8 @@
   let currentPage = null;
   let coverWarmupWatcherBound = false;
 
+  const MIN_COVER_EXIT_DELAY = 480;
+
   routes.configure({
     pageConfigs,
     navigation,
@@ -50,7 +52,13 @@
 
   function triggerAfterCoverWarmup() {
     if (!canStartAfterCoverWarmup()) return;
-    warmup.startAfterCoverWarmup();
+
+    if (
+      warmup &&
+      typeof warmup.startAfterCoverWarmup === 'function'
+    ) {
+      warmup.startAfterCoverWarmup();
+    }
   }
 
   function startAfterCoverWarmupWhenReady(reason) {
@@ -68,7 +76,7 @@
     if (cover.classList.contains('background-ready')) {
       window.setTimeout(() => {
         triggerAfterCoverWarmup();
-      }, 180);
+      }, 80);
       return;
     }
 
@@ -77,8 +85,13 @@
 
     if (typeof MutationObserver !== 'function') {
       window.setTimeout(() => {
-        triggerAfterCoverWarmup();
-      }, 1200);
+        if (
+          cover.classList.contains('background-ready') ||
+          document.readyState === 'complete'
+        ) {
+          triggerAfterCoverWarmup();
+        }
+      }, 2000);
       return;
     }
 
@@ -88,7 +101,7 @@
 
         window.setTimeout(() => {
           triggerAfterCoverWarmup();
-        }, 180);
+        }, 80);
       }
     });
 
@@ -99,14 +112,20 @@
 
     /*
       Safety fallback:
-      If the background-ready class is delayed by image/network events,
-      still start the warm-up after a short grace period. The warm-up itself
-      remains sequential and lightly idled by BootstrapWarmup.
+      Prefer the cover background-ready signal. If it never arrives, start
+      warm-up only when the document is complete or after a longer grace period.
+      This prevents background warm-up from competing with the first cover paint.
     */
     window.setTimeout(() => {
       observer.disconnect();
-      triggerAfterCoverWarmup();
-    }, 1500);
+
+      if (
+        cover.classList.contains('background-ready') ||
+        document.readyState === 'complete'
+      ) {
+        triggerAfterCoverWarmup();
+      }
+    }, 3500);
   }
 
   function runPageInit(page) {
@@ -279,7 +298,12 @@
       );
     }
 
-    warmup.startAfterFirstPageWarmup();
+    if (
+      warmup &&
+      typeof warmup.startAfterFirstPageWarmup === 'function'
+    ) {
+      warmup.startAfterFirstPageWarmup();
+    }
 
     return true;
   }
@@ -350,7 +374,7 @@
 
     const results = await Promise.all([
       loadPromise,
-      warmup.delay(1250)
+      warmup.delay(MIN_COVER_EXIT_DELAY)
     ]);
 
     const loaded = results[0];
