@@ -16,7 +16,7 @@
   let currentPage = null;
   let coverWarmupWatcherBound = false;
 
-  const MIN_COVER_EXIT_DELAY = 480;
+  const MIN_COVER_EXIT_DELAY = 300;
 
   routes.configure({
     pageConfigs,
@@ -225,14 +225,16 @@
     }
   }
 
-  async function waitForPageCriticalAssets(page) {
+  function warmPageCriticalAssetsNonBlocking(page) {
     if (
       page === 'resume' &&
       window.AboutResumeRender &&
       typeof window.AboutResumeRender.waitForCriticalImages === 'function'
     ) {
-      await window.AboutResumeRender.waitForCriticalImages({
+      window.AboutResumeRender.waitForCriticalImages({
         timeout: 1400
+      }).catch((err) => {
+        console.warn('[Bootstrap] Non-blocking resume image warm-up failed:', err);
       });
     }
   }
@@ -247,7 +249,13 @@
 
     await loader.loadPage(page);
     initLoadedPage(page);
-    await waitForPageCriticalAssets(page);
+
+    /*
+      Do not block page transition for images.
+      Resume profile is allowed to continue loading in the background,
+      because fast page entry has higher priority than avoiding a brief image blank.
+    */
+    warmPageCriticalAssetsNonBlocking(page);
 
     return true;
   }
