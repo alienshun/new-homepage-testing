@@ -172,6 +172,7 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
 
 #activities_moments-section {
   min-height: 220px;
+  scroll-margin-top: calc(var(--topnav-height, 72px) + 14px);
 }
 
 /* Keep the blank area really blank for now. */
