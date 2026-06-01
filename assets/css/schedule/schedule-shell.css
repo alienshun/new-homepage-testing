@@ -35,53 +35,99 @@
   flex-wrap: wrap;
 }
 
-.schedule-switch-btn {
-  padding: 10px 18px;
-  background: transparent;
-  color: var(--text);
-  border: 1px solid transparent;
-  border-radius: 999px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease, color 0.18s ease, border-color 0.18s ease;
-  box-shadow: none;
-}
-
-.schedule-switch-btn:hover {
-  background: color-mix(in srgb, var(--surface-2) 78%, transparent);
-  transform: translateY(-0.5px);
-  box-shadow: none;
-}
-
-.schedule-switch-btn:active {
-  transform: translateY(0);
-}
-
-.schedule-switch-btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px var(--accent-weak), var(--shadow-xs);
-}
-
-.schedule-switch-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #ffffff;
-  box-shadow: var(--shadow-xs);
-}
-
-.schedule-switch-btn.active:hover {
-  background: var(--accent-strong);
-}
-
+.schedule-switch-btn,
 .schedule-switcher a.schedule-switch-btn {
+  appearance: none;
+  -webkit-appearance: none;
+
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  min-height: 38px;
+  padding: 8px 18px;
+  border-radius: 999px;
+
+  border: 1px solid transparent;
+  background: transparent;
+
+  color: var(--muted);
+  font-family: var(--font-nav-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant: small-caps;
+  letter-spacing: 0.45px;
+
   text-decoration: none;
-  line-height: normal;
-  font-family: inherit;
-  box-sizing: border-box;
+  cursor: pointer;
   user-select: none;
+  white-space: nowrap;
+  box-sizing: border-box;
+
+  box-shadow: none;
+
+  transition:
+    transform 0.16s ease,
+    color 0.16s ease,
+    background-color 0.16s ease,
+    border-color 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+body[data-lang="zh"] .schedule-switch-btn,
+body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
+  font-family: var(--font-zh-heading);
+  font-variant: normal;
+  letter-spacing: 0.8px;
+}
+
+.schedule-switch-btn:hover,
+.schedule-switcher a.schedule-switch-btn:hover {
+  color: var(--accent);
+  text-decoration: none;
+  background: var(--accent-weak);
+  border-color: color-mix(in srgb, var(--border) 52%, var(--accent));
+  box-shadow:
+    0 3px 8px rgba(0, 0, 0, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.32);
+  transform: translateY(-1px);
+}
+
+.schedule-switch-btn:active,
+.schedule-switcher a.schedule-switch-btn:active {
+  transform: translateY(0);
+}
+
+.schedule-switch-btn:focus-visible,
+.schedule-switcher a.schedule-switch-btn:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--border) 52%, var(--accent));
+  box-shadow:
+    0 0 0 3px var(--accent-weak),
+    0 3px 8px rgba(0, 0, 0, 0.045);
+}
+
+.schedule-switch-btn.active,
+.schedule-switcher a.schedule-switch-btn.active {
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--surface) 66%, var(--accent-weak));
+  border-color: color-mix(in srgb, var(--border) 58%, var(--accent));
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.065),
+    0 1px 3px rgba(0, 0, 0, 0.045),
+    inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+.schedule-switch-btn.active:hover,
+.schedule-switcher a.schedule-switch-btn.active:hover {
+  color: var(--accent-strong);
+  background: color-mix(in srgb, var(--surface) 60%, var(--accent-weak));
+  border-color: color-mix(in srgb, var(--border) 50%, var(--accent));
+  box-shadow:
+    0 5px 14px rgba(0, 0, 0, 0.075),
+    0 1px 4px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 @media (max-width: 520px){
