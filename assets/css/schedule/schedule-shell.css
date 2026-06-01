@@ -103,7 +103,7 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
 .schedule-switcher a.schedule-switch-btn[aria-selected="true"] {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 66%, var(--accent-weak));
-  border-color: color-mix(in srgb, var(--border) 58%, var(--accent));
+  border-color: transparent;
   box-shadow:
     0 4px 12px rgba(0, 0, 0, 0.065),
     0 1px 3px rgba(0, 0, 0, 0.045),
@@ -116,7 +116,7 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
 .schedule-switcher a.schedule-switch-btn[aria-selected="true"]:hover {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 60%, var(--accent-weak));
-  border-color: color-mix(in srgb, var(--border) 50%, var(--accent));
+  border-color: color-mix(in srgb, var(--border) 52%, var(--accent));
   box-shadow:
     0 5px 14px rgba(0, 0, 0, 0.075),
     0 1px 4px rgba(0, 0, 0, 0.05),
@@ -130,11 +130,20 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
-  .schedule-switcher::-webkit-scrollbar{ display:none; }
-  .schedule-switch-btn{ white-space: nowrap; }
+
+  .schedule-switcher::-webkit-scrollbar{
+    display: none;
+  }
+
+  .schedule-switch-btn,
+  .schedule-switcher a.schedule-switch-btn {
+    white-space: nowrap;
+  }
 }
 
-.schedule-section { display: none; }
+.schedule-section {
+  display: none;
+}
 
 .schedule-section.active {
   display: block;
