@@ -76,10 +76,7 @@ body[data-lang="zh"] .life-heading {
   border-radius: 999px;
 
   background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
-  box-shadow:
-    var(--shadow-xs),
-    inset 0 1px 0 rgba(255, 255, 255, 0.42),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.025);
+  box-shadow: var(--shadow-xs);
 }
 
 .life-switch-btn,
@@ -127,55 +124,19 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
   letter-spacing: 0.8px;
 }
 
-.life-switch-btn:hover,
-.life-switcher a.life-switch-btn:hover {
+.life-switch-btn:hover {
   color: var(--accent);
   text-decoration: none;
   background: var(--accent-weak);
-  border-color: color-mix(in srgb, var(--border) 78%, var(--accent-weak));
-  box-shadow:
-    0 3px 8px rgba(0, 0, 0, 0.035),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
   transform: translateY(-1px);
 }
 
-.life-switch-btn:active,
-.life-switcher a.life-switch-btn:active {
-  transform: translateY(0);
-  box-shadow:
-    inset 0 2px 6px rgba(0, 0, 0, 0.08),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
-}
-
-.life-switch-btn:focus-visible,
-.life-switcher a.life-switch-btn:focus-visible {
-  outline: none;
-  border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
-  box-shadow:
-    0 0 0 3px var(--accent-weak),
-    var(--shadow-xs);
-}
-
 .life-switch-btn.active,
-.life-switch-btn[aria-selected="true"],
-.life-switcher a.life-switch-btn.active,
-.life-switcher a.life-switch-btn[aria-selected="true"] {
+.life-switch-btn[aria-selected="true"] {
   color: var(--accent);
   background: color-mix(in srgb, var(--surface) 72%, var(--accent-weak));
   border-color: color-mix(in srgb, var(--border) 72%, var(--accent));
-  box-shadow:
-    0 4px 12px rgba(0, 0, 0, 0.045),
-    0 1px 2px rgba(0, 0, 0, 0.035),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
-}
-
-.life-switch-btn.active:hover,
-.life-switch-btn[aria-selected="true"]:hover,
-.life-switcher a.life-switch-btn.active:hover,
-.life-switcher a.life-switch-btn[aria-selected="true"]:hover {
-  color: var(--accent-strong);
-  background: color-mix(in srgb, var(--surface) 66%, var(--accent-weak));
-  border-color: color-mix(in srgb, var(--border) 64%, var(--accent));
+  box-shadow: var(--shadow-xs);
 }
 
 /* =========================================================
@@ -273,8 +234,7 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
     padding: 8px;
   }
 
-  .life-switch-btn,
-  .life-switcher a.life-switch-btn {
+  .life-switch-btn {
     width: 100%;
     min-height: 40px;
   }
@@ -282,8 +242,7 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
 
 @media (prefers-reduced-motion: reduce) {
   #life,
-  .life-switch-btn,
-  .life-switcher a.life-switch-btn {
+  .life-switch-btn {
     transition: none;
   }
 }
