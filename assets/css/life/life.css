@@ -96,11 +96,12 @@ body[data-lang="zh"] .life-heading {
   background: transparent;
 
   color: var(--muted);
-  font-family: var(--font-body-sans);
+  font-family: var(--font-nav-serif);
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0.2px;
+  font-variant: small-caps;
+  letter-spacing: 0.45px;
 
   text-decoration: none;
   cursor: pointer;
@@ -119,6 +120,7 @@ body[data-lang="zh"] .life-heading {
 body[data-lang="zh"] .life-switch-btn,
 body[data-lang="zh"] .life-switcher a.life-switch-btn {
   font-family: var(--font-zh-heading);
+  font-variant: normal;
   letter-spacing: 0.8px;
 }
 
