@@ -371,6 +371,45 @@
             </div>
           </li>
         </ul>
+
+        <div class="subheading">
+          <span class="subheading-title">
+            压力下的搭便车：公共物品治理中的动态存量—压力模型
+          </span>
+        </div>
+
+        <ul>
+          <li>
+            本项目研究动态公共物品供给中的搭便车行为，构建基于仿真的动态存量—压力搭便车框架，将异质性主体、贡献激励、公共物品存量、维护压力、需求反馈、容量饱和与政策干预整合在同一动态多主体系统中；在受控合成情景下，比较 Nash 式个体理性基准与阶段性社会规划者基准，并评估补贴、惩罚、声誉、匹配基金、阈值治理与组合治理政策的效果。
+            <br>
+            <div class="project-actions">
+              <a
+                class="expand-action-btn"
+                href="https://stardust-math.github.io/Mathematical_Modeling/Final/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+                <span>展示页</span>
+              </a>
+
+              <a
+                class="expand-action-btn"
+                href="https://github.com/Stardust-math/Mathematical_Modeling/tree/main/HW%26ANS/Final/PublicGood_FreeRiding"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.07 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.83 1.19 3.09 0 4.45-2.7 5.42-5.27 5.7.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+                </svg>
+                <span>代码</span>
+              </a>
+            </div>
+          </li>
+        </ul>
       </div>
       
       <div class="section">
