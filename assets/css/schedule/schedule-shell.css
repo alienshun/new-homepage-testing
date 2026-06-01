@@ -65,8 +65,6 @@
   white-space: nowrap;
   box-sizing: border-box;
 
-  box-shadow: none;
-
   transition:
     transform 0.16s ease,
     color 0.16s ease,
@@ -99,17 +97,10 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
   transform: translateY(0);
 }
 
-.schedule-switch-btn:focus-visible,
-.schedule-switcher a.schedule-switch-btn:focus-visible {
-  outline: none;
-  border-color: color-mix(in srgb, var(--border) 52%, var(--accent));
-  box-shadow:
-    0 0 0 3px var(--accent-weak),
-    0 3px 8px rgba(0, 0, 0, 0.045);
-}
-
 .schedule-switch-btn.active,
-.schedule-switcher a.schedule-switch-btn.active {
+.schedule-switch-btn[aria-selected="true"],
+.schedule-switcher a.schedule-switch-btn.active,
+.schedule-switcher a.schedule-switch-btn[aria-selected="true"] {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 66%, var(--accent-weak));
   border-color: color-mix(in srgb, var(--border) 58%, var(--accent));
@@ -120,7 +111,9 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
 }
 
 .schedule-switch-btn.active:hover,
-.schedule-switcher a.schedule-switch-btn.active:hover {
+.schedule-switch-btn[aria-selected="true"]:hover,
+.schedule-switcher a.schedule-switch-btn.active:hover,
+.schedule-switcher a.schedule-switch-btn[aria-selected="true"]:hover {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 60%, var(--accent-weak));
   border-color: color-mix(in srgb, var(--border) 50%, var(--accent));
