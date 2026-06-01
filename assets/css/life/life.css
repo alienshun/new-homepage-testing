@@ -55,7 +55,7 @@ body[data-lang="zh"] .life-heading {
 
 /* =========================================================
    Life sub navigation
-   Schedule-like style, but independent structure
+   Elegant segmented control
    ========================================================= */
 
 .life-shell {
@@ -68,15 +68,28 @@ body[data-lang="zh"] .life-heading {
   align-items: center;
   flex-wrap: wrap;
 
-  gap: 10px;
-  margin: 4px auto 26px;
-  padding: 10px;
+  width: fit-content;
+  max-width: 100%;
+  gap: 6px;
+  margin: 6px auto 30px;
+  padding: 7px;
 
-  border: 1px solid color-mix(in srgb, var(--border) 85%, var(--accent-weak));
+  border: 1px solid color-mix(in srgb, var(--border) 78%, var(--accent-weak));
   border-radius: 999px;
 
-  background: color-mix(in srgb, var(--surface) 88%, var(--surface-2));
-  box-shadow: var(--shadow-xs);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 94%, transparent),
+      color-mix(in srgb, var(--surface-2) 88%, var(--surface))
+    );
+  box-shadow:
+    var(--shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.035);
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .life-switch-btn,
@@ -84,24 +97,25 @@ body[data-lang="zh"] .life-heading {
   appearance: none;
   -webkit-appearance: none;
 
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  min-height: 38px;
-  padding: 8px 18px;
+  min-height: 42px;
+  padding: 10px 24px;
   border-radius: 999px;
 
   border: 1px solid transparent;
   background: transparent;
 
-  color: var(--muted);
+  color: color-mix(in srgb, var(--text) 68%, var(--muted));
   font-family: var(--font-nav-serif);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 700;
   line-height: 1.2;
   font-variant: small-caps;
-  letter-spacing: 0.45px;
+  letter-spacing: 0.48px;
 
   text-decoration: none;
   cursor: pointer;
@@ -109,34 +123,94 @@ body[data-lang="zh"] .life-heading {
   white-space: nowrap;
   box-sizing: border-box;
 
+  box-shadow: none;
+
   transition:
-    transform 0.16s ease,
-    color 0.16s ease,
-    background-color 0.16s ease,
-    border-color 0.16s ease,
-    box-shadow 0.16s ease;
+    transform 0.18s ease,
+    color 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 body[data-lang="zh"] .life-switch-btn,
 body[data-lang="zh"] .life-switcher a.life-switch-btn {
   font-family: var(--font-zh-heading);
   font-variant: normal;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.9px;
 }
 
-.life-switch-btn:hover {
-  color: var(--accent);
+.life-switch-btn:hover,
+.life-switcher a.life-switch-btn:hover {
+  color: var(--accent-strong);
   text-decoration: none;
-  background: var(--accent-weak);
+
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 88%, var(--accent-weak)),
+      color-mix(in srgb, var(--surface-2) 84%, var(--accent-weak))
+    );
+
+  border-color: color-mix(in srgb, var(--border) 70%, var(--accent-weak));
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+
   transform: translateY(-1px);
 }
 
+.life-switch-btn:active,
+.life-switcher a.life-switch-btn:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 0 2px 7px rgba(0, 0, 0, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.life-switch-btn:focus-visible,
+.life-switcher a.life-switch-btn:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
+  box-shadow:
+    0 0 0 3px var(--accent-weak),
+    var(--shadow-xs);
+}
+
 .life-switch-btn.active,
-.life-switch-btn[aria-selected="true"] {
-  color: var(--accent);
-  background: color-mix(in srgb, var(--surface) 72%, var(--accent-weak));
-  border-color: color-mix(in srgb, var(--border) 72%, var(--accent));
-  box-shadow: var(--shadow-xs);
+.life-switch-btn[aria-selected="true"],
+.life-switcher a.life-switch-btn.active,
+.life-switcher a.life-switch-btn[aria-selected="true"] {
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent) 92%, #ffffff),
+      var(--accent)
+    );
+
+  border-color: color-mix(in srgb, var(--accent) 86%, var(--accent-strong));
+  box-shadow:
+    0 8px 18px color-mix(in srgb, var(--accent) 24%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+
+  transform: translateY(-1px);
+}
+
+.life-switch-btn.active:hover,
+.life-switch-btn[aria-selected="true"]:hover,
+.life-switcher a.life-switch-btn.active:hover,
+.life-switcher a.life-switch-btn[aria-selected="true"]:hover {
+  color: #ffffff;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-strong) 88%, #ffffff),
+      var(--accent-strong)
+    );
+  border-color: var(--accent-strong);
 }
 
 /* =========================================================
@@ -229,20 +303,23 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
   }
 
   .life-switcher {
-    border-radius: var(--radius);
+    width: 100%;
+    border-radius: 22px;
     gap: 8px;
     padding: 8px;
   }
 
-  .life-switch-btn {
+  .life-switch-btn,
+  .life-switcher a.life-switch-btn {
     width: 100%;
-    min-height: 40px;
+    min-height: 42px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   #life,
-  .life-switch-btn {
+  .life-switch-btn,
+  .life-switcher a.life-switch-btn {
     transition: none;
   }
 }
