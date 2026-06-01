@@ -124,11 +124,12 @@ body[data-lang="zh"] .life-switcher a.life-switch-btn {
   letter-spacing: 0.8px;
 }
 
-.life-switch-btn:hover {
+.life-switch-btn:hover,
+.life-switcher a.life-switch-btn:hover {
   color: var(--accent);
   text-decoration: none;
   background: var(--accent-weak);
-  border-color: color-mix(in srgb, var(--border) 78%, var(--accent-weak));
+  border-color: color-mix(in srgb, var(--border) 52%, var(--accent));
   box-shadow:
     0 3px 8px rgba(0, 0, 0, 0.045),
     inset 0 1px 0 rgba(255, 255, 255, 0.32);
