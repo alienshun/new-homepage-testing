@@ -92,15 +92,8 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
   transform: translateY(-1px);
 }
 
-.schedule-switch-btn:active,
-.schedule-switcher a.schedule-switch-btn:active {
-  transform: translateY(0);
-}
-
 .schedule-switch-btn.active,
-.schedule-switch-btn[aria-selected="true"],
-.schedule-switcher a.schedule-switch-btn.active,
-.schedule-switcher a.schedule-switch-btn[aria-selected="true"] {
+.schedule-switch-btn[aria-selected="true"] {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 66%, var(--accent-weak));
   border-color: color-mix(in srgb, var(--border) 58%, var(--accent));
@@ -111,9 +104,7 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
 }
 
 .schedule-switch-btn.active:hover,
-.schedule-switch-btn[aria-selected="true"]:hover,
-.schedule-switcher a.schedule-switch-btn.active:hover,
-.schedule-switcher a.schedule-switch-btn[aria-selected="true"]:hover {
+.schedule-switch-btn[aria-selected="true"]:hover {
   color: var(--accent-strong);
   background: color-mix(in srgb, var(--surface) 60%, var(--accent-weak));
   border-color: color-mix(in srgb, var(--border) 50%, var(--accent));
@@ -135,8 +126,7 @@ body[data-lang="zh"] .schedule-switcher a.schedule-switch-btn {
     display: none;
   }
 
-  .schedule-switch-btn,
-  .schedule-switcher a.schedule-switch-btn {
+  .schedule-switch-btn{
     white-space: nowrap;
   }
 }
