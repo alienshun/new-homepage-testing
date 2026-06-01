@@ -218,7 +218,8 @@
 
     activateView(view, {
       updateHistory: true,
-      dateKey: null
+      dateKey: null,
+      scroll: false
     });
   }
 
