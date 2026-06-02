@@ -4,10 +4,17 @@
   const DEFAULT_COVER_VIDEO_DIR = './assets/animation/cover/';
   const DEFAULT_COVER_VIDEO_EXTENSION = '.mp4';
 
-  const COVER_VIDEO_PAGE_WARMUP_MAX_WAIT = 28000;
-  const COVER_VIDEO_RESOURCE_QUIET_WINDOW = 1800;
-  const COVER_VIDEO_RESOURCE_QUIET_MAX_WAIT = 12000;
-  const COVER_VIDEO_IDLE_TIMEOUT = 6000;
+  const COVER_VIDEO_LOWEST_PRIORITY_OPTIONS = {
+    waitForFonts: true,
+    fontWaitTimeout: 3500,
+    waitForPageWarmups: true,
+    pageWarmupMaxWait: 28000,
+    waitForResourceQuiet: true,
+    resourceQuietWindow: 1800,
+    resourceQuietMaxWait: 12000,
+    idleTimeout: 6000
+  };
+
   const COVER_VIDEO_RETURN_IDLE_TIMEOUT = 1600;
 
   function getCoverResourceConfig() {
@@ -106,6 +113,14 @@
   function clearCoverVideo(coverEl) {
     if (!coverEl) return;
 
+    if (coverEl.__coverVideoVisibleObserver) {
+      try {
+        coverEl.__coverVideoVisibleObserver.disconnect();
+      } catch (e) {}
+
+      coverEl.__coverVideoVisibleObserver = null;
+    }
+
     const layer = getCoverVideoLayer(coverEl);
 
     if (layer) {
@@ -163,245 +178,49 @@
     );
   }
 
-  function waitForWindowLoad() {
-    if (document.readyState === 'complete') {
-      return Promise.resolve();
+  function runWhenIdle(callback, timeout) {
+    if (typeof callback !== 'function') return;
+
+    const loader = window.SiteResourceLoader;
+
+    if (loader && typeof loader.idle === 'function') {
+      loader.idle(callback, timeout || COVER_VIDEO_RETURN_IDLE_TIMEOUT);
+      return;
     }
 
-    return new Promise((resolve) => {
-      window.addEventListener('load', resolve, { once: true });
-    });
-  }
-
-  function waitForFontsReady(timeout) {
-    if (!document.fonts || !document.fonts.ready) {
-      return Promise.resolve();
-    }
-
-    const maxWait = Math.max(0, Number(timeout) || 3500);
-
-    return Promise.race([
-      document.fonts.ready.catch(() => {}),
-      new Promise((resolve) => {
-        window.setTimeout(resolve, maxWait);
-      })
-    ]).then(() => {});
-  }
-
-  function uniqueValidPages(list) {
-    const pages = window.SiteResources && window.SiteResources.pages
-      ? window.SiteResources.pages
-      : {};
-
-    const seen = Object.create(null);
-
-    return (Array.isArray(list) ? list : [])
-      .filter((page) => page && pages[page] && !seen[page])
-      .map((page) => {
-        seen[page] = true;
-        return page;
+    if (typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(callback, {
+        timeout: timeout || COVER_VIDEO_RETURN_IDLE_TIMEOUT
       });
+      return;
+    }
+
+    window.setTimeout(callback, Math.min(Number(timeout) || 900, 900));
   }
 
-  function getLowestPriorityWarmupPages() {
-    const resources = window.SiteResources || {};
-    const navigation = resources.navigation || {};
-    const warmup = navigation.warmup || {};
-
-    const list = [];
-
-    if (navigation.defaultPage) {
-      list.push(navigation.defaultPage);
-    }
-
-    if (Array.isArray(warmup.afterCover)) {
-      list.push(...warmup.afterCover);
-    }
-
-    if (Array.isArray(warmup.afterFirstPage)) {
-      list.push(...warmup.afterFirstPage);
-    }
-
-    if (!list.length) {
-      list.push('resume', 'schedule', 'social', 'life');
-    }
-
-    return uniqueValidPages(list);
-  }
-
-  function warmupPagesAreSettled(pageKeys) {
+  function scheduleLowestPriorityCoverVideoTask(callback) {
     const loader = window.SiteResourceLoader;
 
     if (
-      !loader ||
-      typeof loader.isPageLoaded !== 'function' ||
-      typeof loader.isPageLoading !== 'function'
+      loader &&
+      typeof loader.scheduleLowestPriorityTask === 'function'
     ) {
-      return true;
-    }
-
-    return pageKeys.every((page) => {
-      if (loader.isPageLoading(page)) return false;
-
-      if (
-        typeof loader.isPageWarmupLoading === 'function' &&
-        loader.isPageWarmupLoading(page)
-      ) {
-        return false;
-      }
-
-      return loader.isPageLoaded(page);
-    });
-  }
-
-  function waitForPageWarmups(maxWait) {
-    const pageKeys = getLowestPriorityWarmupPages();
-
-    if (!pageKeys.length) return Promise.resolve();
-
-    const waitLimit = Math.max(0, Number(maxWait) || COVER_VIDEO_PAGE_WARMUP_MAX_WAIT);
-
-    return new Promise((resolve) => {
-      const startedAt = performance.now();
-      let timer = null;
-
-      function cleanup() {
-        if (timer) {
-          window.clearTimeout(timer);
-          timer = null;
-        }
-
-        window.removeEventListener('site:pageassetsloaded', check);
-        window.removeEventListener('site:pagewarmuploaded', check);
-      }
-
-      function done() {
-        cleanup();
-        resolve();
-      }
-
-      function check() {
-        if (warmupPagesAreSettled(pageKeys)) {
-          done();
-          return;
-        }
-
-        if (performance.now() - startedAt >= waitLimit) {
-          done();
-          return;
-        }
-
-        timer = window.setTimeout(check, 520);
-      }
-
-      window.addEventListener('site:pageassetsloaded', check);
-      window.addEventListener('site:pagewarmuploaded', check);
-
-      check();
-    });
-  }
-
-  function waitForResourceQuiet(quietWindow, maxWait) {
-    const quietMs = Math.max(0, Number(quietWindow) || COVER_VIDEO_RESOURCE_QUIET_WINDOW);
-    const maxMs = Math.max(quietMs, Number(maxWait) || COVER_VIDEO_RESOURCE_QUIET_MAX_WAIT);
-
-    if (!quietMs) return Promise.resolve();
-
-    if (typeof PerformanceObserver !== 'function') {
-      return new Promise((resolve) => {
-        window.setTimeout(resolve, quietMs);
-      });
+      return loader.scheduleLowestPriorityTask(
+        callback,
+        COVER_VIDEO_LOWEST_PRIORITY_OPTIONS
+      );
     }
 
     return new Promise((resolve) => {
-      let quietTimer = null;
-      let maxTimer = null;
-      let observer = null;
-      let settled = false;
-
-      function cleanup() {
-        if (quietTimer) {
-          window.clearTimeout(quietTimer);
-          quietTimer = null;
+      runWhenIdle(() => {
+        try {
+          resolve(callback());
+        } catch (err) {
+          console.warn('[CoverBackground] Fallback cover video task failed:', err);
+          resolve(null);
         }
-
-        if (maxTimer) {
-          window.clearTimeout(maxTimer);
-          maxTimer = null;
-        }
-
-        if (observer) {
-          try {
-            observer.disconnect();
-          } catch (e) {}
-
-          observer = null;
-        }
-      }
-
-      function done() {
-        if (settled) return;
-
-        settled = true;
-        cleanup();
-        resolve();
-      }
-
-      function markActivity() {
-        if (settled) return;
-
-        if (quietTimer) {
-          window.clearTimeout(quietTimer);
-        }
-
-        quietTimer = window.setTimeout(done, quietMs);
-      }
-
-      try {
-        observer = new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-
-          if (entries && entries.length) {
-            markActivity();
-          }
-        });
-
-        observer.observe({
-          entryTypes: ['resource']
-        });
-      } catch (e) {
-        observer = null;
-      }
-
-      markActivity();
-      maxTimer = window.setTimeout(done, maxMs);
+      }, COVER_VIDEO_LOWEST_PRIORITY_OPTIONS.idleTimeout);
     });
-  }
-
-  function waitForIdle(timeout) {
-    const waitTimeout = Math.max(0, Number(timeout) || COVER_VIDEO_IDLE_TIMEOUT);
-
-    return new Promise((resolve) => {
-      if (typeof window.requestIdleCallback === 'function') {
-        window.requestIdleCallback(resolve, {
-          timeout: waitTimeout
-        });
-        return;
-      }
-
-      window.setTimeout(resolve, Math.min(waitTimeout, 900));
-    });
-  }
-
-  async function waitForLowestPriorityWindow() {
-    await waitForWindowLoad();
-    await waitForFontsReady(3500);
-    await waitForPageWarmups(COVER_VIDEO_PAGE_WARMUP_MAX_WAIT);
-    await waitForResourceQuiet(
-      COVER_VIDEO_RESOURCE_QUIET_WINDOW,
-      COVER_VIDEO_RESOURCE_QUIET_MAX_WAIT
-    );
-    await waitForIdle(COVER_VIDEO_IDLE_TIMEOUT);
   }
 
   function playCoverVideo(video, coverEl) {
@@ -614,14 +433,17 @@
       if (!coverIsVisibleForVideo(coverEl)) return;
 
       observer.disconnect();
+      coverEl.__coverVideoVisibleObserver = null;
       delete coverEl.dataset.coverVideoVisibleWatcher;
 
-      waitForIdle(COVER_VIDEO_RETURN_IDLE_TIMEOUT).then(() => {
+      runWhenIdle(() => {
         if (coverIsVisibleForVideo(coverEl)) {
           start();
         }
-      });
+      }, COVER_VIDEO_RETURN_IDLE_TIMEOUT);
     });
+
+    coverEl.__coverVideoVisibleObserver = observer;
 
     observer.observe(coverEl, {
       attributes: true,
@@ -650,13 +472,14 @@
       startCoverVideoLoad(coverEl, chosenCoverFile, coverUrl);
     }
 
-    waitForLowestPriorityWindow().then(() => {
+    scheduleLowestPriorityCoverVideoTask(() => {
       if (!coverIsVisibleForVideo(coverEl)) {
         deferCoverVideoUntilVisible(coverEl, start);
-        return;
+        return null;
       }
 
       start();
+      return null;
     });
   }
 
