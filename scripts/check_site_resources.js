@@ -233,6 +233,67 @@ function collectImages(assets, obj, origin, inheritedCoverDir) {
   });
 }
 
+function coverVideoFileFromImageFile(imageFile, extension) {
+  if (typeof imageFile !== 'string') return null;
+
+  const ext = typeof extension === 'string' && extension
+    ? extension
+    : '.mp4';
+
+  return imageFile.replace(/\.[^/.]+$/, '') + ext;
+}
+
+function collectCoverVideos(assets, resources) {
+  if (!resources || !resources.coverVideo) return;
+
+  const coverVideo = resources.coverVideo;
+
+  if (coverVideo.enabled === false) return;
+
+  const images = resources.images || {};
+  const coverFiles = images.coverFiles;
+  const videoDir = coverVideo.dir;
+  const extension = coverVideo.extension || '.mp4';
+
+  if (!Array.isArray(coverFiles)) {
+    fail('coverVideo is enabled, but images.coverFiles is not defined.');
+    return;
+  }
+
+  if (typeof videoDir !== 'string' || !videoDir.trim()) {
+    fail('coverVideo.dir must be a non-empty string when coverVideo is enabled.');
+    return;
+  }
+
+  if (typeof extension !== 'string' || !extension.trim()) {
+    fail('coverVideo.extension must be a non-empty string when coverVideo is enabled.');
+    return;
+  }
+
+  addAsset(assets, videoDir, 'coverVideo.dir', 'dir');
+
+  coverFiles.forEach((imageFile, index) => {
+    if (typeof imageFile !== 'string') {
+      fail(`images.coverFiles[${index}] must be a string before checking cover video.`);
+      return;
+    }
+
+    const videoFile = coverVideoFileFromImageFile(imageFile, extension);
+
+    if (!videoFile) {
+      fail(`Could not derive cover video file from images.coverFiles[${index}].`);
+      return;
+    }
+
+    addAsset(
+      assets,
+      videoDir + videoFile,
+      `coverVideo derived from images.coverFiles[${index}]`,
+      'video'
+    );
+  });
+}
+
 function collectPageAssets(assets, pages) {
   if (!pages || typeof pages !== 'object') return;
 
@@ -283,6 +344,8 @@ function collectAssets(resources) {
   if (resources.images) {
     collectImages(assets, resources.images, 'images');
   }
+
+  collectCoverVideos(assets, resources);
 
   return assets;
 }
