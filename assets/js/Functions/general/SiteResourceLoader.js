@@ -440,6 +440,247 @@
     }, 2000);
   }
 
+  function waitForWindowLoad() {
+    if (document.readyState === 'complete') {
+      return Promise.resolve();
+    }
+
+    return new Promise((resolve) => {
+      window.addEventListener('load', resolve, { once: true });
+    });
+  }
+
+  function waitForFontsReady(timeout) {
+    if (!document.fonts || !document.fonts.ready) {
+      return Promise.resolve();
+    }
+
+    const maxWait = Math.max(0, Number(timeout) || 3500);
+
+    return Promise.race([
+      document.fonts.ready.catch(() => {}),
+      delay(maxWait)
+    ]).then(() => {});
+  }
+
+  function uniqueValidPages(list) {
+    const pages = resources.pages || {};
+    const seen = Object.create(null);
+
+    return (Array.isArray(list) ? list : [])
+      .filter((page) => page && pages[page] && !seen[page])
+      .map((page) => {
+        seen[page] = true;
+        return page;
+      });
+  }
+
+  function getLowestPriorityWarmupPages(options) {
+    const opts = options || {};
+    const navigation = resources.navigation || {};
+    const warmup = navigation.warmup || {};
+
+    if (Array.isArray(opts.pages) && opts.pages.length) {
+      return uniqueValidPages(opts.pages);
+    }
+
+    const list = [];
+
+    if (navigation.defaultPage) {
+      list.push(navigation.defaultPage);
+    }
+
+    if (Array.isArray(warmup.afterCover)) {
+      list.push(...warmup.afterCover);
+    }
+
+    if (Array.isArray(warmup.afterFirstPage)) {
+      list.push(...warmup.afterFirstPage);
+    }
+
+    if (!list.length) {
+      list.push('resume', 'schedule', 'social', 'life');
+    }
+
+    return uniqueValidPages(list);
+  }
+
+  function warmupPagesAreSettled(pageKeys) {
+    return pageKeys.every((page) => {
+      if (isPageLoading(page)) return false;
+      if (isPageWarmupLoading(page)) return false;
+
+      return isPageLoaded(page);
+    });
+  }
+
+  function waitForPageWarmups(options) {
+    const opts = options || {};
+    const pageKeys = getLowestPriorityWarmupPages(opts);
+
+    if (!pageKeys.length) return Promise.resolve();
+
+    const waitLimit = Math.max(0, Number(opts.maxWait) || 28000);
+
+    return new Promise((resolve) => {
+      const startedAt = performance.now();
+      let timer = null;
+
+      function cleanup() {
+        if (timer) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+
+        window.removeEventListener('site:pageassetsloaded', check);
+        window.removeEventListener('site:pagewarmuploaded', check);
+      }
+
+      function done() {
+        cleanup();
+        resolve();
+      }
+
+      function check() {
+        if (warmupPagesAreSettled(pageKeys)) {
+          done();
+          return;
+        }
+
+        if (performance.now() - startedAt >= waitLimit) {
+          done();
+          return;
+        }
+
+        timer = window.setTimeout(check, Number(opts.pollInterval) || 520);
+      }
+
+      window.addEventListener('site:pageassetsloaded', check);
+      window.addEventListener('site:pagewarmuploaded', check);
+
+      check();
+    });
+  }
+
+  function waitForResourceQuiet(options) {
+    const opts = options || {};
+    const quietMs = Math.max(0, Number(opts.quietWindow) || 1800);
+    const maxMs = Math.max(quietMs, Number(opts.maxWait) || 12000);
+
+    if (!quietMs) return Promise.resolve();
+
+    if (typeof PerformanceObserver !== 'function') {
+      return delay(quietMs);
+    }
+
+    return new Promise((resolve) => {
+      let quietTimer = null;
+      let maxTimer = null;
+      let observer = null;
+      let settled = false;
+
+      function cleanup() {
+        if (quietTimer) {
+          window.clearTimeout(quietTimer);
+          quietTimer = null;
+        }
+
+        if (maxTimer) {
+          window.clearTimeout(maxTimer);
+          maxTimer = null;
+        }
+
+        if (observer) {
+          try {
+            observer.disconnect();
+          } catch (e) {}
+
+          observer = null;
+        }
+      }
+
+      function done() {
+        if (settled) return;
+
+        settled = true;
+        cleanup();
+        resolve();
+      }
+
+      function markActivity() {
+        if (settled) return;
+
+        if (quietTimer) {
+          window.clearTimeout(quietTimer);
+        }
+
+        quietTimer = window.setTimeout(done, quietMs);
+      }
+
+      try {
+        observer = new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+
+          if (entries && entries.length) {
+            markActivity();
+          }
+        });
+
+        observer.observe({
+          entryTypes: ['resource']
+        });
+      } catch (e) {
+        observer = null;
+      }
+
+      markActivity();
+      maxTimer = window.setTimeout(done, maxMs);
+    });
+  }
+
+  function waitForLowestPriorityWindow(options) {
+    const opts = options || {};
+
+    return Promise.resolve()
+      .then(() => waitForWindowLoad())
+      .then(() => {
+        if (opts.waitForFonts === false) return null;
+
+        return waitForFontsReady(opts.fontWaitTimeout || 3500);
+      })
+      .then(() => {
+        if (opts.waitForPageWarmups === false) return null;
+
+        return waitForPageWarmups({
+          pages: opts.pages,
+          maxWait: opts.pageWarmupMaxWait || opts.maxWait || 28000,
+          pollInterval: opts.pollInterval || 520
+        });
+      })
+      .then(() => {
+        if (opts.waitForResourceQuiet === false) return null;
+
+        return waitForResourceQuiet({
+          quietWindow: opts.resourceQuietWindow || 1800,
+          maxWait: opts.resourceQuietMaxWait || 12000
+        });
+      })
+      .then(() => new Promise((resolve) => {
+        idle(resolve, opts.idleTimeout || 6000);
+      }));
+  }
+
+  function scheduleLowestPriorityTask(callback, options) {
+    if (typeof callback !== 'function') return Promise.resolve(null);
+
+    return waitForLowestPriorityWindow(options)
+      .then(() => callback())
+      .catch((err) => {
+        console.warn('[SiteResourceLoader] Lowest-priority task failed:', err);
+        return null;
+      });
+  }
+
   async function bootCore() {
     if (bootPromise) return bootPromise;
 
@@ -573,6 +814,14 @@
     loadScriptsInOrder,
     getPageConfig,
     getAllPageConfigs,
+
+    waitForWindowLoad,
+    waitForFontsReady,
+    waitForPageWarmups,
+    waitForResourceQuiet,
+    waitForLowestPriorityWindow,
+    scheduleLowestPriorityTask,
+
     idle,
     delay
   };
