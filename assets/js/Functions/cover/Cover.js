@@ -37,6 +37,7 @@
       <div id="cover">
         <div class="cover-bg cover-bg-base" aria-hidden="true"></div>
         <div class="cover-bg cover-bg-reveal" aria-hidden="true"></div>
+        <div class="cover-video-layer" aria-hidden="true"></div>
 
         <div
           id="avatar-frame"
