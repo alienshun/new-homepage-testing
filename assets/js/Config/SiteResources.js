@@ -111,6 +111,22 @@
 
     activitiesMoments: ACTIVITIES_MOMENTS,
 
+    /*
+      Cover video resources are derived from images.coverFiles.
+
+      Naming rule:
+      assets/images/cover/cover_1.webp
+      assets/animation/cover/cover_1.mp4
+
+      The video file names are intentionally not listed again, so the cover
+      image list remains the single source of truth.
+    */
+    coverVideo: {
+      enabled: true,
+      dir: A + 'animation/cover/',
+      extension: '.mp4'
+    },
+
     navigation: {
       defaultPage: 'resume',
       pages: ['resume', 'schedule', 'social', 'toolkit', 'life'],
@@ -318,7 +334,7 @@
           A + 'js/Functions/life/ActivitiesMomentsRender.js',
           A + 'js/Functions/life/ActivitiesMomentsMedia.js',
           A + 'js/Functions/life/ActivitiesMoments.js',
-          
+
           A + 'js/Functions/life/LifeMeditations.js',
           A + 'js/Functions/life/LifeRoutes.js'
         ]
