@@ -41,7 +41,8 @@
   --cover-light-y: 44%;
 }
 
-.cover-bg {
+.cover-bg,
+.cover-video-layer {
   position: absolute;
   inset: calc(-1 * var(--cover-overscan));
   background-repeat: no-repeat;
@@ -76,7 +77,8 @@
     filter 1.65s ease;
 }
 
-.cover-bg-reveal::after {
+.cover-bg-reveal::after,
+.cover-video-layer::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -107,6 +109,38 @@
   opacity: 0;
   transform: scale(1);
   filter: none;
+}
+
+.cover-video-layer {
+  z-index: 2;
+  opacity: 0;
+  overflow: hidden;
+  transform: scale(1.012);
+  filter: brightness(0.98) saturate(1.02);
+  transition:
+    opacity 1.2s ease,
+    transform 3.2s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 1.2s ease;
+}
+
+.cover-video-media {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+#cover.video-ready:not(.leaving) .cover-video-layer {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+}
+
+#cover.video-ready:not(.leaving) .cover-video-layer::after {
+  opacity: 0.72;
 }
 
 #cover::before {
@@ -167,6 +201,12 @@
 
 #cover.leaving .cover-bg-reveal {
   opacity: 1;
+  transform: scale(1.065);
+  filter: blur(2px) brightness(0.62) saturate(1.03);
+}
+
+#cover.leaving .cover-video-layer {
+  opacity: 0.82;
   transform: scale(1.065);
   filter: blur(2px) brightness(0.62) saturate(1.03);
 }
