@@ -16,6 +16,7 @@
   };
 
   const COVER_VIDEO_RETURN_IDLE_TIMEOUT = 1600;
+  const COVER_VIDEO_FIRST_FRAME_TIMEOUT = 900;
 
   function getCoverResourceConfig() {
     const resources = window.SiteResources || {};
@@ -224,13 +225,51 @@
   }
 
   function playCoverVideo(video, coverEl) {
-    if (!video || !coverIsVisibleForVideo(coverEl)) return;
+    if (!video || !coverIsVisibleForVideo(coverEl)) return null;
 
     const playPromise = video.play();
 
     if (playPromise && typeof playPromise.catch === 'function') {
       playPromise.catch(() => {});
     }
+
+    return playPromise || null;
+  }
+
+  function waitForFirstVideoFrame(video, timeout) {
+    const waitTimeout = Math.max(0, Number(timeout) || COVER_VIDEO_FIRST_FRAME_TIMEOUT);
+
+    return new Promise((resolve) => {
+      let settled = false;
+      let timer = null;
+
+      function done() {
+        if (settled) return;
+
+        settled = true;
+
+        if (timer) {
+          window.clearTimeout(timer);
+          timer = null;
+        }
+
+        resolve();
+      }
+
+      if (typeof video.requestVideoFrameCallback === 'function') {
+        try {
+          video.requestVideoFrameCallback(() => {
+            done();
+          });
+        } catch (e) {
+          window.setTimeout(done, 80);
+        }
+      } else {
+        window.setTimeout(done, 80);
+      }
+
+      timer = window.setTimeout(done, waitTimeout);
+    });
   }
 
   function bindVideoPlaybackToCover(video, coverEl) {
@@ -260,9 +299,16 @@
 
     const observer = new MutationObserver(syncPlayback);
 
+    /*
+      Only observe class changes.
+
+      CoverDepthMotion writes CSS variables to cover.style on every pointer move.
+      Observing "style" here would repeatedly trigger syncPlayback(), causing
+      unnecessary video.play() calls and visible stutter while moving the mouse.
+    */
     observer.observe(coverEl, {
       attributes: true,
-      attributeFilter: ['class', 'style']
+      attributeFilter: ['class']
     });
 
     document.addEventListener('visibilitychange', syncPlayback);
@@ -284,19 +330,40 @@
   function revealVideoWhenVisible(video, coverEl) {
     if (!video || !coverEl) return;
 
+    let preparing = false;
+
     function reveal() {
       if (video.dataset.coverVideoRevealed === '1') return false;
+      if (preparing) return false;
       if (!video.isConnected) return false;
       if (!coverIsVisibleForVideo(coverEl)) return false;
 
-      video.dataset.coverVideoRevealed = '1';
+      preparing = true;
 
-      coverEl.classList.remove('video-loading', 'video-failed');
-      coverEl.classList.add('video-ready');
-      coverEl.dataset.coverVideoReady = '1';
+      const playPromise = video.play();
 
-      bindVideoPlaybackToCover(video, coverEl);
-      playCoverVideo(video, coverEl);
+      Promise.resolve(playPromise)
+        .catch(() => {})
+        .then(() => waitForFirstVideoFrame(video, COVER_VIDEO_FIRST_FRAME_TIMEOUT))
+        .then(() => {
+          preparing = false;
+
+          if (video.dataset.coverVideoRevealed === '1') return;
+          if (!video.isConnected) return;
+          if (!coverIsVisibleForVideo(coverEl)) return;
+
+          video.dataset.coverVideoRevealed = '1';
+
+          coverEl.classList.remove('video-loading', 'video-failed');
+          coverEl.classList.add('video-ready');
+          coverEl.dataset.coverVideoReady = '1';
+
+          bindVideoPlaybackToCover(video, coverEl);
+          playCoverVideo(video, coverEl);
+        })
+        .catch(() => {
+          preparing = false;
+        });
 
       return true;
     }
@@ -314,7 +381,7 @@
 
     observer.observe(coverEl, {
       attributes: true,
-      attributeFilter: ['class', 'style']
+      attributeFilter: ['class']
     });
   }
 
@@ -402,6 +469,10 @@
         video.__coverRevealObserver = null;
       }
 
+      if (typeof video.__coverVideoCleanup === 'function') {
+        video.__coverVideoCleanup();
+      }
+
       try {
         video.pause();
       } catch (e) {}
@@ -447,7 +518,7 @@
 
     observer.observe(coverEl, {
       attributes: true,
-      attributeFilter: ['class', 'style']
+      attributeFilter: ['class']
     });
   }
 
