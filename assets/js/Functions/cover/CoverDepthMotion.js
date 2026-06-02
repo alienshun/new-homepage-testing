@@ -79,11 +79,16 @@
     let raf = 0;
     let lastTickTime = 0;
     let motionMode = 'follow';
+    let depthMotionSuspended = false;
 
     function coverStillVisible() {
       return cover.classList.contains('visible') &&
         !cover.classList.contains('hidden') &&
         !cover.classList.contains('leaving');
+    }
+
+    function videoBackgroundActive() {
+      return cover.classList.contains('video-ready');
     }
 
     function coverElementsReady() {
@@ -96,7 +101,7 @@
     }
 
     function coverMotionReady() {
-      if (!coverStillVisible() || !coverElementsReady()) {
+      if (!coverStillVisible() || !coverElementsReady() || videoBackgroundActive()) {
         coverElementsReadyAt = 0;
         return false;
       }
@@ -110,7 +115,7 @@
     }
 
     function isCoverActive() {
-      return coverStillVisible() && coverMotionReady();
+      return !videoBackgroundActive() && coverStillVisible() && coverMotionReady();
     }
 
     function px(value) {
@@ -144,7 +149,52 @@
       cover.style.setProperty('--cover-light-y', pct(44 + state.lightY));
     }
 
+    function stopMotionLoop() {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+
+      lastTickTime = 0;
+    }
+
+    function zeroMotionValues() {
+      MOTION_KEYS.forEach((key) => {
+        state[key] = 0;
+        target[key] = 0;
+        velocity[key] = 0;
+      });
+
+      setVars();
+    }
+
+    function suspendDepthMotion() {
+      if (depthMotionSuspended) return;
+
+      depthMotionSuspended = true;
+      motionMode = 'return';
+      coverElementsReadyAt = 0;
+
+      stopMotionLoop();
+      zeroMotionValues();
+    }
+
+    function resumeDepthMotion() {
+      if (!depthMotionSuspended) return;
+
+      depthMotionSuspended = false;
+      coverElementsReadyAt = 0;
+      zeroMotionValues();
+    }
+
     function resetTargets() {
+      if (videoBackgroundActive()) {
+        suspendDepthMotion();
+        return;
+      }
+
+      resumeDepthMotion();
+
       motionMode = 'return';
 
       MOTION_KEYS.forEach((key) => {
@@ -180,12 +230,17 @@
     }
 
     function startMotionLoop() {
-      if (raf) return;
+      if (raf || depthMotionSuspended || videoBackgroundActive()) return;
 
       lastTickTime = 0;
 
       function tick(now) {
         raf = 0;
+
+        if (depthMotionSuspended || videoBackgroundActive()) {
+          suspendDepthMotion();
+          return;
+        }
 
         const dtScale = lastTickTime
           ? Math.min(2.35, Math.max(0.55, (now - lastTickTime) / 16.667))
@@ -224,6 +279,13 @@
     }
 
     cover.addEventListener('pointermove', (event) => {
+      if (videoBackgroundActive()) {
+        suspendDepthMotion();
+        return;
+      }
+
+      resumeDepthMotion();
+
       if (!isCoverActive()) {
         resetTargets();
         return;
@@ -282,10 +344,18 @@
     }
 
     const observer = new MutationObserver(() => {
+      if (videoBackgroundActive()) {
+        suspendDepthMotion();
+        return;
+      }
+
       if (!coverStillVisible() || !coverElementsReady()) {
         coverElementsReadyAt = 0;
         resetTargets();
+        return;
       }
+
+      resumeDepthMotion();
     });
 
     observer.observe(cover, {
