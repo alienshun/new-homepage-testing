@@ -41,8 +41,7 @@
   --cover-light-y: 44%;
 }
 
-.cover-bg,
-.cover-video-layer {
+.cover-bg {
   position: absolute;
   inset: calc(-1 * var(--cover-overscan));
   background-repeat: no-repeat;
@@ -51,6 +50,15 @@
   pointer-events: none;
   will-change: opacity, transform, filter, translate;
   translate: var(--cover-bg-x) var(--cover-bg-y);
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.cover-video-layer {
+  position: absolute;
+  inset: calc(-1 * var(--cover-overscan));
+  pointer-events: none;
+  will-change: opacity;
   transform-origin: center center;
   backface-visibility: hidden;
 }
@@ -77,8 +85,7 @@
     filter 1.65s ease;
 }
 
-.cover-bg-reveal::after,
-.cover-video-layer::after {
+.cover-bg-reveal::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -89,6 +96,23 @@
       circle at var(--cover-light-x) var(--cover-light-y),
       rgba(255,255,255,0.105) 0%,
       rgba(210,225,255,0.055) 24%,
+      rgba(0,0,0,0.0) 52%
+    );
+  mix-blend-mode: screen;
+  transition: opacity 1.15s ease;
+}
+
+.cover-video-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(
+      circle at 50% 44%,
+      rgba(255,255,255,0.075) 0%,
+      rgba(210,225,255,0.040) 24%,
       rgba(0,0,0,0.0) 52%
     );
   mix-blend-mode: screen;
@@ -115,11 +139,11 @@
   z-index: 2;
   opacity: 0;
   overflow: hidden;
-  transform: scale(1.012);
-  filter: brightness(0.98) saturate(1.02);
+  transform: scale(1.006);
+  filter: brightness(0.99) saturate(1.01);
   transition:
     opacity 1.2s ease,
-    transform 3.2s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 2.4s cubic-bezier(0.16, 1, 0.3, 1),
     filter 1.2s ease;
 }
 
@@ -140,7 +164,7 @@
 }
 
 #cover.video-ready:not(.leaving) .cover-video-layer::after {
-  opacity: 0.72;
+  opacity: 0.58;
 }
 
 #cover::before {
@@ -207,8 +231,8 @@
 
 #cover.leaving .cover-video-layer {
   opacity: 0.82;
-  transform: scale(1.065);
-  filter: blur(2px) brightness(0.62) saturate(1.03);
+  transform: scale(1.045);
+  filter: blur(1px) brightness(0.66) saturate(1.02);
 }
 
 #cover.visible {
