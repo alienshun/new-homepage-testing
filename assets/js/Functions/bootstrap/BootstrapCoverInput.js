@@ -15,6 +15,9 @@
   let wheelLockTimer = null;
   let appHeightRaf = 0;
   let keydownBound = false;
+  let visualRestoreBlockUntil = 0;
+
+  const VISUAL_RESTORE_GUARD_MS = 420;
 
   function syncAppHeight() {
     try {
@@ -73,6 +76,93 @@
     }
   }
 
+  function getCover() {
+    return document.getElementById('cover');
+  }
+
+  function getVisualToggle() {
+    return document.getElementById('cover-visual-toggle');
+  }
+
+  function isVisualRestoreGuardActive() {
+    return Date.now() < visualRestoreBlockUntil;
+  }
+
+  function isCoverVisualMode() {
+    const cover = getCover();
+
+    return !!cover &&
+      cover.classList.contains('cover-visual-clean') &&
+      !cover.classList.contains('hidden') &&
+      !cover.classList.contains('leaving') &&
+      cover.style.display !== 'none';
+  }
+
+  function setVisualToggleState(active) {
+    const toggle = getVisualToggle();
+
+    if (!toggle) return;
+
+    toggle.setAttribute('aria-pressed', active ? 'true' : 'false');
+    toggle.setAttribute(
+      'aria-label',
+      active ? 'Return to cover interface' : 'Enter cinematic cover view'
+    );
+    toggle.title = active ? 'Return' : 'Cinematic View';
+    toggle.classList.toggle('is-closed', !!active);
+  }
+
+  function getCoverInterfaceElements() {
+    return [
+      document.getElementById('avatar-frame'),
+      document.getElementById('name'),
+      document.getElementById('slogan'),
+      document.getElementById('cover-scroll')
+    ].filter(Boolean);
+  }
+
+  function makeCoverInterfaceVisible() {
+    getCoverInterfaceElements().forEach((el) => {
+      el.classList.add('visible');
+      el.classList.remove('pulse', 'cover-hint-bounce');
+    });
+  }
+
+  function enterCoverVisualMode() {
+    const cover = getCover();
+
+    if (!cover || isCoverHidden()) return;
+    if (cover.classList.contains('hidden') || cover.classList.contains('leaving')) return;
+
+    stopCoverEnterHint();
+    makeCoverInterfaceVisible();
+    setVisualToggleState(true);
+
+    cover.classList.add('cover-visual-clean');
+    cover.dataset.coverVisualMode = '1';
+  }
+
+  function exitCoverVisualMode() {
+    const cover = getCover();
+
+    if (!cover || !cover.classList.contains('cover-visual-clean')) return;
+
+    visualRestoreBlockUntil = Date.now() + VISUAL_RESTORE_GUARD_MS;
+
+    makeCoverInterfaceVisible();
+
+    cover.classList.remove('cover-visual-clean');
+    delete cover.dataset.coverVisualMode;
+
+    setVisualToggleState(false);
+
+    window.setTimeout(() => {
+      if (!isCoverVisualMode() && !isCoverHidden()) {
+        startCoverEnterHint();
+      }
+    }, 520);
+  }
+
   function showCoverElements() {
     const cover = document.getElementById('cover');
     const avatarFrame = document.getElementById('avatar-frame');
@@ -84,6 +174,7 @@
 
     function canShow() {
       return !isCoverHidden() &&
+        !isCoverVisualMode() &&
         !cover.classList.contains('hidden') &&
         !cover.classList.contains('leaving');
     }
@@ -166,6 +257,15 @@
   function hideCoverElements() {
     stopCoverEnterHint();
 
+    const cover = getCover();
+
+    if (cover) {
+      cover.classList.remove('cover-visual-clean');
+      delete cover.dataset.coverVisualMode;
+    }
+
+    setVisualToggleState(false);
+
     ['avatar-frame', 'name', 'slogan', 'cover-scroll'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.classList.remove('visible');
@@ -173,11 +273,13 @@
   }
 
   function warmDefaultPage(reason) {
+    if (isCoverVisualMode()) return Promise.resolve(null);
+
     return warmPage(defaultPage, reason || 'cover-intent');
   }
 
   function enterDefaultPage(triggerEl) {
-    if (isCoverHidden()) return;
+    if (isCoverHidden() || isCoverVisualMode() || isVisualRestoreGuardActive()) return;
 
     if (triggerEl && triggerEl.classList) {
       triggerEl.classList.add('pulse');
@@ -190,20 +292,64 @@
     showPage(defaultPage);
   }
 
+  function bindVisualToggle(toggle) {
+    if (!toggle || toggle.dataset.boundCoverVisualToggle === '1') return;
+
+    toggle.dataset.boundCoverVisualToggle = '1';
+
+    toggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (isCoverVisualMode()) {
+        exitCoverVisualMode();
+      } else {
+        enterCoverVisualMode();
+      }
+    });
+  }
+
+  function bindVisualRestore(cover) {
+    if (!cover || cover.dataset.boundCoverVisualRestore === '1') return;
+
+    cover.dataset.boundCoverVisualRestore = '1';
+
+    function restoreFromCleanView(event) {
+      if (!isCoverVisualMode() && !isVisualRestoreGuardActive()) return;
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      if (isCoverVisualMode()) {
+        exitCoverVisualMode();
+      }
+    }
+
+    cover.addEventListener('pointerdown', restoreFromCleanView, true);
+    cover.addEventListener('click', restoreFromCleanView, true);
+    cover.addEventListener('touchstart', restoreFromCleanView, {
+      capture: true,
+      passive: false
+    });
+  }
+
   function bindArrow(arrow) {
     if (!arrow || arrow.dataset.boundCoverArrow === '1') return;
 
     arrow.dataset.boundCoverArrow = '1';
 
     arrow.addEventListener('pointerenter', () => {
+      if (isCoverVisualMode()) return;
       warmDefaultPage('cover-arrow-intent');
     }, { passive: true });
 
     arrow.addEventListener('focus', () => {
+      if (isCoverVisualMode()) return;
       warmDefaultPage('cover-arrow-focus');
     });
 
     arrow.addEventListener('touchstart', () => {
+      if (isCoverVisualMode()) return;
       warmDefaultPage('cover-arrow-touch');
     }, { passive: true });
 
@@ -218,10 +364,12 @@
     avatarFrame.dataset.boundCoverAvatarEnter = '1';
 
     avatarFrame.addEventListener('pointerenter', () => {
+      if (isCoverVisualMode()) return;
       warmDefaultPage('cover-avatar-intent');
     }, { passive: true });
 
     avatarFrame.addEventListener('touchstart', () => {
+      if (isCoverVisualMode()) return;
       warmDefaultPage('cover-avatar-touch');
     }, { passive: true });
 
@@ -246,6 +394,11 @@
     cover.addEventListener('wheel', (event) => {
       if (isCoverHidden()) return;
 
+      if (isCoverVisualMode()) {
+        event.preventDefault();
+        return;
+      }
+
       if (event.deltaY > 6 && !wheelTriggered) {
         event.preventDefault();
 
@@ -269,7 +422,7 @@
     let touchActive = false;
 
     cover.addEventListener('touchstart', (event) => {
-      if (isCoverHidden()) return;
+      if (isCoverHidden() || isCoverVisualMode()) return;
       if (!event.touches || event.touches.length !== 1) return;
 
       touchActive = true;
@@ -278,6 +431,12 @@
     }, { passive: true });
 
     cover.addEventListener('touchmove', (event) => {
+      if (isCoverVisualMode()) {
+        event.preventDefault();
+        touchActive = false;
+        return;
+      }
+
       if (isCoverHidden() || !touchActive) return;
 
       const touch = event.touches && event.touches[0];
@@ -292,6 +451,11 @@
     }, { passive: false });
 
     cover.addEventListener('touchend', (event) => {
+      if (isCoverVisualMode()) {
+        touchActive = false;
+        return;
+      }
+
       if (isCoverHidden() || !touchActive) return;
 
       touchActive = false;
@@ -328,6 +492,8 @@
       if (keys.includes(event.code)) {
         event.preventDefault();
 
+        if (isCoverVisualMode()) return;
+
         if (!wheelTriggered) {
           lockWheelTrigger(900);
           showPage(defaultPage);
@@ -340,9 +506,12 @@
     const cover = document.getElementById('cover');
     const arrow = document.getElementById('cover-scroll');
     const avatarFrame = document.getElementById('avatar-frame');
+    const visualToggle = document.getElementById('cover-visual-toggle');
 
     if (!cover) return;
 
+    bindVisualToggle(visualToggle);
+    bindVisualRestore(cover);
     bindArrow(arrow);
     bindAvatar(avatarFrame);
     bindWheel(cover);
@@ -385,6 +554,10 @@
 
     bindCoverArrowAndScroll,
     warmDefaultPage,
-    enterDefaultPage
+    enterDefaultPage,
+
+    isCoverVisualMode,
+    enterCoverVisualMode,
+    exitCoverVisualMode
   };
 })();

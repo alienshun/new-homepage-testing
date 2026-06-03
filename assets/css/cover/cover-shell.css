@@ -41,6 +41,656 @@
   --cover-light-y: 44%;
 }
 
+/* =========================================================
+   Cover - Cinematic visual toggle
+   Star-eye 3.0: arc-dust closing eye
+   ========================================================= */
+
+#cover-visual-toggle {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0px) + 17px);
+  right: calc(env(safe-area-inset-right, 0px) + 18px);
+  width: 74px;
+  height: 62px;
+  z-index: 82;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(247, 250, 255, 0.88);
+  cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+
+  opacity: 0.75;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+
+  filter:
+    drop-shadow(0 1px 3px rgba(0,0,0,0.56))
+    drop-shadow(0 0 7px rgba(255,255,255,0.13))
+    drop-shadow(0 0 15px rgba(140,190,255,0.08));
+
+  transition:
+    opacity 0.36s ease,
+    transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.36s ease,
+    filter 0.36s ease;
+}
+
+#cover-visual-toggle::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 8px;
+  bottom: 8px;
+  pointer-events: none;
+  opacity: 0.38;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(225,238,255,0.18) 0%,
+      rgba(170,205,255,0.06) 38%,
+      rgba(0,0,0,0) 72%);
+  filter: blur(9px);
+  transform: scale(0.92);
+  transition:
+    opacity 0.36s ease,
+    transform 0.36s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.36s ease;
+}
+
+#cover-visual-toggle::after {
+  content: "";
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 6px;
+  bottom: 6px;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(255,255,255,0.23) 0%,
+      rgba(210,230,255,0.08) 28%,
+      rgba(0,0,0,0) 66%);
+  filter: blur(12px);
+  transform: scale(0.92);
+  transition:
+    opacity 0.36s ease,
+    transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover-visual-toggle:hover {
+  opacity: 1;
+  transform: translateY(-1px) scale(1.035);
+  color: rgba(255,255,255,0.98);
+  filter:
+    drop-shadow(0 1px 3px rgba(0,0,0,0.56))
+    drop-shadow(0 0 9px rgba(235,245,255,0.30))
+    drop-shadow(0 0 19px rgba(145,200,255,0.22));
+}
+
+#cover-visual-toggle:hover::before {
+  opacity: 0.76;
+  transform: scale(1.08);
+  filter: blur(10px);
+}
+
+#cover-visual-toggle:hover::after {
+  opacity: 1;
+  transform: scale(1.10);
+}
+
+#cover-visual-toggle:active {
+  transform: translateY(0) scale(0.975);
+  opacity: 0.9;
+}
+
+#cover-visual-toggle:focus-visible {
+  filter:
+    drop-shadow(0 0 10px rgba(255,255,255,0.30))
+    drop-shadow(0 0 22px rgba(145,200,255,0.20))
+    drop-shadow(0 1px 3px rgba(0,0,0,0.56));
+}
+
+#cover-visual-toggle svg {
+  width: 60px;
+  height: 50px;
+  display: block;
+  overflow: visible;
+}
+
+#cover-visual-toggle path,
+#cover-visual-toggle circle {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.34s ease,
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.34s ease;
+}
+
+#cover-visual-toggle .star-eye-arc {
+  stroke-width: 2.12;
+}
+
+#cover-visual-toggle .arc-top {
+  opacity: 0.98;
+}
+
+#cover-visual-toggle .arc-bottom {
+  opacity: 0.88;
+}
+
+#cover-visual-toggle .star-eye-inner {
+  stroke-width: 1.02;
+  opacity: 0.42;
+}
+
+#cover-visual-toggle .star-eye-tail,
+#cover-visual-toggle .star-eye-closing-tail {
+  stroke-width: 1.18;
+  stroke-dasharray: 1.4 5.2;
+  stroke-dashoffset: 0;
+  opacity: 0.42;
+  filter: drop-shadow(0 0 2px rgba(230,242,255,0.18));
+}
+
+#cover-visual-toggle .tail-left-top,
+#cover-visual-toggle .tail-right-top {
+  opacity: 0.52;
+}
+
+#cover-visual-toggle .tail-left-bottom,
+#cover-visual-toggle .tail-right-bottom {
+  opacity: 0.34;
+}
+
+#cover-visual-toggle .star-tail-spark {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.70;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+#cover-visual-toggle .star-eye-upper-lash {
+  stroke-width: 1.12;
+  opacity: 0.34;
+}
+
+#cover-visual-toggle .star-eye-spark,
+#cover-visual-toggle .star-eye-fading-star {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 0.66;
+  opacity: 0.96;
+}
+
+#cover-visual-toggle .star-eye-core,
+#cover-visual-toggle .star-eye-fading-core {
+  fill: currentColor;
+  stroke: none;
+  opacity: 0.98;
+}
+
+#cover-visual-toggle .star-eye-lid,
+#cover-visual-toggle .star-eye-lash {
+  stroke-width: 2.06;
+}
+
+.cover-visual-icon {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.24s ease,
+    transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.38s ease;
+}
+
+.cover-visual-eye-open {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+.cover-visual-eye-open svg {
+  animation: cover-star-eye-breathe 5.2s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .star-eye-spark {
+  animation: cover-star-eye-sparkle 3.6s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .star-eye-core {
+  animation: cover-star-eye-core 3.6s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .tail-left-top,
+.cover-visual-eye-open .tail-right-top {
+  animation: cover-star-tail-flow-main 4.8s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .tail-left-bottom,
+.cover-visual-eye-open .tail-right-bottom {
+  animation: cover-star-tail-flow-sub 5.6s ease-in-out infinite 0.36s;
+}
+
+.cover-visual-eye-open .star-tail-spark {
+  animation: cover-star-tail-spark 4.4s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .s2,
+.cover-visual-eye-open .s6 {
+  animation-delay: 0.25s;
+}
+
+.cover-visual-eye-open .s3,
+.cover-visual-eye-open .s7 {
+  animation-delay: 0.5s;
+}
+
+.cover-visual-eye-open .s4,
+.cover-visual-eye-open .s8 {
+  animation-delay: 0.75s;
+}
+
+.cover-visual-eye-open .star-eye-upper-lash {
+  animation: cover-star-upper-lash 5.4s ease-in-out infinite;
+}
+
+.cover-visual-eye-open .l2,
+.cover-visual-eye-open .l4 {
+  animation-delay: 0.18s;
+}
+
+.cover-visual-eye-open .l3 {
+  animation-delay: 0.34s;
+}
+
+#cover-visual-toggle:hover .arc-top {
+  transform: translateY(-0.8px);
+}
+
+#cover-visual-toggle:hover .arc-bottom {
+  transform: translateY(0.8px);
+}
+
+#cover-visual-toggle:hover .tail-left-top {
+  transform: translate(-1.3px, -0.7px);
+  opacity: 0.82;
+}
+
+#cover-visual-toggle:hover .tail-left-bottom {
+  transform: translate(-1.1px, 0.7px);
+  opacity: 0.64;
+}
+
+#cover-visual-toggle:hover .tail-right-top {
+  transform: translate(1.3px, -0.7px);
+  opacity: 0.82;
+}
+
+#cover-visual-toggle:hover .tail-right-bottom {
+  transform: translate(1.1px, 0.7px);
+  opacity: 0.64;
+}
+
+#cover-visual-toggle:hover .star-tail-spark {
+  opacity: 1;
+  transform: scale(1.22);
+  filter: drop-shadow(0 0 4px rgba(245,250,255,0.42));
+}
+
+#cover-visual-toggle:hover .star-eye-upper-lash {
+  opacity: 0.68;
+  transform: translateY(-0.7px);
+  filter: drop-shadow(0 0 3px rgba(245,250,255,0.22));
+}
+
+#cover-visual-toggle:hover .star-eye-spark,
+#cover-visual-toggle:hover .star-eye-core {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(245,250,255,0.40));
+}
+
+.cover-visual-eye-closed {
+  opacity: 0;
+  transform: scale(0.92);
+  filter: blur(2px);
+}
+
+#cover-visual-toggle.is-closed .cover-visual-eye-open {
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(3px);
+}
+
+#cover-visual-toggle.is-closed .cover-visual-eye-closed {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+}
+
+#cover-visual-toggle.is-closed .cover-visual-eye-closed svg {
+  animation: cover-star-eye-closed-settle 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover-visual-toggle.is-closed .star-eye-lid {
+  stroke-dasharray: 62;
+  stroke-dashoffset: 62;
+  animation: cover-star-eye-lid-draw 0.52s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#cover-visual-toggle.is-closed .star-eye-lash {
+  opacity: 0;
+  transform: translateY(-1px) scale(0.92);
+  animation: cover-star-eye-lash-appear 0.42s ease forwards;
+}
+
+#cover-visual-toggle.is-closed .l1 {
+  animation-delay: 0.10s;
+}
+
+#cover-visual-toggle.is-closed .l2 {
+  animation-delay: 0.16s;
+}
+
+#cover-visual-toggle.is-closed .l3 {
+  animation-delay: 0.22s;
+}
+
+#cover-visual-toggle.is-closed .star-eye-closing-tail {
+  stroke-dasharray: 1.2 4.8;
+  animation: cover-star-tail-gather 0.58s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+#cover-visual-toggle.is-closed .star-eye-fading-star {
+  animation: cover-star-fading-star 0.62s ease forwards;
+}
+
+#cover-visual-toggle.is-closed .star-eye-fading-core {
+  animation: cover-star-fading-core 0.62s ease forwards;
+}
+
+#cover-visual-toggle.is-closed .star-tail-spark {
+  animation: cover-star-spark-gather 0.58s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cover-star-eye-breathe {
+  0%, 100% {
+    transform: scale(1) translateY(0);
+    opacity: 0.98;
+  }
+  50% {
+    transform: scale(1.018) translateY(-0.35px);
+    opacity: 1;
+  }
+}
+
+@keyframes cover-star-eye-sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 0.88;
+    filter: drop-shadow(0 0 0 rgba(255,255,255,0));
+  }
+  42% {
+    transform: scale(1.10) rotate(8deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 4px rgba(235,245,255,0.30));
+  }
+  70% {
+    transform: scale(0.98) rotate(-4deg);
+    opacity: 0.94;
+  }
+}
+
+@keyframes cover-star-eye-core {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.72;
+  }
+  48% {
+    transform: scale(1.22);
+    opacity: 1;
+  }
+}
+
+@keyframes cover-star-tail-flow-main {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 0.40;
+  }
+  50% {
+    stroke-dashoffset: -7;
+    opacity: 0.78;
+  }
+}
+
+@keyframes cover-star-tail-flow-sub {
+  0%, 100% {
+    stroke-dashoffset: 0;
+    opacity: 0.25;
+  }
+  50% {
+    stroke-dashoffset: 6;
+    opacity: 0.54;
+  }
+}
+
+@keyframes cover-star-tail-spark {
+  0%, 100% {
+    opacity: 0.42;
+    transform: scale(0.92);
+  }
+  45% {
+    opacity: 0.95;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes cover-star-upper-lash {
+  0%, 100% {
+    opacity: 0.26;
+    transform: translateY(0);
+  }
+  48% {
+    opacity: 0.58;
+    transform: translateY(-0.4px);
+  }
+}
+
+@keyframes cover-star-eye-closed-settle {
+  0% {
+    transform: scale(0.94) translateY(-1px);
+    opacity: 0.68;
+    filter: blur(1.2px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes cover-star-eye-lid-draw {
+  0% {
+    stroke-dashoffset: 62;
+    opacity: 0.30;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0.98;
+  }
+}
+
+@keyframes cover-star-eye-lash-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-1px) scale(0.88);
+  }
+  100% {
+    opacity: 0.72;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cover-star-tail-gather {
+  0% {
+    opacity: 0.72;
+    stroke-dashoffset: 0;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0.36;
+    stroke-dashoffset: -9;
+    transform: translateX(0);
+  }
+}
+
+@keyframes cover-star-fading-star {
+  0% {
+    opacity: 1;
+    transform: scale(1.18) rotate(10deg);
+    filter: drop-shadow(0 0 6px rgba(245,250,255,0.40));
+  }
+  55% {
+    opacity: 0.86;
+    transform: scale(0.96) rotate(-4deg);
+  }
+  100% {
+    opacity: 0.32;
+    transform: scale(0.72) rotate(0deg);
+    filter: drop-shadow(0 0 0 rgba(245,250,255,0));
+  }
+}
+
+@keyframes cover-star-fading-core {
+  0% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0.28;
+    transform: scale(0.72);
+  }
+}
+
+@keyframes cover-star-spark-gather {
+  0% {
+    opacity: 0.92;
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 0.30;
+    transform: scale(0.76);
+  }
+}
+
+/* =========================================================
+   Cover - Cinematic clean view
+   ========================================================= */
+
+#cover.cover-visual-clean {
+  cursor: default;
+}
+
+#cover.cover-visual-clean #avatar-frame {
+  opacity: 0 !important;
+  transform: translateY(0) scale(0.985) !important;
+  filter:
+    blur(8px)
+    drop-shadow(0 0 0.8px rgba(255,255,255,0.45))
+    drop-shadow(0 6px 18px rgba(0,0,0,0.12)) !important;
+  pointer-events: none !important;
+  transition:
+    opacity 0.58s ease,
+    transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.62s ease !important;
+  transition-delay: 0.14s !important;
+}
+
+#cover.cover-visual-clean #name {
+  opacity: 0 !important;
+  transform: translateY(0) scale(0.992) !important;
+  filter: blur(7px) brightness(0.9) !important;
+  pointer-events: none !important;
+  transition:
+    opacity 0.50s ease,
+    transform 0.56s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.56s ease,
+    letter-spacing 0.56s ease !important;
+  transition-delay: 0.08s !important;
+}
+
+#cover.cover-visual-clean #slogan {
+  opacity: 0 !important;
+  transform: translateY(0) scale(0.992) !important;
+  filter: blur(8px) brightness(0.88) !important;
+  pointer-events: none !important;
+  transition:
+    opacity 0.56s ease,
+    transform 0.60s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.60s ease,
+    letter-spacing 0.60s ease !important;
+  transition-delay: 0.04s !important;
+}
+
+#cover.cover-visual-clean #cover-scroll {
+  opacity: 0 !important;
+  transform: translateX(-50%) translateY(0) scale(0.985) !important;
+  filter: blur(6px) brightness(0.9) !important;
+  pointer-events: none !important;
+  transition:
+    opacity 0.42s ease,
+    transform 0.50s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.50s ease !important;
+  transition-delay: 0s !important;
+}
+
+#cover.cover-visual-clean #cover-scroll.cover-hint-bounce,
+#cover.cover-visual-clean .cover-hint-particle {
+  animation: none !important;
+  opacity: 0 !important;
+}
+
+#cover.cover-visual-clean #cover-visual-toggle {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-2px) scale(0.96);
+  transition:
+    opacity 0.38s ease 0.18s,
+    visibility 0s linear 0.58s,
+    transform 0.44s cubic-bezier(0.16, 1, 0.3, 1) 0.12s !important;
+}
+
+#cover.cover-visual-clean::before,
+#cover.cover-visual-clean::after,
+#cover.cover-visual-clean .cover-bg-reveal::after {
+  opacity: 0 !important;
+  transition: opacity 0.52s ease !important;
+}
+
+/* =========================================================
+   Cover - Background and video layers
+   ========================================================= */
+
 .cover-bg {
   position: absolute;
   inset: calc(-1 * var(--cover-overscan));
@@ -226,4 +876,28 @@
 #cover.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #cover-visual-toggle,
+  #cover-visual-toggle::before,
+  #cover-visual-toggle::after,
+  .cover-visual-icon,
+  .cover-visual-eye-open svg,
+  .cover-visual-eye-open .star-eye-spark,
+  .cover-visual-eye-open .star-eye-core,
+  .cover-visual-eye-open .star-eye-tail,
+  .cover-visual-eye-open .star-tail-spark,
+  .cover-visual-eye-open .star-eye-upper-lash,
+  #cover-visual-toggle.is-closed .cover-visual-eye-closed svg,
+  #cover-visual-toggle.is-closed .star-eye-lid,
+  #cover-visual-toggle.is-closed .star-eye-lash,
+  #cover-visual-toggle.is-closed .star-eye-closing-tail,
+  #cover-visual-toggle.is-closed .star-eye-fading-star,
+  #cover-visual-toggle.is-closed .star-eye-fading-core,
+  #cover-visual-toggle.is-closed .star-tail-spark {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
