@@ -104,6 +104,11 @@
           </span>
         </button>
 
+        <div id="cover-fullscreen-hint" aria-hidden="true">
+          <div class="cover-fullscreen-hint-main"></div>
+          <div class="cover-fullscreen-hint-shortcut"></div>
+        </div>
+
         <div
           id="avatar-frame"
           data-cursor="precise_select"

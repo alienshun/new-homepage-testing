@@ -18,6 +18,7 @@
   let visualRestoreBlockUntil = 0;
 
   const VISUAL_RESTORE_GUARD_MS = 420;
+  const FULLSCREEN_HINT_VISIBLE_MS = 4200;
 
   function syncAppHeight() {
     try {
@@ -84,6 +85,173 @@
     return document.getElementById('cover-visual-toggle');
   }
 
+  function getFullscreenHint() {
+    return document.getElementById('cover-fullscreen-hint');
+  }
+
+  function getNavigatorPlatform() {
+    const nav = window.navigator || {};
+
+    if (
+      nav.userAgentData &&
+      typeof nav.userAgentData.platform === 'string' &&
+      nav.userAgentData.platform
+    ) {
+      return nav.userAgentData.platform;
+    }
+
+    return nav.platform || '';
+  }
+
+  function getFullscreenHintData() {
+    const nav = window.navigator || {};
+    const ua = nav.userAgent || '';
+    const platform = getNavigatorPlatform();
+    const maxTouchPoints = Number(nav.maxTouchPoints || 0);
+
+    const main = 'Enter full screen for a more immersive view.';
+
+    const platformLooksMac = /mac/i.test(platform);
+    const isAppleTouchDevice = platformLooksMac && maxTouchPoints > 1;
+    const isIOS = /iphone|ipad|ipod/i.test(ua) || isAppleTouchDevice;
+    const isAndroid = /android/i.test(ua);
+    const isMobile = isIOS || isAndroid || /mobile|tablet/i.test(ua);
+
+    if (isMobile) {
+      return {
+        main,
+        device: '',
+        keys: []
+      };
+    }
+
+    const isMac = platformLooksMac && !isIOS;
+    const isWindows = /win/i.test(platform);
+    const isLinux = /linux/i.test(platform) && !isAndroid;
+
+    const isFirefox = /firefox\//i.test(ua);
+    const isEdge = /edg\//i.test(ua);
+    const isChromeLike = /chrome\//i.test(ua) ||
+      /chromium\//i.test(ua) ||
+      /crios\//i.test(ua) ||
+      isEdge;
+
+    if (isMac && isFirefox) {
+      return {
+        main,
+        device: 'Mac',
+        keys: ['⌘', 'Shift', 'F']
+      };
+    }
+
+    if (isMac && isChromeLike) {
+      return {
+        main,
+        device: 'Mac',
+        keys: ['Fn', 'F']
+      };
+    }
+
+    if (isWindows) {
+      return {
+        main,
+        device: 'Windows',
+        keys: ['F11']
+      };
+    }
+
+    if (isLinux) {
+      return {
+        main,
+        device: 'Linux',
+        keys: ['F11']
+      };
+    }
+
+    return {
+      main,
+      device: '',
+      keys: []
+    };
+  }
+
+  function appendFullscreenKeySequence(container, keys) {
+    keys.forEach((key, index) => {
+      if (index > 0) {
+        container.appendChild(document.createTextNode(' + '));
+      }
+
+      const keyEl = document.createElement('kbd');
+      keyEl.className = 'cover-fullscreen-key';
+      keyEl.textContent = key;
+
+      container.appendChild(keyEl);
+    });
+  }
+
+  function updateFullscreenHintContent() {
+    const hint = getFullscreenHint();
+
+    if (!hint) return;
+
+    const mainEl = hint.querySelector('.cover-fullscreen-hint-main');
+    const shortcutEl = hint.querySelector('.cover-fullscreen-hint-shortcut');
+    const hintData = getFullscreenHintData();
+
+    if (mainEl) {
+      mainEl.textContent = hintData.main;
+    }
+
+    if (!shortcutEl) return;
+
+    shortcutEl.textContent = '';
+
+    const hasShortcut = !!(
+      hintData.device &&
+      Array.isArray(hintData.keys) &&
+      hintData.keys.length
+    );
+
+    hint.classList.toggle('has-shortcut', hasShortcut);
+
+    if (!hasShortcut) return;
+
+    shortcutEl.appendChild(document.createTextNode(`${hintData.device} · Press `));
+    appendFullscreenKeySequence(shortcutEl, hintData.keys);
+  }
+
+  function hideFullscreenHint() {
+    const hint = getFullscreenHint();
+
+    if (!hint) return;
+
+    if (hint._coverFullscreenHintTimer) {
+      window.clearTimeout(hint._coverFullscreenHintTimer);
+      hint._coverFullscreenHintTimer = 0;
+    }
+
+    hint.classList.remove('is-visible');
+  }
+
+  function showFullscreenHint() {
+    const hint = getFullscreenHint();
+
+    if (!hint) return;
+
+    updateFullscreenHintContent();
+
+    if (hint._coverFullscreenHintTimer) {
+      window.clearTimeout(hint._coverFullscreenHintTimer);
+      hint._coverFullscreenHintTimer = 0;
+    }
+
+    hint.classList.add('is-visible');
+
+    hint._coverFullscreenHintTimer = window.setTimeout(() => {
+      hideFullscreenHint();
+    }, FULLSCREEN_HINT_VISIBLE_MS);
+  }
+
   function isVisualRestoreGuardActive() {
     return Date.now() < visualRestoreBlockUntil;
   }
@@ -140,6 +308,8 @@
 
     cover.classList.add('cover-visual-clean');
     cover.dataset.coverVisualMode = '1';
+
+    showFullscreenHint();
   }
 
   function exitCoverVisualMode() {
@@ -149,6 +319,7 @@
 
     visualRestoreBlockUntil = Date.now() + VISUAL_RESTORE_GUARD_MS;
 
+    hideFullscreenHint();
     makeCoverInterfaceVisible();
 
     cover.classList.remove('cover-visual-clean');
@@ -256,6 +427,7 @@
 
   function hideCoverElements() {
     stopCoverEnterHint();
+    hideFullscreenHint();
 
     const cover = getCover();
 
@@ -558,6 +730,10 @@
 
     isCoverVisualMode,
     enterCoverVisualMode,
-    exitCoverVisualMode
+    exitCoverVisualMode,
+
+    getFullscreenHintData,
+    showFullscreenHint,
+    hideFullscreenHint
   };
 })();

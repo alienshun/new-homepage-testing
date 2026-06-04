@@ -688,6 +688,123 @@
 }
 
 /* =========================================================
+   Cover - Fullscreen hint
+   ========================================================= */
+
+#cover-fullscreen-hint {
+  position: absolute;
+  left: 50%;
+  top: calc(env(safe-area-inset-top, 0px) + 34px);
+  z-index: 84;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  width: max-content;
+  max-width: min(86vw, 620px);
+
+  color: rgba(247, 250, 255, 0.78);
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(-6px);
+  pointer-events: none;
+
+  transition:
+    opacity 0.48s ease,
+    visibility 0s linear 0.48s,
+    transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#cover-fullscreen-hint.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+
+  transition:
+    opacity 0.48s ease,
+    visibility 0s linear 0s,
+    transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cover-fullscreen-hint-main {
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: 0.075em;
+  text-align: center;
+  color: rgba(247, 250, 255, 0.80);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.32);
+  white-space: normal;
+}
+
+.cover-fullscreen-hint-shortcut {
+  font-size: 11.5px;
+  line-height: 1.55;
+  font-weight: 400;
+  letter-spacing: 0.055em;
+  text-align: center;
+  color: rgba(224, 234, 248, 0.58);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.28);
+  white-space: normal;
+}
+
+#cover-fullscreen-hint:not(.has-shortcut) .cover-fullscreen-hint-shortcut {
+  display: none;
+}
+
+.cover-fullscreen-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 1.45em;
+  padding: 0 4px;
+  margin: 0 1px;
+
+  font-family:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 0.88em;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+
+  color: rgba(255, 255, 255, 0.78);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 4px;
+
+  box-shadow: none;
+  vertical-align: 0.03em;
+}
+
+@media (max-width: 640px) {
+  #cover-fullscreen-hint {
+    top: calc(env(safe-area-inset-top, 0px) + 26px);
+    max-width: min(88vw, 420px);
+  }
+
+  .cover-fullscreen-hint-main {
+    font-size: 12px;
+    letter-spacing: 0.055em;
+  }
+
+  .cover-fullscreen-hint-shortcut {
+    font-size: 10.8px;
+  }
+}
+
+/* =========================================================
    Cover - Background and video layers
    ========================================================= */
 
@@ -879,6 +996,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #cover-fullscreen-hint,
+  .cover-fullscreen-key,
+  .cover-fullscreen-hint-main,
+  .cover-fullscreen-hint-shortcut,
   #cover-visual-toggle,
   #cover-visual-toggle::before,
   #cover-visual-toggle::after,
