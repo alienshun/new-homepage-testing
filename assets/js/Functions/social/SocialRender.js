@@ -181,25 +181,26 @@
           <!-- Giscus guestbook -->
           <div class="stats-block comments-block">
             <div class="comments-header">
-              <div class="comments-title-wrap">
-                <div class="stats-subtitle comments-subtitle">
-                  <span data-i18n="comments_title">Guestbook</span>
-                  <span id="giscus-meta" class="comments-meta" aria-live="polite"></span>
-                </div>
+              <div class="stats-subtitle comments-subtitle">
+                <span data-i18n="comments_title">Guestbook</span>
               </div>
 
               <a
                 id="giscus-github-link"
-                class="comments-github-link"
+                class="comments-github-icon"
                 href="https://github.com/Stardust-math/Stardust-math.github.io/discussions/2"
                 target="_blank"
                 rel="noopener noreferrer"
-                data-i18n="comments_open_github"
-              >Open on GitHub</a>
+                title="Open discussion on GitHub"
+                aria-label="Open discussion on GitHub"
+              >
+                <i class="fab fa-github" aria-hidden="true"></i>
+                <span class="sr-only" data-i18n="comments_open_github">Open on GitHub</span>
+              </a>
             </div>
 
-            <p class="stats-note comments-note" data-i18n="comments_note">
-              Feel free to leave a note, suggestion, or academic message. Comments are stored in GitHub Discussions.
+            <p class="comments-login-hint" data-i18n="comments_note">
+              Sign in with GitHub in the comment box below to leave a note.
             </p>
 
             <div id="giscus-container" class="giscus-container">
