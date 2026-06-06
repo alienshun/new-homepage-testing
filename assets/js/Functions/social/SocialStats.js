@@ -9,7 +9,7 @@
       : '';
 
   const MAPMYVISITORS_GLOBE_FRAME_SRC = SOCIAL_STATS_SCRIPT_SRC
-    ? new URL('../../../vendor/mapmyvisitors-globe.html?v=20260607', SOCIAL_STATS_SCRIPT_SRC).href
+    ? new URL('../../../../vendor/mapmyvisitors-globe.html?v=20260607', SOCIAL_STATS_SCRIPT_SRC).href
     : './assets/vendor/mapmyvisitors-globe.html?v=20260607';
 
   const MAPMYVISITORS_MAP_SRC =
