@@ -187,25 +187,21 @@
    ========================================================= */
 
 .comments-block {
-  max-width: 920px;
-  margin: 8px auto 0;
+  width: 100%;
+  max-width: none;
+  margin: 8px 0 0;
 }
 
 .comments-header {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 18px;
+  gap: 16px;
 
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   padding-bottom: 6px;
 
   border-bottom: 1px solid var(--border);
-}
-
-.comments-title-wrap {
-  min-width: 0;
-  flex: 1;
 }
 
 .comments-subtitle {
@@ -220,48 +216,42 @@
   border-bottom: 0;
 }
 
-.comments-meta {
-  color: var(--muted);
-  font-family: var(--font-social-action);
-  font-size: 0.86rem;
-  font-weight: 500;
-  font-variant: normal;
-  letter-spacing: 0.1px;
-  white-space: nowrap;
-}
+.comments-github-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-.comments-note {
-  max-width: 760px;
-  margin: 0 0 14px;
+  width: 32px;
+  height: 32px;
 
   color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.65;
-  text-align: left;
+  font-size: 1.08rem;
+  line-height: 1;
+
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
 }
 
-.comments-github-link {
-  flex: 0 0 auto;
-
-  color: var(--muted);
-  font-family: var(--font-social-action);
-  font-size: 0.88rem;
-  font-weight: 700;
-  line-height: 1.2;
-  white-space: nowrap;
-
-  border-bottom: 1px solid transparent;
-}
-
-.comments-github-link:hover {
+.comments-github-icon:hover {
   color: var(--accent);
-  border-bottom-color: var(--accent);
+  border-color: var(--border);
+  background: var(--accent-weak);
   text-decoration: none;
+}
+
+.comments-login-hint {
+  margin: 0 0 10px;
+
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  text-align: left;
 }
 
 .giscus-container {
   width: 100%;
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
 
   border: 0;
@@ -277,12 +267,28 @@
 
 .giscus-loading,
 .giscus-fallback {
-  padding: 18px 0;
+  padding: 16px 0;
 
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.6;
   text-align: left;
+}
+
+.sr-only {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+
+  white-space: nowrap;
+
+  border: 0;
 }
 
 /* =========================================================
@@ -319,27 +325,23 @@
   }
 
   .comments-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
   }
 
   .comments-subtitle {
     flex-direction: row;
-    flex-wrap: wrap;
     align-items: baseline;
-    justify-content: flex-start;
   }
 
-  .comments-meta {
-    white-space: normal;
+  .comments-github-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
   }
 
-  .comments-note {
-    max-width: 100%;
-  }
-
-  .giscus-container {
-    padding: 0;
+  .comments-login-hint {
+    font-size: 0.88rem;
   }
 }
