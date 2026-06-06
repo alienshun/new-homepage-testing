@@ -295,7 +295,8 @@
           A + 'js/Content/EN/social/social_EN.js',
           A + 'js/Content/ZH/social/social_ZH.js',
           A + 'js/Functions/social/SocialRender.js',
-          A + 'js/Functions/social/SocialStats.js'
+          A + 'js/Functions/social/SocialStats.js',
+          A + 'js/Functions/social/SocialComments.js'
         ]
       },
 
