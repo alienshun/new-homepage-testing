@@ -3,8 +3,14 @@
 
   const GC_SITE = 'https://stardust.goatcounter.com';
 
-  const MAPMYVISITORS_GLOBE_FRAME_SRC =
-    './assets/vendor/mapmyvisitors-globe.html?v=20260607';
+  const SOCIAL_STATS_SCRIPT_SRC =
+    document.currentScript && document.currentScript.src
+      ? document.currentScript.src
+      : '';
+
+  const MAPMYVISITORS_GLOBE_FRAME_SRC = SOCIAL_STATS_SCRIPT_SRC
+    ? new URL('../../../vendor/mapmyvisitors-globe.html?v=20260607', SOCIAL_STATS_SCRIPT_SRC).href
+    : './assets/vendor/mapmyvisitors-globe.html?v=20260607';
 
   const MAPMYVISITORS_MAP_SRC =
     'https://mapmyvisitors.com/map.js?d=lv35skyX2lbyweEWXclKdlDX6sBuXZH9CUyHouy4nk4&cl=ffffff&w=a';
