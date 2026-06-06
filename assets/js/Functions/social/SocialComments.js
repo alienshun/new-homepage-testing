@@ -6,8 +6,8 @@
     repoId: 'R_kgDOPFvFdg',
     mapping: 'number',
     term: '2',
-    reactionsEnabled: '1',
-    emitMetadata: '1',
+    reactionsEnabled: '0',
+    emitMetadata: '0',
     inputPosition: 'top',
     loading: 'lazy',
     discussionUrl: 'https://github.com/Stardust-math/Stardust-math.github.io/discussions/2'
@@ -18,7 +18,6 @@
   let giscusLoaded = false;
   let containerObserver = null;
   let themeObserver = null;
-  let lastDiscussion = null;
 
   function getLang() {
     if (window.SiteLang && typeof window.SiteLang.getLang === 'function') {
@@ -63,87 +62,20 @@
     return {};
   }
 
-  function interpolate(template, values) {
-    return String(template || '').replace(/\{(\w+)\}/g, function (_, key) {
-      return values && values[key] != null ? String(values[key]) : '';
-    });
-  }
-
-  function formatDate(value) {
-    if (!value) return '';
-
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return '';
-
-    try {
-      return new Intl.DateTimeFormat(getLang() === 'zh' ? 'zh-CN' : 'en', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }).format(date);
-    } catch (e) {
-      return date.toISOString().slice(0, 10);
-    }
-  }
-
-  function getCommentCount(discussion) {
-    if (!discussion || typeof discussion !== 'object') return null;
-
-    if (typeof discussion.totalCommentCount === 'number') {
-      return discussion.totalCommentCount;
-    }
-
-    if (discussion.comments && typeof discussion.comments.totalCount === 'number') {
-      return discussion.comments.totalCount;
-    }
-
-    if (typeof discussion.totalReplyCount === 'number') {
-      return discussion.totalReplyCount;
-    }
-
-    return null;
-  }
-
-  function updateMetadata(discussion) {
-    if (discussion && typeof discussion === 'object') {
-      lastDiscussion = discussion;
-    }
-
-    const target = document.getElementById('giscus-meta');
-    if (!target || !lastDiscussion) return;
-
-    const dict = getSocialDict();
-    const pieces = [];
-
-    const count = getCommentCount(lastDiscussion);
-    if (typeof count === 'number') {
-      const key = count === 1 ? 'comments_count_one' : 'comments_count_many';
-      const fallback = getLang() === 'zh' ? '{count} 条留言' : '{count} comments';
-      pieces.push(interpolate(dict[key] || fallback, { count }));
-    }
-
-    const updatedAt = lastDiscussion.updatedAt || lastDiscussion.lastEditedAt || '';
-    const dateText = formatDate(updatedAt);
-    if (dateText) {
-      const fallback = getLang() === 'zh' ? '最近更新 {date}' : 'Updated {date}';
-      pieces.push(interpolate(dict.comments_updated || fallback, { date: dateText }));
-    }
-
-    target.textContent = pieces.length ? ' · ' + pieces.join(' · ') : '';
-  }
-
   function updateStaticTexts() {
-    const container = document.getElementById('giscus-container');
-    if (!container) return;
+    const dict = getSocialDict();
 
     const loading = document.getElementById('giscus-loading');
-    const dict = getSocialDict();
-
     if (loading && dict.comments_loading) {
       loading.textContent = dict.comments_loading;
     }
 
-    updateMetadata(lastDiscussion);
+    const githubLink = document.getElementById('giscus-github-link');
+    if (githubLink) {
+      const label = dict.comments_open_github || 'Open on GitHub';
+      githubLink.setAttribute('title', label);
+      githubLink.setAttribute('aria-label', label);
+    }
   }
 
   function postGiscusConfig(config) {
@@ -162,7 +94,9 @@
 
     postGiscusConfig({
       theme: getTheme(),
-      lang: getGiscusLang()
+      lang: getGiscusLang(),
+      inputPosition: GISCUS_CONFIG.inputPosition,
+      reactionsEnabled: GISCUS_CONFIG.reactionsEnabled
     });
   }
 
@@ -253,17 +187,6 @@
     observeTheme();
   }
 
-  window.addEventListener('message', function (event) {
-    if (!event || event.origin !== GISCUS_ORIGIN) return;
-
-    const data = event.data;
-    if (!data || !data.giscus) return;
-
-    if (data.giscus.discussion) {
-      updateMetadata(data.giscus.discussion);
-    }
-  });
-
   window.addEventListener('site:langchange', function () {
     updateStaticTexts();
     syncGiscusAppearance();
@@ -272,7 +195,6 @@
   window.SocialComments = {
     init,
     mountGiscus,
-    updateMetadata,
     syncGiscusAppearance
   };
 
