@@ -45,12 +45,9 @@
     visitor_map: "访客地图",
 
     comments_title: "留言板",
-    comments_note: "欢迎留下问候、建议或学术交流信息。留言会保存到 GitHub Discussions，你可以编辑或删除自己发布的内容。",
-    comments_open_github: "在 GitHub 中打开",
+    comments_note: "（未登录用户可在下方评论框中点击 GitHub 登录后留言。）",
+    comments_open_github: "在 GitHub 中打开讨论页",
     comments_loading: "正在加载留言...",
-    comments_failed: "留言加载失败，可以在 GitHub 中打开讨论页。",
-    comments_count_one: "1 条留言",
-    comments_count_many: "{count} 条留言",
-    comments_updated: "最近更新 {date}"
+    comments_failed: "留言加载失败，可以在 GitHub 中打开讨论页。"
   };
 })();
