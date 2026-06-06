@@ -175,6 +175,37 @@
               <div id="clustrmaps-placeholder"></div>
             </div>
           </div>
+
+          <div class="stats-sep"></div>
+
+          <!-- Giscus guestbook -->
+          <div class="stats-block comments-block">
+            <div class="stats-subtitle comments-subtitle">
+              <span data-i18n="comments_title">Guestbook</span>
+              <span id="giscus-meta" class="comments-meta" aria-live="polite"></span>
+            </div>
+
+            <p class="stats-note comments-note" data-i18n="comments_note">
+              Feel free to leave a note, suggestion, or academic message. Comments are stored in GitHub Discussions.
+            </p>
+
+            <div class="comments-actions">
+              <a
+                id="giscus-github-link"
+                class="stats-link comments-github-link"
+                href="https://github.com/Stardust-math/Stardust-math.github.io/discussions/2"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-i18n="comments_open_github"
+              >Open on GitHub</a>
+            </div>
+
+            <div id="giscus-container" class="giscus-container">
+              <div id="giscus-loading" class="giscus-loading" data-i18n="comments_loading">
+                Loading comments...
+              </div>
+            </div>
+          </div>
         </div>
         
         <a href="#" class="back-btn" id="social-back-btn">
