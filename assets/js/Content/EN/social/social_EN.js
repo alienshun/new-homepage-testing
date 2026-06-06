@@ -42,7 +42,7 @@
     metric_week: "Last 7 days",
     metric_page: "This path",
     dashboard_title: "GoatCounter Dashboard",
-    visitor_map: "Visitor Map",
+    visitor_map: "Global Visitor Globe & Map",
 
     comments_title: "Guestbook",
     comments_guest_user: "Guest user",

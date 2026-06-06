@@ -1,7 +1,7 @@
 /* =========================================================
    Social Page - Website Statistics
    - GoatCounter metrics and dashboard iframe
-   - ClustrMaps visitor map
+   - MapMyVisitors visitor globe and map
    ========================================================= */
 
 .stats-container {
@@ -121,17 +121,17 @@
 }
 
 /* =========================================================
-   Visitor map
+   Visitor globe and map
    ========================================================= */
 
-.clustrmaps-wrap {
+.visitor-map-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
 
   width: 100%;
-  max-width: 840px;
-  min-height: 300px;
+  max-width: 1180px;
+  min-height: 500px;
   margin: 0 auto;
   padding: 12px;
 
@@ -143,43 +143,23 @@
   box-shadow: var(--shadow-sm);
 }
 
-#clustrmaps-placeholder {
+#visitor-map-placeholder {
   display: flex;
   justify-content: center;
   align-items: center;
 
   width: 100%;
-  min-height: 280px;
+  min-height: 470px;
 }
 
-.clustrmaps-frame {
+.visitor-map-frame {
   display: block;
 
-  width: min(100%, 820px);
-  height: 360px;
+  width: 100%;
+  height: 500px;
   border: 0;
 
   background: transparent;
-}
-
-.clustrmaps-fallback {
-  max-width: 520px;
-  padding: 18px 16px;
-
-  color: var(--muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  text-align: center;
-}
-
-.clustrmaps-fallback p {
-  margin: 0 0 10px;
-}
-
-.clustrmaps-fallback a {
-  color: var(--accent);
-  font-family: var(--font-social-action);
-  font-weight: 700;
 }
 
 /* =========================================================
@@ -317,18 +297,18 @@
     gap: 8px;
   }
 
-  .clustrmaps-wrap {
+  .visitor-map-wrap {
     max-width: 100%;
-    min-height: 260px;
+    min-height: 760px;
     padding: 10px;
   }
 
-  #clustrmaps-placeholder {
-    min-height: 240px;
+  #visitor-map-placeholder {
+    min-height: 740px;
   }
 
-  .clustrmaps-frame {
-    height: 320px;
+  .visitor-map-frame {
+    height: 760px;
   }
 
   .comments-header {

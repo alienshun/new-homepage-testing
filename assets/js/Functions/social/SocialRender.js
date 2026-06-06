@@ -166,13 +166,13 @@
 
           <div class="stats-sep"></div>
 
-          <!-- ClustrMaps visitor map -->
+          <!-- MapMyVisitors visitor globe and map -->
           <div class="stats-block">
             <div class="stats-subtitle">
-              <span data-i18n="visitor_map">Visitor Map</span>
+              <span data-i18n="visitor_map">Global Visitor Globe & Map</span>
             </div>
-            <div class="clustrmaps-wrap">
-              <div id="clustrmaps-placeholder"></div>
+            <div class="visitor-map-wrap">
+              <div id="visitor-map-placeholder"></div>
             </div>
           </div>
 

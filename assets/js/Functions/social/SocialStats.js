@@ -2,12 +2,12 @@
   'use strict';
 
   const GC_SITE = 'https://stardust.goatcounter.com';
-  const CLUSTRMAPS_FRAME_SRC = './assets/vendor/clustrmaps.html?v=20260527';
+  const VISITOR_MAP_FRAME_SRC = './assets/vendor/mapmyvisitors-3d.html?v=20260607';
 
   let statsStarted = false;
   let statsFinished = false;
   let goatCounterFrameStarted = false;
-  let clustrMapsStarted = false;
+  let visitorMapStarted = false;
   let visibleObserver = null;
   let delayedLoadTimer = null;
 
@@ -131,51 +131,31 @@
     goatCounterFrameStarted = true;
   }
 
-  function getClustrMapsPlaceholder() {
-    return document.getElementById('clustrmaps-placeholder');
+  function getVisitorMapPlaceholder() {
+    return document.getElementById('visitor-map-placeholder');
   }
 
-  function markClustrMapsState(state) {
-    const placeholder = getClustrMapsPlaceholder();
+  function mountVisitorMapFrame() {
+    const placeholder = getVisitorMapPlaceholder();
     if (!placeholder) return;
 
-    placeholder.classList.remove('is-loading', 'is-loaded', 'is-fallback');
+    const existingFrame = placeholder.querySelector('.visitor-map-frame');
 
-    if (state === 'loaded') {
-      placeholder.classList.add('is-loaded');
+    if (visitorMapStarted && existingFrame) {
       return;
     }
 
-    if (state === 'fallback') {
-      placeholder.classList.add('is-fallback');
-      return;
-    }
-
-    placeholder.classList.add('is-loading');
-  }
-
-  function mountClustrMapsFrame() {
-    const placeholder = getClustrMapsPlaceholder();
-    if (!placeholder) return;
-
-    const existingFrame = placeholder.querySelector('.clustrmaps-frame');
-
-    if (clustrMapsStarted && existingFrame) {
-      return;
-    }
-
-    clustrMapsStarted = true;
+    visitorMapStarted = true;
 
     placeholder.textContent = '';
-    markClustrMapsState('loading');
 
     const frame = document.createElement('iframe');
-    frame.className = 'clustrmaps-frame';
-    frame.title = 'ClustrMaps visitor map';
+    frame.className = 'visitor-map-frame';
+    frame.title = 'Global visitor globe and map';
     frame.loading = 'lazy';
     frame.referrerPolicy = 'strict-origin-when-cross-origin';
     frame.setAttribute('scrolling', 'no');
-    frame.src = CLUSTRMAPS_FRAME_SRC;
+    frame.src = VISITOR_MAP_FRAME_SRC;
 
     placeholder.appendChild(frame);
   }
@@ -188,7 +168,7 @@
 
       if (!socialIsVisible()) return;
 
-      mountClustrMapsFrame();
+      mountVisitorMapFrame();
 
       window.setTimeout(() => {
         if (!socialIsVisible()) return;
@@ -256,27 +236,13 @@
     armWhenVisible();
   }
 
-  window.addEventListener('message', (event) => {
-    if (!event || !event.data || event.data.type !== 'stardust-clustrmaps-state') {
-      return;
-    }
-
-    if (
-      event.data.state === 'loaded' ||
-      event.data.state === 'fallback' ||
-      event.data.state === 'loading'
-    ) {
-      markClustrMapsState(event.data.state);
-    }
-  });
-
   window.SocialStats = {
     enter,
     refresh,
     initVisibleResources,
     initStats,
     loadGoatCounterFrame,
-    mountClustrMapsFrame
+    mountVisitorMapFrame
   };
 
   if (window.SitePages && typeof window.SitePages.register === 'function') {

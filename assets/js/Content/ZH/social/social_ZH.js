@@ -42,7 +42,7 @@
     metric_week: "近 7 天",
     metric_page: "当前页面",
     dashboard_title: "GoatCounter 面板",
-    visitor_map: "访客地图",
+    visitor_map: "全球访客星图与地图",
 
     comments_title: "留言板",
     comments_guest_user: "未登录用户",
