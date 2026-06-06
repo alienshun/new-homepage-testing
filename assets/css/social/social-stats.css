@@ -183,6 +183,72 @@
 }
 
 /* =========================================================
+   Guestbook / Giscus comments
+   ========================================================= */
+
+.comments-block {
+  margin-top: 8px;
+}
+
+.comments-subtitle {
+  align-items: center;
+}
+
+.comments-meta {
+  color: var(--muted);
+  font-family: var(--font-social-action);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-variant: normal;
+  text-align: right;
+}
+
+.comments-note {
+  max-width: 820px;
+  margin: 0 auto 12px;
+  text-align: center;
+}
+
+.comments-actions {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 14px;
+}
+
+.comments-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.giscus-container {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 14px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.giscus-container .giscus,
+.giscus-container .giscus-frame {
+  width: 100%;
+}
+
+.giscus-loading,
+.giscus-fallback {
+  padding: 18px 16px;
+
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 
@@ -213,5 +279,17 @@
 
   .clustrmaps-frame {
     height: 320px;
+  }
+
+  .comments-subtitle {
+    align-items: flex-start;
+  }
+
+  .comments-meta {
+    text-align: left;
+  }
+
+  .giscus-container {
+    padding: 10px;
   }
 }
