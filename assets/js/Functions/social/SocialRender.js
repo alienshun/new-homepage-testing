@@ -166,10 +166,10 @@
 
           <div class="stats-sep"></div>
 
-          <!-- MapMyVisitors visitor globe and map -->
+          <!-- MapMyVisitors visitor map -->
           <div class="stats-block">
             <div class="stats-subtitle">
-              <span data-i18n="visitor_map">Global Visitor Globe & Map</span>
+              <span data-i18n="visitor_map">Visitor Map</span>
             </div>
             <div class="visitor-map-wrap">
               <div id="visitor-map-placeholder"></div>
