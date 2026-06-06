@@ -45,12 +45,9 @@
     visitor_map: "Visitor Map",
 
     comments_title: "Guestbook",
-    comments_note: "Feel free to leave a note, suggestion, or academic message. Comments are stored in GitHub Discussions, and you can edit or delete your own comments.",
-    comments_open_github: "Open on GitHub",
+    comments_note: "(Sign in with GitHub in the comment box below to leave a note.)",
+    comments_open_github: "Open discussion on GitHub",
     comments_loading: "Loading comments...",
-    comments_failed: "Comments failed to load. Please open the discussion on GitHub.",
-    comments_count_one: "1 comment",
-    comments_count_many: "{count} comments",
-    comments_updated: "Updated {date}"
+    comments_failed: "Comments failed to load. Please open the discussion on GitHub."
   };
 })();
