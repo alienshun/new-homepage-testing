@@ -125,41 +125,102 @@
    ========================================================= */
 
 .visitor-map-wrap {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   width: 100%;
   max-width: 1180px;
-  min-height: 500px;
   margin: 0 auto;
-  padding: 12px;
+  padding: 0;
 
-  overflow: hidden;
+  overflow: visible;
 
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 #visitor-map-placeholder {
+  width: 100%;
+  min-height: 420px;
+}
+
+.visitor-widgets-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(300px, 0.92fr);
+  gap: 24px;
+  align-items: stretch;
+
+  width: 100%;
+  min-height: 420px;
+}
+
+.visitor-widget-column {
+  min-width: 0;
+  min-height: 420px;
+
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-items: stretch;
+
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.visitor-widget-title {
+  margin: 0 0 10px;
+
+  color: var(--muted);
+  font-family: var(--font-social-action);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.visitor-widget-slot {
+  width: 100%;
+  min-height: 390px;
+
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  min-height: 470px;
+  overflow: visible;
 }
 
-.visitor-map-frame {
-  display: block;
+.visitor-widget-slot a,
+.visitor-widget-slot img,
+.visitor-widget-slot canvas,
+.visitor-widget-slot svg,
+.visitor-widget-slot iframe,
+.visitor-widget-slot object {
+  max-width: 100% !important;
+}
 
-  width: 100%;
-  height: 500px;
+.visitor-widget-slot img {
+  height: auto !important;
   border: 0;
+}
 
-  background: transparent;
+.visitor-widget-column-globe .visitor-widget-slot {
+  min-height: 390px;
+}
+
+.visitor-widget-column-map .visitor-widget-slot {
+  min-height: 390px;
+}
+
+.visitor-widget-fallback {
+  padding: 14px 0;
+
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-align: center;
 }
 
 /* =========================================================
@@ -297,18 +358,27 @@
     gap: 8px;
   }
 
-  .visitor-map-wrap {
-    max-width: 100%;
-    min-height: 760px;
-    padding: 10px;
-  }
-
   #visitor-map-placeholder {
-    min-height: 740px;
+    min-height: 760px;
   }
 
-  .visitor-map-frame {
-    height: 760px;
+  .visitor-widgets-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    min-height: 760px;
+  }
+
+  .visitor-widget-column {
+    min-height: 360px;
+  }
+
+  .visitor-widget-slot {
+    min-height: 330px;
+  }
+
+  .visitor-widget-column-globe .visitor-widget-slot,
+  .visitor-widget-column-map .visitor-widget-slot {
+    min-height: 330px;
   }
 
   .comments-header {

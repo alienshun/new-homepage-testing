@@ -2,7 +2,12 @@
   'use strict';
 
   const GC_SITE = 'https://stardust.goatcounter.com';
-  const VISITOR_MAP_FRAME_SRC = './assets/vendor/mapmyvisitors-3d.html?v=20260607';
+
+  const MAPMYVISITORS_GLOBE_SRC =
+    'https://mapmyvisitors.com/globe.js?d=jNfj9LXy7018FnpkzBkGWHCGbuvP2K3eOdP9csVmaDw';
+
+  const MAPMYVISITORS_MAP_SRC =
+    'https://mapmyvisitors.com/map.js?d=lv35skyX2lbyweEWXclKdlDX6sBuXZH9CUyHouy4nk4&cl=ffffff&w=a';
 
   let statsStarted = false;
   let statsFinished = false;
@@ -135,13 +140,34 @@
     return document.getElementById('visitor-map-placeholder');
   }
 
-  function mountVisitorMapFrame() {
+  function appendMapMyVisitorsScript(target, id, src) {
+    if (!target || target.querySelector(`#${id}`)) return;
+
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.id = id;
+    script.src = src;
+    script.async = true;
+
+    script.addEventListener('error', () => {
+      if (!target.querySelector('.visitor-widget-fallback')) {
+        const fallback = document.createElement('div');
+        fallback.className = 'visitor-widget-fallback';
+        fallback.textContent = 'Visitor widget failed to load.';
+        target.appendChild(fallback);
+      }
+    }, { once: true });
+
+    target.appendChild(script);
+  }
+
+  function mountVisitorMapWidgets() {
     const placeholder = getVisitorMapPlaceholder();
     if (!placeholder) return;
 
-    const existingFrame = placeholder.querySelector('.visitor-map-frame');
+    const existingGrid = placeholder.querySelector('.visitor-widgets-grid');
 
-    if (visitorMapStarted && existingFrame) {
+    if (visitorMapStarted && existingGrid) {
       return;
     }
 
@@ -149,15 +175,37 @@
 
     placeholder.textContent = '';
 
-    const frame = document.createElement('iframe');
-    frame.className = 'visitor-map-frame';
-    frame.title = 'Global visitor globe and map';
-    frame.loading = 'lazy';
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    frame.setAttribute('scrolling', 'no');
-    frame.src = VISITOR_MAP_FRAME_SRC;
+    const grid = document.createElement('div');
+    grid.className = 'visitor-widgets-grid';
 
-    placeholder.appendChild(frame);
+    grid.innerHTML = `
+      <section class="visitor-widget-column visitor-widget-column-globe" aria-label="3D visitor globe">
+        <div class="visitor-widget-title">3D Visitor Globe</div>
+        <div class="visitor-widget-slot" id="visitor-globe-slot"></div>
+      </section>
+
+      <section class="visitor-widget-column visitor-widget-column-map" aria-label="2D visitor map">
+        <div class="visitor-widget-title">Live Visitor Map</div>
+        <div class="visitor-widget-slot" id="visitor-map-slot"></div>
+      </section>
+    `;
+
+    placeholder.appendChild(grid);
+
+    const globeSlot = document.getElementById('visitor-globe-slot');
+    const mapSlot = document.getElementById('visitor-map-slot');
+
+    appendMapMyVisitorsScript(
+      globeSlot,
+      'mmvst_globe',
+      MAPMYVISITORS_GLOBE_SRC
+    );
+
+    appendMapMyVisitorsScript(
+      mapSlot,
+      'mapmyvisitors',
+      MAPMYVISITORS_MAP_SRC
+    );
   }
 
   function scheduleVisibleResourceLoad() {
@@ -168,7 +216,7 @@
 
       if (!socialIsVisible()) return;
 
-      mountVisitorMapFrame();
+      mountVisitorMapWidgets();
 
       window.setTimeout(() => {
         if (!socialIsVisible()) return;
@@ -242,7 +290,7 @@
     initVisibleResources,
     initStats,
     loadGoatCounterFrame,
-    mountVisitorMapFrame
+    mountVisitorMapWidgets
   };
 
   if (window.SitePages && typeof window.SitePages.register === 'function') {
