@@ -225,7 +225,6 @@
   height: 32px;
 
   color: var(--muted);
-  font-size: 1.08rem;
   line-height: 1;
 
   border-radius: 999px;
@@ -240,13 +239,37 @@
   text-decoration: none;
 }
 
+.comments-github-icon:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.comments-github-svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
 .comments-login-hint {
   margin: 0 0 10px;
 
   color: var(--muted);
   font-size: 0.9rem;
-  line-height: 1.5;
+  font-style: italic;
+  line-height: 1.55;
   text-align: left;
+}
+
+.comments-syntax-link {
+  color: var(--accent);
+  font-weight: 700;
+  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.comments-syntax-link:hover {
+  color: var(--accent);
+  border-bottom-style: solid;
+  text-decoration: none;
 }
 
 .giscus-container {
@@ -273,22 +296,6 @@
   font-size: 0.95rem;
   line-height: 1.6;
   text-align: left;
-}
-
-.sr-only {
-  position: absolute;
-
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-
-  white-space: nowrap;
-
-  border: 0;
 }
 
 /* =========================================================
@@ -338,7 +345,11 @@
   .comments-github-icon {
     width: 30px;
     height: 30px;
-    font-size: 1rem;
+  }
+
+  .comments-github-svg {
+    width: 15px;
+    height: 15px;
   }
 
   .comments-login-hint {

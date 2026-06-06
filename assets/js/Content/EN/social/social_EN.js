@@ -45,8 +45,16 @@
     visitor_map: "Visitor Map",
 
     comments_title: "Guestbook",
-    comments_note: "(Sign in with GitHub in the comment box below to leave a note.)",
-    comments_open_github: "Open discussion on GitHub",
+    comments_guest_user: "Guest user",
+    comments_identity_guest: "Sign in with GitHub",
+    comments_identity_user: "Signed in as {user}",
+    comments_login_status: "Please sign in with GitHub in the comment box below.",
+    comments_hint_intro: "Feel free to leave a note, suggestion, or academic message. ",
+    comments_hint_support: "Comments support ",
+    comments_hint_markdown: "GitHub Flavored Markdown",
+    comments_hint_and: " and ",
+    comments_hint_math: "mathematical expressions",
+    comments_hint_suffix: ". Sign in with GitHub to comment.",
     comments_loading: "Loading comments...",
     comments_failed: "Comments failed to load. Please open the discussion on GitHub."
   };

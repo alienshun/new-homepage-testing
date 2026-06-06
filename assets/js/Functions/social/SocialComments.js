@@ -9,8 +9,7 @@
     reactionsEnabled: '0',
     emitMetadata: '0',
     inputPosition: 'top',
-    loading: 'lazy',
-    discussionUrl: 'https://github.com/Stardust-math/Stardust-math.github.io/discussions/2'
+    loading: 'lazy'
   };
 
   const GISCUS_ORIGIN = 'https://giscus.app';
@@ -72,7 +71,7 @@
 
     const githubLink = document.getElementById('giscus-github-link');
     if (githubLink) {
-      const label = dict.comments_open_github || 'Open on GitHub';
+      const label = dict.comments_open_github || 'Open discussion on GitHub';
       githubLink.setAttribute('title', label);
       githubLink.setAttribute('aria-label', label);
     }
@@ -96,7 +95,7 @@
       theme: getTheme(),
       lang: getGiscusLang(),
       inputPosition: GISCUS_CONFIG.inputPosition,
-      reactionsEnabled: GISCUS_CONFIG.reactionsEnabled
+      reactionsEnabled: false
     });
   }
 
