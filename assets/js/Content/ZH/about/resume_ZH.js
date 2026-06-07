@@ -65,7 +65,10 @@
         <h2>荣誉与奖项</h2>
         <table width="100%">
           <tr>
-            <td>优秀学生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-ess-silver-zh" data-expand-key="ess-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">优秀学生奖学金 (银奖)</a>
+              <button class="expander" type="button" data-expand-target="exp-ess-silver-zh" data-expand-key="ess-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2025</td>
           </tr>
           <tr class="expand-row" id="exp-ess-silver-zh" aria-hidden="true" style="display:none;">
@@ -79,7 +82,10 @@
           </tr>
 
           <tr>
-            <td>张宗植科技奖学金 <button class="expander" type="button" data-expand-target="exp-zzst-scholarship-zh" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="打开相关链接">张宗植科技奖学金</a>
+              <button class="expander" type="button" data-expand-target="exp-zzst-scholarship-zh" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2024</td>
           </tr>
           <tr class="expand-row" id="exp-zzst-scholarship-zh" aria-hidden="true" style="display:none;">
@@ -93,7 +99,10 @@
           </tr>
 
           <tr>
-            <td>优秀新生奖学金 (银奖) <button class="expander" type="button" data-expand-target="exp-efs-silver-zh" data-expand-key="efs-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="./assets/pdf/about/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="下载 PDF">优秀新生奖学金 (银奖)</a>
+              <button class="expander" type="button" data-expand-target="exp-efs-silver-zh" data-expand-key="efs-silver" aria-expanded="false" aria-label="展开详情"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2023</td>
           </tr>
           <tr class="expand-row" id="exp-efs-silver-zh" aria-hidden="true" style="display:none;">
@@ -108,7 +117,7 @@
 
           <tr>
             <td>
-              美国大学生数学建模竞赛 MCM (B题) Honorable Mention (担任队长)
+              <a class="award-link" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="下载 PDF">美国大学生数学建模竞赛 MCM (B题) Honorable Mention (担任队长)</a>
               <button class="expander" type="button" data-expand-target="exp-mcm-hm-zh" data-expand-key="mcm-hm" aria-expanded="false" aria-label="展开详情">
                 <i class="fas fa-chevron-right"></i>
               </button>

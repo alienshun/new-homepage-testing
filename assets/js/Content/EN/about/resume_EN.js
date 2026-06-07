@@ -65,7 +65,10 @@
         <h2>Honors & Awards</h2>
         <table width="100%">
           <tr>
-            <td>Excellent Student Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-ess-silver" data-expand-key="ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="https://math.ustc.edu.cn/2025/1024/c18650a706019/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">Excellent Student Scholarship--Silver</a>
+              <button class="expander" type="button" data-expand-target="exp-ess-silver" data-expand-key="ess-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2025</td>
           </tr>
           <tr class="expand-row" id="exp-ess-silver" aria-hidden="true" style="display:none;">
@@ -79,7 +82,10 @@
           </tr>
 
           <tr>
-            <td>Zhang Zongzhi Sci-Tech Scholarship <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="https://math.ustc.edu.cn/2024/1113/c18650a660488/page.htm" target="_blank" rel="noopener noreferrer" aria-label="Open related link">Zhang Zongzhi Sci-Tech Scholarship</a>
+              <button class="expander" type="button" data-expand-target="exp-zzst-scholarship" data-expand-key="zzst-scholarship" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2024</td>
           </tr>
           <tr class="expand-row" id="exp-zzst-scholarship" aria-hidden="true" style="display:none;">
@@ -93,7 +99,10 @@
           </tr>
 
           <tr>
-            <td>Excellent Freshman Scholarship--Silver <button class="expander" type="button" data-expand-target="exp-efs-silver" data-expand-key="efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button></td>
+            <td>
+              <a class="award-link" href="./assets/pdf/about/Excellent_Freshman_Scholarship--Silver.pdf" download aria-label="Download PDF">Excellent Freshman Scholarship--Silver</a>
+              <button class="expander" type="button" data-expand-target="exp-efs-silver" data-expand-key="efs-silver" aria-expanded="false" aria-label="Expand details"><i class="fas fa-chevron-right"></i></button>
+            </td>
             <td align="right">2023</td>
           </tr>
           <tr class="expand-row" id="exp-efs-silver" aria-hidden="true" style="display:none;">
@@ -108,7 +117,7 @@
 
           <tr>
             <td>
-              Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)
+              <a class="award-link" href="./assets/pdf/about/2025_MCM_Problem_B_Results.pdf" download aria-label="Download PDF">Honorable Mention, Mathematical Contest in Modeling<sup>&reg;</sup> (MCM), Problem B (Team Captain)</a>
               <button class="expander" type="button" data-expand-target="exp-mcm-hm" data-expand-key="mcm-hm" aria-expanded="false" aria-label="Expand details">
                 <i class="fas fa-chevron-right"></i>
               </button>
@@ -183,7 +192,7 @@
               <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
                 <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.07 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.83 1.19 3.09 0 4.45-2.7 5.42-5.27 5.7.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
               </svg>
-              <span>Repository</span>
+              <span>Repo</span>
             </a>
           </li>
           <li>Assisted in homework and exam grading, providing feedback and tutoring. Held weekly problem-solving sessions to answer questions and help students prepare for exams.</li>
@@ -206,7 +215,7 @@
               <svg class="btn-ico" viewBox="0 0 24 24" aria-hidden="true">
                 <path fill="currentColor" d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.17c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.47.11-3.07 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.79 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.6.23 2.78.11 3.07.74.8 1.19 1.83 1.19 3.09 0 4.45-2.7 5.42-5.27 5.7.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
               </svg>
-              <span>Repository</span>
+              <span>Repo</span>
             </a>
           </li>
           <li>Assisted in homework and exam grading, provided feedback and tutoring, and held weekly problem-solving sessions to answer questions and help students prepare for exams.</li>

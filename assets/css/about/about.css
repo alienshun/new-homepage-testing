@@ -2,6 +2,7 @@
    About / Resume Page
    - Resume heading and contact information
    - Resume avatar and hero layout
+   - Award text links
    - Project action groups
    - Resume layout utilities
    ========================================================= */
@@ -132,6 +133,23 @@
 
 #resume img {
   max-width: 100%;
+}
+
+/* Award text links */
+#resume .award-link,
+#resume .award-link:visited {
+  color: inherit;
+  text-decoration: none;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  cursor: pointer;
+}
+
+#resume .award-link:hover,
+#resume .award-link:focus-visible {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
 }
 
 .project-actions {
