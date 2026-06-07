@@ -20,10 +20,63 @@
     }
   }
 
+  function bindOrcidQrModal(root) {
+    if (!root || root.dataset.orcidQrBound === 'true') return;
+
+    const openBtn = root.querySelector('[data-orcid-qr-open]');
+    const modal = root.querySelector('#orcid-qr-modal');
+    const dialog = root.querySelector('.orcid-qr-dialog');
+    const closeBtns = root.querySelectorAll('[data-orcid-qr-close]');
+
+    if (!openBtn || !modal || !dialog) return;
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('orcid-qr-modal-open');
+
+      const closeBtn = modal.querySelector('[data-orcid-qr-close]');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('orcid-qr-modal-open');
+
+      openBtn.focus();
+    }
+
+    openBtn.addEventListener('click', function () {
+      openModal();
+    });
+
+    closeBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        closeModal();
+      });
+    });
+
+    modal.addEventListener('click', function (event) {
+      if (!dialog.contains(event.target)) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+
+    root.dataset.orcidQrBound = 'true';
+  }
+
   function renderSocialPage() {
     const existing = getSocialRoot();
 
     if (existing) {
+      bindOrcidQrModal(existing);
       refreshAfterRender(existing);
       return existing;
     }
@@ -55,7 +108,11 @@
               <div class="social-icon"><i class="fab fa-orcid"></i></div>
               <div class="social-title" data-i18n="orcid_title">ORCID</div>
               <div class="social-description" data-i18n="orcid_desc">Academic identifier and research profile</div>
-              <a href="https://orcid.org/0009-0009-1961-6829" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_record">Record</a>
+              <div class="social-link-group">
+                <a href="https://orcid.org/0009-0009-1961-6829" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_record">Record</a>
+                <span class="social-divider">/</span>
+                <button type="button" class="social-link social-qr-button" data-orcid-qr-open data-i18n="link_qr_code">QR Code</button>
+              </div>
             </div>
 
             <!-- YouTube card -->
@@ -128,6 +185,23 @@
               <div class="social-description" data-i18n="steam_desc">My gaming profile and library</div>
               <a href="https://steamcommunity.com/id/stardust-math/" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_profile">Profile</a>
             </div>
+          </div>
+        </div>
+
+        <!-- ORCID QR modal -->
+        <div id="orcid-qr-modal" class="orcid-qr-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orcid-qr-title">
+          <div class="orcid-qr-dialog">
+            <button type="button" class="orcid-qr-close" data-orcid-qr-close aria-label="Close ORCID QR code">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <div id="orcid-qr-title" class="orcid-qr-title" data-i18n="orcid_qr_title">ORCID QR Code</div>
+            <img
+              class="orcid-qr-image"
+              src="assets/images/social/ORCID.png"
+              alt="ORCID QR code"
+              loading="lazy"
+            />
+            <p class="orcid-qr-caption" data-i18n="orcid_qr_caption">Scan to open my ORCID record.</p>
           </div>
         </div>
 
@@ -263,6 +337,7 @@
     `);
 
     const root = getSocialRoot();
+    bindOrcidQrModal(root);
     refreshAfterRender(root);
 
     return root;

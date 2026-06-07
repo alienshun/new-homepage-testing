@@ -3,6 +3,7 @@
    - Heading
    - Social platform cards
    - Icons, descriptions, links
+   - ORCID QR modal
    ========================================================= */
 
 .social-heading {
@@ -120,11 +121,17 @@
   box-shadow: var(--shadow);
 }
 
+.social-qr-button {
+  font: inherit;
+  cursor: pointer;
+}
+
 .social-link-group {
   display: flex;
   gap: 5px;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 /* Social link separator */
@@ -137,4 +144,164 @@
   color: var(--muted);
   font-size: 1.2em;
   vertical-align: middle;
+}
+
+/* ORCID QR modal */
+.orcid-qr-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.52);
+  backdrop-filter: blur(8px);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+}
+
+.orcid-qr-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.orcid-qr-dialog {
+  position: relative;
+
+  width: min(92vw, 380px);
+  padding: 30px 28px 26px;
+
+  text-align: center;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 8px);
+  box-shadow: var(--shadow);
+
+  transform: translateY(8px) scale(0.98);
+  transition: transform 0.2s ease;
+}
+
+.orcid-qr-modal.is-open .orcid-qr-dialog {
+  transform: translateY(0) scale(1);
+}
+
+.orcid-qr-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 34px;
+  height: 34px;
+  padding: 0;
+
+  color: var(--muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.orcid-qr-close:hover {
+  color: var(--accent-strong);
+  background: var(--accent-weak);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.orcid-qr-title {
+  margin: 0 34px 18px;
+
+  color: var(--accent);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.orcid-qr-image {
+  display: block;
+
+  width: min(240px, 72vw);
+  height: auto;
+  margin: 0 auto 18px;
+  padding: 10px;
+
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-sm);
+}
+
+.orcid-qr-caption {
+  margin: 0 0 20px;
+
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.orcid-qr-action {
+  display: inline-block;
+  padding: 8px 22px;
+
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 26px;
+  box-shadow: var(--shadow-sm);
+  font-weight: 600;
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.orcid-qr-action:hover {
+  background: var(--accent-weak);
+  color: var(--accent-strong);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow);
+}
+
+.orcid-qr-modal-open {
+  overflow: hidden;
+}
+
+@media (max-width: 520px) {
+  .orcid-qr-dialog {
+    padding: 28px 20px 24px;
+  }
+
+  .orcid-qr-title {
+    font-size: 1.2rem;
+  }
+
+  .orcid-qr-image {
+    width: min(220px, 70vw);
+  }
 }

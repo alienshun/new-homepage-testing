@@ -36,9 +36,14 @@
     link_handle: "Handle",
     link_profile: "Profile",
     link_record: "Record",
+    link_qr_code: "QR Code",
     link_link1: "Link 1",
     link_link2: "Link 2",
     link_open: "Open",
+
+    orcid_qr_title: "ORCID QR Code",
+    orcid_qr_caption: "Scan to open my ORCID record.",
+    modal_close: "Close",
 
     stats_heading: "Website Statistics",
     metric_total: "All-time (Total)",

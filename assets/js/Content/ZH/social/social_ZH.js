@@ -36,9 +36,14 @@
     link_handle: "账号",
     link_profile: "主页",
     link_record: "记录",
+    link_qr_code: "二维码",
     link_link1: "链接 1",
     link_link2: "链接 2",
     link_open: "打开",
+
+    orcid_qr_title: "ORCID 二维码",
+    orcid_qr_caption: "扫描二维码打开我的 ORCID 学术档案。",
+    modal_close: "关闭",
 
     stats_heading: "网站统计",
     metric_total: "累计 (总计)",
