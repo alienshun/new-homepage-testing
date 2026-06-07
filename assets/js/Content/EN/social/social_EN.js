@@ -26,12 +26,16 @@
     github_title: "GitHub",
     github_desc: "My code repositories and projects",
 
+    orcid_title: "ORCID",
+    orcid_desc: "Academic identifier and research profile",
+
     steam_title: "Steam",
     steam_desc: "My gaming profile and library",
 
     link_channel: "Channel",
     link_handle: "Handle",
     link_profile: "Profile",
+    link_record: "Record",
     link_link1: "Link 1",
     link_link2: "Link 2",
     link_open: "Open",

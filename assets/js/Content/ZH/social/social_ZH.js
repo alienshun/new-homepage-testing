@@ -26,12 +26,16 @@
     github_title: "GitHub",
     github_desc: "代码仓库与项目",
 
+    orcid_title: "ORCID",
+    orcid_desc: "学术身份识别与研究档案",
+
     steam_title: "Steam",
     steam_desc: "游戏主页与库",
 
     link_channel: "频道",
     link_handle: "账号",
     link_profile: "主页",
+    link_record: "记录",
     link_link1: "链接 1",
     link_link2: "链接 2",
     link_open: "打开",

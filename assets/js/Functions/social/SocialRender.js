@@ -42,6 +42,22 @@
           <div class="social-heading" data-i18n="social_heading">Connect With Me</div>
           
           <div class="social-grid">
+            <!-- GitHub card -->
+            <div class="social-card">
+              <div class="social-icon"><i class="fab fa-github"></i></div>
+              <div class="social-title" data-i18n="github_title">GitHub</div>
+              <div class="social-description" data-i18n="github_desc">My code repositories and projects</div>
+              <a href="https://github.com/Stardust-math" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_profile">Profile</a>
+            </div>
+
+            <!-- ORCID card -->
+            <div class="social-card">
+              <div class="social-icon"><i class="fab fa-orcid"></i></div>
+              <div class="social-title" data-i18n="orcid_title">ORCID</div>
+              <div class="social-description" data-i18n="orcid_desc">Academic identifier and research profile</div>
+              <a href="https://orcid.org/0009-0009-1961-6829" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_record">Record</a>
+            </div>
+
             <!-- YouTube card -->
             <div class="social-card">
               <div class="social-icon"><i class="fab fa-youtube"></i></div>
@@ -103,14 +119,6 @@
               <div class="social-title" data-i18n="bilibili_title">Bilibili</div>
               <div class="social-description" data-i18n="bilibili_desc">Chinese video platform for my content</div>
               <a href="https://space.bilibili.com/470364718" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_channel">Channel</a>
-            </div>
-
-            <!-- GitHub card -->
-            <div class="social-card">
-              <div class="social-icon"><i class="fab fa-github"></i></div>
-              <div class="social-title" data-i18n="github_title">GitHub</div>
-              <div class="social-description" data-i18n="github_desc">My code repositories and projects</div>
-              <a href="https://github.com/Stardust-math" class="social-link" target="_blank" rel="noopener noreferrer" data-i18n="link_profile">Profile</a>
             </div>
 
             <!-- Steam card -->
