@@ -3,9 +3,6 @@
 
   const GC_SITE = 'https://stardust.goatcounter.com';
 
-  const MAPMYVISITORS_GLOBE_FRAME_SRC =
-    '/assets/vendor/mapmyvisitors-globe.html?v=20260607';
-
   const MAPMYVISITORS_MAP_SRC =
     'https://mapmyvisitors.com/map.js?d=lv35skyX2lbyweEWXclKdlDX6sBuXZH9CUyHouy4nk4&cl=ffffff&w=a';
 
@@ -161,26 +158,13 @@
     target.appendChild(script);
   }
 
-  function createGlobeFrame() {
-    const frame = document.createElement('iframe');
-
-    frame.className = 'visitor-globe-frame';
-    frame.title = 'Visitor globe';
-    frame.loading = 'lazy';
-    frame.referrerPolicy = 'strict-origin-when-cross-origin';
-    frame.setAttribute('scrolling', 'no');
-    frame.src = MAPMYVISITORS_GLOBE_FRAME_SRC;
-
-    return frame;
-  }
-
   function mountVisitorMapWidgets() {
     const placeholder = getVisitorMapPlaceholder();
     if (!placeholder) return;
 
-    const existingGrid = placeholder.querySelector('.visitor-widgets-grid');
+    const existingMapSlot = placeholder.querySelector('#visitor-map-slot');
 
-    if (visitorMapStarted && existingGrid) {
+    if (visitorMapStarted && existingMapSlot) {
       return;
     }
 
@@ -188,27 +172,12 @@
 
     placeholder.textContent = '';
 
-    const grid = document.createElement('div');
-    grid.className = 'visitor-widgets-grid';
+    const mapSlot = document.createElement('div');
+    mapSlot.className = 'visitor-widget-slot visitor-map-slot';
+    mapSlot.id = 'visitor-map-slot';
+    mapSlot.setAttribute('aria-label', '2D visitor map');
 
-    grid.innerHTML = `
-      <div class="visitor-widget-column visitor-widget-column-globe" aria-label="3D visitor globe">
-        <div class="visitor-widget-slot visitor-globe-slot" id="visitor-globe-slot"></div>
-      </div>
-
-      <div class="visitor-widget-column visitor-widget-column-map" aria-label="2D visitor map">
-        <div class="visitor-widget-slot visitor-map-slot" id="visitor-map-slot"></div>
-      </div>
-    `;
-
-    placeholder.appendChild(grid);
-
-    const globeSlot = document.getElementById('visitor-globe-slot');
-    const mapSlot = document.getElementById('visitor-map-slot');
-
-    if (globeSlot && !globeSlot.querySelector('.visitor-globe-frame')) {
-      globeSlot.appendChild(createGlobeFrame());
-    }
+    placeholder.appendChild(mapSlot);
 
     window.setTimeout(() => {
       appendMapMyVisitorsScript(
@@ -216,7 +185,7 @@
         'mapmyvisitors',
         MAPMYVISITORS_MAP_SRC
       );
-    }, 350);
+    }, 250);
   }
 
   function scheduleVisibleResourceLoad() {

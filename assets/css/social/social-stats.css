@@ -1,7 +1,7 @@
 /* =========================================================
    Social Page - Website Statistics
    - GoatCounter metrics and dashboard iframe
-   - MapMyVisitors visitor map
+   - MapMyVisitors 2D visitor map
    ========================================================= */
 
 .stats-container {
@@ -126,8 +126,8 @@
 
 .visitor-map-wrap {
   width: 100%;
-  max-width: 1180px;
-  margin: 0 auto;
+  max-width: none;
+  margin: 0;
   padding: 0;
 
   overflow: visible;
@@ -143,33 +143,6 @@
   min-height: 320px;
 }
 
-.visitor-widgets-grid {
-  display: grid;
-  grid-template-columns: minmax(240px, 0.9fr) minmax(320px, 1.1fr);
-  gap: 20px;
-  align-items: start;
-
-  width: 100%;
-  min-height: 320px;
-}
-
-.visitor-widget-column {
-  min-width: 0;
-  min-height: 320px;
-
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-
-  padding: 0;
-  margin: 0;
-
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
-}
-
 .visitor-widget-slot {
   width: 100%;
   min-height: 320px;
@@ -183,36 +156,28 @@
   overflow: visible;
 }
 
-.visitor-globe-slot {
-  min-height: 300px;
-}
-
 .visitor-map-slot {
+  width: 100%;
   min-height: 320px;
 }
 
-.visitor-globe-frame {
-  display: block;
-
+.visitor-map-slot a {
   width: 100%;
-  max-width: 320px;
-  height: 300px;
-
-  border: 0;
-  background: transparent;
-  overflow: hidden;
+  display: flex !important;
+  justify-content: center;
+  align-items: flex-start;
 }
 
-.visitor-widget-slot a,
-.visitor-widget-slot img,
-.visitor-widget-slot canvas,
-.visitor-widget-slot svg,
-.visitor-widget-slot iframe,
-.visitor-widget-slot object {
+.visitor-map-slot img,
+.visitor-map-slot canvas,
+.visitor-map-slot svg,
+.visitor-map-slot iframe,
+.visitor-map-slot object {
+  width: 100% !important;
   max-width: 100% !important;
 }
 
-.visitor-widget-slot img {
+.visitor-map-slot img {
   height: auto !important;
   border: 0;
 }
@@ -362,16 +327,6 @@
   }
 
   #visitor-map-placeholder {
-    min-height: 620px;
-  }
-
-  .visitor-widgets-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    min-height: 620px;
-  }
-
-  .visitor-widget-column {
     min-height: 300px;
   }
 
@@ -379,9 +334,8 @@
     min-height: 300px;
   }
 
-  .visitor-globe-frame {
-    max-width: 300px;
-    height: 290px;
+  .visitor-map-slot {
+    min-height: 300px;
   }
 
   .comments-header {
