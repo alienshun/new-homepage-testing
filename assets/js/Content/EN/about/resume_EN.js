@@ -148,8 +148,8 @@
         <div class="subsubheading">
           <div>Advisors:</div>
           <div class="resume-advisor-list">
-            <div><strong>Prof. Yimin Yu</strong> (Department of Decision Analytics and Operations, City University of Hong Kong)</div>
-            <div><strong>Prof. Qian Wang</strong> (Department of Marketing & International Business, Lingnan University)</div>
+            <div><strong><a class="resume-link" href="https://sites.google.com/site/yiminyu/" target="_blank" rel="noopener noreferrer">Prof. Yimin Yu</a></strong> (<a class="resume-link" href="https://www.cb.cityu.edu.hk/dao/" target="_blank" rel="noopener noreferrer">Department of Decision Analytics & Operations, City University of Hong Kong</a>)</div>
+            <div><strong><a class="resume-link" href="https://www.ln.edu.hk/mkt/faculty-staff/staff-list/wang-qian" target="_blank" rel="noopener noreferrer">Prof. Qian Wang</a></strong> (<a class="resume-link" href="https://www.ln.edu.hk/mkt" target="_blank" rel="noopener noreferrer">Department of Marketing & International Business, Lingnan University</a>)</div>
           </div>
         </div>
         <ul>
@@ -165,8 +165,8 @@
         <div class="subsubheading">
           <div>Advisors:</div>
           <div class="resume-advisor-list">
-            <div><strong>Prof. Xiaobei Shen</strong> (Department of Management Science, University of Science and Technology of China)</div>
-            <div><strong>Dr. Jiancheng Lyu</strong> (Department of Management Science, University of Science and Technology of China)</div>
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-329.html" target="_blank" rel="noopener noreferrer">Prof. Xiaobei Shen</a></strong> (<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">School of Management, University of Science and Technology of China</a>)</div>
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-2329.html" target="_blank" rel="noopener noreferrer">Dr. Jiancheng Lyu</a></strong> (<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">School of Management, University of Science and Technology of China</a>)</div>
           </div>
         </div>
         <ul>
@@ -181,7 +181,12 @@
           <span class="subheading-title">Teaching Assistant, "Probability Theory and Mathematical Statistics"</span>
           <span>Sep. 2025 -- Jan. 2026</span>
         </div>
-        <div class="subsubheading">Instructor: <strong>Prof. Shuguang Zhang</strong></div>
+        <div class="subsubheading">
+          <div>Instructor:</div>
+          <div class="resume-advisor-list">
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-97.html" target="_blank" rel="noopener noreferrer">Prof. Shuguang Zhang</a></strong> (<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">School of Management, University of Science and Technology of China</a>)</div>
+          </div>
+        </div>
         <ul>
           <li>
             Compiled detailed LaTeX solutions and reference answers based on the textbook by Baiqi Miu and Weiping Zhang; maintained an open-source repository for students:
@@ -204,7 +209,12 @@
           <span class="subheading-title">Teaching Assistant, "Machine Learning B"</span>
           <span>Mar. 2026 -- Jul. 2026</span>
         </div>
-        <div class="subsubheading">Instructor: <strong>Prof. Li Xiao</strong></div>
+        <div class="subsubheading">
+          <div>Instructor:</div>
+          <div class="resume-advisor-list">
+            <div><strong><a class="resume-link" href="https://faculty.ustc.edu.cn/xiaoli" target="_blank" rel="noopener noreferrer">Prof. Li Xiao</a></strong> (<a class="resume-link" href="https://sist.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">School of Information Science & Technology, University of Science and Technology of China</a>)</div>
+          </div>
+        </div>
         <ul>
           <li>
             Expanded upon the material learned in "Machine Learning A" and the textbook compiled by Prof. Jie Wang, helping students strengthen the mathematical foundations relevant to machine learning:
@@ -248,7 +258,7 @@
                   <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                 </svg>
-                <span>ShowPage</span>
+                <span>Page</span>
               </a>
 
               <a
@@ -287,7 +297,7 @@
                   <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                 </svg>
-                <span>ShowPage</span>
+                <span>Page</span>
               </a>
 
               <a
@@ -326,7 +336,7 @@
                   <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                 </svg>
-                <span>ShowPage</span>
+                <span>Page</span>
               </a>
 
               <a
@@ -365,7 +375,7 @@
                   <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                 </svg>
-                <span>ShowPage</span>
+                <span>Page</span>
               </a>
 
               <a
@@ -404,7 +414,7 @@
                   <path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                   <path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
                 </svg>
-                <span>ShowPage</span>
+                <span>Page</span>
               </a>
 
               <a

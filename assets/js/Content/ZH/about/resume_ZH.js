@@ -148,8 +148,8 @@
         <div class="subsubheading">
           <div>导师: </div>
           <div class="resume-advisor-list">
-            <div><strong>虞义敏教授</strong>(香港城市大学 决策分析与运营学系)</div>
-            <div><strong>汪倩教授</strong>(香港岭南大学 市场营销与国际商务学系)</div>
+            <div><strong><a class="resume-link" href="https://sites.google.com/site/yiminyu/" target="_blank" rel="noopener noreferrer">虞义敏教授</a></strong>(<a class="resume-link" href="https://www.cb.cityu.edu.hk/dao/" target="_blank" rel="noopener noreferrer">香港城市大学 决策分析与运营学系</a>)</div>
+            <div><strong><a class="resume-link" href="https://www.ln.edu.hk/mkt/faculty-staff/staff-list/wang-qian" target="_blank" rel="noopener noreferrer">汪倩教授</a></strong>(<a class="resume-link" href="https://www.ln.edu.hk/mkt" target="_blank" rel="noopener noreferrer">香港岭南大学 市场营销与国际商务学系</a>)</div>
           </div>
         </div>
         <ul>
@@ -165,8 +165,8 @@
         <div class="subsubheading">
           <div>导师: </div>
           <div class="resume-advisor-list">
-            <div><strong>沈晓蓓教授</strong>(中国科学技术大学 管理科学系)</div>
-            <div><strong>吕建成博士</strong>(中国科学技术大学 管理科学系)</div>
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-329.html" target="_blank" rel="noopener noreferrer">沈晓蓓教授</a></strong>(<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">中国科学技术大学 管理学院</a>)</div>
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-2329.html" target="_blank" rel="noopener noreferrer">吕建成博士</a></strong>(<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">中国科学技术大学 管理学院</a>)</div>
           </div>
         </div>
         <ul>
@@ -181,7 +181,12 @@
           <span class="subheading-title">助教, "概率论与数理统计"</span>
           <span>2025年9月 -- 2026年1月</span>
         </div>
-        <div class="subsubheading">授课教师: <strong>张曙光教授</strong></div>
+        <div class="subsubheading">
+          <div>授课教师: </div>
+          <div class="resume-advisor-list">
+            <div><strong><a class="resume-link" href="https://bs.ustc.edu.cn/chinese/profile-97.html" target="_blank" rel="noopener noreferrer">张曙光教授</a></strong> (<a class="resume-link" href="https://business.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">中国科学技术大学 管理学院</a>)</div>
+          </div>
+        </div>
         <ul>
           <li>
             基于缪柏其、张伟平编撰的教材整理并编写详细 LaTeX 习题解答与参考答案；维护开源仓库供同学使用:
@@ -204,7 +209,12 @@
           <span class="subheading-title">助教, "机器学习B"</span>
           <span>2026年3月 -- 2026年7月</span>
         </div>
-        <div class="subsubheading">指导教师: <strong>肖力教授</strong></div>
+        <div class="subsubheading">
+          <div>授课教师: </div>
+          <div class="resume-advisor-list">
+            <div><strong><a class="resume-link" href="https://faculty.ustc.edu.cn/xiaoli" target="_blank" rel="noopener noreferrer">肖力教授</a></strong> (<a class="resume-link" href="https://sist.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">中国科学技术大学 信息科学技术学院</a>)</div>
+          </div>
+        </div>
         <ul>
           <li>
             补充拓展了“机器学习A”中学到的、王杰老师编的教材内容, 帮助同学们夯实机器学习相关的数学基础:
