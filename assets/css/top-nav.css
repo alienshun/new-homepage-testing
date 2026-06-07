@@ -22,7 +22,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+
+  width: auto;
   height: var(--topnav-height);
   z-index: 12000;
 
