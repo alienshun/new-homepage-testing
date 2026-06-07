@@ -126,11 +126,11 @@
 
 .visitor-map-wrap {
   width: 100%;
-  max-width: none;
+  max-width: 100%;
   margin: 0;
   padding: 0;
 
-  overflow: visible;
+  overflow: hidden;
 
   border: 0;
   border-radius: 0;
@@ -140,11 +140,14 @@
 
 #visitor-map-placeholder {
   width: 100%;
+  max-width: 100%;
   min-height: 320px;
+  overflow: hidden;
 }
 
 .visitor-widget-slot {
   width: 100%;
+  max-width: 100%;
   min-height: 320px;
 
   display: flex;
@@ -153,26 +156,35 @@
 
   padding: 0;
   margin: 0;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .visitor-map-slot {
   width: 100%;
+  max-width: 100%;
   min-height: 320px;
+  position: relative;
+}
+
+.visitor-map-slot > * {
+  max-width: 100% !important;
 }
 
 .visitor-map-slot a {
   width: 100%;
+  max-width: 100%;
   display: flex !important;
   justify-content: center;
   align-items: flex-start;
+  overflow: hidden;
 }
 
 .visitor-map-slot img,
 .visitor-map-slot canvas,
 .visitor-map-slot svg,
 .visitor-map-slot iframe,
-.visitor-map-slot object {
+.visitor-map-slot object,
+.visitor-map-slot embed {
   width: 100% !important;
   max-width: 100% !important;
 }
