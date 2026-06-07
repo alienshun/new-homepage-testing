@@ -36,18 +36,20 @@
       <div class="section">
         <h2>Education</h2>
         <div class="subheading">
-          <span class="subheading-title">University of Science and Technology of China</span>
+          <span class="subheading-title">
+            <a class="resume-link" href="https://www.ustc.edu.cn/" target="_blank" rel="noopener noreferrer">University of Science and Technology of China</a>
+          </span>
           <span>Sep. 2023 -- Jul. 2027 (Expected)</span>
         </div>
 
         <div class="subsubheading resume-degree-line">
           <span>
-            B.Sc. in Mathematics; B.Eng. in Computer Science and Technology
+            <a class="resume-link" href="https://math.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">B.Sc. in Mathematics</a>; <a class="resume-link" href="https://cs.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">B.Eng. in Computer Science and Technology</a>
             <button class="expander" type="button" data-expand-target="exp-edu-bg" data-expand-key="edu-bg" aria-expanded="false" aria-label="Expand details">
               <i class="fas fa-chevron-right"></i>
             </button>
             <br>
-            (Additional Specialization in AI+X (Certificate Program), East China Five Universities Consortium)
+            (<a class="resume-link" href="https://aixmicroprogram.mh.chaoxing.com/" target="_blank" rel="noopener noreferrer">Additional Specialization in AI+X (Certificate Program), East China Five Universities Consortium</a>)
           </span>
           <span>Hefei, China</span>
         </div>

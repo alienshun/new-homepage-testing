@@ -36,18 +36,20 @@
       <div class="section">
         <h2>教育背景</h2>
         <div class="subheading">
-          <span class="subheading-title">中国科学技术大学</span>
+          <span class="subheading-title">
+            <a class="resume-link" href="https://www.ustc.edu.cn/" target="_blank" rel="noopener noreferrer">中国科学技术大学</a>
+          </span>
           <span>2023年9月 -- 2027年7月 (预计)</span>
         </div>
 
         <div class="subsubheading resume-degree-line">
           <span>
-            数学理学学士; 计算机科学与技术工学学士
+            <a class="resume-link" href="https://math.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">数学理学学士</a>; <a class="resume-link" href="https://cs.ustc.edu.cn/main.htm" target="_blank" rel="noopener noreferrer">计算机科学与技术工学学士</a>
             <button class="expander" type="button" data-expand-target="exp-edu-bg-zh" data-expand-key="edu-bg" aria-expanded="false" aria-label="展开详情">
               <i class="fas fa-chevron-right"></i>
             </button>
             <br>
-            (PS: AI+X 微专业, 华东五校联盟)
+            (PS: <a class="resume-link" href="https://aixmicroprogram.mh.chaoxing.com/" target="_blank" rel="noopener noreferrer">AI+X 微专业, 华东五校联盟</a>)
           </span>
           <span>中国·合肥</span>
         </div>
