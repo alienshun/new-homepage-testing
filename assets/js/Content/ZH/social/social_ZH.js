@@ -43,7 +43,6 @@
 
     orcid_qr_title: "ORCID 二维码",
     orcid_qr_caption: "扫描二维码打开我的 ORCID 学术档案。",
-    modal_close: "关闭",
 
     stats_heading: "网站统计",
     metric_total: "累计 (总计)",

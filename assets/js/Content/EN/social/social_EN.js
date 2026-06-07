@@ -43,7 +43,6 @@
 
     orcid_qr_title: "ORCID QR Code",
     orcid_qr_caption: "Scan to open my ORCID record.",
-    modal_close: "Close",
 
     stats_heading: "Website Statistics",
     metric_total: "All-time (Total)",

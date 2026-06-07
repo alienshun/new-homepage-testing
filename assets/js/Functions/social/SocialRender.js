@@ -191,14 +191,14 @@
         <!-- ORCID QR modal -->
         <div id="orcid-qr-modal" class="orcid-qr-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="orcid-qr-title">
           <div class="orcid-qr-dialog">
-            <button type="button" class="orcid-qr-close" data-orcid-qr-close aria-label="Close ORCID QR code">
+            <button type="button" class="orcid-qr-close" data-orcid-qr-close aria-label="Close ORCID QR code / 关闭 ORCID 二维码">
               <i class="fas fa-times" aria-hidden="true"></i>
             </button>
             <div id="orcid-qr-title" class="orcid-qr-title" data-i18n="orcid_qr_title">ORCID QR Code</div>
             <img
               class="orcid-qr-image"
               src="assets/images/social/ORCID.png"
-              alt="ORCID QR code"
+              alt="ORCID QR code / ORCID 二维码"
               loading="lazy"
             />
             <p class="orcid-qr-caption" data-i18n="orcid_qr_caption">Scan to open my ORCID record.</p>
