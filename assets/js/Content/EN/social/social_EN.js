@@ -50,6 +50,7 @@
     comments_identity_user: "Signed in as {user}",
     comments_login_status: "Please sign in with GitHub in the comment box below.",
     comments_hint_intro: "Feel free to leave a note, suggestion, or academic message. ",
+    comments_hint_exchange: "Visitors are also welcome to share their personal homepages or other appropriate information here for academic exchange and mutual improvement, provided that the content is lawful and respectful. ",
     comments_hint_support: "Comments support ",
     comments_hint_markdown: "GitHub Flavored Markdown",
     comments_hint_and: " and ",

@@ -50,6 +50,7 @@
     comments_identity_user: "已登录为 {user}",
     comments_login_status: "请在下方评论框中点击 GitHub 登录后留言。",
     comments_hint_intro: "欢迎留下问候、建议或学术交流信息。",
+    comments_hint_exchange: "也欢迎您在此留下个人主页或其他适宜公开的信息，以便交流互鉴、共同进步；请确保相关内容合法、合规且得体。",
     comments_hint_support: "评论支持 ",
     comments_hint_markdown: "GitHub Flavored Markdown",
     comments_hint_and: " 和 ",

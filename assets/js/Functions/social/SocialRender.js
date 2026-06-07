@@ -220,6 +220,7 @@
 
             <p class="comments-login-hint">
               <span data-i18n="comments_hint_intro">Feel free to leave a note, suggestion, or academic message. </span>
+              <span data-i18n="comments_hint_exchange">Visitors are also welcome to share their personal homepages or other appropriate information here for academic exchange and mutual improvement, provided that the content is lawful and respectful. </span>
               <span data-i18n="comments_hint_support">Comments support </span>
               <a
                 class="comments-syntax-link"
