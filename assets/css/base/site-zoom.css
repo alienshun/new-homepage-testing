@@ -1,0 +1,33 @@
+/* =========================================================
+   Site Visual Zoom
+   - Desktop-only global visual scaling
+   - Simulates the preferred browser 80% zoom effect
+   - Kept separate from core.css for easier future tuning
+   ========================================================= */
+
+:root {
+  /*
+    Change this value if the site later feels too small or too large.
+
+    0.80 ≈ browser 80% visual effect on desktop.
+    0.85 ≈ slightly more conservative.
+    1.00 = disable visual scaling while keeping this file registered.
+  */
+  --site-visual-zoom: 0.8;
+}
+
+/*
+  Desktop-only visual zoom.
+
+  Important:
+  - This intentionally does not apply to mobile screens.
+  - No transform: scale() fallback is used.
+  - If a browser does not support CSS zoom, it will simply keep the normal 100% layout.
+*/
+@media (min-width: 769px) {
+  @supports (zoom: 1) {
+    html {
+      zoom: var(--site-visual-zoom);
+    }
+  }
+}

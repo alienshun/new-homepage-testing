@@ -201,6 +201,7 @@
         A + 'css/fonts.css',
 
         A + 'css/base/core.css',
+        A + 'css/base/site-zoom.css',
         A + 'css/layout/page-shell.css',
         A + 'css/components/legacy-controls.css',
         A + 'css/components/expanders.css',
